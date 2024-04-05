@@ -1,7 +1,8 @@
 package Controller;
 
 import Model.GameManager;
-import Model.MainCharacter;
+import Model.Epsilon;
+import View.Game;
 import View.GameFrame;
 import View.InputListener;
 
@@ -22,6 +23,6 @@ public class GameViewConnector {
         return gameFrame;
     }
     public static void Start() throws IOException {
-        gameManager.setInputListener(new InputListener(new MainCharacter()));
+        gameManager.Start(new Game());
     }
 }

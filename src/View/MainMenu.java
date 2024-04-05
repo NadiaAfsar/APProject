@@ -1,7 +1,6 @@
 package View;
 
 import Controller.GameViewConnector;
-import Model.MainCharacter;
 
 import javax.swing.*;
 import java.awt.*;

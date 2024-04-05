@@ -1,7 +1,6 @@
 package View;
 
-import Model.GameManager;
-import Model.MainCharacter;
+import Model.Epsilon;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,9 +10,9 @@ public class InputListener {
     InputMap inputMap;
     ActionMap actionMap;
     GameFrame gameFrame;
-    MainCharacter mainCharacter;
+    Epsilon mainCharacter;
 
-    public InputListener(MainCharacter mainCharacter) {
+    public InputListener(Epsilon mainCharacter) {
         this.mainCharacter = mainCharacter;
         createKeyBindings();
         createKeyActions();
@@ -84,5 +83,9 @@ public class InputListener {
                 mainCharacter.moveLeft(false);
             }
         });
+    }
+    public void stop() {
+        inputMap = null;
+        actionMap = null;
     }
 }
