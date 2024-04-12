@@ -5,7 +5,9 @@ import controller.Constants;
 import controller.InputListener;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 
 public class EpsilonModel implements Collidable {
     private int x;
@@ -17,6 +19,7 @@ public class EpsilonModel implements Collidable {
     private InputListener inputListener;
     private int radius;
     public static EpsilonModel INSTANCE;
+    private Point center;
 
     public EpsilonModel() {
         x = Constants.FRAME_SIZE.width/2;
@@ -24,6 +27,7 @@ public class EpsilonModel implements Collidable {
         radius = Constants.EPSILON_RADIUS;
         addMoveTimers();
         inputListener = new InputListener(this);
+        setCenter(x,y);
     }
 
 
@@ -68,6 +72,7 @@ public class EpsilonModel implements Collidable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 y -= 1;
+                setCenter(x,y);
                 if (y <= 0) {
                     y = 0;
                     upTimer.stop();
@@ -78,6 +83,7 @@ public class EpsilonModel implements Collidable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 y += 1;
+                setCenter(x,y);
                 if (y >= GameModel.getINSTANCE().getHeight()-25) {
                     y = GameModel.getINSTANCE().getHeight()-25;
                     downTimer.stop();
@@ -88,6 +94,7 @@ public class EpsilonModel implements Collidable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 x += 1;
+                setCenter(x,y);
                 if (x >= GameModel.getINSTANCE().getWidth()-25) {
                     x = GameModel.getINSTANCE().getWidth()-25;
                     rightTimer.stop();
@@ -98,6 +105,7 @@ public class EpsilonModel implements Collidable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 x -= 1;
+                setCenter(x,y);
                 if (x <= 0) {
                     x = 0;
                     leftTimer.stop();
@@ -119,5 +127,13 @@ public class EpsilonModel implements Collidable {
 
     public int getY() {
         return y;
+    }
+
+    public Point getCenter() {
+        return center;
+    }
+
+    public void setCenter(int x, int y) {
+        this.center = new Point(x+12, y+12);
     }
 }

@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
-public class EnemyView extends JLabel {
+public abstract class EnemyView extends JLabel {
     private int x;
     private int y;
 
@@ -13,5 +13,24 @@ public class EnemyView extends JLabel {
         this.x = x;
         this.y = y;
         setIcon(new ImageIcon(ImageIO.read(new File(path))));
+    }
+    public abstract void update(int x, int y);
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }
