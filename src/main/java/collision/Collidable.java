@@ -5,6 +5,7 @@ import controller.Constants;
 import model.EpsilonModel;
 import model.GameModel;
 import model.enemies.Enemy;
+import movement.RotatablePoint;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public interface Collidable {
     static Point collisionPoint(ArrayList<Point> vertexes, Collidable collidable) {
         if (collidable instanceof Enemy) {
-            ArrayList<Point> vertexes2 = ((Enemy) collidable).getVertexes();
+            ArrayList<RotatablePoint> vertexes2 = ((Enemy) collidable).getVertexes();
             for (int i = 0; i < vertexes.size(); i++) {
                 for (int j = 0; j < vertexes2.size(); j++) {
                     int x = (int)vertexes.get(i).getX(); int y = (int)vertexes.get(i).getY();

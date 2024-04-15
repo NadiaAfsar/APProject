@@ -60,7 +60,7 @@ public class Update {
         ArrayList<EnemyView> enemiesView = GameView.getINSTANCE().getEnemies();
         ArrayList<Enemy> enemies = GameModel.getINSTANCE().getEnemies();
         for (int i = 0; i < enemiesView.size(); i++) {
-            enemiesView.get(i).update(enemies.get(i).getX(), enemies.get(i).getY());
+            enemiesView.get(i).update(enemies.get(i).getCenter(), enemies.get(i).getAngle());
         }
     }
 }

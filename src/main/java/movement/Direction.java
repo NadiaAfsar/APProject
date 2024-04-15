@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 public class Direction {
     private double dx;
     private double dy;
-    public Direction(Point2D point1, Point2D point2) {
+    public Direction(Point point1, Point2D point2) {
         dx = point2.getX() - point1.getX();
         dy = point2.getY() - point1.getY();
         int xSign = (int) (dx/Math.abs(dx));

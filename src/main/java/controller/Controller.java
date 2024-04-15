@@ -27,6 +27,7 @@ public class Controller {
     public static void addEnemyView(Enemy enemy) throws IOException {
         if (enemy instanceof SquarantineModel) {
             new SquarantineView(enemy.getX(), enemy.getY());
+            System.out.println(enemy.getX() +""+ enemy.getY());
         }
         else {
             new TrigorathView(enemy.getX(), enemy.getY());

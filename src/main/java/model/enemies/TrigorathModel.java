@@ -1,23 +1,22 @@
 package model.enemies;
 
 import collision.Collidable;
+import controller.Constants;
 import model.EpsilonModel;
 import model.GameModel;
+import movement.RotatablePoint;
+import movement.Point;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TrigorathModel extends Enemy{
     private int x;
     private int y;
     private boolean decreasedVelocity;
     private boolean increasedVelocity;
-    public TrigorathModel(int x, int y) {
-        super(x,y);
-        setCenter(x,y);
+    public TrigorathModel(Point center) {
+        super(center);
         GameModel.getINSTANCE().getEnemies().add(this);
         velocity = 3;
         increasedVelocity = true;
@@ -26,18 +25,14 @@ public class TrigorathModel extends Enemy{
     @Override
     public void setVertexes() {
         vertexes = new ArrayList<>();
-        int[] x = new int[]{13,26,0};
-        int[] y = new int[]{0,24,24};
+        double[] angles = new double[]{1d/6*Math.PI, 5d/6*Math.PI, 9d/6*Math.PI};
         for (int i = 0; i < 3; i++) {
-            Point vertex = new Point((int)this.x + x[i], (int)this.y + y[i]);
+            RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angles[i], 15);
             vertexes.add(vertex);
         }
+        position = new RotatablePoint(center.getX(), center.getY(), 41d/180*Math.PI, 19.8);
     }
 
-    @Override
-    public void setCenter(double x, double y) {
-        center = new Point((int)x+13, (int)y+15);
-    }
     private double distanceFromEpsilon() {
         double x1 = center.getX();
         double y1 = center.getY();
@@ -59,5 +54,13 @@ public class TrigorathModel extends Enemy{
         }
         acceleration += accelerationRate;
         velocity += acceleration;
+        angularAcceleration += angularAccelerationRate/ Constants.UPS;
+        angularVelocity += angularAcceleration/Constants.UPS;
+        angle += angularVelocity;
+    }
+
+    @Override
+    public void impact(java.awt.Point collisionPoint, Collidable collidable) {
+
     }
 }

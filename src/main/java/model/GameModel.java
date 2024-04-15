@@ -3,10 +3,9 @@ package model;
 import controller.Controller;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
-import model.enemies.TrigorathModel;
-import view.GameView;
-import view.enemies.EnemyView;
+import movement.Point;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -77,7 +76,7 @@ public class GameModel {
         int x = (int)(Math.random()*2);
         Enemy enemy;
 //        if (x == 0) {
-            enemy = new SquarantineModel(10,10);
+            enemy = new SquarantineModel(new Point(23,23));
 //        }
 //        else {
 //            enemy = new TrigorathModel(10, 10);

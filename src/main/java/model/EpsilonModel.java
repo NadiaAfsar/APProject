@@ -20,6 +20,7 @@ public class EpsilonModel implements Collidable {
     private int radius;
     public static EpsilonModel INSTANCE;
     private Point center;
+    private int HP;
 
     public EpsilonModel() {
         x = Constants.FRAME_SIZE.width/2;
@@ -28,6 +29,7 @@ public class EpsilonModel implements Collidable {
         addMoveTimers();
         inputListener = new InputListener(this);
         setCenter(x,y);
+        HP = 100;
     }
 
 
@@ -135,5 +137,10 @@ public class EpsilonModel implements Collidable {
 
     public void setCenter(int x, int y) {
         this.center = new Point(x+12, y+12);
+    }
+
+    @Override
+    public void impact(Point collisionPoint, Collidable collidable) {
+
     }
 }

@@ -1,5 +1,5 @@
 package movement;
 
-public interface Moveable {
+public interface Movable {
     void move();
 }
