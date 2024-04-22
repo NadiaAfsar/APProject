@@ -6,6 +6,7 @@ import view.GameView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 public class InputListener {
     private InputMap inputMap;

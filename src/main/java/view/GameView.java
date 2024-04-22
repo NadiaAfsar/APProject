@@ -2,8 +2,10 @@ package view;
 
 import view.enemies.EnemyView;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -15,6 +17,7 @@ public class GameView extends JFrame {
     private int y;
     public static GameView INSTANCE;
     private ArrayList<EnemyView> enemies;
+    private ArrayList<BulletView> bullets;
     public GameView() {
         x = 0;
         y = 0;
@@ -23,6 +26,13 @@ public class GameView extends JFrame {
         addFrame();
         addPanel();
         enemies = new ArrayList<>();
+        bullets = new ArrayList<>();
+        try {
+            setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     private void addFrame() {
         setBounds(x,y,width,height);
@@ -80,4 +90,13 @@ public class GameView extends JFrame {
     public ArrayList<EnemyView> getEnemies() {
         return enemies;
     }
+
+    public ArrayList<BulletView> getBullets() {
+        return bullets;
+    }
+    public void update() {
+        panel.revalidate();
+        panel.repaint();
+    }
+
 }

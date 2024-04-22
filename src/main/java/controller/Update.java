@@ -1,8 +1,10 @@
 package controller;
 
+import model.BulletModel;
 import model.EpsilonModel;
 import model.GameModel;
 import model.enemies.Enemy;
+import view.BulletView;
 import view.EpsilonView;
 import view.GameView;
 import view.enemies.EnemyView;
@@ -20,40 +22,35 @@ public class Update {
         frameUpdateTimer = new Timer((int)Constants.FRAME_UPDATE_TIME, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    updateView();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                updateView();
             }
         });
         frameUpdateTimer.start();
         modelUpdateTimer = new Timer((int) Constants.MODEL_UPDATE_TIME, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    updateModel();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                updateModel();
             }
         });
         modelUpdateTimer.start();
     }
-    private void updateView() throws IOException {
+    private void updateView() {
         if (GameView.INSTANCE != null) {
             GameModel gameModel = GameModel.getINSTANCE();
             GameView.getINSTANCE().update(gameModel.getX(), gameModel.getY(), gameModel.getWidth(), GameModel.getINSTANCE().getHeight());
             updateEnemies();
+            updateBullets();
+            GameView.getINSTANCE().update();
         }
         if (EpsilonView.INSTANCE != null) {
             EpsilonView.getINSTANCE().update(EpsilonModel.getINSTANCE().getX(), EpsilonModel.getINSTANCE().getY());
         }
     }
-    private void updateModel() throws IOException {
+    private void updateModel() {
         if (GameModel.INSTANCE != null) {
             GameModel.getINSTANCE().decreaseSize();
             GameModel.getINSTANCE().moveEnemies();
+            GameModel.getINSTANCE().moveBullets();
         }
     }
     private void updateEnemies() {
@@ -63,4 +60,12 @@ public class Update {
             enemiesView.get(i).update(enemies.get(i).getCenter(), enemies.get(i).getAngle());
         }
     }
+    private void updateBullets() {
+        ArrayList<BulletView> bulletsView = GameView.getINSTANCE().getBullets();
+        ArrayList<BulletModel> bullets = GameModel.getINSTANCE().getBullets();
+        for (int i = 0; i < bulletsView.size(); i++) {
+            bulletsView.get(i).update((int)bullets.get(i).getX1(), (int)bullets.get(i).getY1());
+        }
+    }
+
 }

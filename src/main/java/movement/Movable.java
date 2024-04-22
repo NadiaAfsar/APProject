@@ -1,5 +1,7 @@
 package movement;
 
+import java.io.IOException;
+
 public interface Movable {
-    void move();
+    void move() throws IOException;
 }

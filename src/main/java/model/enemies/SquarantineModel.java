@@ -3,17 +3,20 @@ package model.enemies;
 import collision.Collidable;
 import controller.Constants;
 import model.GameModel;
+import movement.Direction;
 import movement.RotatablePoint;
 import movement.Point;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class SquarantineModel extends Enemy {
+    private boolean hasRandomAcceleration;
     public SquarantineModel(Point center) {
         super(center);
         GameModel.getINSTANCE().getEnemies().add(this);
-        velocity = 1;
+        velocity = new Point(1,1);
+        HP = 10;
+        hasRandomAcceleration = false;
     }
     @Override
     public void setVertexes() {
@@ -31,28 +34,28 @@ public class SquarantineModel extends Enemy {
     @Override
     protected void setVelocity() {
         int x = (int)(Math.random()*200);
-//        if (x == 5 && acceleration == 0) {
-//            acceleration = 3;
-//            accelerationRate = -1;
-//        }
-        angularAcceleration += angularAccelerationRate/ Constants.UPS;
-        angularVelocity += angularAcceleration/Constants.UPS;
-        if (angularVelocity <= 0) {
-            angularAcceleration = 0;
-            angularAccelerationRate = 0;
+        if (x == 5 && !hasRandomAcceleration) {
+            acceleration.setX(3);
+            acceleration.setY(3);
+            accelerationRate.setX(-1);
+            accelerationRate.setY(-1);
+            hasRandomAcceleration = true;
         }
-        angle += angularVelocity;
-        acceleration += accelerationRate/Constants.UPS;
-        velocity += acceleration/Constants.UPS;
-        if (velocity <= 1 && (acceleration != 0 || accelerationRate != 0)) {
-            acceleration = 0;
-            accelerationRate = 0;
+        super.setVelocity();
+        if (hasRandomAcceleration) {
+            acceleration.setX(Math.abs(acceleration.getX() * direction.getxSign()));
+            acceleration.setY(Math.abs(acceleration.getY() * direction.getySign()));
+        }
+        if (hasRandomAcceleration) {
+            if ((velocity.getX() <= 1 || velocity.getY() <= 1) && ((acceleration.getX() != 0 || acceleration.getY() != 0))) {
+                acceleration = new Point(0, 0);
+                accelerationRate = new Point(0, 0);
+                if (hasRandomAcceleration) {
+                    hasRandomAcceleration = false;
+                }
+            }
         }
     }
 
 
-    @Override
-    public void impact(java.awt.Point collisionPoint, Collidable collidable) {
-
-    }
 }

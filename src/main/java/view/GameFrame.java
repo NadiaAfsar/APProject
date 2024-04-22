@@ -2,7 +2,10 @@ package view;
 
 import controller.Constants;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 
 public class GameFrame extends JFrame {
     private int xSize;
@@ -23,6 +26,12 @@ public class GameFrame extends JFrame {
         panel.add(background);
         mainMenu = new MainMenu(gamePanel);
         update();
+        try {
+            setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     private void addFrame() {
         setTitle("Window Kill");

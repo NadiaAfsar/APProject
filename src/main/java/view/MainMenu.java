@@ -31,11 +31,7 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GameFrame.getINSTANCE().setVisible(false);
-                try {
-                    Controller.startGame();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                Controller.startGame();
             }
         });
         gamePanel.add(startButton);

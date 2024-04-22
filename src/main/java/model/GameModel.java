@@ -1,11 +1,13 @@
 package model;
 
+import collision.Collidable;
 import controller.Controller;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
+import model.enemies.TrigorathModel;
+import movement.Direction;
 import movement.Point;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -18,6 +20,7 @@ public class GameModel {
     private boolean decreaseSize;
     int w;
     private ArrayList<Enemy> enemies;
+    private ArrayList<BulletModel> bullets;
 
     public GameModel() {
         x = 0;
@@ -26,6 +29,7 @@ public class GameModel {
         height = 700;
         decreaseSize = true;
         enemies = new ArrayList<>();
+        bullets = new ArrayList<>();
     }
 
     public static GameModel getINSTANCE() {
@@ -34,7 +38,7 @@ public class GameModel {
         }
         return INSTANCE;
     }
-    public void decreaseSize() throws IOException {
+    public void decreaseSize() {
         if (decreaseSize) {
             width -= 4;
             height -= 4;
@@ -72,24 +76,37 @@ public class GameModel {
     public int getY() {
         return (int)y;
     }
-    private void addEnemy() throws IOException {
+    private void addEnemy() {
         int x = (int)(Math.random()*2);
         Enemy enemy;
 //        if (x == 0) {
-            enemy = new SquarantineModel(new Point(23,23));
+//            enemy = new SquarantineModel(new Point(23,23));
 //        }
 //        else {
-//            enemy = new TrigorathModel(10, 10);
+            enemy = new TrigorathModel(new Point(23,25));
 //        }
         Controller.addEnemyView(enemy);
     }
-    public void moveEnemies() {
-        for (Enemy enemy: enemies) {
-            enemy.move();
+    public void moveEnemies()  {
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).move();
+        }
+        for (int i = 0; i < enemies.size(); i++) {
+            Collidable.collided(enemies.get(i), i);
+        }
+    }
+    public void moveBullets() {
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).move();
         }
     }
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
+
+    public ArrayList<BulletModel> getBullets() {
+        return bullets;
+    }
+
 }

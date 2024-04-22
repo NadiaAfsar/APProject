@@ -3,11 +3,11 @@ package model;
 import collision.Collidable;
 import controller.Constants;
 import controller.InputListener;
+import movement.Point;
+import movement.RotatablePoint;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 
 public class EpsilonModel implements Collidable {
     private int x;
@@ -19,7 +19,7 @@ public class EpsilonModel implements Collidable {
     private InputListener inputListener;
     private int radius;
     public static EpsilonModel INSTANCE;
-    private Point center;
+    private movement.Point center;
     private int HP;
 
     public EpsilonModel() {
@@ -36,6 +36,7 @@ public class EpsilonModel implements Collidable {
     public void setInCenter() {
         x = GameModel.getINSTANCE().getWidth()/2 - radius;
         y = GameModel.getINSTANCE().getHeight()/2 - radius;
+        setCenter(x,y);
     }
     public void moveUp(boolean move) {
         if (move) {
@@ -116,7 +117,7 @@ public class EpsilonModel implements Collidable {
         });
     }
 
-    public static EpsilonModel getINSTANCE(){
+    public static EpsilonModel getINSTANCE() {
         if (INSTANCE == null) {
             INSTANCE = new EpsilonModel();
         }
@@ -140,7 +141,7 @@ public class EpsilonModel implements Collidable {
     }
 
     @Override
-    public void impact(Point collisionPoint, Collidable collidable) {
+    public void impact(RotatablePoint collisionPoint, Collidable collidable) {
 
     }
 }

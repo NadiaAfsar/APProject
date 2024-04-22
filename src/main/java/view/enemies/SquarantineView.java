@@ -2,6 +2,7 @@ package view.enemies;
 
 import view.GameView;
 import movement.Point;
+import view.Rotation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class SquarantineView extends EnemyView{
-    public SquarantineView(int x, int y) throws IOException {
+    public SquarantineView(int x, int y) {
         super(x, y, "src/main/resources/square.png");
         GameView.getINSTANCE().add(this);
         GameView.getINSTANCE().getEnemies().add(this);
@@ -21,7 +22,7 @@ public class SquarantineView extends EnemyView{
         setY((int)center.getY() - 13);
         if (getAngle() != angle) {
             setAngle(angle);
-            BufferedImage rotatedImage = rotate(image, angle);
+            BufferedImage rotatedImage = Rotation.rotate(image, angle);
             setIcon(new ImageIcon(rotatedImage));
             setBounds(getX(), getY(), rotatedImage.getWidth(), rotatedImage.getHeight());
         }

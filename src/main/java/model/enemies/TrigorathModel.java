@@ -8,6 +8,7 @@ import movement.RotatablePoint;
 import movement.Point;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TrigorathModel extends Enemy{
@@ -18,9 +19,10 @@ public class TrigorathModel extends Enemy{
     public TrigorathModel(Point center) {
         super(center);
         GameModel.getINSTANCE().getEnemies().add(this);
-        velocity = 3;
         increasedVelocity = true;
         decreasedVelocity = false;
+        velocity = new Point(0.2,0.2);
+        HP = 15;
     }
     @Override
     public void setVertexes() {
@@ -42,25 +44,19 @@ public class TrigorathModel extends Enemy{
     }
     @Override
     public void setVelocity() {
+        super.setVelocity();
         if (distanceFromEpsilon() <= 100 && !decreasedVelocity) {
-            velocity -= 2;
+            velocity.setX(0);
+            velocity.setY(0);
             decreasedVelocity = true;
             increasedVelocity = false;
         }
         else if (distanceFromEpsilon() > 100 && !increasedVelocity) {
-            velocity += 2;
+            velocity.setX(0.2);
+            velocity.setY(0.2);
             increasedVelocity = true;
             decreasedVelocity = false;
         }
-        acceleration += accelerationRate;
-        velocity += acceleration;
-        angularAcceleration += angularAccelerationRate/ Constants.UPS;
-        angularVelocity += angularAcceleration/Constants.UPS;
-        angle += angularVelocity;
     }
 
-    @Override
-    public void impact(java.awt.Point collisionPoint, Collidable collidable) {
-
-    }
 }
