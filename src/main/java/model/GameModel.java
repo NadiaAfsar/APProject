@@ -5,10 +5,8 @@ import controller.Controller;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
 import model.enemies.TrigorathModel;
-import movement.Direction;
 import movement.Point;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameModel {
@@ -18,9 +16,11 @@ public class GameModel {
     private double y;
     public static GameModel INSTANCE;
     private boolean decreaseSize;
-    int w;
     private ArrayList<Enemy> enemies;
     private ArrayList<BulletModel> bullets;
+    private int wave;
+    private boolean[][] addedEnemies;
+    private boolean gameStarted;
 
     public GameModel() {
         x = 0;
@@ -30,6 +30,8 @@ public class GameModel {
         decreaseSize = true;
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
+        wave = 1;
+        addedEnemies = new boolean[4][6];
     }
 
     public static GameModel getINSTANCE() {
@@ -45,20 +47,17 @@ public class GameModel {
             x = (700 - width) / 2;
             y = (700 - width) / 2;
             EpsilonModel.getINSTANCE().setInCenter();
-            if (width == 300) {
+            if (width == 500) {
+                gameStarted = true;
                 decreaseSize = false;
             }
         }
-        else if (width > 200 && height > 200) {
-            if (w == 0) {
-                addEnemy();
-                w++;
-            }
-            width -= 0.1;
-            height -= 0.1;
-            x = (700 - width) / 2;
-            y = (700 - width) / 2;
-        }
+//        else if (width > 200 && height > 200) {
+//            width -= 0.1;
+//            height -= 0.1;
+//            x = (700 - width) / 2;
+//            y = (700 - width) / 2;
+//        }
     }
 
     public int getWidth() {
@@ -78,13 +77,14 @@ public class GameModel {
     }
     private void addEnemy() {
         int x = (int)(Math.random()*2);
+        Point position = getRandomPosition();
         Enemy enemy;
-//        if (x == 0) {
-//            enemy = new SquarantineModel(new Point(23,23));
-//        }
-//        else {
-            enemy = new TrigorathModel(new Point(23,25));
-//        }
+        if (x == 0) {
+            enemy = new SquarantineModel(position);
+        }
+        else {
+            enemy = new TrigorathModel(position);
+        }
         Controller.addEnemyView(enemy);
     }
     public void moveEnemies()  {
@@ -108,5 +108,50 @@ public class GameModel {
     public ArrayList<BulletModel> getBullets() {
         return bullets;
     }
+    public void nextWave() {
+        int enemies;
+        this.enemies = new ArrayList<>();
+        if (wave == 1) {
+            enemies = 3;
+        }
+        else if ( wave == 2) {
+            enemies = 4;
+        }
+        else {
+            enemies = 5;
+        }
+        for (int i = 0; i < enemies; i++) {
+            addEnemy();
+        }
+        wave++;
+    }
+    private Point getRandomPosition() {
+        double x = 0;
+        double y = 0;
+        int random1 = (int)(Math.random()*4);
+        int random2 = (int)(Math.random()*6);
+        if (!addedEnemies[random1][random2]) {
+            addedEnemies[random1][random2] = true;
+            if (random1 == 0) {
+                y = -10;
+                x = random2 * ( width / 6) + 10;
+            } else if (random1 == 1) {
+                x = (int) width;
+                y = random2 * ( height/ 6) + 10;
+            } else if (random1 == 2) {
+                y = (int)height;
+                x = random2 * ( width / 6) + 10;
+            }
+            else {
+                x = -10;
+                y = random2 * ( height/ 6) + 10;
+            }
+            return new Point(x,y);
+        }
+        return getRandomPosition();
+    }
 
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
 }

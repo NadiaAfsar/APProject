@@ -3,6 +3,7 @@ package model;
 import collision.Collidable;
 import controller.Constants;
 import controller.InputListener;
+import movement.Direction;
 import movement.Point;
 import movement.RotatablePoint;
 
@@ -21,6 +22,9 @@ public class EpsilonModel implements Collidable {
     public static EpsilonModel INSTANCE;
     private movement.Point center;
     private int HP;
+    private Point velocity;
+    private Point acceleration;
+    private Point accelerationRate;
 
     public EpsilonModel() {
         x = Constants.FRAME_SIZE.width/2;
@@ -30,6 +34,9 @@ public class EpsilonModel implements Collidable {
         inputListener = new InputListener(this);
         setCenter(x,y);
         HP = 100;
+        velocity = new Point(0,0);
+        acceleration = new Point(0,0);
+        accelerationRate = new Point(0,0);
     }
 
 
@@ -127,6 +134,21 @@ public class EpsilonModel implements Collidable {
     public int getX() {
         return x;
     }
+    public void move() {
+        acceleration.setX(acceleration.getX() + accelerationRate.getX() /Constants.UPS);
+        acceleration.setY(acceleration.getY() + accelerationRate.getY() /Constants.UPS);
+        velocity.setX(velocity.getX()+acceleration.getX()*0.1/ Constants.UPS);
+        velocity.setY(velocity.getY()+acceleration.getY()*0.1/ Constants.UPS);
+        center = new Point(center.getX()+velocity.getX(), center.getY()+velocity.getY());
+        x = (int)center.getX()-12;
+        y = (int)center.getY()-12;
+        if ((velocity.getX() * accelerationRate.getX() >= 0 || velocity.getY() * accelerationRate.getY() >= 0)) {
+            velocity.setX(0);
+            velocity.setY(0);
+            acceleration = new Point(0, 0);
+            accelerationRate = new Point(0, 0);
+        }
+    }
 
     public int getY() {
         return y;
@@ -143,5 +165,14 @@ public class EpsilonModel implements Collidable {
     @Override
     public void impact(RotatablePoint collisionPoint, Collidable collidable) {
 
+    }
+    public void setImpactAcceleration(Direction direction, double distance) {
+        velocity = new Point(0,0);
+        center.setX(center.getX() - direction.getDx() * distance);
+        center.setY(center.getY() - direction.getDy() * distance);
+        acceleration.setX(-direction.getDx()*distance*1.5);
+        acceleration.setY(-direction.getDy()*distance*1.5);
+        accelerationRate.setX(direction.getDx()*distance*5/3);
+        accelerationRate.setY(direction.getDy()*distance*5/3);
     }
 }

@@ -48,9 +48,14 @@ public class Update {
     }
     private void updateModel() {
         if (GameModel.INSTANCE != null) {
-            GameModel.getINSTANCE().decreaseSize();
-            GameModel.getINSTANCE().moveEnemies();
-            GameModel.getINSTANCE().moveBullets();
+            GameModel gameModel = GameModel.getINSTANCE();
+            gameModel.decreaseSize();
+            gameModel.moveEnemies();
+            gameModel.moveBullets();
+            if (gameModel.isGameStarted() && gameModel.getEnemies().size() == 0) {
+                gameModel.nextWave();
+            }
+            EpsilonModel.getINSTANCE().move();
         }
     }
     private void updateEnemies() {

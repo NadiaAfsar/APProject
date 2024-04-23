@@ -4,6 +4,7 @@ import collision.Collidable;
 import controller.Constants;
 import model.EpsilonModel;
 import model.GameModel;
+import movement.Direction;
 import movement.RotatablePoint;
 import movement.Point;
 
@@ -21,7 +22,7 @@ public class TrigorathModel extends Enemy{
         GameModel.getINSTANCE().getEnemies().add(this);
         increasedVelocity = true;
         decreasedVelocity = false;
-        velocity = new Point(0.2,0.2);
+        velocity = new Point(0,0);
         HP = 15;
     }
     @Override
@@ -45,18 +46,29 @@ public class TrigorathModel extends Enemy{
     @Override
     public void setVelocity() {
         super.setVelocity();
-        if (distanceFromEpsilon() <= 100 && !decreasedVelocity) {
+        if (distanceFromEpsilon() <= 100 && !decreasedVelocity && !impact) {
             velocity.setX(0);
             velocity.setY(0);
             decreasedVelocity = true;
             increasedVelocity = false;
         }
-        else if (distanceFromEpsilon() > 100 && !increasedVelocity) {
-            velocity.setX(0.2);
-            velocity.setY(0.2);
+        else if (distanceFromEpsilon() > 100 && !increasedVelocity && !impact) {
+            velocity.setX(2*dx);
+            velocity.setY(2*dy);
             increasedVelocity = true;
             decreasedVelocity = false;
         }
+        if (increasedVelocity) {
+            velocity.setX(2*dx);
+            velocity.setY(2*dy);
+        }
+    }
+    protected void setImpactAcceleration(Direction direction, double distance) {
+        velocity.setX(0);
+        velocity.setY(0);
+        decreasedVelocity = true;
+        increasedVelocity = false;
+        super.setImpactAcceleration(direction, distance);
     }
 
 }
