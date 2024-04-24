@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Update {
     private Timer frameUpdateTimer;
@@ -52,6 +53,7 @@ public class Update {
             gameModel.decreaseSize();
             gameModel.moveEnemies();
             gameModel.moveBullets();
+            gameModel.checkBulletsCollision();
             if (gameModel.isGameStarted() && gameModel.getEnemies().size() == 0) {
                 gameModel.nextWave();
             }
@@ -59,17 +61,19 @@ public class Update {
         }
     }
     private void updateEnemies() {
-        ArrayList<EnemyView> enemiesView = GameView.getINSTANCE().getEnemies();
+        Map<String, EnemyView> enemiesView = GameView.getINSTANCE().getEnemies();
         ArrayList<Enemy> enemies = GameModel.getINSTANCE().getEnemies();
-        for (int i = 0; i < enemiesView.size(); i++) {
-            enemiesView.get(i).update(enemies.get(i).getCenter(), enemies.get(i).getAngle());
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy enemy = enemies.get(i);
+            enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
         }
     }
     private void updateBullets() {
-        ArrayList<BulletView> bulletsView = GameView.getINSTANCE().getBullets();
+        Map<String, BulletView> bulletsView = GameView.getINSTANCE().getBullets();
         ArrayList<BulletModel> bullets = GameModel.getINSTANCE().getBullets();
-        for (int i = 0; i < bulletsView.size(); i++) {
-            bulletsView.get(i).update((int)bullets.get(i).getX1(), (int)bullets.get(i).getY1());
+        for (int i = 0; i < bullets.size(); i++) {
+            BulletModel bullet = bullets.get(i);
+            bulletsView.get(bullet.getID()).update((int)bullet.getX1(), (int)bullet.getY1());
         }
     }
 

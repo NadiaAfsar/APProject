@@ -8,6 +8,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameView extends JFrame {
     private JPanel panel;
@@ -16,8 +18,8 @@ public class GameView extends JFrame {
     private int x;
     private int y;
     public static GameView INSTANCE;
-    private ArrayList<EnemyView> enemies;
-    private ArrayList<BulletView> bullets;
+    private Map<String, EnemyView> enemies;
+    private Map<String, BulletView> bullets;
     public GameView() {
         x = 0;
         y = 0;
@@ -25,8 +27,8 @@ public class GameView extends JFrame {
         height = 700;
         addFrame();
         addPanel();
-        enemies = new ArrayList<>();
-        bullets = new ArrayList<>();
+        enemies = new HashMap<>();
+        bullets = new HashMap<>();
         try {
             setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
         }
@@ -87,13 +89,14 @@ public class GameView extends JFrame {
         return INSTANCE;
     }
 
-    public ArrayList<EnemyView> getEnemies() {
+    public Map<String, EnemyView> getEnemies() {
         return enemies;
     }
 
-    public ArrayList<BulletView> getBullets() {
+    public Map<String, BulletView> getBullets() {
         return bullets;
     }
+
     public void update() {
         panel.revalidate();
         panel.repaint();

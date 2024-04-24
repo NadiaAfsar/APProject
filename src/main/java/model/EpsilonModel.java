@@ -3,6 +3,7 @@ package model;
 import collision.Collidable;
 import controller.Constants;
 import controller.InputListener;
+import model.enemies.SquarantineModel;
 import movement.Direction;
 import movement.Point;
 import movement.RotatablePoint;
@@ -22,6 +23,7 @@ public class EpsilonModel implements Collidable {
     public static EpsilonModel INSTANCE;
     private movement.Point center;
     private int HP;
+    private int XP;
     private Point velocity;
     private Point acceleration;
     private Point accelerationRate;
@@ -164,7 +166,13 @@ public class EpsilonModel implements Collidable {
 
     @Override
     public void impact(RotatablePoint collisionPoint, Collidable collidable) {
-
+        if (collidable instanceof SquarantineModel) {
+            HP -= 6;
+        }
+        else {
+            HP -= 10;
+        }
+        System.out.println(HP);
     }
     public void setImpactAcceleration(Direction direction, double distance) {
         velocity = new Point(0,0);
@@ -174,5 +182,13 @@ public class EpsilonModel implements Collidable {
         acceleration.setY(-direction.getDy()*distance*1.5);
         accelerationRate.setX(direction.getDx()*distance*5/3);
         accelerationRate.setY(direction.getDy()*distance*5/3);
+    }
+
+    public int getXP() {
+        return XP;
+    }
+
+    public void setXP(int XP) {
+        this.XP = XP;
     }
 }

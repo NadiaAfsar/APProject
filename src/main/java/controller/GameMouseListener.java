@@ -21,7 +21,7 @@ public class GameMouseListener extends MouseAdapter {
             BulletModel bulletModel = new BulletModel(x, y);
             GameModel.getINSTANCE().getBullets().add(bulletModel);
             BulletView bulletView = new BulletView((int) bulletModel.getX1(), (int) bulletModel.getY1(), bulletModel.getDirection());
-            GameView.getINSTANCE().getBullets().add(bulletView);
+            GameView.getINSTANCE().getBullets().put(bulletModel.getID(), bulletView);
             GameView.getINSTANCE().add(bulletView);
         }
 

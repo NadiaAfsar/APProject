@@ -13,7 +13,6 @@ public class TrigorathView extends EnemyView {
     public TrigorathView(int x, int y) {
         super(x, y, "src/main/resources/triangle.png");
         GameView.getINSTANCE().add(this);
-        GameView.getINSTANCE().getEnemies().add(this);
     }
     @Override
     public void update(Point center, double angle) {

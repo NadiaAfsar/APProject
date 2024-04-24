@@ -21,6 +21,8 @@ public class GameModel {
     private int wave;
     private boolean[][] addedEnemies;
     private boolean gameStarted;
+    private ArrayList<Enemy> collidedEnemies;
+    private ArrayList<BulletModel> collidedBullets;
 
     public GameModel() {
         x = 0;
@@ -52,12 +54,12 @@ public class GameModel {
                 decreaseSize = false;
             }
         }
-//        else if (width > 200 && height > 200) {
-//            width -= 0.1;
-//            height -= 0.1;
-//            x = (700 - width) / 2;
-//            y = (700 - width) / 2;
-//        }
+        else if (width > 300 && height > 300) {
+            width -= 0.1;
+            height -= 0.1;
+            x = (700 - width) / 2;
+            y = (700 - width) / 2;
+        }
     }
 
     public int getWidth() {
@@ -110,6 +112,7 @@ public class GameModel {
     }
     public void nextWave() {
         int enemies;
+        addedEnemies = new boolean[4][6];
         this.enemies = new ArrayList<>();
         if (wave == 1) {
             enemies = 3;
@@ -153,5 +156,40 @@ public class GameModel {
 
     public boolean isGameStarted() {
         return gameStarted;
+    }
+    public void checkBulletsCollision() {
+        collidedBullets = new ArrayList<>();
+        collidedEnemies = new ArrayList<>();
+        for (int i = 0; i < bullets.size(); i++) {
+            BulletModel bullet = bullets.get(i);
+            for (int j = 0; j < enemies.size(); j++) {
+                Enemy enemy = enemies.get(j);
+                if (Math.abs(enemy.getX()- bullet.getX2()) < 40 && Math.abs(enemy.getY()- bullet.getY2()) < 40) {
+                   if (Collidable.collisionPoint(bullet, enemy) != null) {
+                       collidedBullets.add(bullet);
+                       collidedEnemies.add(enemy);
+                   }
+                }
+            }
+        }
+        removeEnemies();
+        removeBullets();
+    }
+    private void removeEnemies() {
+        for (int i = 0; i < collidedEnemies.size(); i++) {
+            Enemy enemy = collidedEnemies.get(i);
+            enemy.setHP(enemy.getHP()-5);
+            if (enemy.getHP() == 0) {
+                getEnemies().remove(enemy);
+                Controller.removeEnemy(enemy);
+            }
+        }
+    }
+    private void removeBullets() {
+        for (int i = 0; i < collidedBullets.size(); i++) {
+            BulletModel bullet = collidedBullets.get(i);
+            getBullets().remove(bullet);
+            Controller.removeBullet(bullet);
+        }
     }
 }

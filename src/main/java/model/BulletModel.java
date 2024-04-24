@@ -1,11 +1,17 @@
 package model;
 
+import collision.Collidable;
 import controller.Constants;
+import controller.Controller;
+import model.enemies.Enemy;
 import movement.Direction;
 import movement.Movable;
 import movement.Point;
+import movement.RotatablePoint;
 
-public class BulletModel implements Movable {
+import java.util.UUID;
+
+public class BulletModel implements Movable, Collidable {
     private double x1;
     private double y1;
     private double x2;
@@ -14,7 +20,9 @@ public class BulletModel implements Movable {
     private double cos;
     private double sin;
     private Direction direction;
+    private final String ID;
     public BulletModel(int x, int y) {
+        ID = UUID.randomUUID().toString();
         this.direction = new Direction(new Point(EpsilonModel.getINSTANCE().getCenter().getX(), EpsilonModel.getINSTANCE().getCenter().getY()), new Point(x,y));
         angle = getAngle();
         sin = Math.sin(angle);
@@ -81,5 +89,19 @@ public class BulletModel implements Movable {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    @Override
+    public void impact(RotatablePoint collisionPoint, Collidable collidable) {
+        ((Enemy)collidable).impactOnOthers(collisionPoint);
+    }
+
+    @Override
+    public Point getCenter() {
+        return null;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

@@ -19,6 +19,11 @@ public class RotatablePoint {
         setRotatedY();
     }
 
+    public RotatablePoint(double rotatedX, double rotatedY) {
+        this.rotatedX = rotatedX;
+        this.rotatedY = rotatedY;
+    }
+
     public double getX() {
         return x;
     }
@@ -55,5 +60,13 @@ public class RotatablePoint {
     }
     public double getRotatedY() {
         return rotatedY;
+    }
+
+    public void setRotatedX(double rotatedX) {
+        this.rotatedX = rotatedX;
+    }
+
+    public void setRotatedY(double rotatedY) {
+        this.rotatedY = rotatedY;
     }
 }

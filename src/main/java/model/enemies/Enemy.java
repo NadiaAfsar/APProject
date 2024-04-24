@@ -10,6 +10,7 @@ import movement.Point;
 import movement.RotatablePoint;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public abstract class Enemy implements Collidable, Movable {
     protected RotatablePoint position;
@@ -27,7 +28,9 @@ public abstract class Enemy implements Collidable, Movable {
     protected double dy;
     protected Direction direction;
     protected boolean impact;
+    private final String ID;
     public Enemy(Point center) {
+        ID = UUID.randomUUID().toString();
         this.center = center;
         setVertexes();
         acceleration = new Point(0,0);
@@ -192,7 +195,7 @@ public abstract class Enemy implements Collidable, Movable {
         impact = true;
 
     }
-    private void impactOnOthers(RotatablePoint collisionPoint) {
+    public void impactOnOthers(RotatablePoint collisionPoint) {
         ArrayList<Enemy> enemies = GameModel.getINSTANCE().getEnemies();
         for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
@@ -210,4 +213,15 @@ public abstract class Enemy implements Collidable, Movable {
         }
     }
 
+    public int getHP() {
+        return HP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+
+    public String getID() {
+        return ID;
+    }
 }
