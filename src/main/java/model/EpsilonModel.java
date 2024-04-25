@@ -2,6 +2,7 @@ package model;
 
 import collision.Collidable;
 import controller.Constants;
+import controller.Controller;
 import controller.InputListener;
 import model.enemies.SquarantineModel;
 import movement.Direction;
@@ -171,6 +172,9 @@ public class EpsilonModel implements Collidable {
         }
         else {
             HP -= 10;
+        }
+        if (HP <= 100) {
+            Controller.gameOver(XP);
         }
         System.out.println(HP);
     }

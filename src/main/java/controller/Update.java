@@ -36,28 +36,25 @@ public class Update {
         modelUpdateTimer.start();
     }
     private void updateView() {
-        if (GameView.INSTANCE != null) {
-            GameModel gameModel = GameModel.getINSTANCE();
-            GameView.getINSTANCE().update(gameModel.getX(), gameModel.getY(), gameModel.getWidth(), GameModel.getINSTANCE().getHeight());
-            updateEnemies();
-            updateBullets();
-            GameView.getINSTANCE().update();
-        }
-        if (EpsilonView.INSTANCE != null) {
-            EpsilonView.getINSTANCE().update(EpsilonModel.getINSTANCE().getX(), EpsilonModel.getINSTANCE().getY());
+        if (Controller.gameRunning) {
+            if (GameView.INSTANCE != null) {
+                GameModel gameModel = GameModel.getINSTANCE();
+                GameView.getINSTANCE().update(gameModel.getX(), gameModel.getY(), gameModel.getWidth(), GameModel.getINSTANCE().getHeight());
+                updateEnemies();
+                updateBullets();
+                GameView.getINSTANCE().update();
+            }
+            if (EpsilonView.INSTANCE != null) {
+                EpsilonView.getINSTANCE().update(EpsilonModel.getINSTANCE().getX(), EpsilonModel.getINSTANCE().getY());
+            }
         }
     }
     private void updateModel() {
-        if (GameModel.INSTANCE != null) {
-            GameModel gameModel = GameModel.getINSTANCE();
-            gameModel.decreaseSize();
-            gameModel.moveEnemies();
-            gameModel.moveBullets();
-            gameModel.checkBulletsCollision();
-            if (gameModel.isGameStarted() && gameModel.getEnemies().size() == 0) {
-                gameModel.nextWave();
+        if (Controller.gameRunning) {
+            if (GameModel.INSTANCE != null) {
+                GameModel.getINSTANCE().update();
+                EpsilonModel.getINSTANCE().move();
             }
-            EpsilonModel.getINSTANCE().move();
         }
     }
     private void updateEnemies() {

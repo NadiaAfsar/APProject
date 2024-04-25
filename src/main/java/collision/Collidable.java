@@ -5,6 +5,7 @@ import controller.Constants;
 import model.BulletModel;
 import model.EpsilonModel;
 import model.GameModel;
+import model.XP;
 import model.enemies.Enemy;
 import movement.RotatablePoint;
 import movement.Point;
@@ -31,6 +32,15 @@ public interface Collidable {
                     return new RotatablePoint(bullet.getX2(), bullet.getY2());
                 }
             }
+        }
+        else if (collidable1 instanceof XP) {
+                XP xp = (XP)collidable1;
+                EpsilonModel epsilon = (EpsilonModel)collidable2;
+                double d = Math.sqrt(Math.pow(xp.getX()-epsilon.getCenter().getX(),2)+Math.pow(xp.getY()-epsilon.getCenter().getY(),2));
+                if (d <= Constants.EPSILON_RADIUS) {
+                    xp.impact(null, epsilon);
+                    return new RotatablePoint(xp.getX(), xp.getY());
+                }
         }
         else {
             ArrayList<RotatablePoint> vertexes = ((Enemy) collidable1).getVertexes();
@@ -63,10 +73,27 @@ public interface Collidable {
                     EpsilonModel epsilon = EpsilonModel.getINSTANCE();
                     double x2 = epsilon.getCenter().getX();
                     double y2 = epsilon.getCenter().getY();
-                    if (Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) <= Constants.EPSILON_RADIUS+5) {
+                    double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                    if (distance <= Constants.EPSILON_RADIUS) {
                         epsilon.impact(vertexes.get(i), collidable1);
                         return vertexes.get(i);
                     }
+//                    else {
+//                        RotatablePoint point2;
+//                        if (i == vertexes.size()-1) {
+//                            point2 = vertexes.get(0);
+//                        }
+//                        else {
+//                            point2 = vertexes.get(i+1);
+//                        }
+//                        double x = (point1.getRotatedX()+point2.getRotatedX())/2;
+//                        double y = (point2.getRotatedY()+point1.getRotatedY())/2;
+//                        double d = Math.sqrt(Math.pow(x-epsilon.getCenter().getX(), 2) +Math.pow(y-epsilon.getCenter().getY(),2));
+//                        if (d <= Constants.EPSILON_RADIUS) {
+//                            System.out.println(1);
+//                            return new RotatablePoint(x,y);
+//                        }
+//                    }
                 }
             }
         }
@@ -82,26 +109,27 @@ public interface Collidable {
         return false;
     }
     static void collided(Collidable collidable, int w) {
-        ArrayList<Enemy> enemies = GameModel.getINSTANCE().getEnemies();
-        Point center = collidable.getCenter();
-        for (int i = 0; i < enemies.size(); i++) {
-            if (i != w) {
-                if (Math.abs(enemies.get(i).getCenter().getX() - center.getX()) <= 50 && Math.abs(enemies.get(i).getCenter().getY() - center.getY()) <= 50) {
-                    RotatablePoint collisionPoint = collisionPoint(collidable, enemies.get(i));
-                    if (collisionPoint != null) {
-                        collidable.impact(collisionPoint, enemies.get(i));
+        EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+            ArrayList<Enemy> enemies = GameModel.getINSTANCE().getEnemies();
+            Point center = collidable.getCenter();
+            for (int i = 0; i < enemies.size(); i++) {
+                if (i != w) {
+                    if (Math.abs(enemies.get(i).getCenter().getX() - center.getX()) <= 50 && Math.abs(enemies.get(i).getCenter().getY() - center.getY()) <= 50) {
+                        RotatablePoint collisionPoint = collisionPoint(collidable, enemies.get(i));
+                        if (collisionPoint != null) {
+                            collidable.impact(collisionPoint, enemies.get(i));
+                        }
                     }
                 }
             }
-        }
-        double x = EpsilonModel.getINSTANCE().getCenter().getX();
-        double y = EpsilonModel.getINSTANCE().getCenter().getY();
-        if (Math.abs(x - center.getX()) <= 50 && Math.abs(y - center.getY()) <= 50) {
-            RotatablePoint collisionPoint = collisionPoint(collidable, EpsilonModel.getINSTANCE());
-            if (collisionPoint != null) {
-                collidable.impact(collisionPoint, EpsilonModel.getINSTANCE());
+            double x = epsilon.getCenter().getX();
+            double y = epsilon.getCenter().getY();
+            if (Math.abs(x - center.getX()) <= 50 && Math.abs(y - center.getY()) <= 50) {
+                RotatablePoint collisionPoint = collisionPoint(collidable, epsilon);
+                if (collisionPoint != null) {
+                    collidable.impact(collisionPoint, epsilon);
+                }
             }
-        }
     }
     void impact(RotatablePoint collisionPoint, Collidable collidable);
     Point getCenter();

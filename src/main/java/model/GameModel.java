@@ -23,6 +23,8 @@ public class GameModel {
     private boolean gameStarted;
     private ArrayList<Enemy> collidedEnemies;
     private ArrayList<BulletModel> collidedBullets;
+    private ArrayList<XP> XPs;
+    private ArrayList<XP> takenXPs;
 
     public GameModel() {
         x = 0;
@@ -34,6 +36,7 @@ public class GameModel {
         bullets = new ArrayList<>();
         wave = 1;
         addedEnemies = new boolean[4][6];
+        XPs = new ArrayList<>();
     }
 
     public static GameModel getINSTANCE() {
@@ -167,6 +170,7 @@ public class GameModel {
                 if (Math.abs(enemy.getX()- bullet.getX2()) < 40 && Math.abs(enemy.getY()- bullet.getY2()) < 40) {
                    if (Collidable.collisionPoint(bullet, enemy) != null) {
                        collidedBullets.add(bullet);
+                       Controller.removeBullet(bullet);
                        collidedEnemies.add(enemy);
                    }
                 }
@@ -182,6 +186,7 @@ public class GameModel {
             if (enemy.getHP() == 0) {
                 getEnemies().remove(enemy);
                 Controller.removeEnemy(enemy);
+                enemy.addXP();
             }
         }
     }
@@ -189,7 +194,35 @@ public class GameModel {
         for (int i = 0; i < collidedBullets.size(); i++) {
             BulletModel bullet = collidedBullets.get(i);
             getBullets().remove(bullet);
-            Controller.removeBullet(bullet);
         }
+    }
+
+    public ArrayList<XP> getXPs() {
+        return XPs;
+    }
+    private void checkXPCollision() {
+        takenXPs = new ArrayList<>();
+        for (int i = 0; i < XPs.size(); i++) {
+            XP xp = XPs.get(i);
+            if (Collidable.collisionPoint(xp, EpsilonModel.getINSTANCE()) != null){
+                takenXPs.add(xp);
+            }
+        }
+        removeXPs();
+    }
+    private void removeXPs() {
+        for (int i = 0; i < takenXPs.size(); i++) {
+            XPs.remove(takenXPs.get(i));
+        }
+    }
+    public void update() {
+        decreaseSize();
+        moveEnemies();
+        moveBullets();
+        checkBulletsCollision();
+        if (isGameStarted() && getEnemies().size() == 0) {
+            nextWave();
+        }
+        checkXPCollision();
     }
 }

@@ -224,4 +224,5 @@ public abstract class Enemy implements Collidable, Movable {
     public String getID() {
         return ID;
     }
+    public abstract void addXP();
 }

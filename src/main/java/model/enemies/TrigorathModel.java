@@ -2,11 +2,14 @@ package model.enemies;
 
 import collision.Collidable;
 import controller.Constants;
+import controller.Controller;
 import model.EpsilonModel;
 import model.GameModel;
+import model.XP;
 import movement.Direction;
 import movement.RotatablePoint;
 import movement.Point;
+import view.GameView;
 
 import java.awt.*;
 import java.io.IOException;
@@ -71,4 +74,15 @@ public class TrigorathModel extends Enemy{
         super.setImpactAcceleration(direction, distance);
     }
 
-}
+    @Override
+    public void addXP() {
+        GameModel gameModel = GameModel.getINSTANCE();
+        for (int i = -1; i < 2; i += 2) {
+            XP xp = new XP((int) center.getX()+i*13, (int) center.getY()+i*13, Color.BLUE);
+            gameModel.getXPs().add(xp);
+            Controller.addXPView(xp);
+        }
+    }
+    }
+
+

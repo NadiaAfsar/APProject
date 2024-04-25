@@ -2,11 +2,14 @@ package model.enemies;
 
 import collision.Collidable;
 import controller.Constants;
+import controller.Controller;
 import model.GameModel;
+import model.XP;
 import movement.Direction;
 import movement.RotatablePoint;
 import movement.Point;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class SquarantineModel extends Enemy {
@@ -69,6 +72,13 @@ public class SquarantineModel extends Enemy {
         velocityY = 0;
         velocity = new Point(0,0);
         super.setImpactAcceleration(direction, distance);
+    }
+
+    @Override
+    public void addXP() {
+        XP xp = new XP((int)center.getX(), (int)center.getY(), Color.MAGENTA);
+        GameModel.getINSTANCE().getXPs().add(xp);
+        Controller.addXPView(xp);
     }
 
 }

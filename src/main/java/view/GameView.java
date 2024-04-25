@@ -20,6 +20,7 @@ public class GameView extends JFrame {
     public static GameView INSTANCE;
     private Map<String, EnemyView> enemies;
     private Map<String, BulletView> bullets;
+    private Map<String, XPView> XPs;
     public GameView() {
         x = 0;
         y = 0;
@@ -29,6 +30,7 @@ public class GameView extends JFrame {
         addPanel();
         enemies = new HashMap<>();
         bullets = new HashMap<>();
+        XPs = new HashMap<>();
         try {
             setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
         }
@@ -102,4 +104,7 @@ public class GameView extends JFrame {
         panel.repaint();
     }
 
+    public Map<String, XPView> getXPs() {
+        return XPs;
+    }
 }
