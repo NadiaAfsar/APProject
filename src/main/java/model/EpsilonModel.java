@@ -84,44 +84,36 @@ public class EpsilonModel implements Collidable {
         upTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                y -= 1;
-                setCenter(x,y);
-                if (y <= 0) {
-                    y = 0;
-                    upTimer.stop();
+                if (y-1 >= 0) {
+                    y -= 1;
+                    setCenter(x, y);
                 }
             }
         });
         downTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                y += 1;
-                setCenter(x,y);
-                if (y >= GameModel.getINSTANCE().getHeight()-25) {
-                    y = GameModel.getINSTANCE().getHeight()-25;
-                    downTimer.stop();
+                if (y + 1 < GameModel.getINSTANCE().getHeight()-25) {
+                    y += 1;
+                    setCenter(x, y);
                 }
             }
         });
         rightTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                x += 1;
-                setCenter(x,y);
-                if (x >= GameModel.getINSTANCE().getWidth()-25) {
-                    x = GameModel.getINSTANCE().getWidth()-25;
-                    rightTimer.stop();
-                }
+                if (x + 1 < GameModel.getINSTANCE().getWidth() - 25) {
+                    x += 1;
+                setCenter(x, y);
+            }
             }
         });
         leftTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                x -= 1;
-                setCenter(x,y);
-                if (x <= 0) {
-                    x = 0;
-                    leftTimer.stop();
+                if (x-1 >= 0) {
+                    x -= 1;
+                    setCenter(x, y);
                 }
             }
         });
@@ -142,9 +134,12 @@ public class EpsilonModel implements Collidable {
         acceleration.setY(acceleration.getY() + accelerationRate.getY() /Constants.UPS);
         velocity.setX(velocity.getX()+acceleration.getX()*0.1/ Constants.UPS);
         velocity.setY(velocity.getY()+acceleration.getY()*0.1/ Constants.UPS);
-        center = new Point(center.getX()+velocity.getX(), center.getY()+velocity.getY());
-        x = (int)center.getX()-12;
-        y = (int)center.getY()-12;
+        GameModel gameModel = GameModel.getINSTANCE();
+        if (x+velocity.getX() >= 0 && x+velocity.getX() <= gameModel.getWidth()-24 && y+velocity.getY() >= 0 && y+velocity.getY() <= gameModel.getHeight()-24) {
+            center = new Point(center.getX() + velocity.getX(), center.getY() + velocity.getY());
+            x = (int) center.getX() - 12;
+            y = (int) center.getY() - 12;
+        }
         if ((velocity.getX() * accelerationRate.getX() >= 0 || velocity.getY() * accelerationRate.getY() >= 0)) {
             velocity.setX(0);
             velocity.setY(0);
@@ -173,15 +168,17 @@ public class EpsilonModel implements Collidable {
         else {
             HP -= 10;
         }
-        if (HP <= 100) {
+        if (HP <= 0) {
             Controller.gameOver(XP);
         }
-        System.out.println(HP);
     }
     public void setImpactAcceleration(Direction direction, double distance) {
         velocity = new Point(0,0);
         center.setX(center.getX() - direction.getDx() * distance);
         center.setY(center.getY() - direction.getDy() * distance);
+        x = (int)center.getX()-12;
+        y = (int)center.getY()-12;
+        setInFrame();
         acceleration.setX(-direction.getDx()*distance*1.5);
         acceleration.setY(-direction.getDy()*distance*1.5);
         accelerationRate.setX(direction.getDx()*distance*5/3);
@@ -194,5 +191,24 @@ public class EpsilonModel implements Collidable {
 
     public void setXP(int XP) {
         this.XP = XP;
+    }
+    public void setInFrame() {
+        GameModel gameModel = GameModel.getINSTANCE();
+        if (x < 0) {
+            x = 0;
+            setCenter(x,y);
+        }
+        else if (x > gameModel.getWidth()-24) {
+            x = gameModel.getWidth()-24;
+            setCenter(x,y);
+        }
+        if (y < 0) {
+            y = 0;
+            setCenter(x,y);
+        }
+        if (y > gameModel.getHeight()-24) {
+            y = gameModel.getHeight()-24;
+            setCenter(x,y);
+        }
     }
 }

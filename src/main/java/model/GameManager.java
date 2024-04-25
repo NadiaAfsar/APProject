@@ -7,7 +7,7 @@ import java.io.IOException;
 public class GameManager {
     public static GameManager INSTANCE;
     public GameManager() {
-        Controller.addFrame();
+
     }
 
     public static GameManager getINSTANCE() {

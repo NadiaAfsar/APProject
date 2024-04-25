@@ -104,4 +104,35 @@ public class BulletModel implements Movable, Collidable {
     public String getID() {
         return ID;
     }
+    public boolean checkFrameCollision(GameModel gameModel) {
+        if (x2 <= 0) {
+            System.out.println(1);
+            gameModel.setWidth(gameModel.getWidth()+10);
+            gameModel.setX(gameModel.getX()-10+ direction.getDx()*20);
+            gameModel.setY(gameModel.getY()+ direction.getDy()*20);
+            return true;
+        }
+        else if (x2 >= gameModel.getWidth()) {
+            System.out.println(2);
+            gameModel.setWidth(gameModel.getWidth()+10);
+            gameModel.setX(gameModel.getX()+10+ direction.getDx()*20);
+            gameModel.setY(gameModel.getY()+ direction.getDy()*20);
+            return true;
+        }
+        else if (y2 <= 0) {
+            System.out.println(3);
+            gameModel.setHeight(gameModel.getHeight()+10);
+            gameModel.setX(gameModel.getX()+ direction.getDx()*20);
+            gameModel.setY(gameModel.getY()-10+ direction.getDy()*20);
+            return true;
+        }
+        else if (y2 >= gameModel.getHeight()) {
+            System.out.println(4);
+            gameModel.setHeight(gameModel.getHeight()+10);
+            gameModel.setX(gameModel.getX()+ direction.getDx()*20);
+            gameModel.setY(gameModel.getY()+10+ direction.getDy()*20);
+            return true;
+        }
+        return false;
+    }
 }

@@ -4,6 +4,8 @@ import controller.Constants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameOver extends JFrame {
     private JLabel collectedXP;
@@ -25,6 +27,7 @@ public class GameOver extends JFrame {
         addPanel();
         addGameOver();
         addXP();
+        addMainMenu();
     }
     private void addFrame() {
         setBounds(x,y,width,height);
@@ -58,5 +61,20 @@ public class GameOver extends JFrame {
         collectedXP.setFont(new Font("Elephant", Font.BOLD, 36));
         collectedXP.setBounds(180,100,500,200);
         panel.add(collectedXP);
+    }
+    private void addMainMenu() {
+        mainMenu = new JButton("Main Menu");
+        mainMenu.setFont(new Font("Elephant", Font.BOLD, 30));
+        mainMenu.setBackground(Color.WHITE);
+        mainMenu.setBounds(200,300,300,100);
+        mainMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameView.getINSTANCE().dispose();
+                GameFrame.getINSTANCE().setVisible(true);
+                dispose();
+            }
+        });
+        add(mainMenu);
     }
 }

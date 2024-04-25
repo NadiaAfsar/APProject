@@ -45,7 +45,7 @@ public class GameModel {
         }
         return INSTANCE;
     }
-    public void decreaseSize() {
+    private void decreaseSize() {
         if (decreaseSize) {
             width -= 4;
             height -= 4;
@@ -57,11 +57,14 @@ public class GameModel {
                 decreaseSize = false;
             }
         }
-        else if (width > 300 && height > 300) {
-            width -= 0.1;
-            height -= 0.1;
-            x = (700 - width) / 2;
-            y = (700 - width) / 2;
+        else if (width > 300 || height > 300) {
+            if (width > 300) {
+                width -= 0.1;
+            }
+            if (height > 300) {
+                height -= 0.1;
+            }
+            EpsilonModel.getINSTANCE().setInFrame();
         }
     }
 
@@ -92,7 +95,7 @@ public class GameModel {
         }
         Controller.addEnemyView(enemy);
     }
-    public void moveEnemies()  {
+    private void moveEnemies()  {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).move();
         }
@@ -100,7 +103,7 @@ public class GameModel {
             Collidable.collided(enemies.get(i), i);
         }
     }
-    public void moveBullets() {
+    private void moveBullets() {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).move();
         }
@@ -113,8 +116,8 @@ public class GameModel {
     public ArrayList<BulletModel> getBullets() {
         return bullets;
     }
-    public void nextWave() {
-        int enemies;
+    private void nextWave() {
+        int enemies = 0;
         addedEnemies = new boolean[4][6];
         this.enemies = new ArrayList<>();
         if (wave == 1) {
@@ -123,7 +126,7 @@ public class GameModel {
         else if ( wave == 2) {
             enemies = 4;
         }
-        else {
+        else if (wave == 3){
             enemies = 5;
         }
         for (int i = 0; i < enemies; i++) {
@@ -160,19 +163,24 @@ public class GameModel {
     public boolean isGameStarted() {
         return gameStarted;
     }
-    public void checkBulletsCollision() {
+    private void checkBulletsCollision() {
         collidedBullets = new ArrayList<>();
         collidedEnemies = new ArrayList<>();
         for (int i = 0; i < bullets.size(); i++) {
             BulletModel bullet = bullets.get(i);
-            for (int j = 0; j < enemies.size(); j++) {
-                Enemy enemy = enemies.get(j);
-                if (Math.abs(enemy.getX()- bullet.getX2()) < 40 && Math.abs(enemy.getY()- bullet.getY2()) < 40) {
-                   if (Collidable.collisionPoint(bullet, enemy) != null) {
-                       collidedBullets.add(bullet);
-                       Controller.removeBullet(bullet);
-                       collidedEnemies.add(enemy);
-                   }
+            if (bullet.checkFrameCollision(this)) {
+                collidedBullets.add(bullet);
+                Controller.removeBullet(bullet);
+            } else {
+                for (int j = 0; j < enemies.size(); j++) {
+                    Enemy enemy = enemies.get(j);
+                    if (Math.abs(enemy.getX() - bullet.getX2()) < 40 && Math.abs(enemy.getY() - bullet.getY2()) < 40) {
+                        if (Collidable.collisionPoint(bullet, enemy) != null) {
+                            collidedBullets.add(bullet);
+                            Controller.removeBullet(bullet);
+                            collidedEnemies.add(enemy);
+                        }
+                    }
                 }
             }
         }
@@ -224,5 +232,21 @@ public class GameModel {
             nextWave();
         }
         checkXPCollision();
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 }

@@ -1,9 +1,6 @@
 package controller;
 
-import model.BulletModel;
-import model.EpsilonModel;
-import model.GameModel;
-import model.XP;
+import model.*;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
 import movement.Direction;
@@ -13,19 +10,18 @@ import view.enemies.EnemyView;
 import view.enemies.SquarantineView;
 import view.enemies.TrigorathView;
 
-import java.awt.event.MouseListener;
-import java.io.IOException;
 
 public class Controller {
     public static boolean gameRunning;
-    public static void addFrame() {
+    public static void runGame() {
+        GameManager.getINSTANCE();
         GameFrame.getINSTANCE();
     }
     public static void startGame() {
-        GameModel.getINSTANCE();
-        GameView.getINSTANCE();
-        EpsilonModel.getINSTANCE();
-        EpsilonView.getINSTANCE();
+        GameModel.INSTANCE = new GameModel();
+        GameView.INSTANCE = new GameView();
+        EpsilonModel.INSTANCE = new EpsilonModel();
+        EpsilonView.INSTANCE = new EpsilonView();
         GameView.getINSTANCE().add(EpsilonView.getINSTANCE());
         new Update();
         GameMouseListener.getINSTANCE().setGameRunning(true);
