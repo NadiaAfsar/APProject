@@ -64,9 +64,9 @@ public class GameFrame extends JFrame {
     private void addBackGround() {
         background = new Background("src/main/resources/background.jpg");
     }
-    private void update() {
-        gamePanel.revalidate();
-        gamePanel.repaint();
+    public void update() {
+        panel.revalidate();
+        panel.repaint();
     }
 
     public static GameFrame getINSTANCE() {

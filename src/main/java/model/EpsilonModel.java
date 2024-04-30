@@ -11,6 +11,7 @@ import movement.RotatablePoint;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class EpsilonModel implements Collidable {
     private int x;
@@ -28,6 +29,7 @@ public class EpsilonModel implements Collidable {
     private Point velocity;
     private Point acceleration;
     private Point accelerationRate;
+    private ArrayList<RotatablePoint> vertexes;
 
     public EpsilonModel() {
         x = Constants.FRAME_SIZE.width/2;
@@ -40,6 +42,7 @@ public class EpsilonModel implements Collidable {
         velocity = new Point(0,0);
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);
+        vertexes = new ArrayList<>();
     }
 
 
@@ -210,5 +213,30 @@ public class EpsilonModel implements Collidable {
             y = gameModel.getHeight()-24;
             setCenter(x,y);
         }
+    }
+
+    public int getHP() {
+        return HP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+    public void addVertex() {
+        vertexes = new ArrayList<>();
+        int v = vertexes.size()+1;
+        double angle = 2*Math.PI/v;
+        for (int i = 0; i < v; i++) {
+            RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angle*i-Math.PI/2, Constants.EPSILON_RADIUS);
+            vertexes.add(vertex);
+        }
+    }
+
+    public ArrayList<RotatablePoint> getVertexes() {
+        return vertexes;
+    }
+
+    public void setVertexes(ArrayList<RotatablePoint> vertexes) {
+        this.vertexes = vertexes;
     }
 }

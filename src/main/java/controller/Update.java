@@ -39,14 +39,15 @@ public class Update {
         if (Controller.gameRunning) {
             if (GameView.INSTANCE != null) {
                 GameModel gameModel = GameModel.getINSTANCE();
-                GameView.getINSTANCE().update(gameModel.getX(), gameModel.getY(), gameModel.getWidth(), GameModel.getINSTANCE().getHeight());
+                EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+                GameView.getINSTANCE().update(gameModel.getX(), gameModel.getY(), gameModel.getWidth(), gameModel.getHeight()
+                        , epsilon.getHP(), epsilon.getXP(), gameModel.getWave());
                 updateEnemies();
                 updateBullets();
                 GameView.getINSTANCE().update();
+                EpsilonView.getINSTANCE().update(epsilon.getX(), epsilon.getY());
             }
-            if (EpsilonView.INSTANCE != null) {
-                EpsilonView.getINSTANCE().update(EpsilonModel.getINSTANCE().getX(), EpsilonModel.getINSTANCE().getY());
-            }
+
         }
     }
     private void updateModel() {

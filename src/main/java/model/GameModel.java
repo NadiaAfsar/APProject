@@ -1,6 +1,7 @@
 package model;
 
 import collision.Collidable;
+import controller.Constants;
 import controller.Controller;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
@@ -25,6 +26,8 @@ public class GameModel {
     private ArrayList<BulletModel> collidedBullets;
     private ArrayList<XP> XPs;
     private ArrayList<XP> takenXPs;
+    private int ares;
+    private boolean aceso;
 
     public GameModel() {
         x = 0;
@@ -53,6 +56,7 @@ public class GameModel {
             y = (700 - width) / 2;
             EpsilonModel.getINSTANCE().setInCenter();
             if (width == 500) {
+                Controller.setGameHUI();
                 gameStarted = true;
                 decreaseSize = false;
             }
@@ -248,5 +252,36 @@ public class GameModel {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public int getWave() {
+        return wave;
+    }
+    public boolean checkPosition() {
+        if (x < 0) {
+            setX(0);
+            return true;
+        }
+        else if (x > Constants.FRAME_SIZE.getWidth()-width) {
+            setX(Constants.FRAME_SIZE.getWidth()-width);
+            return true;
+        }
+        if (y < 0) {
+            setY(0);
+            return true;
+        }
+        else if (y > Constants.FRAME_SIZE.getHeight()-height) {
+            setY(Constants.FRAME_SIZE.getHeight()-height);
+            return true;
+        }
+        return false;
+    }
+
+    public int getAres() {
+        return ares;
+    }
+
+    public void setAres(int ares) {
+        this.ares = ares;
     }
 }

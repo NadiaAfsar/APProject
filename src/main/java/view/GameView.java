@@ -21,6 +21,14 @@ public class GameView extends JFrame {
     private Map<String, EnemyView> enemies;
     private Map<String, BulletView> bullets;
     private Map<String, XPView> XPs;
+    private JLabel HP;
+    private JLabel XP;
+    private JLabel wave;
+    private JLabel time;
+    private long hour;
+    private long minute;
+    private long second;
+    private final long startTime;
     public GameView() {
         x = 0;
         y = 0;
@@ -37,6 +45,7 @@ public class GameView extends JFrame {
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        startTime = System.currentTimeMillis();
     }
     private void addFrame() {
         setBounds(x,y,width,height);
@@ -76,12 +85,18 @@ public class GameView extends JFrame {
     public void setHeight(int height) {
         this.height = height;
     }
-    public void update(int x, int y, int width, int height) {
+    public void update(int x, int y, int width, int height, int HP, int XP, int wave) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         setBounds(x,y,width,height);
+        if (this.HP != null) {
+            updateHP(HP);
+            updateXP(XP);
+            updateWave(wave-1);
+            updateTime();
+        }
     }
 
     public static GameView getINSTANCE() {
@@ -106,5 +121,72 @@ public class GameView extends JFrame {
 
     public Map<String, XPView> getXPs() {
         return XPs;
+    }
+    private String getElapsedTime() {
+        setTime();
+        String time = "";
+        if (hour < 10) {
+            time += 0;
+        }
+        time += hour+":";
+        if (minute < 10) {
+            time += 0;
+        }
+        time += minute+":";
+        if (second < 10) {
+            time += 0;
+        }
+        time += second;
+        return time;
+    }
+    private void setTime() {
+        long currentTime = System.currentTimeMillis();
+        long time = (currentTime-startTime)/1000;
+        hour = time / 3600;
+        time %= 3600;
+        minute = time / 60;
+        second = time % 60;
+    }
+    private void setHP() {
+        HP = new JLabel("HP: "+100);
+        HP.setBounds(5,5,50,10);
+        HP.setForeground(Color.WHITE);
+        panel.add(HP);
+    }
+    private void setXP() {
+        XP = new JLabel("XP: "+0);
+        XP.setBounds(60,5,50,10);
+        XP.setForeground(Color.WHITE);
+        panel.add(XP);
+    }
+    private void setWave() {
+        wave = new JLabel("1/3");
+        wave.setBounds(105,5,40,10);
+        wave.setForeground(Color.WHITE);
+        panel.add(wave);
+    }
+    private void setTimeJLabel() {
+        time = new JLabel("00:00:00");
+        time.setBounds(145,5,50,10);
+        time.setForeground(Color.WHITE);
+        panel.add(time);
+    }
+    public void setHUI() {
+        setHP();
+        setXP();
+        setWave();
+        setTimeJLabel();
+    }
+    private void updateHP(int hp) {
+        HP.setText("HP: "+hp);
+    }
+    private void updateXP(int xp) {
+        XP.setText("XP: "+xp);
+    }
+    private void updateWave(int wave) {
+        this.wave.setText(wave+"/3");
+    }
+    private void updateTime() {
+        time.setText(getElapsedTime());
     }
 }

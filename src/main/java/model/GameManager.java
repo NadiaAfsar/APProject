@@ -1,10 +1,8 @@
 package model;
 
-import controller.Controller;
-
-import java.io.IOException;
 
 public class GameManager {
+    private int totallXP;
     public static GameManager INSTANCE;
     public GameManager() {
 
@@ -15,5 +13,13 @@ public class GameManager {
             INSTANCE = new GameManager();
         }
         return INSTANCE;
+    }
+
+    public int getTotallXP() {
+        return totallXP;
+    }
+
+    public void setTotallXP(int totallXP) {
+        this.totallXP = totallXP;
     }
 }

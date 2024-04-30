@@ -37,7 +37,7 @@ public interface Collidable {
                 XP xp = (XP)collidable1;
                 EpsilonModel epsilon = (EpsilonModel)collidable2;
                 double d = Math.sqrt(Math.pow(xp.getX()-epsilon.getCenter().getX(),2)+Math.pow(xp.getY()-epsilon.getCenter().getY(),2));
-                if (d <= Constants.EPSILON_RADIUS) {
+                if (d <= Constants.EPSILON_RADIUS+5) {
                     xp.impact(null, epsilon);
                     return new RotatablePoint(xp.getX(), xp.getY());
                 }
@@ -74,7 +74,7 @@ public interface Collidable {
                     double x2 = epsilon.getCenter().getX();
                     double y2 = epsilon.getCenter().getY();
                     double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-                    if (distance <= Constants.EPSILON_RADIUS) {
+                    if (distance <= Constants.EPSILON_RADIUS+5) {
                         epsilon.impact(vertexes.get(i), collidable1);
                         return vertexes.get(i);
                     }

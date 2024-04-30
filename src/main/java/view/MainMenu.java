@@ -42,7 +42,8 @@ public class MainMenu {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                GameFrame.getINSTANCE().getContentPane().remove(gamePanel);
+                GameFrame.getINSTANCE().update();
             }
         });
         gamePanel.add(settingsButton);
@@ -66,7 +67,9 @@ public class MainMenu {
         skillTreeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                empty();
+                new SkillTree(gamePanel);
+                GameFrame.getINSTANCE().update();
             }
         });
         gamePanel.add(skillTreeButton);
@@ -82,5 +85,12 @@ public class MainMenu {
             }
         });
         gamePanel.add(exitButton);
+    }
+    private void empty() {
+        gamePanel.remove(startButton);
+        gamePanel.remove(settingsButton);
+        gamePanel.remove(tutorialButton);
+        gamePanel.remove(skillTreeButton);
+        gamePanel.remove(exitButton);
     }
 }
