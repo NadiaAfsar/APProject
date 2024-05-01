@@ -97,6 +97,9 @@ public class Controller {
 
     public static void setAres(boolean ares) {
         WritOfAres.setPicked(ares);
+        if (ares) {
+            GameManager.getINSTANCE().setPickedSkill(new WritOfAres());
+        }
     }
 
     public static boolean isAceso() {
@@ -105,6 +108,9 @@ public class Controller {
 
     public static void setAceso(boolean aceso) {
         WritOfAceso.setPicked(aceso);
+        if (aceso) {
+            GameManager.getINSTANCE().setPickedSkill(new WritOfAceso());
+        }
     }
 
     public static boolean isProteus() {
@@ -113,6 +119,9 @@ public class Controller {
 
     public static void setProteus(boolean proteus) {
         WritOfProteus.setPicked(proteus);
+        if (proteus) {
+            GameManager.getINSTANCE().setPickedSkill(new WritOfProteus());
+        }
     }
 
     public static boolean isAresUnlocked() {
@@ -145,9 +154,12 @@ public class Controller {
         return GameManager.getINSTANCE().getTotallXP();
     }
     public static void addVertexesToEpsilon() {
+        EpsilonView epsilonView = EpsilonView.getINSTANCE();
+        epsilonView.removeVertexes();
         ArrayList<RotatablePoint> vertexes = EpsilonModel.getINSTANCE().getVertexes();
         for (int i = 0; i < vertexes.size(); i++) {
-
+            RotatablePoint vertex = vertexes.get(i);
+            epsilonView.addVertex((int)vertex.getRotatedX(), (int)vertex.getRotatedY());
         }
     }
 }

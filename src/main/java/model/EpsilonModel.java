@@ -149,6 +149,7 @@ public class EpsilonModel implements Collidable {
             acceleration = new Point(0, 0);
             accelerationRate = new Point(0, 0);
         }
+        moveVertexes();
     }
 
     public int getY() {
@@ -223,13 +224,14 @@ public class EpsilonModel implements Collidable {
         this.HP = HP;
     }
     public void addVertex() {
-        vertexes = new ArrayList<>();
         int v = vertexes.size()+1;
+        vertexes = new ArrayList<>();
         double angle = 2*Math.PI/v;
         for (int i = 0; i < v; i++) {
             RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angle*i-Math.PI/2, Constants.EPSILON_RADIUS);
             vertexes.add(vertex);
         }
+        Controller.addVertexesToEpsilon();
     }
 
     public ArrayList<RotatablePoint> getVertexes() {
@@ -238,5 +240,12 @@ public class EpsilonModel implements Collidable {
 
     public void setVertexes(ArrayList<RotatablePoint> vertexes) {
         this.vertexes = vertexes;
+    }
+    private void moveVertexes() {
+        for (int i = 0; i < vertexes.size(); i++) {
+            RotatablePoint vertex = vertexes.get(i);
+            vertex.setX(center.getX());
+            vertex.setY(center.getY());
+        }
     }
 }

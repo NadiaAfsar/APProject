@@ -1,6 +1,7 @@
 package view;
 
 import controller.Constants;
+import movement.RotatablePoint;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,7 +16,9 @@ public class EpsilonView extends JLabel{
     private int radius;
     public static EpsilonView INSTANCE;
     private ArrayList<JLabel> vertexes;
+    private GameView gameView;
     public EpsilonView() {
+        gameView = GameView.getINSTANCE();
         x = Constants.FRAME_SIZE.width/2;
         y = Constants.FRAME_SIZE.height/2;
         radius = Constants.EPSILON_RADIUS;
@@ -41,6 +44,26 @@ public class EpsilonView extends JLabel{
         return INSTANCE;
     }
     public void addVertex(int x, int y) {
+        gameView.remove(this);
         JLabel vertex = new JLabel("●");
+        vertex.setFont(new Font("Serif", Font.PLAIN, 10));
+        vertex.setForeground(Color.WHITE);
+        vertex.setBounds(x-5,y-50,100,100);
+        vertexes.add(vertex);
+        gameView.add(vertex);
+        gameView.add(this);
+    }
+    public void removeVertexes() {
+        for (int i = 0; i < vertexes.size(); i++) {
+            gameView.remove(vertexes.get(i));
+        }
+        vertexes = new ArrayList<>();
+    }
+    public void updateVertexes(ArrayList<RotatablePoint> vertexes) {
+        for (int i = 0; i < vertexes.size(); i++) {
+            RotatablePoint vertex = vertexes.get(i);
+            JLabel vertexJLabel = this.vertexes.get(i);
+            vertexJLabel.setBounds((int)vertex.getRotatedX()-5, (int)vertex.getRotatedY()-50, 100, 100);
+        }
     }
 }

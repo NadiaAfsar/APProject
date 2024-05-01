@@ -6,6 +6,8 @@ import controller.Controller;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
 import model.enemies.TrigorathModel;
+import model.skills.Skill;
+import model.skills.WritOfAceso;
 import movement.Point;
 
 import java.util.ArrayList;
@@ -194,8 +196,9 @@ public class GameModel {
     private void removeEnemies() {
         for (int i = 0; i < collidedEnemies.size(); i++) {
             Enemy enemy = collidedEnemies.get(i);
-            enemy.setHP(enemy.getHP()-5);
-            if (enemy.getHP() == 0) {
+            enemy.setHP(enemy.getHP()-5-ares);
+            System.out.println(enemy.getHP());
+            if (enemy.getHP() <= 0) {
                 getEnemies().remove(enemy);
                 Controller.removeEnemy(enemy);
                 enemy.addXP();
@@ -236,6 +239,10 @@ public class GameModel {
             nextWave();
         }
         checkXPCollision();
+        Skill skill = GameManager.getINSTANCE().getPickedSkill();
+        if (skill instanceof WritOfAceso) {
+            ((WritOfAceso)skill).increaseHP();
+        }
     }
 
     public void setWidth(double width) {

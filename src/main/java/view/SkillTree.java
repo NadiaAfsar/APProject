@@ -204,6 +204,11 @@ public class SkillTree {
                     Controller.setProteusUnlocked(true);
                 }
             }
+            else {
+                String[] options = new String[]{"OK"};
+                JOptionPane.showOptionDialog(null, "Not enough XPs!",null, JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+            }
         }
     }
 }

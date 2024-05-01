@@ -2,6 +2,7 @@ package model.enemies;
 
 import collision.Collidable;
 import controller.Constants;
+import controller.Controller;
 import model.EpsilonModel;
 import model.GameModel;
 import movement.Direction;
@@ -225,4 +226,13 @@ public abstract class Enemy implements Collidable, Movable {
         return ID;
     }
     public abstract void addXP();
+    public void decreaseHP() {
+        HP -= 10;
+        if (getHP() <= 0) {
+            GameModel.getINSTANCE().getEnemies().remove(this);
+            Controller.removeEnemy(this);
+            addXP();
+            System.out.println(HP);
+        }
+    }
 }

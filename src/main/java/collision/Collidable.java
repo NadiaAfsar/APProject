@@ -46,35 +46,24 @@ public interface Collidable {
             ArrayList<RotatablePoint> vertexes = ((Enemy) collidable1).getVertexes();
             if (collidable2 instanceof Enemy) {
                 ArrayList<RotatablePoint> vertexes2 = ((Enemy) collidable2).getVertexes();
-                for (int i = 0; i < vertexes.size(); i++) {
-                    for (int j = 0; j < vertexes2.size(); j++) {
-                        int x = (int) vertexes.get(i).getRotatedX();
-                        int y = (int) vertexes.get(i).getRotatedY();
-                        int x1 = (int) vertexes2.get(j).getRotatedX();
-                        int y1 = (int) vertexes2.get(j).getRotatedY();
-                        int x2, y2;
-                        if (j == vertexes2.size() - 1) {
-                            x2 = (int) vertexes2.get(0).getRotatedX();
-                            y2 = (int) vertexes2.get(0).getRotatedY();
-                        } else {
-                            x2 = (int) vertexes2.get(j + 1).getRotatedX();
-                            y2 = (int) vertexes2.get(j + 1).getRotatedY();
-                        }
-                        if (collides(x, y, x1, y1, x2, y2)) {
-                            return vertexes.get(i);
-                        }
+                return checkVertexes(vertexes, vertexes2);
+            } else {
+                EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+                if (epsilon.getVertexes().size() != 0) {
+                    RotatablePoint collisionPoint = checkVertexes(epsilon.getVertexes(), vertexes);
+                    if (collisionPoint != null) {
+                        ((Enemy)collidable1).decreaseHP();
+                        return collisionPoint;
                     }
                 }
-            } else {
                 for (int i = 0; i < vertexes.size(); i++) {
                     RotatablePoint point1 = vertexes.get(i);
                     double x1 = point1.getRotatedX();
                     double y1 = point1.getRotatedY();
-                    EpsilonModel epsilon = EpsilonModel.getINSTANCE();
                     double x2 = epsilon.getCenter().getX();
                     double y2 = epsilon.getCenter().getY();
                     double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-                    if (distance <= Constants.EPSILON_RADIUS+5) {
+                    if (distance <= Constants.EPSILON_RADIUS) {
                         epsilon.impact(vertexes.get(i), collidable1);
                         return vertexes.get(i);
                     }
@@ -133,5 +122,27 @@ public interface Collidable {
     }
     void impact(RotatablePoint collisionPoint, Collidable collidable);
     Point getCenter();
+    static RotatablePoint checkVertexes(ArrayList<RotatablePoint> vertexes, ArrayList<RotatablePoint> vertexes2) {
+        for (int i = 0; i < vertexes.size(); i++) {
+            for (int j = 0; j < vertexes2.size(); j++) {
+                int x = (int) vertexes.get(i).getRotatedX();
+                int y = (int) vertexes.get(i).getRotatedY();
+                int x1 = (int) vertexes2.get(j).getRotatedX();
+                int y1 = (int) vertexes2.get(j).getRotatedY();
+                int x2, y2;
+                if (j == vertexes2.size() - 1) {
+                    x2 = (int) vertexes2.get(0).getRotatedX();
+                    y2 = (int) vertexes2.get(0).getRotatedY();
+                } else {
+                    x2 = (int) vertexes2.get(j + 1).getRotatedX();
+                    y2 = (int) vertexes2.get(j + 1).getRotatedY();
+                }
+                if (collides(x, y, x1, y1, x2, y2)) {
+                    return vertexes.get(i);
+                }
+            }
+        }
+        return null;
+    }
 
 }

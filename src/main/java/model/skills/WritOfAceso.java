@@ -10,19 +10,27 @@ public class WritOfAceso extends Skill{
     }
     @Override
     public void activate() {
-        activated = true;
+        if (isTimeToActivate()) {
+            activated = true;
+        }
     }
     public void increaseHP() {
-        long currentTime = System.currentTimeMillis();
-        long spentTime = currentTime - startTime;
-        if (spentTime <= 300000) {
-            if (spentTime % 1000 == 0) {
-                EpsilonModel epsilon = EpsilonModel.getINSTANCE();
-                epsilon.setHP(epsilon.getHP() + 1);
+        if (activated) {
+            long currentTime = System.currentTimeMillis();
+            long spentTime = currentTime - startTime;
+            if (spentTime <= 180000) {
+                double x = spentTime%1000;
+                if (x <= 10) {
+                    EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+                    epsilon.setHP(epsilon.getHP() + 1);
+                }
+            } else {
+                activated = false;
             }
         }
-        else {
-            activated = false;
-        }
+    }
+
+    public boolean isActivated() {
+        return activated;
     }
 }

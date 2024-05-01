@@ -1,6 +1,8 @@
 package controller;
 
 import model.EpsilonModel;
+import model.GameManager;
+import model.skills.Skill;
 import view.GameView;
 
 import javax.swing.*;
@@ -32,6 +34,7 @@ public class InputListener {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), "moveDownReleased");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), "moveLeftReleased");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "moveRightReleased");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true), "activateSkill");
 
     }
 
@@ -82,6 +85,15 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 epsilon.moveLeft(false);
+            }
+        });
+        actionMap.put("activateSkill", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Skill skill = GameManager.getINSTANCE().getPickedSkill();
+                if (skill != null) {
+                    skill.activate();
+                }
             }
         });
     }

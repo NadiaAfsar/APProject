@@ -1,11 +1,14 @@
 package model;
 
 
+import model.skills.Skill;
+
 public class GameManager {
     private int totallXP;
     public static GameManager INSTANCE;
+    private Skill pickedSkill;
     public GameManager() {
-
+        totallXP = 2000;
     }
 
     public static GameManager getINSTANCE() {
@@ -21,5 +24,17 @@ public class GameManager {
 
     public void setTotallXP(int totallXP) {
         this.totallXP = totallXP;
+    }
+
+    public static void setINSTANCE(GameManager INSTANCE) {
+        GameManager.INSTANCE = INSTANCE;
+    }
+
+    public Skill getPickedSkill() {
+        return pickedSkill;
+    }
+
+    public void setPickedSkill(Skill pickedSkill) {
+        this.pickedSkill = pickedSkill;
     }
 }
