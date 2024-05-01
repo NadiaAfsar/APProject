@@ -1,18 +1,14 @@
 package model.enemies;
 
-import collision.Collidable;
-import controller.Constants;
 import controller.Controller;
 import model.EpsilonModel;
-import model.GameModel;
+import model.game.GameModel;
 import model.XP;
 import movement.Direction;
 import movement.RotatablePoint;
 import movement.Point;
-import view.GameView;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TrigorathModel extends Enemy{
@@ -20,13 +16,13 @@ public class TrigorathModel extends Enemy{
     private int y;
     private boolean decreasedVelocity;
     private boolean increasedVelocity;
-    public TrigorathModel(Point center) {
-        super(center);
+    public TrigorathModel(Point center, int hp, double velocity) {
+        super(center, velocity);
         GameModel.getINSTANCE().getEnemies().add(this);
         increasedVelocity = true;
         decreasedVelocity = false;
-        velocity = new Point(0,0);
-        HP = 15;
+        this.velocity = new Point(0,0);
+        HP = 15+hp;
     }
     @Override
     public void setVertexes() {

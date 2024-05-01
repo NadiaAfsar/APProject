@@ -4,7 +4,7 @@ package collision;
 import controller.Constants;
 import model.BulletModel;
 import model.EpsilonModel;
-import model.GameModel;
+import model.game.GameModel;
 import model.XP;
 import model.enemies.Enemy;
 import movement.RotatablePoint;

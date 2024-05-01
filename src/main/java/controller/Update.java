@@ -2,7 +2,7 @@ package controller;
 
 import model.BulletModel;
 import model.EpsilonModel;
-import model.GameModel;
+import model.game.GameModel;
 import model.enemies.Enemy;
 import view.BulletView;
 import view.EpsilonView;
@@ -12,7 +12,6 @@ import view.enemies.EnemyView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 

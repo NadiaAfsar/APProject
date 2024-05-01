@@ -30,13 +30,6 @@ public class SkillTree {
         addWritOfProteus();
         addBack();
         update();
-        System.out.println(Controller.isAresUnlocked());
-        System.out.println(Controller.isAcesoUnlocked());
-        System.out.println(Controller.isProteusUnlocked());
-        System.out.println(Controller.isAresPicked());
-        System.out.println(Controller.isAcesoPicked());
-        System.out.println(Controller.isProteusPicked());
-        System.out.println("------------");
 
     }
     private void addSkillTree() {
@@ -233,13 +226,6 @@ public class SkillTree {
                 JOptionPane.showOptionDialog(null, "Not enough XPs!",null, JOptionPane.DEFAULT_OPTION,
                         JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
             }
-            System.out.println(Controller.isAresUnlocked());
-            System.out.println(Controller.isAcesoUnlocked());
-            System.out.println(Controller.isProteusUnlocked());
-            System.out.println(Controller.isAresPicked());
-            System.out.println(Controller.isAcesoPicked());
-            System.out.println(Controller.isProteusPicked());
-            System.out.println("---------------");
         }
     }
 }

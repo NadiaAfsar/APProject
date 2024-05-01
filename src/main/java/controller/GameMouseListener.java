@@ -1,9 +1,6 @@
 package controller;
 
-import model.BulletModel;
-import model.GameModel;
-import view.BulletView;
-import view.GameView;
+import model.game.GameModel;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

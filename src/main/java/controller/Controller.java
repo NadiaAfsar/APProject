@@ -3,6 +3,10 @@ package controller;
 import model.*;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
+import model.game.EasyGame;
+import model.game.GameModel;
+import model.game.HardGame;
+import model.game.MediumGame;
 import model.skills.WritOfAceso;
 import model.skills.WritOfAres;
 import model.skills.WritOfProteus;
@@ -12,19 +16,25 @@ import view.enemies.EnemyView;
 import view.enemies.SquarantineView;
 import view.enemies.TrigorathView;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class Controller {
     public static boolean gameRunning;
-    public static void runGame() {
+    public static Sound music;
+    public static void runGame() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GameManager.getINSTANCE();
         GameFrame.getINSTANCE();
+        music = new Sound("src/main/resources/15 - Bad n Crazy - Kim Woo Kun (320).wav");
+        music.setRepeat();
     }
     public static void startGame() {
         try {
@@ -40,13 +50,22 @@ public class Controller {
         Timer timer = new Timer(400, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameModel.INSTANCE = new GameModel();
+                int d = GameManager.getDifficulty();
+                if (d == 1) {
+                    GameModel.INSTANCE = new EasyGame();
+                }
+                else if (d == 2) {
+                    GameModel.INSTANCE = new MediumGame();
+                }
+                else {
+                    GameModel.INSTANCE = new HardGame();
+                }
                 GameView.INSTANCE = new GameView();
                 EpsilonModel.INSTANCE = new EpsilonModel();
                 EpsilonView.INSTANCE = new EpsilonView();
                 GameView.getINSTANCE().add(EpsilonView.getINSTANCE());
                 new Update();
-                GameMouseListener.getINSTANCE().setGameRunning(true);
+                GameMouseListener.setGameRunning(true);
                 GameView.getINSTANCE().addMouseListener(GameMouseListener.getINSTANCE());
                 gameRunning = true;
             }
@@ -192,8 +211,23 @@ public class Controller {
         return WritOfProteus.isPicked();
     }
     public static void endGame() {
-        GameMouseListener.getINSTANCE().setGameRunning(false);
+        GameMouseListener.setGameRunning(false);
         gameRunning = false;
     }
+    public static int getDifficulty() {
+        return GameManager.getDifficulty();
+    }
+    public static void setDifficulty(int d) {
+        GameManager.setDifficulty(d);
+    }
+    public static int getSensitivity() {
+        return GameManager.getSensitivity();
+    }
+    public static void setSensitivity(int s) {
+        GameManager.setSensitivity(s);
+    }
 
+    public static Sound getMusic() {
+        return music;
+    }
 }

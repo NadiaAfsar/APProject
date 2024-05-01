@@ -5,6 +5,7 @@ import controller.Constants;
 import controller.Controller;
 import controller.InputListener;
 import model.enemies.SquarantineModel;
+import model.game.GameModel;
 import movement.Direction;
 import movement.Point;
 import movement.RotatablePoint;
@@ -30,6 +31,7 @@ public class EpsilonModel implements Collidable {
     private Point acceleration;
     private Point accelerationRate;
     private ArrayList<RotatablePoint> vertexes;
+    private int sensitivity;
 
     public EpsilonModel() {
         x = Constants.FRAME_SIZE.width/2;
@@ -44,6 +46,7 @@ public class EpsilonModel implements Collidable {
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);
         vertexes = new ArrayList<>();
+        this.sensitivity = GameManager.getSensitivity();
     }
 
 
@@ -88,8 +91,8 @@ public class EpsilonModel implements Collidable {
         upTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (y-1 >= 0) {
-                    y -= 1;
+                if (y-0.5*sensitivity >= 0) {
+                    y -= 0.5*sensitivity;
                     setCenter(x, y);
                 }
             }
@@ -97,8 +100,8 @@ public class EpsilonModel implements Collidable {
         downTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (y + 1 < GameModel.getINSTANCE().getHeight()-25) {
-                    y += 1;
+                if (y + 0.5*sensitivity < GameModel.getINSTANCE().getHeight()-25) {
+                    y += 0.5*sensitivity;
                     setCenter(x, y);
                 }
             }
@@ -106,8 +109,8 @@ public class EpsilonModel implements Collidable {
         rightTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (x + 1 < GameModel.getINSTANCE().getWidth() - 25) {
-                    x += 1;
+                if (x + 0.5*sensitivity < GameModel.getINSTANCE().getWidth() - 25) {
+                    x += 0.5*sensitivity;
                 setCenter(x, y);
             }
             }
@@ -115,8 +118,8 @@ public class EpsilonModel implements Collidable {
         leftTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (x-1 >= 0) {
-                    x -= 1;
+                if (x-0.5*sensitivity >= 0) {
+                    x -= 0.5*sensitivity;
                     setCenter(x, y);
                 }
             }
@@ -168,10 +171,10 @@ public class EpsilonModel implements Collidable {
     @Override
     public void impact(RotatablePoint collisionPoint, Collidable collidable) {
         if (collidable instanceof SquarantineModel) {
-            HP -= 6;
+            HP -= 6+GameModel.getINSTANCE().getEnemyPower();
         }
         else {
-            HP -= 10;
+            HP -= 10+GameModel.getINSTANCE().getEnemyPower();
         }
         if (HP <= 0) {
             Controller.gameOver(XP);

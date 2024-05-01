@@ -1,9 +1,8 @@
 package model.enemies;
 
-import collision.Collidable;
 import controller.Constants;
 import controller.Controller;
-import model.GameModel;
+import model.game.GameModel;
 import model.XP;
 import movement.Direction;
 import movement.RotatablePoint;
@@ -16,11 +15,11 @@ public class SquarantineModel extends Enemy {
     private boolean hasRandomAcceleration;
     private double velocityX;
     private double velocityY;
-    public SquarantineModel(Point center) {
-        super(center);
+    public SquarantineModel(Point center,  int hp, double velocity) {
+        super(center, velocity);
         GameModel.getINSTANCE().getEnemies().add(this);
-        velocity = new Point(0,0);
-        HP = 10;
+        this.velocity = new Point(0,0);
+        HP = 10+hp;
         hasRandomAcceleration = false;
     }
     @Override

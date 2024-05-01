@@ -1,6 +1,6 @@
 package model.skills;
 
-import model.GameModel;
+import model.game.GameModel;
 
 public class WritOfAres extends Skill{
     private static boolean aresUnlocked;

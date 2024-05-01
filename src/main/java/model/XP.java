@@ -2,6 +2,7 @@ package model;
 
 import collision.Collidable;
 import controller.Controller;
+import model.game.GameModel;
 import movement.Point;
 import movement.RotatablePoint;
 
@@ -28,7 +29,7 @@ public class XP implements Collidable {
     @Override
     public void impact(RotatablePoint collisionPoint, Collidable collidable) {
         EpsilonModel epsilon = (EpsilonModel)collidable;
-        epsilon.setXP(epsilon.getXP()+5);
+        epsilon.setXP(epsilon.getXP()+5+GameModel.getINSTANCE().getEnemyXP());
         Controller.removeXP(this);
     }
 

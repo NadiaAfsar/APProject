@@ -1,9 +1,11 @@
-import collision.Collidable;
 import controller.Controller;
-import model.GameManager;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 
 public class MyProject {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Controller.runGame();
     }
 }

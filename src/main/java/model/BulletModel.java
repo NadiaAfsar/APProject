@@ -2,8 +2,8 @@ package model;
 
 import collision.Collidable;
 import controller.Constants;
-import controller.Controller;
 import model.enemies.Enemy;
+import model.game.GameModel;
 import movement.Direction;
 import movement.Movable;
 import movement.Point;

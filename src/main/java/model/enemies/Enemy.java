@@ -4,7 +4,7 @@ import collision.Collidable;
 import controller.Constants;
 import controller.Controller;
 import model.EpsilonModel;
-import model.GameModel;
+import model.game.GameModel;
 import movement.Direction;
 import movement.Movable;
 import movement.Point;
@@ -30,7 +30,8 @@ public abstract class Enemy implements Collidable, Movable {
     protected Direction direction;
     protected boolean impact;
     private final String ID;
-    public Enemy(Point center) {
+    private double v;
+    public Enemy(Point center, double velocity) {
         ID = UUID.randomUUID().toString();
         this.center = center;
         setVertexes();
@@ -39,6 +40,7 @@ public abstract class Enemy implements Collidable, Movable {
         angularVelocity = 0;
         angularAcceleration = 0;
         angularAccelerationRate = 0;
+        v = velocity;
     }
     public abstract void setVertexes();
 
@@ -60,8 +62,8 @@ public abstract class Enemy implements Collidable, Movable {
     @Override
     public void move() {
         direction = getDirection();
-        dx = direction.getDx();
-        dy = direction.getDy();
+        dx = direction.getDx()*v;
+        dy = direction.getDy()*v;
         setAngle();
         setAcceleration();
         setVelocity();
@@ -113,9 +115,7 @@ public abstract class Enemy implements Collidable, Movable {
         position.setAngle(position.getAngle()+angle);
     }
 
-    public RotatablePoint getPosition() {
-        return position;
-    }
+
     @Override
     public void impact(RotatablePoint collisionPoint, Collidable collidable) {
         double slope1 = collisionPoint.getRotatedY()-getCenter().getY()/collisionPoint.getRotatedX()-getCenter().getX();
@@ -154,37 +154,7 @@ public abstract class Enemy implements Collidable, Movable {
         return new Direction(getCenter(), EpsilonModel.getINSTANCE().getCenter());
     }
 
-    public void setAcceleration(Point acceleration) {
-        this.acceleration = acceleration;
-    }
 
-    public void setAccelerationRate(Point accelerationRate) {
-        this.accelerationRate = accelerationRate;
-    }
-
-    public void setAngularAcceleration(double angularAcceleration) {
-        this.angularAcceleration = angularAcceleration;
-    }
-
-    public void setAngularAccelerationRate(double angularAccelerationRate) {
-        this.angularAccelerationRate = angularAccelerationRate;
-    }
-
-    public Point getAcceleration() {
-        return acceleration;
-    }
-
-    public Point getAccelerationRate() {
-        return accelerationRate;
-    }
-
-    public double getAngularAcceleration() {
-        return angularAcceleration;
-    }
-
-    public double getAngularAccelerationRate() {
-        return angularAccelerationRate;
-    }
     protected void setImpactAcceleration(Direction direction, double distance) {
         center.setX(center.getX() - direction.getDx() * distance);
         center.setY(center.getY() - direction.getDy() * distance);

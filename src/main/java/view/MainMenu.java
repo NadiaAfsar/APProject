@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import controller.Sound;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,8 @@ public class MainMenu {
     }
     private void addStartButton() {
         startButton = new JButton("Start");
-        startButton.setBounds(200, 100, 100, 50);
+        startButton.setBounds(200, 100, 150, 100);
+        startButton.setFont(new Font("Elephant", Font.BOLD, 25));
         startButton.setBackground(Color.WHITE);
         startButton.addActionListener(new ActionListener() {
             @Override
@@ -37,12 +39,14 @@ public class MainMenu {
     }
     private void addSettingsButton() {
         settingsButton = new JButton("Settings");
-        settingsButton.setBounds(700, 100, 100, 50);
+        settingsButton.setBounds(700, 100, 150, 100);
+        settingsButton.setFont(new Font("Elephant", Font.BOLD, 25));
         settingsButton.setBackground(Color.WHITE);
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameFrame.getINSTANCE().getContentPane().remove(gamePanel);
+                empty();
+                new Settings(gamePanel, Controller.getSensitivity(), Controller.getDifficulty(), (int)((Sound.getSoundValue()+80)/0.86));
                 GameFrame.getINSTANCE().update();
             }
         });
@@ -50,8 +54,9 @@ public class MainMenu {
     }
     private void addTutorialButton() {
         tutorialButton = new JButton("Tutorial");
-        tutorialButton.setBounds(200, 400, 100, 50);
+        tutorialButton.setBounds(200, 400, 150, 100);
         tutorialButton.setBackground(Color.WHITE);
+        tutorialButton.setFont(new Font("Elephant", Font.BOLD, 25));
         tutorialButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,7 +67,8 @@ public class MainMenu {
     }
     private void addSkillTree() {
         skillTreeButton = new JButton("Skill Tree");
-        skillTreeButton.setBounds(700, 400, 100, 50);
+        skillTreeButton.setBounds(700, 400, 150, 100);
+        skillTreeButton.setFont(new Font("Elephant", Font.BOLD, 20));
         skillTreeButton.setBackground(Color.WHITE);
         skillTreeButton.addActionListener(new ActionListener() {
             @Override
@@ -77,6 +83,7 @@ public class MainMenu {
     private void addExitButton() {
         exitButton = new JButton("Exit");
         exitButton.setBounds(1050, 500, 100, 50);
+        exitButton.setFont(new Font("Elephant", Font.BOLD, 20));
         exitButton.setBackground(Color.RED);
         exitButton.addActionListener(new ActionListener() {
             @Override
