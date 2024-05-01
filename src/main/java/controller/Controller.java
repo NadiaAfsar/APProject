@@ -84,15 +84,10 @@ public class Controller {
     }
     public static void gameOver(int xp) {
         new GameOver(xp);
-        GameMouseListener.getINSTANCE().setGameRunning(false);
-        gameRunning = false;
+        endGame();
     }
     public static void setGameHUI() {
         GameView.getINSTANCE().setHUI();
-    }
-
-    public static boolean isAres() {
-        return WritOfAres.isPicked();
     }
 
     public static void setAres(boolean ares) {
@@ -102,19 +97,11 @@ public class Controller {
         }
     }
 
-    public static boolean isAceso() {
-        return WritOfAceso.isPicked();
-    }
-
     public static void setAceso(boolean aceso) {
         WritOfAceso.setPicked(aceso);
         if (aceso) {
             GameManager.getINSTANCE().setPickedSkill(new WritOfAceso());
         }
-    }
-
-    public static boolean isProteus() {
-        return WritOfProteus.isPicked();
     }
 
     public static void setProteus(boolean proteus) {
@@ -125,27 +112,28 @@ public class Controller {
     }
 
     public static boolean isAresUnlocked() {
-        return WritOfAres.isUnlocked();
+        return WritOfAres.isAresUnlocked();
     }
 
     public static void setAresUnlocked(boolean aresUnlocked) {
-        WritOfAres.setUnlocked(aresUnlocked);
+        WritOfAres.setAresUnlocked(aresUnlocked);
+
     }
 
     public static boolean isAcesoUnlocked() {
-        return WritOfAceso.isPicked();
+        return WritOfAceso.isAcesoUnlocked();
     }
 
     public static void setAcesoUnlocked(boolean acesoUnlocked) {
-        WritOfAceso.setUnlocked(acesoUnlocked);
+        WritOfAceso.setAcesoUnlocked(acesoUnlocked);
     }
 
     public static boolean isProteusUnlocked() {
-        return WritOfProteus.isUnlocked();
+        return WritOfProteus.isProteusUnlocked();
     }
 
     public static void setProteusUnlocked(boolean proteusUnlocked) {
-        WritOfProteus.setUnlocked(proteusUnlocked);
+        WritOfProteus.setProteusUnlocked(proteusUnlocked);
     }
     public static void setXP(int xp) {
         GameManager.getINSTANCE().setTotallXP(xp);
@@ -162,4 +150,50 @@ public class Controller {
             epsilonView.addVertex((int)vertex.getRotatedX(), (int)vertex.getRotatedY());
         }
     }
+    public static boolean hephaestus() {
+        EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+        if (epsilon.getXP() >= 100) {
+            Enemy.impactOnOthers(new RotatablePoint(epsilon.getCenter().getX(), epsilon.getCenter().getY()));
+            epsilon.setXP(epsilon.getXP()-100);
+            return true;
+        }
+        return false;
+    }
+    public static void addBulletView(BulletModel bulletModel) {
+        BulletView bulletView = new BulletView((int) bulletModel.getX1(), (int) bulletModel.getY1(), bulletModel.getDirection());
+        GameView.getINSTANCE().getBullets().put(bulletModel.getID(), bulletView);
+        GameView.getINSTANCE().add(bulletView);
+    }
+    public static boolean athena() {
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        if (epsilonModel.getXP() >= 75) {
+            GameModel.getINSTANCE().activateAthena();
+            epsilonModel.setXP(epsilonModel.getXP()-75);
+            return true;
+        }
+        return false;
+    }
+    public static boolean apollo() {
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        if (epsilonModel.getXP() >= 50) {
+            epsilonModel.setHP(epsilonModel.getHP()+10);
+            epsilonModel.setXP(epsilonModel.getXP()-50);
+            return true;
+        }
+        return false;
+    }
+    public static boolean isAresPicked() {
+        return WritOfAres.isPicked();
+    }
+    public static boolean isAcesoPicked() {
+        return WritOfAceso.isPicked();
+    }
+    public static boolean isProteusPicked() {
+        return WritOfProteus.isPicked();
+    }
+    public static void endGame() {
+        GameMouseListener.getINSTANCE().setGameRunning(false);
+        gameRunning = false;
+    }
+
 }

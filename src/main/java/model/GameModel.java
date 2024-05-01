@@ -29,7 +29,8 @@ public class GameModel {
     private ArrayList<XP> XPs;
     private ArrayList<XP> takenXPs;
     private int ares;
-    private boolean aceso;
+    private boolean athena;
+    private long athenaActivationTime;
 
     public GameModel() {
         x = 0;
@@ -222,6 +223,13 @@ public class GameModel {
             if (Collidable.collisionPoint(xp, EpsilonModel.getINSTANCE()) != null){
                 takenXPs.add(xp);
             }
+            else {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime-xp.getTime() >= 6000) {
+                    takenXPs.add(xp);
+                    Controller.removeXP(xp);
+                }
+            }
         }
         removeXPs();
     }
@@ -290,5 +298,41 @@ public class GameModel {
 
     public void setAres(int ares) {
         this.ares = ares;
+    }
+    public void activateAthena() {
+        athena = true;
+        athenaActivationTime = System.currentTimeMillis();
+    }
+    private void checkAthenaTime() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime-athenaActivationTime >= 10000) {
+            athena = false;
+        }
+    }
+    public void shotBullet(int x, int y) {
+        checkAthenaTime();
+        if (athena) {
+            addBullet(x,y);
+            double dx = bullets.get(0).getDirection().getDx();
+            double dy = bullets.get(0).getDirection().getDy();
+            addBullet(x,y);
+            BulletModel bullet = bullets.get(1);
+            bullet.setPosition(bullet.getX1()+dx*100, bullet.getY1()+dy*100);
+            addBullet(x,y);
+            bullet = bullets.get(2);
+            bullet.setPosition(bullet.getX1()+dx*200, bullet.getY1()+dy*200);
+        }
+        else {
+            addBullet(x,y);
+        }
+    }
+    private void addBullet(int x, int y) {
+        BulletModel bulletModel = new BulletModel(x, y);
+        getBullets().add(bulletModel);
+        Controller.addBulletView(bulletModel);
+    }
+
+    public boolean isAthena() {
+        return athena;
     }
 }

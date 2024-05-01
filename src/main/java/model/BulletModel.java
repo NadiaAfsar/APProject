@@ -36,6 +36,10 @@ public class BulletModel implements Movable, Collidable {
         setX2();
         setY2();
     }
+    public void setPosition(double x, double y) {
+        this.x1 = x;
+        this.y1 = y;
+    }
     @Override
     public void move() {
         x1 += direction.getDx()*30;
@@ -93,7 +97,7 @@ public class BulletModel implements Movable, Collidable {
 
     @Override
     public void impact(RotatablePoint collisionPoint, Collidable collidable) {
-        ((Enemy)collidable).impactOnOthers(collisionPoint);
+        Enemy.impactOnOthers(collisionPoint);
     }
 
     @Override

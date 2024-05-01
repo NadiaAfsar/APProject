@@ -196,12 +196,12 @@ public abstract class Enemy implements Collidable, Movable {
         impact = true;
 
     }
-    public void impactOnOthers(RotatablePoint collisionPoint) {
+    public static void impactOnOthers(RotatablePoint collisionPoint) {
         ArrayList<Enemy> enemies = GameModel.getINSTANCE().getEnemies();
         for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
-            if (Math.abs(enemy.getX() - collisionPoint.getX()) <= 100 && Math.abs(enemy.getY() - collisionPoint.getY()) <= 100) {
-                double x = Math.sqrt(Math.pow(enemy.getX() - collisionPoint.getX(),2) + Math.pow(enemy.getY() - collisionPoint.getY(),2));
+            if (Math.abs(enemy.getCenter().getX() - collisionPoint.getRotatedX()) <= 100 && Math.abs(enemy.getCenter().getY() - collisionPoint.getRotatedY()) <= 100) {
+                double x = Math.sqrt(Math.pow(enemy.getCenter().getX() - collisionPoint.getRotatedX(),2) + Math.pow(enemy.getCenter().getY() - collisionPoint.getRotatedY(),2));
                 Direction direction = new Direction(new Point(enemy.getCenter().getX(), enemy.getCenter().getY()), new Point(collisionPoint.getRotatedX(), collisionPoint.getRotatedY()));
                 enemy.setImpactAcceleration(direction, 140-x);
             }

@@ -13,6 +13,7 @@ public class XP implements Collidable {
     private int y;
     private Color color;
     private Point center;
+    private final long time;
     private final String ID;
 
     public XP(int x, int y, Color color) {
@@ -21,6 +22,7 @@ public class XP implements Collidable {
         this.y = y;
         this.center = new Point(x,y);
         this.color = color;
+        time = System.currentTimeMillis();
     }
 
     @Override
@@ -49,5 +51,9 @@ public class XP implements Collidable {
 
     public Color getColor() {
         return color;
+    }
+
+    public long getTime() {
+        return time;
     }
 }

@@ -149,25 +149,25 @@ public class GameView extends JFrame {
     }
     private void setHP() {
         HP = new JLabel("HP: "+100);
-        HP.setBounds(5,5,50,10);
+        HP.setBounds(5,5,80,10);
         HP.setForeground(Color.WHITE);
         panel.add(HP);
     }
     private void setXP() {
         XP = new JLabel("XP: "+0);
-        XP.setBounds(60,5,50,10);
+        XP.setBounds(85,5,80,10);
         XP.setForeground(Color.WHITE);
         panel.add(XP);
     }
     private void setWave() {
         wave = new JLabel("1/3");
-        wave.setBounds(105,5,40,10);
+        wave.setBounds(165,5,40,10);
         wave.setForeground(Color.WHITE);
         panel.add(wave);
     }
     private void setTimeJLabel() {
         time = new JLabel("00:00:00");
-        time.setBounds(145,5,50,10);
+        time.setBounds(210,5,50,10);
         time.setForeground(Color.WHITE);
         panel.add(time);
     }

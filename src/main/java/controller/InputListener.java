@@ -4,6 +4,7 @@ import model.EpsilonModel;
 import model.GameManager;
 import model.skills.Skill;
 import view.GameView;
+import view.Shop;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,6 +36,7 @@ public class InputListener {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), "moveLeftReleased");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "moveRightReleased");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true), "activateSkill");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), "showShop");
 
     }
 
@@ -42,49 +44,65 @@ public class InputListener {
         actionMap.put("moveUp", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                epsilon.moveUp(true);
+                if (Controller.gameRunning) {
+                    epsilon.moveUp(true);
+                }
             }
         });
         actionMap.put("moveDown", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                epsilon.moveDown(true);
+                if (Controller.gameRunning) {
+                    epsilon.moveDown(true);
+                }
             }
         });
         actionMap.put("moveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                epsilon.moveRight(true);
+                if (Controller.gameRunning) {
+                    epsilon.moveRight(true);
+                }
             }
         });
         actionMap.put("moveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                epsilon.moveLeft(true);
+                if (Controller.gameRunning) {
+                    epsilon.moveLeft(true);
+                }
             }
         });
         actionMap.put("moveUpReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                epsilon.moveUp(false);
+                if (Controller.gameRunning) {
+                    epsilon.moveUp(false);
+                }
             }
         });
         actionMap.put("moveDownReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                epsilon.moveDown(false);
+                if (Controller.gameRunning) {
+                    epsilon.moveDown(false);
+                }
             }
         });
         actionMap.put("moveRightReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                epsilon.moveRight(false);
+                if (Controller.gameRunning) {
+                    epsilon.moveRight(false);
+                }
             }
         });
         actionMap.put("moveLeftReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                epsilon.moveLeft(false);
+                if (Controller.gameRunning) {
+                    epsilon.moveLeft(false);
+                }
             }
         });
         actionMap.put("activateSkill", new AbstractAction() {
@@ -93,6 +111,15 @@ public class InputListener {
                 Skill skill = GameManager.getINSTANCE().getPickedSkill();
                 if (skill != null) {
                     skill.activate();
+                }
+            }
+        });
+        actionMap.put("showShop", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Controller.gameRunning) {
+                    Controller.gameRunning = false;
+                    new Shop();
                 }
             }
         });

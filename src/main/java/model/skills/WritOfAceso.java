@@ -5,6 +5,8 @@ import model.EpsilonModel;
 public class WritOfAceso extends Skill{
     private final long startTime;
     private boolean activated;
+    private static boolean acesoUnlocked;
+    private static boolean picked;
     public WritOfAceso() {
         startTime = System.currentTimeMillis();
     }
@@ -29,8 +31,25 @@ public class WritOfAceso extends Skill{
             }
         }
     }
+    public static boolean isAcesoUnlocked() {
+        return acesoUnlocked;
+    }
+
+    public static void setAcesoUnlocked(boolean u) {
+        acesoUnlocked = u;
+        if (!u) {
+            System.out.println(1);
+        }
+    }
 
     public boolean isActivated() {
         return activated;
+    }
+    public static boolean isPicked() {
+        return picked;
+    }
+
+    public static void setPicked(boolean p) {
+        picked = p;
     }
 }

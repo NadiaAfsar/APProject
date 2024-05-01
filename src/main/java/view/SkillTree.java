@@ -3,7 +3,6 @@ package view;
 import controller.Controller;
 
 import javax.swing.*;
-import javax.swing.text.html.Option;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +30,13 @@ public class SkillTree {
         addWritOfProteus();
         addBack();
         update();
+        System.out.println(Controller.isAresUnlocked());
+        System.out.println(Controller.isAcesoUnlocked());
+        System.out.println(Controller.isProteusUnlocked());
+        System.out.println(Controller.isAresPicked());
+        System.out.println(Controller.isAcesoPicked());
+        System.out.println(Controller.isProteusPicked());
+        System.out.println("------------");
 
     }
     private void addSkillTree() {
@@ -54,7 +60,10 @@ public class SkillTree {
                 }
             }
         });
-        if (Controller.isAresUnlocked()) {
+        if (Controller.isAresPicked()) {
+            writOfAres.setBackground(Color.GREEN);
+        }
+        else if (Controller.isAresUnlocked()) {
             writOfAres.setBackground(Color.WHITE);
         }
     }
@@ -76,7 +85,10 @@ public class SkillTree {
                 }
             }
         });
-        if (Controller.isAcesoUnlocked()) {
+        if (Controller.isAcesoPicked()) {
+            writOfAceso.setBackground(Color.GREEN);
+        }
+        else if (Controller.isAcesoUnlocked()) {
             writOfAceso.setBackground(Color.WHITE);
         }
     }
@@ -98,7 +110,10 @@ public class SkillTree {
                 }
             }
         });
-        if (Controller.isProteusUnlocked()) {
+        if (Controller.isProteusPicked()) {
+            writOfProteus.setBackground(Color.GREEN);
+        }
+        else if (Controller.isProteusUnlocked()) {
             writOfProteus.setBackground(Color.WHITE);
         }
     }
@@ -154,6 +169,9 @@ public class SkillTree {
             if (Controller.isAresUnlocked()) {
                 writOfAres.setBackground(Color.WHITE);
             }
+            else {
+                writOfAres.setBackground(Color.RED);
+            }
             Controller.setAres(false);
         }
         else {
@@ -164,6 +182,9 @@ public class SkillTree {
             if (Controller.isAcesoUnlocked()) {
                 writOfAceso.setBackground(Color.WHITE);
             }
+            else {
+                writOfAceso.setBackground(Color.RED);
+            }
             Controller.setAceso(false);
         }
         else {
@@ -173,6 +194,9 @@ public class SkillTree {
         if (x != 2) {
             if (Controller.isProteusUnlocked()) {
                 writOfProteus.setBackground(Color.WHITE);
+            }
+            else {
+                writOfProteus.setBackground(Color.RED);
             }
             Controller.setProteus(false);
         }
@@ -209,6 +233,13 @@ public class SkillTree {
                 JOptionPane.showOptionDialog(null, "Not enough XPs!",null, JOptionPane.DEFAULT_OPTION,
                         JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
             }
+            System.out.println(Controller.isAresUnlocked());
+            System.out.println(Controller.isAcesoUnlocked());
+            System.out.println(Controller.isProteusUnlocked());
+            System.out.println(Controller.isAresPicked());
+            System.out.println(Controller.isAcesoPicked());
+            System.out.println(Controller.isProteusPicked());
+            System.out.println("---------------");
         }
     }
 }
