@@ -4,13 +4,13 @@ package model;
 import model.skills.Skill;
 
 public class GameManager {
-    private int totallXP;
+    private int totalXP;
     public static GameManager INSTANCE;
     private static int difficulty;
     private static int sensitivity;
     private Skill pickedSkill;
     public GameManager() {
-        totallXP = 2000;
+        totalXP = 2000;
         sensitivity = 2;
         difficulty = 1;
     }
@@ -22,12 +22,12 @@ public class GameManager {
         return INSTANCE;
     }
 
-    public int getTotallXP() {
-        return totallXP;
+    public int getTotalXP() {
+        return totalXP;
     }
 
-    public void setTotallXP(int totallXP) {
-        this.totallXP = totallXP;
+    public void setTotalXP(int totalXP) {
+        this.totalXP = totalXP;
     }
 
     public static void setINSTANCE(GameManager INSTANCE) {

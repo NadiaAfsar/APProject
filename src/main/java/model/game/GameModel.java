@@ -391,6 +391,7 @@ public abstract class GameModel {
     private void endGame() {
         Controller.endGame();
         Controller.addWinningSound();
+        Controller.removeEpsilonVertexes();
         for (int i = 0; i < XPs.size(); i++) {
             Controller.removeXP(XPs.get(i));
         }
@@ -402,7 +403,7 @@ public abstract class GameModel {
         }
         Controller.gameFinished = true;
         GameManager game = GameManager.getINSTANCE();
-        game.setTotallXP(game.getTotallXP()+EpsilonModel.INSTANCE.getXP());
+        game.setTotalXP(game.getTotalXP()+EpsilonModel.INSTANCE.getXP());
     }
 
     public boolean isFinished() {

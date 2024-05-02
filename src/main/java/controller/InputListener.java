@@ -37,8 +37,8 @@ public class InputListener {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), "moveDownReleased");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), "moveLeftReleased");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "moveRightReleased");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true), "activateSkill");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), "showShop");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), "activateSkill");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true), "showShop");
 
     }
 

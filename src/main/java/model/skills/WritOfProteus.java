@@ -8,7 +8,11 @@ public class WritOfProteus extends Skill{
     @Override
     public void activate() {
         if (isTimeToActivate()) {
-            EpsilonModel.getINSTANCE().addVertex();
+            EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+            if (epsilon.getXP() >= 100) {
+                EpsilonModel.getINSTANCE().addVertex();
+                epsilon.setXP(epsilon.getXP()-100);
+            }
         }
     }
     public static boolean isProteusUnlocked() {

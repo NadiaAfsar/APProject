@@ -158,10 +158,10 @@ public class Controller {
         WritOfProteus.setProteusUnlocked(proteusUnlocked);
     }
     public static void setXP(int xp) {
-        GameManager.getINSTANCE().setTotallXP(xp);
+        GameManager.getINSTANCE().setTotalXP(xp);
     }
     public static int getXP() {
-        return GameManager.getINSTANCE().getTotallXP();
+        return GameManager.getINSTANCE().getTotalXP();
     }
     public static void addVertexesToEpsilon() {
         EpsilonView epsilonView = EpsilonView.getINSTANCE();
@@ -290,5 +290,11 @@ public class Controller {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public static int getTotalXP() {
+        return GameManager.getINSTANCE().getTotalXP();
+    }
+    public static void removeEpsilonVertexes() {
+        EpsilonView.getINSTANCE().removeVertexes();
     }
 }

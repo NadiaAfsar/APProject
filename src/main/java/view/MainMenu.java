@@ -61,7 +61,8 @@ public class MainMenu {
         tutorialButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                empty();
+                new Tutorial(gamePanel);
             }
         });
         gamePanel.add(tutorialButton);

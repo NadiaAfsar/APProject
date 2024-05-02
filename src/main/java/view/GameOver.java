@@ -2,10 +2,13 @@ package view;
 
 import controller.Constants;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class GameOver extends JFrame {
     private JLabel collectedXP;
@@ -25,6 +28,12 @@ public class GameOver extends JFrame {
         y = (int)Constants.FRAME_SIZE.getHeight()/2-250;
         addFrame();
         addPanel();
+        try {
+            setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
         addGameOver();
         addXP();
         addMainMenu();

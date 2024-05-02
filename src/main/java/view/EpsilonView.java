@@ -76,4 +76,5 @@ public class EpsilonView extends JLabel{
         update(x,y);
         setIcon(new ImageIcon(image));
     }
+
 }

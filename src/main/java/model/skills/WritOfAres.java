@@ -1,5 +1,6 @@
 package model.skills;
 
+import model.EpsilonModel;
 import model.game.GameModel;
 
 public class WritOfAres extends Skill{
@@ -8,8 +9,12 @@ public class WritOfAres extends Skill{
     @Override
     public void activate() {
         if (isTimeToActivate()) {
-            GameModel gameModel = GameModel.getINSTANCE();
-            gameModel.setAres(gameModel.getAres() + 2);
+            EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+            if (epsilon.getXP() >= 100) {
+                GameModel gameModel = GameModel.getINSTANCE();
+                gameModel.setAres(gameModel.getAres() + 2);
+                epsilon.setXP(epsilon.getXP()-100);
+            }
         }
     }
     public static boolean isAresUnlocked() {

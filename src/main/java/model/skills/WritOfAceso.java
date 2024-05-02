@@ -1,6 +1,7 @@
 package model.skills;
 
 import model.EpsilonModel;
+import model.game.GameModel;
 
 public class WritOfAceso extends Skill{
     private final long startTime;
@@ -13,7 +14,11 @@ public class WritOfAceso extends Skill{
     @Override
     public void activate() {
         if (isTimeToActivate()) {
-            activated = true;
+            EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+            if (epsilon.getXP() >= 100) {
+                activated = true;
+                epsilon.setXP(epsilon.getXP() - 100);
+            }
         }
     }
     public void increaseHP() {

@@ -18,6 +18,7 @@ public class SkillTree {
     private JPanel panel;
     private JButton back;
     private String[] options;
+    private JLabel totalXP;
     public SkillTree(JPanel panel) {
         this.panel = panel;
         options = new String[]{"Yes","No"};
@@ -29,6 +30,7 @@ public class SkillTree {
         addTransform();
         addWritOfProteus();
         addBack();
+        addTotalXP();
         update();
 
     }
@@ -156,6 +158,7 @@ public class SkillTree {
         panel.remove(writOfAres);
         panel.remove(writOfProteus);
         panel.remove(back);
+        panel.remove(totalXP);
     }
     private void pickSkill(int x) {
         if (x != 0) {
@@ -220,6 +223,7 @@ public class SkillTree {
                 } else {
                     Controller.setProteusUnlocked(true);
                 }
+                totalXP.setText("XPs: "+Controller.getTotalXP());
             }
             else {
                 String[] options = new String[]{"OK"};
@@ -227,5 +231,9 @@ public class SkillTree {
                         JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
             }
         }
+    }
+    private void addTotalXP() {
+        totalXP = new JLabel("XPs: "+Controller.getTotalXP());
+        addJLabel(totalXP,300 ,500);
     }
 }
