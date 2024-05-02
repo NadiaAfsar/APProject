@@ -177,6 +177,7 @@ public class EpsilonModel implements Collidable {
             HP -= 10+GameModel.getINSTANCE().getEnemyPower();
         }
         if (HP <= 0) {
+            Controller.addGameOverSound();
             Controller.gameOver(XP);
         }
     }

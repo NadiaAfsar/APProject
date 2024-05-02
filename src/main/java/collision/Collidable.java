@@ -2,6 +2,7 @@ package collision;
 
 
 import controller.Constants;
+import controller.Controller;
 import model.BulletModel;
 import model.EpsilonModel;
 import model.game.GameModel;
@@ -38,6 +39,7 @@ public interface Collidable {
                 EpsilonModel epsilon = (EpsilonModel)collidable2;
                 double d = Math.sqrt(Math.pow(xp.getX()-epsilon.getCenter().getX(),2)+Math.pow(xp.getY()-epsilon.getCenter().getY(),2));
                 if (d <= Constants.EPSILON_RADIUS+5) {
+                    Controller.addXPCollectingSound();
                     xp.impact(null, epsilon);
                     return new RotatablePoint(xp.getX(), xp.getY());
                 }
@@ -53,6 +55,7 @@ public interface Collidable {
                     RotatablePoint collisionPoint = checkVertexes(epsilon.getVertexes(), vertexes);
                     if (collisionPoint != null) {
                         ((Enemy)collidable1).decreaseHP();
+                        Controller.addCollisionSound();
                         return collisionPoint;
                     }
                 }
@@ -68,6 +71,7 @@ public interface Collidable {
                     double d1 = Math.sqrt(Math.pow(point1.getRotatedX()-epsilon.getCenter().getX(), 2)+Math.pow(point1.getRotatedY()-epsilon.getCenter().getY(),2));
                     double d2 = Math.sqrt(Math.pow(point2.getRotatedX()-epsilon.getCenter().getX(), 2)+Math.pow(point2.getRotatedY()-epsilon.getCenter().getY(),2));
                     if (d1 <= 15 && d2 <= 15) {
+                        Controller.addCollisionSound();
                         return new RotatablePoint((point1.getRotatedX()+ point2.getRotatedX())/2,(point1.getRotatedY()+ point2.getRotatedY())/2);
                     }
                     else {
@@ -78,6 +82,7 @@ public interface Collidable {
                         double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
                         if (distance <= Constants.EPSILON_RADIUS) {
                             epsilon.impact(vertexes.get(i), collidable1);
+                            Controller.addCollisionSound();
                             return vertexes.get(i);
                         }
                     }
@@ -136,6 +141,7 @@ public interface Collidable {
                     y2 = (int) vertexes2.get(j + 1).getRotatedY();
                 }
                 if (collides(x, y, x1, y1, x2, y2)) {
+                    Controller.addCollisionSound();
                     return vertexes.get(i);
                 }
             }

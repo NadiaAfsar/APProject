@@ -2,6 +2,7 @@ package model;
 
 import collision.Collidable;
 import controller.Constants;
+import controller.Controller;
 import model.enemies.Enemy;
 import model.game.GameModel;
 import movement.Direction;
@@ -22,6 +23,7 @@ public class BulletModel implements Movable, Collidable {
     private Direction direction;
     private final String ID;
     public BulletModel(int x, int y) {
+        Controller.addBulletShotSound();
         ID = UUID.randomUUID().toString();
         this.direction = new Direction(new Point(EpsilonModel.getINSTANCE().getCenter().getX(), EpsilonModel.getINSTANCE().getCenter().getY()), new Point(x,y));
         angle = getAngle();

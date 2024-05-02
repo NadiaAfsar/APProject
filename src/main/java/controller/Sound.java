@@ -14,7 +14,6 @@ public class Sound {
         sound = AudioSystem.getAudioInputStream(music);
         clip = AudioSystem.getClip();
         clip.open(sound);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
         soundControl = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
         soundControl.setValue(soundValue);
         clip.start();

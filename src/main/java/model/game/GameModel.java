@@ -14,6 +14,9 @@ import model.skills.Skill;
 import model.skills.WritOfAceso;
 import movement.Point;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public abstract class GameModel {
@@ -41,6 +44,7 @@ public abstract class GameModel {
     private boolean athena;
     private long athenaActivationTime;
     private boolean finished;
+    private boolean wait;
 
     public GameModel() {
         x = 0;
@@ -144,6 +148,7 @@ public abstract class GameModel {
     }
     private void nextWave() {
         int enemies = 0;
+        Controller.addEnemyEnteringSound();
         addedEnemies = new boolean[4][6];
         this.enemies = new ArrayList<>();
         if (wave == 1) {
@@ -219,6 +224,7 @@ public abstract class GameModel {
             enemy.setHP(enemy.getHP()-5-ares);
             System.out.println(enemy.getHP());
             if (enemy.getHP() <= 0) {
+                Controller.addEnemyDyingSound();
                 getEnemies().remove(enemy);
                 Controller.removeEnemy(enemy);
                 enemy.addXP();
@@ -262,12 +268,27 @@ public abstract class GameModel {
         moveEnemies();
         moveBullets();
         checkBulletsCollision();
-        if (isGameStarted() && getEnemies().size() == 0 ) {
+        if (isGameStarted() && getEnemies().size() == 0 && !wait) {
             if (wave == 4) {
                 endGame();
             }
             else {
-                nextWave();
+                if (wave != 1) {
+                    wait = true;
+                    Controller.addWaveEndSound();
+                    Timer timer = new Timer(2000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            nextWave();
+                            wait = false;
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                }
+                else {
+                    nextWave();
+                }
             }
         }
         checkXPCollision();
@@ -369,6 +390,7 @@ public abstract class GameModel {
     }
     private void endGame() {
         Controller.endGame();
+        Controller.addWinningSound();
         for (int i = 0; i < XPs.size(); i++) {
             Controller.removeXP(XPs.get(i));
         }

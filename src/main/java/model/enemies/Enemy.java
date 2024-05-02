@@ -199,6 +199,7 @@ public abstract class Enemy implements Collidable, Movable {
     public void decreaseHP() {
         HP -= 10;
         if (getHP() <= 0) {
+            Controller.addEnemyDyingSound();
             GameModel.getINSTANCE().getEnemies().remove(this);
             Controller.removeEnemy(this);
             addXP();
