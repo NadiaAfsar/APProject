@@ -51,6 +51,12 @@ public class Update {
             }
 
         }
+        else if (Controller.gameFinished) {
+            EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+            EpsilonView.getINSTANCE().increaseSize(epsilonModel.getX(), epsilonModel.getY(), epsilonModel.getRadius());
+            GameModel game = GameModel.getINSTANCE();
+            GameView.getINSTANCE().destroy(game.getWidth(), game.getHeight());
+        }
     }
     private void updateModel() {
         if (Controller.gameRunning) {
@@ -58,6 +64,10 @@ public class Update {
                 GameModel.getINSTANCE().update();
                 EpsilonModel.getINSTANCE().move();
             }
+        }
+        else if (Controller.gameFinished) {
+            EpsilonModel.getINSTANCE().increaseSize();
+            GameModel.getINSTANCE().destroyFrame();
         }
     }
     private void updateEnemies() {

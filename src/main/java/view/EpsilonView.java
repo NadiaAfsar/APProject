@@ -6,6 +6,7 @@ import movement.RotatablePoint;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class EpsilonView extends JLabel{
     private int radius;
     public static EpsilonView INSTANCE;
     private ArrayList<JLabel> vertexes;
+    private BufferedImage image;
     private GameView gameView;
     public EpsilonView() {
         gameView = GameView.getINSTANCE();
@@ -23,11 +25,13 @@ public class EpsilonView extends JLabel{
         y = Constants.FRAME_SIZE.height/2;
         radius = Constants.EPSILON_RADIUS;
         try {
-            setIcon(new ImageIcon(ImageIO.read(new File("src/main/resources/epsilon.png"))));
+            image = ImageIO.read(new File("src/main/resources/epsilon.png"));
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        Image newImage = image.getScaledInstance(radius*2, radius*2, Image.SCALE_DEFAULT);
+        setIcon(new ImageIcon(newImage));
         setBounds(x,y,2*radius,2*radius);
         vertexes = new ArrayList<>();
     }
@@ -65,5 +69,11 @@ public class EpsilonView extends JLabel{
             JLabel vertexJLabel = this.vertexes.get(i);
             vertexJLabel.setBounds((int)vertex.getRotatedX()-5, (int)vertex.getRotatedY()-50, 100, 100);
         }
+    }
+    public void increaseSize(int x, int y, int radius) {
+        Image image = this.image.getScaledInstance(2*radius,2*radius, Image.SCALE_DEFAULT);
+        this.radius = radius;
+        update(x,y);
+        setIcon(new ImageIcon(image));
     }
 }

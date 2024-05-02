@@ -58,31 +58,29 @@ public interface Collidable {
                 }
                 for (int i = 0; i < vertexes.size(); i++) {
                     RotatablePoint point1 = vertexes.get(i);
-                    double x1 = point1.getRotatedX();
-                    double y1 = point1.getRotatedY();
-                    double x2 = epsilon.getCenter().getX();
-                    double y2 = epsilon.getCenter().getY();
-                    double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-                    if (distance <= Constants.EPSILON_RADIUS) {
-                        epsilon.impact(vertexes.get(i), collidable1);
-                        return vertexes.get(i);
+                    RotatablePoint point2;
+                    if (i == vertexes.size()-1) {
+                        point2 = vertexes.get(0);
                     }
-//                    else {
-//                        RotatablePoint point2;
-//                        if (i == vertexes.size()-1) {
-//                            point2 = vertexes.get(0);
-//                        }
-//                        else {
-//                            point2 = vertexes.get(i+1);
-//                        }
-//                        double x = (point1.getRotatedX()+point2.getRotatedX())/2;
-//                        double y = (point2.getRotatedY()+point1.getRotatedY())/2;
-//                        double d = Math.sqrt(Math.pow(x-epsilon.getCenter().getX(), 2) +Math.pow(y-epsilon.getCenter().getY(),2));
-//                        if (d <= Constants.EPSILON_RADIUS) {
-//                            System.out.println(1);
-//                            return new RotatablePoint(x,y);
-//                        }
-//                    }
+                    else {
+                        point2 = vertexes.get(i+1);
+                    }
+                    double d1 = Math.sqrt(Math.pow(point1.getRotatedX()-epsilon.getCenter().getX(), 2)+Math.pow(point1.getRotatedY()-epsilon.getCenter().getY(),2));
+                    double d2 = Math.sqrt(Math.pow(point2.getRotatedX()-epsilon.getCenter().getX(), 2)+Math.pow(point2.getRotatedY()-epsilon.getCenter().getY(),2));
+                    if (d1 <= 15 && d2 <= 15) {
+                        return new RotatablePoint((point1.getRotatedX()+ point2.getRotatedX())/2,(point1.getRotatedY()+ point2.getRotatedY())/2);
+                    }
+                    else {
+                        double x1 = point1.getRotatedX();
+                        double y1 = point1.getRotatedY();
+                        double x2 = epsilon.getCenter().getX();
+                        double y2 = epsilon.getCenter().getY();
+                        double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                        if (distance <= Constants.EPSILON_RADIUS) {
+                            epsilon.impact(vertexes.get(i), collidable1);
+                            return vertexes.get(i);
+                        }
+                    }
                 }
             }
         }

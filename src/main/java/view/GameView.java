@@ -189,4 +189,7 @@ public class GameView extends JFrame {
     private void updateTime() {
         time.setText(getElapsedTime());
     }
+    public void destroy(int width, int height) {
+        setBounds(x,y,width,height);
+    }
 }

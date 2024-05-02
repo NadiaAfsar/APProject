@@ -40,6 +40,7 @@ public abstract class GameModel {
     private int ares;
     private boolean athena;
     private long athenaActivationTime;
+    private boolean finished;
 
     public GameModel() {
         x = 0;
@@ -261,8 +262,13 @@ public abstract class GameModel {
         moveEnemies();
         moveBullets();
         checkBulletsCollision();
-        if (isGameStarted() && getEnemies().size() == 0) {
-            nextWave();
+        if (isGameStarted() && getEnemies().size() == 0 ) {
+            if (wave == 4) {
+                endGame();
+            }
+            else {
+                nextWave();
+            }
         }
         checkXPCollision();
         Skill skill = GameManager.getINSTANCE().getPickedSkill();
@@ -360,5 +366,42 @@ public abstract class GameModel {
 
     public int getEnemyXP() {
         return enemyXP;
+    }
+    private void endGame() {
+        Controller.endGame();
+        for (int i = 0; i < XPs.size(); i++) {
+            Controller.removeXP(XPs.get(i));
+        }
+        for (int i = 0; i < bullets.size(); i++) {
+            Controller.removeBullet(bullets.get(i));
+        }
+        for (int i = 0; i < enemies.size(); i++) {
+            Controller.removeEnemy(enemies.get(i));
+        }
+        Controller.gameFinished = true;
+        GameManager game = GameManager.getINSTANCE();
+        game.setTotallXP(game.getTotallXP()+EpsilonModel.INSTANCE.getXP());
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+    public void destroyFrame() {
+        if (finished) {
+            if (width >= 2) {
+                width -= 5;
+            }
+            if (height >= 2) {
+                height -= 5;
+            }
+            if (width <= 2 && height <= 2) {
+                finished = false;
+                Controller.gameOver(EpsilonModel.getINSTANCE().getXP());
+            }
+        }
     }
 }

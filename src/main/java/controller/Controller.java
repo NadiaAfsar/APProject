@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class Controller {
     public static boolean gameRunning;
+    public static boolean gameFinished;
     public static Sound music;
     public static void runGame() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GameManager.getINSTANCE();
@@ -104,8 +105,8 @@ public class Controller {
         gameView.remove(gameView.getXPs().get(xp.getID()));
     }
     public static void gameOver(int xp) {
-        new GameOver(xp);
         endGame();
+        new GameOver(xp);
     }
     public static void setGameHUI() {
         GameView.getINSTANCE().setHUI();
@@ -216,6 +217,7 @@ public class Controller {
         GameMouseListener.setGameRunning(false);
         GameMouseMotionListener.getINSTANCE().setEpsilonModel(null);
         gameRunning = false;
+        gameFinished = false;
     }
     public static int getDifficulty() {
         return GameManager.getDifficulty();

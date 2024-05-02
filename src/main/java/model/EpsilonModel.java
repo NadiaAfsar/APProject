@@ -268,4 +268,22 @@ public class EpsilonModel implements Collidable {
             vertex.setAngle(a);
         }
     }
+    public void increaseSize() {
+        if (radius*2 < GameModel.getINSTANCE().getWidth()) {
+            radius += 2;
+            if (x >= 0) {
+                x -= 2;
+            }
+            if (y >= 0) {
+                y -= 2;
+            }
+        }
+        else {
+            GameModel.getINSTANCE().setFinished(true);
+        }
+    }
+
+    public int getRadius() {
+        return radius;
+    }
 }
