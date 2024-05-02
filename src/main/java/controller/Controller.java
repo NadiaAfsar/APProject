@@ -11,6 +11,7 @@ import model.skills.WritOfAceso;
 import model.skills.WritOfAres;
 import model.skills.WritOfProteus;
 import movement.RotatablePoint;
+import save.Save;
 import view.*;
 import view.enemies.EnemyView;
 import view.enemies.SquarantineView;
@@ -218,6 +219,7 @@ public class Controller {
         GameMouseMotionListener.getINSTANCE().setEpsilonModel(null);
         gameRunning = false;
         gameFinished = false;
+        Save.save();
     }
     public static int getDifficulty() {
         return GameManager.getDifficulty();

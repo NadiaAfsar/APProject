@@ -41,7 +41,6 @@ public class EpsilonModel implements Collidable {
         inputListener = new InputListener(this);
         setCenter(x,y);
         HP = 100;
-        XP = 1000;
         velocity = new Point(0,0);
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);

@@ -57,4 +57,5 @@ public class GameManager {
     public static void setSensitivity(int sensitivity) {
         GameManager.sensitivity = sensitivity;
     }
+
 }

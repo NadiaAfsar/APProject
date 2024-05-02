@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import save.Save;
 
 import javax.swing.*;
 import java.awt.*;
@@ -206,6 +207,7 @@ public class SkillTree {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         if (pick == 0) {
             pickSkill(skill);
+            Save.save();
         }
     }
     private void showUnlockOption(int price, int skill, String title) {
@@ -224,6 +226,7 @@ public class SkillTree {
                     Controller.setProteusUnlocked(true);
                 }
                 totalXP.setText("XPs: "+Controller.getTotalXP());
+                Save.save();
             }
             else {
                 String[] options = new String[]{"OK"};
