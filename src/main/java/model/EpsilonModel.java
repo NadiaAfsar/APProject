@@ -252,4 +252,20 @@ public class EpsilonModel implements Collidable {
             vertex.setY(center.getY());
         }
     }
+    private double getAngle(Direction direction) {
+        double angle = Math.atan(direction.getDy()/direction.getDx());
+        if (direction.getDx() < 0) {
+            angle += Math.PI;
+        }
+        return angle;
+    }
+    public void rotateVertexes(int x, int y) {
+        Direction direction = new Direction(new Point(getCenter().getX(),getCenter().getY()), new Point(x,y));
+        double angle = getAngle(direction)+Math.PI/2;
+        for (int i = 0; i < vertexes.size(); i++) {
+            RotatablePoint vertex = vertexes.get(i);
+            double a = angle+vertex.getInitialAngle();
+            vertex.setAngle(a);
+        }
+    }
 }

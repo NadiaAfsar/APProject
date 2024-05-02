@@ -11,7 +11,7 @@ public abstract class Skill {
     protected boolean isTimeToActivate() {
         if (lastActivatedTime != 0) {
             long currentTime = System.currentTimeMillis();
-            return (currentTime - lastActivatedTime >= 300000);
+            return (currentTime - lastActivatedTime <= 300000);
         }
         else {
             lastActivatedTime = System.currentTimeMillis();

@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import controller.InputListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -8,8 +9,9 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
-public class Settings {
+public class Settings{
     private JSlider soundSlider;
     private JSlider difficultySlider;
     private JSlider sensitivitySlider;
@@ -18,9 +20,10 @@ public class Settings {
     private JLabel sensitivity;
     private JPanel panel;
     private JButton back;
-    private int d;
-    private int s;
-    private int m;
+    private final int d;
+    private final int s;
+    private final int m;
+
     public Settings(JPanel panel, int s, int d, int m) {
         this.s = s;
         this.d = d;
@@ -118,4 +121,9 @@ public class Settings {
         panel.revalidate();
         panel.repaint();
     }
+
+
+
+
+
 }

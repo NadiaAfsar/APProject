@@ -46,7 +46,8 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 empty();
-                new Settings(gamePanel, Controller.getSensitivity(), Controller.getDifficulty(), (int)((Sound.getSoundValue()+80)/0.86));
+                new Settings(gamePanel, Controller.getSensitivity(), Controller.getDifficulty(),
+                        (int)((Sound.getSoundValue()+80)/0.86));
                 GameFrame.getINSTANCE().update();
             }
         });

@@ -15,6 +15,7 @@ public class GameFrame extends JFrame {
     private Background background;
     public static GameFrame INSTANCE;
     private MainMenu mainMenu;
+    private Settings settings;
     public GameFrame() {
         xSize = Constants.FRAME_SIZE.width;
         ySize = Constants.FRAME_SIZE.height;
@@ -74,5 +75,9 @@ public class GameFrame extends JFrame {
             INSTANCE = new GameFrame();
         }
         return INSTANCE;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 }

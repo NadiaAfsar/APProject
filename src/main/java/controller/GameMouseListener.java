@@ -5,8 +5,9 @@ import model.game.GameModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
-public class GameMouseListener extends MouseAdapter {
+public class GameMouseListener extends MouseAdapter{
     private static boolean gameRunning;
     public static GameMouseListener INSTANCE;
     @Override
@@ -19,6 +20,7 @@ public class GameMouseListener extends MouseAdapter {
         }
 
     }
+
 
 
     public static void setGameRunning(boolean gameRunning) {

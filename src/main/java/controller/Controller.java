@@ -67,6 +67,8 @@ public class Controller {
                 new Update();
                 GameMouseListener.setGameRunning(true);
                 GameView.getINSTANCE().addMouseListener(GameMouseListener.getINSTANCE());
+                GameMouseMotionListener.getINSTANCE().setEpsilonModel(EpsilonModel.getINSTANCE());
+                GameView.getINSTANCE().addMouseMotionListener(GameMouseMotionListener.getINSTANCE());
                 gameRunning = true;
             }
         });
@@ -212,6 +214,7 @@ public class Controller {
     }
     public static void endGame() {
         GameMouseListener.setGameRunning(false);
+        GameMouseMotionListener.getINSTANCE().setEpsilonModel(null);
         gameRunning = false;
     }
     public static int getDifficulty() {

@@ -9,6 +9,7 @@ public class RotatablePoint {
     private double rotatedY;
     private double angle;
     private double radius;
+    private double initialAngle;
 
     public RotatablePoint(double x, double y, double angle, double radius) {
         this.x = x;
@@ -17,6 +18,7 @@ public class RotatablePoint {
         this.radius = radius;
         setRotatedX();
         setRotatedY();
+        initialAngle = angle;
     }
 
     public RotatablePoint(double rotatedX, double rotatedY) {
@@ -48,6 +50,8 @@ public class RotatablePoint {
 
     public void setAngle(double angle) {
         this.angle = angle;
+        setRotatedX();
+        setRotatedY();
     }
     public double getRotatedX() {
         return rotatedX;
@@ -62,11 +66,7 @@ public class RotatablePoint {
         return rotatedY;
     }
 
-    public void setRotatedX(double rotatedX) {
-        this.rotatedX = rotatedX;
-    }
-
-    public void setRotatedY(double rotatedY) {
-        this.rotatedY = rotatedY;
+    public double getInitialAngle() {
+        return initialAngle;
     }
 }
