@@ -1,7 +1,14 @@
-import model.GameManager;
+import controller.Constants;
+import controller.Controller;
+import save.Save;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 
 public class MyProject {
-    public static void main(String[] args) {
-        GameManager.getINSTANCE();
+    public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        Controller.runGame();
+        Save.load();
     }
 }

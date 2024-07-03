@@ -1,9 +1,10 @@
 package model.enemies;
 
-import collision.Collidable;
-import controller.Constants;
+import controller.Controller;
 import model.EpsilonModel;
-import model.GameModel;
+import model.game.GameModel;
+import model.XP;
+import movement.Direction;
 import movement.RotatablePoint;
 import movement.Point;
 
@@ -15,12 +16,13 @@ public class TrigorathModel extends Enemy{
     private int y;
     private boolean decreasedVelocity;
     private boolean increasedVelocity;
-    public TrigorathModel(Point center) {
-        super(center);
+    public TrigorathModel(Point center, int hp, double velocity) {
+        super(center, velocity);
         GameModel.getINSTANCE().getEnemies().add(this);
-        velocity = 3;
         increasedVelocity = true;
         decreasedVelocity = false;
+        this.velocity = new Point(0,0);
+        HP = 15+hp;
     }
     @Override
     public void setVertexes() {
@@ -42,25 +44,41 @@ public class TrigorathModel extends Enemy{
     }
     @Override
     public void setVelocity() {
-        if (distanceFromEpsilon() <= 100 && !decreasedVelocity) {
-            velocity -= 2;
+        super.setVelocity();
+        if (distanceFromEpsilon() <= 100 && !decreasedVelocity && !impact) {
+            velocity.setX(0);
+            velocity.setY(0);
             decreasedVelocity = true;
             increasedVelocity = false;
         }
-        else if (distanceFromEpsilon() > 100 && !increasedVelocity) {
-            velocity += 2;
+        else if (distanceFromEpsilon() > 100 && !increasedVelocity && !impact) {
+            velocity.setX(2*dx);
+            velocity.setY(2*dy);
             increasedVelocity = true;
             decreasedVelocity = false;
         }
-        acceleration += accelerationRate;
-        velocity += acceleration;
-        angularAcceleration += angularAccelerationRate/ Constants.UPS;
-        angularVelocity += angularAcceleration/Constants.UPS;
-        angle += angularVelocity;
+        if (increasedVelocity) {
+            velocity.setX(2*dx);
+            velocity.setY(2*dy);
+        }
+    }
+    protected void setImpactAcceleration(Direction direction, double distance) {
+        velocity.setX(0);
+        velocity.setY(0);
+        decreasedVelocity = true;
+        increasedVelocity = false;
+        super.setImpactAcceleration(direction, distance);
     }
 
     @Override
-    public void impact(java.awt.Point collisionPoint, Collidable collidable) {
-
+    public void addXP() {
+        GameModel gameModel = GameModel.getINSTANCE();
+        for (int i = -1; i < 2; i += 2) {
+            XP xp = new XP((int) center.getX()+i*13, (int) center.getY()+i*13, Color.BLUE);
+            gameModel.getXPs().add(xp);
+            Controller.addXPView(xp);
+        }
     }
-}
+    }
+
+

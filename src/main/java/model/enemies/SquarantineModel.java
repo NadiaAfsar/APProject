@@ -1,8 +1,10 @@
 package model.enemies;
 
-import collision.Collidable;
 import controller.Constants;
-import model.GameModel;
+import controller.Controller;
+import model.game.GameModel;
+import model.XP;
+import movement.Direction;
 import movement.RotatablePoint;
 import movement.Point;
 
@@ -10,10 +12,15 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class SquarantineModel extends Enemy {
-    public SquarantineModel(Point center) {
-        super(center);
+    private boolean hasRandomAcceleration;
+    private double velocityX;
+    private double velocityY;
+    public SquarantineModel(Point center,  int hp, double velocity) {
+        super(center, velocity);
         GameModel.getINSTANCE().getEnemies().add(this);
-        velocity = 1;
+        this.velocity = new Point(0,0);
+        HP = 10+hp;
+        hasRandomAcceleration = false;
     }
     @Override
     public void setVertexes() {
@@ -30,29 +37,47 @@ public class SquarantineModel extends Enemy {
 
     @Override
     protected void setVelocity() {
-        int x = (int)(Math.random()*200);
-//        if (x == 5 && acceleration == 0) {
-//            acceleration = 3;
-//            accelerationRate = -1;
-//        }
-        angularAcceleration += angularAccelerationRate/ Constants.UPS;
-        angularVelocity += angularAcceleration/Constants.UPS;
-        if (angularVelocity <= 0) {
-            angularAcceleration = 0;
-            angularAccelerationRate = 0;
+        if (!hasRandomAcceleration && !impact) {
+            int x = (int) (Math.random() * 200);
+            if (x == 5) {
+                acceleration.setX(3);
+                acceleration.setY(3);
+                accelerationRate.setX(-1);
+                accelerationRate.setY(-1);
+                hasRandomAcceleration = true;
+            }
         }
-        angle += angularVelocity;
-        acceleration += accelerationRate/Constants.UPS;
-        velocity += acceleration/Constants.UPS;
-        if (velocity <= 1 && (acceleration != 0 || accelerationRate != 0)) {
-            acceleration = 0;
-            accelerationRate = 0;
+        if (impact) {
+            super.setVelocity();
+        }
+        else if (hasRandomAcceleration) {
+            velocityX += acceleration.getX() / Constants.UPS;
+            velocityY += acceleration.getY() / Constants.UPS;
+            velocity.setX(velocityX* direction.getDx());
+            velocity.setY(velocityY* direction.getDy());
+            if (velocityX <= 0 || velocityY <= 0) {
+                velocityX = 0;
+                velocityY = 0;
+                velocity = new Point(0,0);
+                acceleration = new Point(0, 0);
+                accelerationRate = new Point(0, 0);
+                hasRandomAcceleration = false;
+            }
         }
     }
-
+    protected void setImpactAcceleration(Direction direction, double distance) {
+        hasRandomAcceleration = false;
+        velocityX = 0;
+        velocityY = 0;
+        velocity = new Point(0,0);
+        super.setImpactAcceleration(direction, distance);
+    }
 
     @Override
-    public void impact(java.awt.Point collisionPoint, Collidable collidable) {
-
+    public void addXP() {
+        XP xp = new XP((int)center.getX(), (int)center.getY(), Color.MAGENTA);
+        GameModel.getINSTANCE().getXPs().add(xp);
+        Controller.addXPView(xp);
     }
+
 }
