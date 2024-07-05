@@ -1,8 +1,8 @@
 package model.enemies;
 
 import collision.Collidable;
-import controller.Constants;
-import controller.Controller;
+import collision.Impactable;
+import controller.GameManager;
 import model.EpsilonModel;
 import model.game.GameModel;
 import movement.Direction;
@@ -13,7 +13,7 @@ import movement.RotatablePoint;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public abstract class Enemy implements Collidable, Movable {
+public abstract class Enemy implements Collidable, Movable, Impactable {
     protected RotatablePoint position;
     protected Point center;
     protected ArrayList<RotatablePoint> vertexes;
@@ -25,24 +25,20 @@ public abstract class Enemy implements Collidable, Movable {
     protected double angularAccelerationRate;
     protected double angle;
     protected int HP;
-    protected double dx;
-    protected double dy;
-    protected Direction direction;
     protected boolean impact;
     private final String ID;
-    private double v;
+    private double velocityPower;
     public Enemy(Point center, double velocity) {
         ID = UUID.randomUUID().toString();
         this.center = center;
-        setVertexes();
+        this.moveVertexes();
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);
         angularVelocity = 0;
         angularAcceleration = 0;
         angularAccelerationRate = 0;
-        v = velocity;
+        velocityPower = velocity;
     }
-    public abstract void setVertexes();
 
     public int getX() {
         return (int) position.getRotatedX();
@@ -59,51 +55,51 @@ public abstract class Enemy implements Collidable, Movable {
     public Point getCenter() {
         return center;
     }
-    @Override
-    public void move() {
-        direction = getDirection();
-        dx = direction.getDx()*v;
-        dy = direction.getDy()*v;
-        setAngle();
-        setAcceleration();
-        setVelocity();
-        if (impact) {
-            if ((velocity.getX() * accelerationRate.getX() >= 0 || velocity.getY() * accelerationRate.getY() >= 0)) {
-                velocity.setX(0);
-                velocity.setY(0);
-                acceleration = new Point(0, 0);
-                accelerationRate = new Point(0, 0);
-                impact = false;
-            }
-        }
-        angle += angularVelocity / Constants.UPS;
-        angle %= 2*Math.PI;
-        center = new Point(center.getX()+velocity.getX()+dx, center.getY()+velocity.getY()+dy);
-        moveVertexes();
-    }
-    protected void setVelocity() {
-        velocity.setX(velocity.getX()+acceleration.getX()*0.1/ Constants.UPS);
-        velocity.setY(velocity.getY()+acceleration.getY()*0.1/ Constants.UPS);
-    }
-    protected void setAcceleration() {
-        acceleration.setX(acceleration.getX() + accelerationRate.getX() /Constants.UPS);
-        acceleration.setY(acceleration.getY() + accelerationRate.getY() /Constants.UPS);
-    }
-    private void setAngle() {
-        angularAcceleration += angularAccelerationRate/ Constants.UPS;
-        angularVelocity += angularAcceleration/Constants.UPS;
-        angle += angularVelocity;
-        if (angularVelocity*angularAcceleration < 0) {
-            angularAcceleration = 0;
-            angularAccelerationRate = 0;
-            angularVelocity = 0;
-        }
-    }
+//    @Override
+//    public void move() {
+//        direction = getDirection();
+//        dx = direction.getDx()*v;
+//        dy = direction.getDy()*v;
+//        setAngle();
+//        setAcceleration();
+//        setVelocity();
+//        if (impact) {
+//            if ((velocity.getX() * accelerationRate.getX() >= 0 || velocity.getY() * accelerationRate.getY() >= 0)) {
+//                velocity.setX(0);
+//                velocity.setY(0);
+//                acceleration = new Point(0, 0);
+//                accelerationRate = new Point(0, 0);
+//                impact = false;
+//            }
+//        }
+//        angle += angularVelocity / Constants.UPS;
+//        angle %= 2*Math.PI;
+//        center = new Point(center.getX()+velocity.getX()+dx, center.getY()+velocity.getY()+dy);
+//        moveVertexes();
+//    }
+//    protected void setVelocity() {
+//        velocity.setX(velocity.getX()+acceleration.getX()*0.1/ Constants.UPS);
+//        velocity.setY(velocity.getY()+acceleration.getY()*0.1/ Constants.UPS);
+//    }
+//    protected void setAcceleration() {
+//        acceleration.setX(acceleration.getX() + accelerationRate.getX() /Constants.UPS);
+//        acceleration.setY(acceleration.getY() + accelerationRate.getY() /Constants.UPS);
+//    }
+//    private void setAngle() {
+//        angularAcceleration += angularAccelerationRate/ Constants.UPS;
+//        angularVelocity += angularAcceleration/Constants.UPS;
+//        angle += angularVelocity;
+//        if (angularVelocity*angularAcceleration < 0) {
+//            angularAcceleration = 0;
+//            angularAccelerationRate = 0;
+//            angularVelocity = 0;
+//        }
+//    }
 
     public double getAngle() {
         return angle;
     }
-    private void moveVertexes() {
+    public void moveVertexes() {
         for (int i = 0; i < vertexes.size(); i++) {
             RotatablePoint vertex = vertexes.get(i);
             vertex.setX(center.getX());
@@ -115,74 +111,151 @@ public abstract class Enemy implements Collidable, Movable {
         position.setAngle(position.getAngle()+angle);
     }
 
+    @Override
+    public void setCenter(Point center) {
+        this.center = center;
+    }
 
     @Override
-    public void impact(RotatablePoint collisionPoint, Collidable collidable) {
-        double slope1 = collisionPoint.getRotatedY()-getCenter().getY()/collisionPoint.getRotatedX()-getCenter().getX();
-        double slope2 = collidable.getCenter().getY()- getCenter().getY()/collidable.getCenter().getX()- getCenter().getX();
-        double slope3 = collisionPoint.getRotatedY()-collidable.getCenter().getY()/collisionPoint.getRotatedX()-collidable.getCenter().getX();
-        if (slope1 < slope2) {
-            this.angularVelocity = -Math.PI/64;
-            this.angularAcceleration = -Math.PI/8;
-            this.angularAccelerationRate = Math.PI/4;
-        }
-        else {
-            this.angularVelocity = Math.PI/64;
-            this.angularAcceleration = Math.PI/8;
-            this.angularAccelerationRate = -Math.PI/4;
-        }
-        if (collidable instanceof Enemy) {
-            Enemy enemy = (Enemy) collidable;
-            if (slope3 < slope2) {
-                enemy.angularVelocity = -Math.PI/64;
-                enemy.angularAcceleration = -Math.PI/8;
-                enemy.angularAccelerationRate = Math.PI/4;
-            }
-            else {
-                enemy.angularVelocity = Math.PI/64;
-                enemy.angularAcceleration = Math.PI/8;
-                enemy.angularAccelerationRate = -Math.PI/4;
-            }
-        }
-        else {
-
-
-        }
-        impactOnOthers(collisionPoint);
-    }
-    protected Direction getDirection() {
-        return new Direction(getCenter(), EpsilonModel.getINSTANCE().getCenter());
+    public Point getVelocity() {
+        return velocity;
     }
 
-
-    protected void setImpactAcceleration(Direction direction, double distance) {
-        center.setX(center.getX() - direction.getDx() * distance);
-        center.setY(center.getY() - direction.getDy() * distance);
-        setVertexes();
-        acceleration.setX(-direction.getDx()*distance*1.5);
-        acceleration.setY(-direction.getDy()*distance*1.5);
-        accelerationRate.setX(direction.getDx()*distance*5/3);
-        accelerationRate.setY(direction.getDy()*distance*5/3);
-        impact = true;
-
+    @Override
+    public void setVelocity(Point velocity) {
+        this.velocity = velocity;
     }
-    public static void impactOnOthers(RotatablePoint collisionPoint) {
-        ArrayList<Enemy> enemies = GameModel.getINSTANCE().getEnemies();
-        for (int i = 0; i < enemies.size(); i++) {
-            Enemy enemy = enemies.get(i);
-            if (Math.abs(enemy.getCenter().getX() - collisionPoint.getRotatedX()) <= 100 && Math.abs(enemy.getCenter().getY() - collisionPoint.getRotatedY()) <= 100) {
-                double x = Math.sqrt(Math.pow(enemy.getCenter().getX() - collisionPoint.getRotatedX(),2) + Math.pow(enemy.getCenter().getY() - collisionPoint.getRotatedY(),2));
-                Direction direction = new Direction(new Point(enemy.getCenter().getX(), enemy.getCenter().getY()), new Point(collisionPoint.getRotatedX(), collisionPoint.getRotatedY()));
-                enemy.setImpactAcceleration(direction, 140-x);
-            }
-        }
-        EpsilonModel epsilon = EpsilonModel.getINSTANCE();
-        if (Math.abs(epsilon.getX() - collisionPoint.getX()) <= 100 && Math.abs(epsilon.getY() - collisionPoint.getY()) <= 100) {
-            double x = Math.sqrt(Math.pow(epsilon.getX() - collisionPoint.getX(),2) + Math.pow(epsilon.getY() - collisionPoint.getY(),2));
-            Direction direction = new Direction(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()), new Point(collisionPoint.getRotatedX(), collisionPoint.getRotatedY()));
-            epsilon.setImpactAcceleration(direction, 140-x);
-        }
+
+    @Override
+    public Point getAcceleration() {
+        return acceleration;
     }
+
+    @Override
+    public void setAcceleration(Point acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    @Override
+    public Point getAccelerationRate() {
+        return accelerationRate;
+    }
+
+    @Override
+    public void setAccelerationRate(Point accelerationRate) {
+        this.accelerationRate = accelerationRate;
+    }
+
+    @Override
+    public double getAngularVelocity() {
+        return angularVelocity;
+    }
+
+    @Override
+    public void setAngularVelocity(double angularVelocity) {
+        this.angularVelocity = angularVelocity;
+    }
+
+    @Override
+    public double getAngularAcceleration() {
+        return angularAcceleration;
+    }
+
+    @Override
+    public void setAngularAcceleration(double angularAcceleration) {
+        this.angularAcceleration = angularAcceleration;
+    }
+
+    @Override
+    public double getAngularAccelerationRate() {
+        return angularAccelerationRate;
+    }
+
+    @Override
+    public void setAngularAccelerationRate(double angularAccelerationRate) {
+        this.angularAccelerationRate = angularAccelerationRate;
+    }
+
+    @Override
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
+    public boolean isImpact() {
+        return impact;
+    }
+
+    @Override
+    public void setImpact(boolean impact) {
+        this.impact = impact;
+    }
+
+//    public void impact(Point collisionPoint, Collidable collidable) {
+//        double slope1 = collisionPoint.getY()-getCenter().getY()/collisionPoint.getX()-getCenter().getX();
+//        double slope2 = collidable.getCenter().getY()- getCenter().getY()/collidable.getCenter().getX()- getCenter().getX();
+//        double slope3 = collisionPoint.getY()-collidable.getCenter().getY()/collisionPoint.getX()-collidable.getCenter().getX();
+//        if (slope1 < slope2) {
+//            this.angularVelocity = -Math.PI/64;
+//            this.angularAcceleration = -Math.PI/8;
+//            this.angularAccelerationRate = Math.PI/4;
+//        }
+//        else {
+//            this.angularVelocity = Math.PI/64;
+//            this.angularAcceleration = Math.PI/8;
+//            this.angularAccelerationRate = -Math.PI/4;
+//        }
+//        if (collidable instanceof Enemy) {
+//            Enemy enemy = (Enemy) collidable;
+//            if (slope3 < slope2) {
+//                enemy.angularVelocity = -Math.PI/64;
+//                enemy.angularAcceleration = -Math.PI/8;
+//                enemy.angularAccelerationRate = Math.PI/4;
+//            }
+//            else {
+//                enemy.angularVelocity = Math.PI/64;
+//                enemy.angularAcceleration = Math.PI/8;
+//                enemy.angularAccelerationRate = -Math.PI/4;
+//            }
+//        }
+//        else {
+//
+//
+//        }
+//        impactOnOthers(collisionPoint);
+//    }
+    public Direction getDirection() {
+        return new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
+    }
+
+
+//    public void setImpactAcceleration(Direction direction, double distance) {
+//        center.setX(center.getX() - direction.getDx() * distance);
+//        center.setY(center.getY() - direction.getDy() * distance);
+//        this.moveVertexes();
+//        acceleration.setX(-direction.getDx()*distance*1.5);
+//        acceleration.setY(-direction.getDy()*distance*1.5);
+//        accelerationRate.setX(direction.getDx()*distance*5/3);
+//        accelerationRate.setY(direction.getDy()*distance*5/3);
+//        impact = true;
+//
+//    }
+//    public void impactOnOthers(Point collisionPoint) {
+//        ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
+//        for (int i = 0; i < enemies.size(); i++) {
+//            Enemy enemy = enemies.get(i);
+//            if (Math.abs(enemy.getCenter().getX() - collisionPoint.getX()) <= 100 && Math.abs(enemy.getCenter().getY() - collisionPoint.getY()) <= 100) {
+//                double x = Math.sqrt(Math.pow(enemy.getCenter().getX() - collisionPoint.getX(),2) + Math.pow(enemy.getCenter().getY() - collisionPoint.getY(),2));
+//                Direction direction = new Direction(new Point(enemy.getCenter().getX(), enemy.getCenter().getY()), new Point(collisionPoint.getX(), collisionPoint.getY()));
+//                enemy.setImpactAcceleration(direction, 140-x);
+//            }
+//        }
+//        EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+//        if (Math.abs(epsilon.getX() - collisionPoint.getX()) <= 100 && Math.abs(epsilon.getY() - collisionPoint.getY()) <= 100) {
+//            double x = Math.sqrt(Math.pow(epsilon.getX() - collisionPoint.getX(),2) + Math.pow(epsilon.getY() - collisionPoint.getY(),2));
+//            Direction direction = new Direction(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()), new Point(collisionPoint.getX(), collisionPoint.getY()));
+//            epsilon.setImpactAcceleration(direction, 140-x);
+//        }
+//    }
 
     public int getHP() {
         return HP;
@@ -195,15 +268,22 @@ public abstract class Enemy implements Collidable, Movable {
     public String getID() {
         return ID;
     }
-    public abstract void addXP();
-    public void decreaseHP() {
-        HP -= 10;
+    public boolean died(int x) {
+        HP -= x;
         if (getHP() <= 0) {
-            Controller.addEnemyDyingSound();
-            GameModel.getINSTANCE().getEnemies().remove(this);
-            Controller.removeEnemy(this);
-            addXP();
-            System.out.println(HP);
+//            Controller.addEnemyDyingSound();
+//            GameModel.getINSTANCE().getEnemies().remove(this);
+//            Controller.removeEnemy(this);
+            addCollective(GameManager.getINSTANCE().getGameModel());
+            return true;
         }
+        return false;
     }
+
+    @Override
+    public double getVelocityPower() {
+        return velocityPower;
+    }
+
+    public abstract void addCollective(GameModel gameModel);
 }

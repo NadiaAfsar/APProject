@@ -1,7 +1,6 @@
 package controller;
 
 import model.EpsilonModel;
-import model.GameManager;
 import model.skills.Skill;
 import view.GameView;
 import view.Shop;
@@ -9,9 +8,6 @@ import view.Shop;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class InputListener {
     private static InputMap inputMap;
@@ -25,8 +21,8 @@ public class InputListener {
     }
     private void createKeyBindings() {
 
-        inputMap = GameView.getINSTANCE().getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        actionMap = GameView.getINSTANCE().getRootPane().getActionMap();
+        inputMap = GameManager.getINSTANCE().getGameView().getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        actionMap = GameManager.getINSTANCE().getGameView().getRootPane().getActionMap();
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "moveUp");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "moveDown");

@@ -1,5 +1,6 @@
 package model.skills;
 
+import controller.GameManager;
 import model.EpsilonModel;
 import model.game.GameModel;
 
@@ -9,10 +10,10 @@ public class WritOfAres extends Skill{
     @Override
     public void activate() {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
-                GameModel gameModel = GameModel.getINSTANCE();
-                gameModel.setAres(gameModel.getAres() + 2);
+                GameManager gameManager = GameManager.getINSTANCE();
+                gameManager.setAres(gameManager.getAres() + 2);
                 epsilon.setXP(epsilon.getXP()-100);
             }
         }

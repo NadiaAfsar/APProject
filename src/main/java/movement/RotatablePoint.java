@@ -21,10 +21,6 @@ public class RotatablePoint {
         initialAngle = angle;
     }
 
-    public RotatablePoint(double rotatedX, double rotatedY) {
-        this.rotatedX = rotatedX;
-        this.rotatedY = rotatedY;
-    }
 
     public double getX() {
         return x;

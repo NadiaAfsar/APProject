@@ -36,13 +36,13 @@ public class Update {
     }
     private void updateView() {
         if (Controller.gameRunning) {
-            if (GameView.INSTANCE != null) {
-                GameModel gameModel = GameModel.getINSTANCE();
-                EpsilonModel epsilon = EpsilonModel.getINSTANCE();
-                GameView gameView = GameView.getINSTANCE();
-                EpsilonView epsilonView = EpsilonView.getINSTANCE();
-                gameView.update(gameModel.getX(), gameModel.getY(), gameModel.getWidth(), gameModel.getHeight()
-                        , epsilon.getHP(), epsilon.getXP(), gameModel.getWave());
+            if (GameManager.getINSTANCE().getGameView() != null) {
+                GameModel gameModel = GameManager.getINSTANCE().getGameModel();
+                EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+                GameView gameView = GameManager.getINSTANCE().getGameView();
+                EpsilonView epsilonView = GameManager.getINSTANCE().getGameView().getEpsilonView();
+                gameView.update(gameModel.getX(), gameModel.getY(), (int)gameModel.getWidth(), (int)gameModel.getHeight()
+                        , epsilon.getHP(), epsilon.getXP(), GameManager.getINSTANCE().getWave());
                 updateEnemies();
                 updateBullets();
                 gameView.update();
@@ -52,35 +52,34 @@ public class Update {
 
         }
         else if (Controller.gameFinished) {
-            EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
-            EpsilonView.getINSTANCE().increaseSize(epsilonModel.getX(), epsilonModel.getY(), epsilonModel.getRadius());
-            GameModel game = GameModel.getINSTANCE();
-            GameView.getINSTANCE().destroy(game.getWidth(), game.getHeight());
+            EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            GameManager.getINSTANCE().getGameView().getEpsilonView().increaseSize(epsilonModel.getX(), epsilonModel.getY(), epsilonModel.getRadius());
+            GameModel game = GameManager.getINSTANCE().getGameModel();
+            GameManager.getINSTANCE().getGameView().destroy((int)game.getWidth(), (int)game.getHeight());
         }
     }
     private void updateModel() {
         if (Controller.gameRunning) {
-            if (GameModel.INSTANCE != null) {
-                GameModel.getINSTANCE().update();
-                EpsilonModel.getINSTANCE().move();
+            if (GameManager.getINSTANCE().getGameModel() != null) {
+                GameManager.getINSTANCE().update();
             }
         }
         else if (Controller.gameFinished) {
-            EpsilonModel.getINSTANCE().increaseSize();
-            GameModel.getINSTANCE().destroyFrame();
+            GameManager.getINSTANCE().getGameModel().getEpsilon().increaseSize();
+            GameManager.getINSTANCE().destroyFrame();
         }
     }
     private void updateEnemies() {
-        Map<String, EnemyView> enemiesView = GameView.getINSTANCE().getEnemies();
-        ArrayList<Enemy> enemies = GameModel.getINSTANCE().getEnemies();
+        Map<String, EnemyView> enemiesView = GameManager.getINSTANCE().getGameView().getEnemies();
+        ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
         for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
             enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
         }
     }
     private void updateBullets() {
-        Map<String, BulletView> bulletsView = GameView.getINSTANCE().getBullets();
-        ArrayList<BulletModel> bullets = GameModel.getINSTANCE().getBullets();
+        Map<String, BulletView> bulletsView = GameManager.getINSTANCE().getGameView().getBullets();
+        ArrayList<BulletModel> bullets = GameManager.getINSTANCE().getGameModel().getBullets();
         for (int i = 0; i < bullets.size(); i++) {
             BulletModel bullet = bullets.get(i);
             bulletsView.get(bullet.getID()).update((int)bullet.getX1(), (int)bullet.getY1());

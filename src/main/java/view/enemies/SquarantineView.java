@@ -1,5 +1,6 @@
 package view.enemies;
 
+import controller.GameManager;
 import view.GameView;
 import movement.Point;
 import view.Rotation;
@@ -13,7 +14,7 @@ import java.io.IOException;
 public class SquarantineView extends EnemyView{
     public SquarantineView(int x, int y) {
         super(x, y, "src/main/resources/square.png");
-        GameView.getINSTANCE().add(this);
+        GameManager.getINSTANCE().getGameView().add(this);
     }
     @Override
     public void update(Point center, double angle) {

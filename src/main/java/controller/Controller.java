@@ -1,15 +1,13 @@
 package controller;
 
+import collision.Impactable;
 import model.*;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
-import model.game.EasyGame;
-import model.game.GameModel;
-import model.game.HardGame;
-import model.game.MediumGame;
 import model.skills.WritOfAceso;
 import model.skills.WritOfAres;
 import model.skills.WritOfProteus;
+import movement.Point;
 import movement.RotatablePoint;
 import save.Save;
 import view.*;
@@ -34,7 +32,6 @@ public class Controller {
     public static Sound music;
     public static void runGame() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GameManager.getINSTANCE();
-        GameFrame.getINSTANCE();
         music = new Sound("src/main/resources/15 - Bad n Crazy - Kim Woo Kun (320).wav");
         music.setRepeat();
     }
@@ -52,25 +49,12 @@ public class Controller {
         Timer timer = new Timer(400, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int d = GameManager.getDifficulty();
-                if (d == 1) {
-                    GameModel.INSTANCE = new EasyGame();
-                }
-                else if (d == 2) {
-                    GameModel.INSTANCE = new MediumGame();
-                }
-                else {
-                    GameModel.INSTANCE = new HardGame();
-                }
-                GameView.INSTANCE = new GameView();
-                EpsilonModel.INSTANCE = new EpsilonModel();
-                EpsilonView.INSTANCE = new EpsilonView();
-                GameView.getINSTANCE().add(EpsilonView.getINSTANCE());
+                GameManager.getINSTANCE().startGame();
                 new Update();
                 GameMouseListener.setGameRunning(true);
-                GameView.getINSTANCE().addMouseListener(GameMouseListener.getINSTANCE());
-                GameMouseMotionListener.getINSTANCE().setEpsilonModel(EpsilonModel.getINSTANCE());
-                GameView.getINSTANCE().addMouseMotionListener(GameMouseMotionListener.getINSTANCE());
+                GameManager.getINSTANCE().getGameView().addMouseListener(GameMouseListener.getINSTANCE());
+                GameMouseMotionListener.getINSTANCE().setEpsilonModel(GameManager.getINSTANCE().getGameModel().getEpsilon());
+                GameManager.getINSTANCE().getGameView().addMouseMotionListener(GameMouseMotionListener.getINSTANCE());
                 gameRunning = true;
             }
         });
@@ -85,32 +69,32 @@ public class Controller {
         else {
             enemyView = new TrigorathView(enemy.getX(), enemy.getY());
         }
-        GameView.getINSTANCE().getEnemies().put(enemy.getID(), enemyView);
+        GameManager.getINSTANCE().getGameView().getEnemies().put(enemy.getID(), enemyView);
     }
     public static void removeBullet(BulletModel bullet) {
-        GameView gameView = GameView.getINSTANCE();
+        GameView gameView = GameManager.getINSTANCE().getGameView();
         gameView.remove(gameView.getBullets().get(bullet.getID()));
     }
     public static void removeEnemy(Enemy enemy) {
-        GameView gameView = GameView.getINSTANCE();
+        GameView gameView = GameManager.getINSTANCE().getGameView();
         gameView.remove(gameView.getEnemies().get(enemy.getID()));
     }
-    public static void addXPView(XP xp) {
-        XPView xpView = new XPView(xp.getX(), xp.getY(), xp.getColor());
-        GameView gameView = GameView.getINSTANCE();
-        gameView.add(xpView);
-        gameView.getXPs().put(xp.getID(), xpView);
+    public static void addCollectiveView(Collective collective) {
+        CollectiveView collectiveView = new CollectiveView(collective.getX(), collective.getY(), collective.getColor());
+        GameView gameView = GameManager.getINSTANCE().getGameView();
+        gameView.add(collectiveView);
+        gameView.getCollectives().put(collective.getID(), collectiveView);
     }
-    public static void removeXP(XP xp) {
-        GameView gameView = GameView.getINSTANCE();
-        gameView.remove(gameView.getXPs().get(xp.getID()));
+    public static void removeXP(Collective collective) {
+        GameView gameView = GameManager.getINSTANCE().getGameView();
+        gameView.remove(gameView.getCollectives().get(collective.getID()));
     }
     public static void gameOver(int xp) {
         endGame();
         new GameOver(xp);
     }
     public static void setGameHUI() {
-        GameView.getINSTANCE().setHUI();
+        GameManager.getINSTANCE().getGameView().setHUI();
     }
 
     public static void setAres(boolean ares) {
@@ -165,18 +149,18 @@ public class Controller {
         return GameManager.getINSTANCE().getTotalXP();
     }
     public static void addVertexesToEpsilon() {
-        EpsilonView epsilonView = EpsilonView.getINSTANCE();
+        EpsilonView epsilonView = GameManager.getINSTANCE().getGameView().getEpsilonView();
         epsilonView.removeVertexes();
-        ArrayList<RotatablePoint> vertexes = EpsilonModel.getINSTANCE().getVertexes();
+        ArrayList<RotatablePoint> vertexes = GameManager.getINSTANCE().getGameModel().getEpsilon().getVertexes();
         for (int i = 0; i < vertexes.size(); i++) {
             RotatablePoint vertex = vertexes.get(i);
             epsilonView.addVertex((int)vertex.getRotatedX(), (int)vertex.getRotatedY());
         }
     }
     public static boolean hephaestus() {
-        EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
         if (epsilon.getXP() >= 100) {
-            Enemy.impactOnOthers(new RotatablePoint(epsilon.getCenter().getX(), epsilon.getCenter().getY()));
+            Impactable.impactOnOthers(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()));
             epsilon.setXP(epsilon.getXP()-100);
             return true;
         }
@@ -184,20 +168,20 @@ public class Controller {
     }
     public static void addBulletView(BulletModel bulletModel) {
         BulletView bulletView = new BulletView((int) bulletModel.getX1(), (int) bulletModel.getY1(), bulletModel.getDirection());
-        GameView.getINSTANCE().getBullets().put(bulletModel.getID(), bulletView);
-        GameView.getINSTANCE().add(bulletView);
+        GameManager.getINSTANCE().getGameView().getBullets().put(bulletModel.getID(), bulletView);
+        GameManager.getINSTANCE().getGameView().add(bulletView);
     }
     public static boolean athena() {
-        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
         if (epsilonModel.getXP() >= 75) {
-            GameModel.getINSTANCE().activateAthena();
+            GameManager.getINSTANCE().activateAthena();
             epsilonModel.setXP(epsilonModel.getXP()-75);
             return true;
         }
         return false;
     }
     public static boolean apollo() {
-        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
         if (epsilonModel.getXP() >= 50) {
             epsilonModel.setHP(epsilonModel.getHP()+10);
             epsilonModel.setXP(epsilonModel.getXP()-50);
@@ -237,66 +221,10 @@ public class Controller {
     public static Sound getMusic() {
         return music;
     }
-    public static void addBulletShotSound() {
-        try {
-            new Sound("src/main/resources/shot.wav");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void addXPCollectingSound() {
-        try {
-            new Sound("src/main/resources/collectXP.wav");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void addWinningSound() {
-        try {
-            new Sound("src/main/resources/win.wav");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void addGameOverSound() {
-        try {
-            new Sound("src/main/resources/gameOver.wav");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void addEnemyDyingSound() {
-        try {
-            new Sound("src/main/resources/enemyDying.wav");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void addCollisionSound() {
-        try {
-            new Sound("src/main/resources/collision.wav");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void addWaveEndSound() {
-        try {
-            new Sound("src/main/resources/waveEnd.wav");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void addEnemyEnteringSound() {
-        try {
-            new Sound("src/main/resources/enemyEntering.wav");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
     public static int getTotalXP() {
         return GameManager.getINSTANCE().getTotalXP();
     }
     public static void removeEpsilonVertexes() {
-        EpsilonView.getINSTANCE().removeVertexes();
+        GameManager.getINSTANCE().getGameView().getEpsilonView().removeVertexes();
     }
 }

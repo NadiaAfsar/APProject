@@ -7,9 +7,10 @@ import movement.Point;
 import movement.RotatablePoint;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.UUID;
 
-public class XP implements Collidable {
+public class Collective implements Collidable {
     private int x;
     private int y;
     private Color color;
@@ -17,7 +18,7 @@ public class XP implements Collidable {
     private final long time;
     private final String ID;
 
-    public XP(int x, int y, Color color) {
+    public Collective(int x, int y, Color color) {
         ID = UUID.randomUUID().toString();
         this.x = x;
         this.y = y;
@@ -27,10 +28,8 @@ public class XP implements Collidable {
     }
 
     @Override
-    public void impact(RotatablePoint collisionPoint, Collidable collidable) {
-        EpsilonModel epsilon = (EpsilonModel)collidable;
-        epsilon.setXP(epsilon.getXP()+5+GameModel.getINSTANCE().getEnemyXP());
-        Controller.removeXP(this);
+    public ArrayList<RotatablePoint> getVertexes() {
+        return null;
     }
 
     @Override

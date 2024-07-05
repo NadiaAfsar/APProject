@@ -21,8 +21,8 @@ public class GameMouseMotionListener implements MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         if (epsilonModel != null) {
             if (epsilonModel.getVertexes().size() != 0) {
-                int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - GameModel.getINSTANCE().getX();
-                int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - GameModel.getINSTANCE().getY();
+                int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - GameManager.getINSTANCE().getGameModel().getX();
+                int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - GameManager.getINSTANCE().getGameModel().getY();
                 epsilonModel.rotateVertexes(x,y);
 
             }

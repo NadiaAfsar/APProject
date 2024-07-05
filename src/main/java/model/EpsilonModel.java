@@ -1,12 +1,12 @@
 package model;
 
 import collision.Collidable;
-import controller.Constants;
-import controller.Controller;
-import controller.InputListener;
+import collision.Impactable;
+import controller.*;
 import model.enemies.SquarantineModel;
 import model.game.GameModel;
 import movement.Direction;
+import movement.Movable;
 import movement.Point;
 import movement.RotatablePoint;
 
@@ -14,9 +14,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class EpsilonModel implements Collidable {
-    private int x;
-    private int y;
+public class EpsilonModel implements Collidable, Movable, Impactable {
     private Timer upTimer;
     private Timer downTimer;
     private Timer leftTimer;
@@ -30,16 +28,19 @@ public class EpsilonModel implements Collidable {
     private Point velocity;
     private Point acceleration;
     private Point accelerationRate;
+    private double angle;
+    private double angularVelocity;
+    private double angularAcceleration;
+    private double angularAccelerationRate;
     private ArrayList<RotatablePoint> vertexes;
     private int sensitivity;
+    private boolean impact;
 
     public EpsilonModel() {
-        x = Constants.FRAME_SIZE.width/2;
-        y = Constants.FRAME_SIZE.height/2;
+        setCenter(Constants.FRAME_SIZE.width/2, Constants.FRAME_SIZE.height/2);
         radius = Constants.EPSILON_RADIUS;
         addMoveTimers();
         inputListener = new InputListener(this);
-        setCenter(x,y);
         HP = 100;
         velocity = new Point(0,0);
         acceleration = new Point(0,0);
@@ -50,9 +51,8 @@ public class EpsilonModel implements Collidable {
 
 
     public void setInCenter() {
-        x = GameModel.getINSTANCE().getWidth()/2 - radius;
-        y = GameModel.getINSTANCE().getHeight()/2 - radius;
-        setCenter(x,y);
+        setCenter((int)GameManager.getINSTANCE().getGameModel().getWidth()/2 - radius,
+                (int)GameManager.getINSTANCE().getGameModel().getHeight()/2 - radius);
     }
     public void moveUp(boolean move) {
         if (move) {
@@ -90,73 +90,65 @@ public class EpsilonModel implements Collidable {
         upTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (y-0.5*sensitivity >= 0) {
-                    y -= 0.5*sensitivity;
-                    setCenter(x, y);
+                if (getY()-0.5*sensitivity >= 0) {
+                    setCenter(getX(), getY()-(int)(0.5*sensitivity));
                 }
             }
         });
         downTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (y + 0.5*sensitivity < GameModel.getINSTANCE().getHeight()-25) {
-                    y += 0.5*sensitivity;
-                    setCenter(x, y);
+                if (getY() + 0.5*sensitivity < GameManager.getINSTANCE().getGameModel().getHeight()-25) {
+                    setCenter(getX(), getY()+(int)(0.5*sensitivity));
                 }
             }
         });
         rightTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (x + 0.5*sensitivity < GameModel.getINSTANCE().getWidth() - 25) {
-                    x += 0.5*sensitivity;
-                setCenter(x, y);
-            }
+                if (getX() + 0.5*sensitivity < GameManager.getINSTANCE().getGameModel().getWidth() - 25) {
+                    setCenter(getX() + (int) (0.5 * sensitivity), getY());
+                }
             }
         });
         leftTimer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (x-0.5*sensitivity >= 0) {
-                    x -= 0.5*sensitivity;
-                    setCenter(x, y);
+                if (getX()-0.5*sensitivity >= 0) {
+                    setCenter(getX()-(int)(0.5*sensitivity), getY());
                 }
             }
         });
     }
 
-    public static EpsilonModel getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new EpsilonModel();
-        }
-        return INSTANCE;
-    }
-
     public int getX() {
-        return x;
+        return (int)center.getX()-12;
     }
-    public void move() {
-        acceleration.setX(acceleration.getX() + accelerationRate.getX() /Constants.UPS);
-        acceleration.setY(acceleration.getY() + accelerationRate.getY() /Constants.UPS);
-        velocity.setX(velocity.getX()+acceleration.getX()*0.1/ Constants.UPS);
-        velocity.setY(velocity.getY()+acceleration.getY()*0.1/ Constants.UPS);
-        GameModel gameModel = GameModel.getINSTANCE();
-        if (x+velocity.getX() >= 0 && x+velocity.getX() <= gameModel.getWidth()-24 && y+velocity.getY() >= 0 && y+velocity.getY() <= gameModel.getHeight()-24) {
-            center = new Point(center.getX() + velocity.getX(), center.getY() + velocity.getY());
-            x = (int) center.getX() - 12;
-            y = (int) center.getY() - 12;
-        }
-        if ((velocity.getX() * accelerationRate.getX() >= 0 || velocity.getY() * accelerationRate.getY() >= 0)) {
-            velocity.setX(0);
-            velocity.setY(0);
-            acceleration = new Point(0, 0);
-            accelerationRate = new Point(0, 0);
-        }
-        moveVertexes();
+//    public void move() {
+//        acceleration.setX(acceleration.getX() + accelerationRate.getX() /Constants.UPS);
+//        acceleration.setY(acceleration.getY() + accelerationRate.getY() /Constants.UPS);
+//        velocity.setX(velocity.getX()+acceleration.getX()*0.1/ Constants.UPS);
+//        velocity.setY(velocity.getY()+acceleration.getY()*0.1/ Constants.UPS);
+//        GameModel gameModel = GameModel.getINSTANCE();
+//        if (getX()+velocity.getX() >= 0 && getX()+velocity.getX() <= gameModel.getWidth()-24 && getY()+velocity.getY() >= 0 && getY()+velocity.getY() <= gameModel.getHeight()-24) {
+//            center = new Point(center.getX() + velocity.getX(), center.getY() + velocity.getY());
+//        }
+//        if ((velocity.getX() * accelerationRate.getX() >= 0 || velocity.getY() * accelerationRate.getY() >= 0)) {
+//            velocity.setX(0);
+//            velocity.setY(0);
+//            acceleration = new Point(0, 0);
+//            accelerationRate = new Point(0, 0);
+//        }
+//        moveVertexes();
+//    }
+
+    @Override
+    public boolean isImpact() {
+        return impact;
     }
 
     public int getY() {
-        return y;
+        return (int)center.getY()-12;
     }
 
     public Point getCenter() {
@@ -167,31 +159,30 @@ public class EpsilonModel implements Collidable {
         this.center = new Point(x+12, y+12);
     }
 
-    @Override
-    public void impact(RotatablePoint collisionPoint, Collidable collidable) {
+    public void decreaseHP(Collidable collidable) {
         if (collidable instanceof SquarantineModel) {
-            HP -= 6+GameModel.getINSTANCE().getEnemyPower();
+            HP -= 6+GameManager.getINSTANCE().getGameModel().getEnemyPower();
         }
         else {
-            HP -= 10+GameModel.getINSTANCE().getEnemyPower();
+            HP -= 10+GameManager.getINSTANCE().getGameModel().getEnemyPower();
         }
         if (HP <= 0) {
-            Controller.addGameOverSound();
+            SoundController.addGameOverSound();
             Controller.gameOver(XP);
         }
     }
-    public void setImpactAcceleration(Direction direction, double distance) {
-        velocity = new Point(0,0);
-        center.setX(center.getX() - direction.getDx() * distance);
-        center.setY(center.getY() - direction.getDy() * distance);
-        x = (int)center.getX()-12;
-        y = (int)center.getY()-12;
-        setInFrame();
-        acceleration.setX(-direction.getDx()*distance*1.5);
-        acceleration.setY(-direction.getDy()*distance*1.5);
-        accelerationRate.setX(direction.getDx()*distance*5/3);
-        accelerationRate.setY(direction.getDy()*distance*5/3);
-    }
+//    public void setImpactAcceleration(Direction direction, double distance) {
+//        velocity = new Point(0,0);
+//        center.setX(center.getX() - direction.getDx() * distance);
+//        center.setY(center.getY() - direction.getDy() * distance);
+//        x = (int)center.getX()-12;
+//        y = (int)center.getY()-12;
+//        setInFrame();
+//        acceleration.setX(-direction.getDx()*distance*1.5);
+//        acceleration.setY(-direction.getDy()*distance*1.5);
+//        accelerationRate.setX(direction.getDx()*distance*5/3);
+//        accelerationRate.setY(direction.getDy()*distance*5/3);
+//    }
 
     public int getXP() {
         return XP;
@@ -201,22 +192,18 @@ public class EpsilonModel implements Collidable {
         this.XP = XP;
     }
     public void setInFrame() {
-        GameModel gameModel = GameModel.getINSTANCE();
-        if (x < 0) {
-            x = 0;
-            setCenter(x,y);
+        GameModel gameModel = GameManager.getINSTANCE().getGameModel();
+        if (getX() <= 0) {
+            setCenter(10,getY());
         }
-        else if (x > gameModel.getWidth()-24) {
-            x = gameModel.getWidth()-24;
-            setCenter(x,y);
+        else if (getX() > gameModel.getWidth()-24) {
+            setCenter((int)gameModel.getWidth()-34,getY());
         }
-        if (y < 0) {
-            y = 0;
-            setCenter(x,y);
+        if (getY() <= 0) {
+            setCenter(getX(),10);
         }
-        if (y > gameModel.getHeight()-24) {
-            y = gameModel.getHeight()-24;
-            setCenter(x,y);
+        else if (getY() > gameModel.getHeight()-24) {
+            setCenter(getX(),(int)gameModel.getHeight()-34);
         }
     }
 
@@ -242,17 +229,14 @@ public class EpsilonModel implements Collidable {
         return vertexes;
     }
 
-    public void setVertexes(ArrayList<RotatablePoint> vertexes) {
-        this.vertexes = vertexes;
-    }
-    private void moveVertexes() {
+    public void moveVertexes() {
         for (int i = 0; i < vertexes.size(); i++) {
             RotatablePoint vertex = vertexes.get(i);
             vertex.setX(center.getX());
             vertex.setY(center.getY());
         }
     }
-    private double getAngle(Direction direction) {
+    private double calculateAngle(Direction direction) {
         double angle = Math.atan(direction.getDy()/direction.getDx());
         if (direction.getDx() < 0) {
             angle += Math.PI;
@@ -261,7 +245,7 @@ public class EpsilonModel implements Collidable {
     }
     public void rotateVertexes(int x, int y) {
         Direction direction = new Direction(new Point(getCenter().getX(),getCenter().getY()), new Point(x,y));
-        double angle = getAngle(direction)+Math.PI/2;
+        double angle = calculateAngle(direction)+Math.PI/2;
         for (int i = 0; i < vertexes.size(); i++) {
             RotatablePoint vertex = vertexes.get(i);
             double a = angle+vertex.getInitialAngle();
@@ -269,21 +253,122 @@ public class EpsilonModel implements Collidable {
         }
     }
     public void increaseSize() {
-        if (radius*2 < GameModel.getINSTANCE().getWidth()) {
+        if (radius*2 < GameManager.getINSTANCE().getGameModel().getWidth()) {
             radius += 2;
-            if (x >= 0) {
-                x -= 2;
+            if (getX() >= 0) {
+                setCenter(getX()-2, getY());
             }
-            if (y >= 0) {
-                y -= 2;
+            if (getY() >= 0) {
+                setCenter(getX(), getY()-2);
             }
         }
         else {
-            GameModel.getINSTANCE().setFinished(true);
+            GameManager.getINSTANCE().setFinished(true);
         }
     }
 
     public int getRadius() {
         return radius;
     }
+
+    @Override
+    public void setCenter(Point center) {
+        this.center = center;
+    }
+
+    @Override
+    public void setImpact(boolean impact) {
+        this.impact = impact;
+    }
+
+    @Override
+    public Point getVelocity() {
+        return velocity;
+    }
+
+    @Override
+    public double getVelocityPower() {
+        return 0;
+    }
+
+    @Override
+    public Direction getDirection() {
+        return new Direction(new Point(0, 0), new Point(0, 0));
+    }
+
+    @Override
+    public void setVelocity(Point velocity) {
+        this.velocity = velocity;
+    }
+
+    @Override
+    public Point getAcceleration() {
+        return acceleration;
+    }
+
+    @Override
+    public void setAcceleration(Point acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    @Override
+    public Point getAccelerationRate() {
+        return accelerationRate;
+    }
+
+    @Override
+    public void setAccelerationRate(Point accelerationRate) {
+        this.accelerationRate = accelerationRate;
+    }
+
+    @Override
+    public void setSpecialImpact() {
+
+    }
+
+    @Override
+    public double getAngle() {
+        return angle;
+    }
+
+    @Override
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
+    @Override
+    public double getAngularVelocity() {
+        return angularVelocity;
+    }
+
+    @Override
+    public void setAngularVelocity(double angularVelocity) {
+        this.angularVelocity = angularVelocity;
+    }
+
+    @Override
+    public double getAngularAcceleration() {
+        return angularAcceleration;
+    }
+
+    @Override
+    public void setAngularAcceleration(double angularAcceleration) {
+        this.angularAcceleration = angularAcceleration;
+    }
+
+    @Override
+    public double getAngularAccelerationRate() {
+        return angularAccelerationRate;
+    }
+
+    @Override
+    public void specialMove() {
+        setInFrame();
+    }
+
+    @Override
+    public void setAngularAccelerationRate(double angularAccelerationRate) {
+        this.angularAccelerationRate = angularAccelerationRate;
+    }
+
 }

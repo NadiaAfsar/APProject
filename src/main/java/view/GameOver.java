@@ -1,6 +1,7 @@
 package view;
 
 import controller.Constants;
+import controller.GameManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -79,8 +80,8 @@ public class GameOver extends JFrame {
         mainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameView.getINSTANCE().dispose();
-                GameFrame.getINSTANCE().setVisible(true);
+                GameManager.getINSTANCE().getGameView().dispose();
+                GameManager.getINSTANCE().getGameFrame().setVisible(true);
                 dispose();
             }
         });

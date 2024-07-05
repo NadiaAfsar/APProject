@@ -1,5 +1,6 @@
 package model.skills;
 
+import controller.GameManager;
 import model.EpsilonModel;
 
 public class WritOfProteus extends Skill{
@@ -8,9 +9,9 @@ public class WritOfProteus extends Skill{
     @Override
     public void activate() {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
-                EpsilonModel.getINSTANCE().addVertex();
+                epsilon.addVertex();
                 epsilon.setXP(epsilon.getXP()-100);
             }
         }

@@ -3,6 +3,7 @@ package view;
 import com.sun.org.apache.bcel.internal.Const;
 import controller.Constants;
 import controller.Controller;
+import controller.GameManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -136,8 +137,8 @@ public class Shop extends JFrame {
         mainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameView.getINSTANCE().dispose();
-                GameFrame.getINSTANCE().setVisible(true);
+                GameManager.getINSTANCE().getGameView().dispose();
+                GameManager.getINSTANCE().getGameFrame().setVisible(true);
                 dispose();
             }
         });

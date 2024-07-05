@@ -14,9 +14,9 @@ public class GameMouseListener extends MouseAdapter{
     public void mouseClicked(MouseEvent e) {
         if (gameRunning) {
             super.mouseClicked(e);
-            int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - GameModel.getINSTANCE().getX();
-            int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - GameModel.getINSTANCE().getY();
-            GameModel.getINSTANCE().shotBullet(x,y);
+            int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - GameManager.getINSTANCE().getGameModel().getX();
+            int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - GameManager.getINSTANCE().getGameModel().getY();
+            GameManager.getINSTANCE().shotBullet(x,y);
         }
 
     }

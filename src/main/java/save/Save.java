@@ -1,18 +1,14 @@
 package save;
 
-import controller.Sound;
-import model.GameManager;
+import controller.GameManager;
 import model.skills.Skill;
 import model.skills.WritOfAceso;
 import model.skills.WritOfAres;
 import model.skills.WritOfProteus;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Save {

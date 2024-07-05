@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import controller.GameManager;
 import controller.Sound;
 
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class MainMenu {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameFrame.getINSTANCE().setVisible(false);
+                GameManager.getINSTANCE().getGameFrame().setVisible(false);
                 Controller.startGame();
             }
         });
@@ -48,7 +49,7 @@ public class MainMenu {
                 empty();
                 new Settings(gamePanel, Controller.getSensitivity(), Controller.getDifficulty(),
                         (int)((Sound.getSoundValue()+80)/0.86));
-                GameFrame.getINSTANCE().update();
+                GameManager.getINSTANCE().getGameFrame().update();
             }
         });
         gamePanel.add(settingsButton);
@@ -77,7 +78,7 @@ public class MainMenu {
             public void actionPerformed(ActionEvent e) {
                 empty();
                 new SkillTree(gamePanel);
-                GameFrame.getINSTANCE().update();
+                GameManager.getINSTANCE().getGameFrame().update();
             }
         });
         gamePanel.add(skillTreeButton);

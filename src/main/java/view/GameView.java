@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,18 +16,18 @@ public class GameView extends JFrame {
     private int height;
     private int x;
     private int y;
-    public static GameView INSTANCE;
     private Map<String, EnemyView> enemies;
     private Map<String, BulletView> bullets;
-    private Map<String, XPView> XPs;
+    private Map<String, CollectiveView> Collectives;
     private JLabel HP;
-    private JLabel XP;
+    private JLabel collective;
     private JLabel wave;
     private JLabel time;
     private long hour;
     private long minute;
     private long second;
     private final long startTime;
+    private EpsilonView epsilonView;
     public GameView() {
         x = 0;
         y = 0;
@@ -38,7 +37,7 @@ public class GameView extends JFrame {
         addPanel();
         enemies = new HashMap<>();
         bullets = new HashMap<>();
-        XPs = new HashMap<>();
+        Collectives = new HashMap<>();
         try {
             setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
         }
@@ -46,6 +45,8 @@ public class GameView extends JFrame {
             throw new RuntimeException(ex);
         }
         startTime = System.currentTimeMillis();
+        epsilonView = new EpsilonView(this);
+        add(epsilonView);
     }
     private void addFrame() {
         setBounds(x,y,width,height);
@@ -73,18 +74,12 @@ public class GameView extends JFrame {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
 
     @Override
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
     public void update(int x, int y, int width, int height, int HP, int XP, int wave) {
         this.x = x;
         this.y = y;
@@ -97,13 +92,6 @@ public class GameView extends JFrame {
             updateWave(wave-1);
             updateTime();
         }
-    }
-
-    public static GameView getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new GameView();
-        }
-        return INSTANCE;
     }
 
     public Map<String, EnemyView> getEnemies() {
@@ -119,8 +107,8 @@ public class GameView extends JFrame {
         panel.repaint();
     }
 
-    public Map<String, XPView> getXPs() {
-        return XPs;
+    public Map<String, CollectiveView> getCollectives() {
+        return Collectives;
     }
     private String getElapsedTime() {
         setTime();
@@ -154,10 +142,10 @@ public class GameView extends JFrame {
         panel.add(HP);
     }
     private void setXP() {
-        XP = new JLabel("XP: "+0);
-        XP.setBounds(85,5,80,10);
-        XP.setForeground(Color.WHITE);
-        panel.add(XP);
+        collective = new JLabel("collective: "+0);
+        collective.setBounds(85,5,80,10);
+        collective.setForeground(Color.WHITE);
+        panel.add(collective);
     }
     private void setWave() {
         wave = new JLabel("1/3");
@@ -181,7 +169,7 @@ public class GameView extends JFrame {
         HP.setText("HP: "+hp);
     }
     private void updateXP(int xp) {
-        XP.setText("XP: "+xp);
+        collective.setText("collective: "+xp);
     }
     private void updateWave(int wave) {
         this.wave.setText(wave+"/3");
@@ -191,5 +179,9 @@ public class GameView extends JFrame {
     }
     public void destroy(int width, int height) {
         setBounds(x,y,width,height);
+    }
+
+    public EpsilonView getEpsilonView() {
+        return epsilonView;
     }
 }

@@ -1,5 +1,6 @@
 package model.skills;
 
+import controller.GameManager;
 import model.EpsilonModel;
 import model.game.GameModel;
 
@@ -14,7 +15,7 @@ public class WritOfAceso extends Skill{
     @Override
     public void activate() {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
                 activated = true;
                 epsilon.setXP(epsilon.getXP() - 100);
@@ -28,7 +29,7 @@ public class WritOfAceso extends Skill{
             if (spentTime <= 180000) {
                 double x = spentTime%1000;
                 if (x <= 10) {
-                    EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+                    EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
                     epsilon.setHP(epsilon.getHP() + 1);
                 }
             } else {

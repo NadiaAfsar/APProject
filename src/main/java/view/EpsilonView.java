@@ -15,12 +15,11 @@ public class EpsilonView extends JLabel{
     private int x;
     private int y;
     private int radius;
-    public static EpsilonView INSTANCE;
     private ArrayList<JLabel> vertexes;
     private BufferedImage image;
     private GameView gameView;
-    public EpsilonView() {
-        gameView = GameView.getINSTANCE();
+    public EpsilonView(GameView gameView) {
+        this.gameView = gameView;
         x = Constants.FRAME_SIZE.width/2;
         y = Constants.FRAME_SIZE.height/2;
         radius = Constants.EPSILON_RADIUS;
@@ -41,12 +40,6 @@ public class EpsilonView extends JLabel{
         setBounds(x,y,2*radius,2*radius);
     }
 
-    public static EpsilonView getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new EpsilonView();
-        }
-        return INSTANCE;
-    }
     public void addVertex(int x, int y) {
         gameView.remove(this);
         JLabel vertex = new JLabel("●");

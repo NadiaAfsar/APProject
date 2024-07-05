@@ -13,7 +13,6 @@ public class GameFrame extends JFrame {
     private JPanel panel;
     private JPanel gamePanel;
     private Background background;
-    public static GameFrame INSTANCE;
     private MainMenu mainMenu;
     private Settings settings;
     public GameFrame() {
@@ -70,12 +69,6 @@ public class GameFrame extends JFrame {
         panel.repaint();
     }
 
-    public static GameFrame getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new GameFrame();
-        }
-        return INSTANCE;
-    }
 
     public void setSettings(Settings settings) {
         this.settings = settings;
