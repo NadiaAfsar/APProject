@@ -25,11 +25,13 @@ public class BulletModel implements Collidable {
     private final String ID;
     private RotatablePoint end;
     private double radius;
-    public BulletModel(int x, int y) {
+    private int damage;
+    private boolean stable;
+    public BulletModel(Point point1, Point point2, int radius, int damage, boolean stable) {
+        this.stable = stable;
         SoundController.addBulletShotSound();
         ID = UUID.randomUUID().toString();
-        this.direction = new Direction(new Point(GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter().getX(),
-                GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter().getY()), new Point(x,y));
+        this.direction = new Direction(point1, point2);
         angle = getAngle();
         sin = Math.sin(angle);
         cos = Math.cos(angle);
@@ -37,9 +39,10 @@ public class BulletModel implements Collidable {
             cos *= -1;
             sin *= -1;
         }
-        radius = 10;
-        setX1();
-        setY1();
+        this.damage = damage;
+        this.radius = 10;
+        setX1(point1, radius);
+        setY1(point1, radius);
         setEnd();
     }
     public void setPosition(double x, double y) {
@@ -79,15 +82,15 @@ public class BulletModel implements Collidable {
         return end.getRotatedY();
     }
 
-    private void setX1() {
-        x1 = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter().getX() + cos * Constants.EPSILON_RADIUS;
+    private void setX1(Point point, int radius) {
+        x1 = point.getX() + cos * radius;
         if (direction.getDx() < 0) {
             x1 += cos * 10;
         }
     }
 
-    private void setY1() {
-        y1 = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter().getY() + sin * Constants.EPSILON_RADIUS;
+    private void setY1(Point point, int radius) {
+        y1 = point.getY() + sin * radius;
         if (direction.getDy() < 0) {
             y1 += sin * 10;
         }
@@ -111,44 +114,8 @@ public class BulletModel implements Collidable {
     public String getID() {
         return ID;
     }
-    public boolean checkFrameCollision(GameModel gameModel) {
-        if (getX2() <= 0) {
-            gameModel.setWidth(gameModel.getWidth()+10);
-            gameModel.setX(gameModel.getX()-10+ direction.getDx()*20);
-            gameModel.setY(gameModel.getY()+ direction.getDy()*20);
-            if (GameManager.getINSTANCE().checkPosition()) {
-                gameModel.setWidth(gameModel.getWidth()-10);
-            }
-            return true;
-        }
-        else if (getX2() >= gameModel.getWidth()) {
-            gameModel.setWidth(gameModel.getWidth()+10);
-            gameModel.setX(gameModel.getX()+10+ direction.getDx()*20);
-            gameModel.setY(gameModel.getY()+ direction.getDy()*20);
-            if (GameManager.getINSTANCE().checkPosition()) {
-                gameModel.setWidth(gameModel.getWidth()-10);
-            }
-            return true;
-        }
-        else if (getY2() <= 0) {
-            gameModel.setHeight(gameModel.getHeight()+10);
-            gameModel.setX(gameModel.getX()+ direction.getDx()*20);
-            gameModel.setY(gameModel.getY()-10+ direction.getDy()*20);
-            if (GameManager.getINSTANCE().checkPosition()) {
-                gameModel.setHeight(gameModel.getHeight()-10);
-            }
-            return true;
-        }
-        else if (getY2() >= gameModel.getHeight()) {
-            gameModel.setHeight(gameModel.getHeight()+10);
-            gameModel.setX(gameModel.getX()+ direction.getDx()*20);
-            gameModel.setY(gameModel.getY()+10+ direction.getDy()*20);
-            if (GameManager.getINSTANCE().checkPosition()) {
-                gameModel.setHeight(gameModel.getHeight()-10);
-            }
-            return true;
-        }
-        return false;
-    }
 
+    public int getDamage() {
+        return damage;
+    }
 }

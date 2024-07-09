@@ -1,7 +1,6 @@
-package view;
+package view.menu;
 
 import controller.Controller;
-import controller.InputListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -9,7 +8,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 public class Settings{
     private JSlider soundSlider;

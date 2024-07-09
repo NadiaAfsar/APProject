@@ -17,14 +17,16 @@ public class Collective implements Collidable {
     private Point center;
     private final long time;
     private final String ID;
+    private int xp;
 
-    public Collective(int x, int y, Color color) {
+    public Collective(int x, int y, Color color, int xp) {
         ID = UUID.randomUUID().toString();
         this.x = x;
         this.y = y;
         this.center = new Point(x,y);
         this.color = color;
         time = System.currentTimeMillis();
+        this.xp = xp;
     }
 
     @Override
@@ -55,5 +57,9 @@ public class Collective implements Collidable {
 
     public long getTime() {
         return time;
+    }
+
+    public int getXp() {
+        return xp;
     }
 }

@@ -37,6 +37,17 @@ public class Direction {
             dy = 0.1*ySign;
         }
     }
+    public Direction() {
+
+    }
+
+    public void setDx(double dx) {
+        this.dx = dx;
+    }
+
+    public void setDy(double dy) {
+        this.dy = dy;
+    }
 
     public double getDx() {
         return dx;
@@ -46,11 +57,4 @@ public class Direction {
         return dy;
     }
 
-    public int getxSign() {
-        return xSign;
-    }
-
-    public int getySign() {
-        return ySign;
-    }
 }

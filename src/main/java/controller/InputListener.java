@@ -2,8 +2,7 @@ package controller;
 
 import model.EpsilonModel;
 import model.skills.Skill;
-import view.GameView;
-import view.Shop;
+import view.menu.Shop;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,6 +34,7 @@ public class InputListener {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "moveRightReleased");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), "activateSkill");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true), "showShop");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true), "showHUI");
 
     }
 
@@ -118,6 +118,14 @@ public class InputListener {
                 if (Controller.gameRunning) {
                     Controller.gameRunning = false;
                     new Shop();
+                }
+            }
+        });
+        actionMap.put("showHUI", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Controller.gameRunning) {
+                    GameManager.getINSTANCE().getGameView().getHui().showHUI();
                 }
             }
         });

@@ -6,6 +6,11 @@ import model.EpsilonModel;
 public class WritOfProteus extends Skill{
     private static boolean proteusUnlocked;
     private static boolean picked;
+
+    public WritOfProteus() {
+        name = "Writ Of Proteus";
+    }
+
     @Override
     public void activate() {
         if (isTimeToActivate()) {
@@ -13,6 +18,7 @@ public class WritOfProteus extends Skill{
             if (epsilon.getXP() >= 100) {
                 epsilon.addVertex();
                 epsilon.setXP(epsilon.getXP()-100);
+                activated = true;
             }
         }
     }

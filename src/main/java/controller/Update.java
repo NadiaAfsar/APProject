@@ -4,10 +4,10 @@ import model.BulletModel;
 import model.EpsilonModel;
 import model.game.GameModel;
 import model.enemies.Enemy;
-import view.BulletView;
-import view.EpsilonView;
-import view.GameView;
-import view.enemies.EnemyView;
+import view.game.BulletView;
+import view.game.EpsilonView;
+import view.game.GameView;
+import view.game.enemies.EnemyView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -42,7 +42,8 @@ public class Update {
                 GameView gameView = GameManager.getINSTANCE().getGameView();
                 EpsilonView epsilonView = GameManager.getINSTANCE().getGameView().getEpsilonView();
                 gameView.update(gameModel.getX(), gameModel.getY(), (int)gameModel.getWidth(), (int)gameModel.getHeight()
-                        , epsilon.getHP(), epsilon.getXP(), GameManager.getINSTANCE().getWave());
+                        , epsilon.getHP(), epsilon.getXP(), GameManager.getINSTANCE().getWave(),
+                        GameManager.getINSTANCE().getTimePlayed(), GameManager.getINSTANCE().getPickedSkill());
                 updateEnemies();
                 updateBullets();
                 gameView.update();

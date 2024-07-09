@@ -1,6 +1,7 @@
-package view;
+package view.game;
 
-import view.enemies.EnemyView;
+import model.skills.Skill;
+import view.game.enemies.EnemyView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,15 +20,9 @@ public class GameView extends JFrame {
     private Map<String, EnemyView> enemies;
     private Map<String, BulletView> bullets;
     private Map<String, CollectiveView> Collectives;
-    private JLabel HP;
-    private JLabel collective;
-    private JLabel wave;
-    private JLabel time;
-    private long hour;
-    private long minute;
-    private long second;
     private final long startTime;
     private EpsilonView epsilonView;
+    private HUI hui;
     public GameView() {
         x = 0;
         y = 0;
@@ -47,6 +42,10 @@ public class GameView extends JFrame {
         startTime = System.currentTimeMillis();
         epsilonView = new EpsilonView(this);
         add(epsilonView);
+        hui = new HUI();
+        setFocusable(true);
+        requestFocus();
+        requestFocusInWindow();
     }
     private void addFrame() {
         setBounds(x,y,width,height);
@@ -80,17 +79,18 @@ public class GameView extends JFrame {
         return height;
     }
 
-    public void update(int x, int y, int width, int height, int HP, int XP, int wave) {
+    public void update(int x, int y, int width, int height, int HP, int XP, int wave, long time, Skill skill) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         setBounds(x,y,width,height);
-        if (this.HP != null) {
-            updateHP(HP);
-            updateXP(XP);
-            updateWave(wave-1);
-            updateTime();
+        if (hui.isVisible()) {
+            hui.updateHP(HP);
+            hui.updateXP(XP);
+            hui.updateWave(wave-1);
+            hui.updateTime(time);
+            hui.updateSkill(skill);
         }
     }
 
@@ -110,78 +110,16 @@ public class GameView extends JFrame {
     public Map<String, CollectiveView> getCollectives() {
         return Collectives;
     }
-    private String getElapsedTime() {
-        setTime();
-        String time = "";
-        if (hour < 10) {
-            time += 0;
-        }
-        time += hour+":";
-        if (minute < 10) {
-            time += 0;
-        }
-        time += minute+":";
-        if (second < 10) {
-            time += 0;
-        }
-        time += second;
-        return time;
-    }
-    private void setTime() {
-        long currentTime = System.currentTimeMillis();
-        long time = (currentTime-startTime)/1000;
-        hour = time / 3600;
-        time %= 3600;
-        minute = time / 60;
-        second = time % 60;
-    }
-    private void setHP() {
-        HP = new JLabel("HP: "+100);
-        HP.setBounds(5,5,80,10);
-        HP.setForeground(Color.WHITE);
-        panel.add(HP);
-    }
-    private void setXP() {
-        collective = new JLabel("collective: "+0);
-        collective.setBounds(85,5,80,10);
-        collective.setForeground(Color.WHITE);
-        panel.add(collective);
-    }
-    private void setWave() {
-        wave = new JLabel("1/3");
-        wave.setBounds(165,5,40,10);
-        wave.setForeground(Color.WHITE);
-        panel.add(wave);
-    }
-    private void setTimeJLabel() {
-        time = new JLabel("00:00:00");
-        time.setBounds(210,5,50,10);
-        time.setForeground(Color.WHITE);
-        panel.add(time);
-    }
-    public void setHUI() {
-        setHP();
-        setXP();
-        setWave();
-        setTimeJLabel();
-    }
-    private void updateHP(int hp) {
-        HP.setText("HP: "+hp);
-    }
-    private void updateXP(int xp) {
-        collective.setText("collective: "+xp);
-    }
-    private void updateWave(int wave) {
-        this.wave.setText(wave+"/3");
-    }
-    private void updateTime() {
-        time.setText(getElapsedTime());
-    }
+
     public void destroy(int width, int height) {
         setBounds(x,y,width,height);
     }
 
     public EpsilonView getEpsilonView() {
         return epsilonView;
+    }
+
+    public HUI getHui() {
+        return hui;
     }
 }

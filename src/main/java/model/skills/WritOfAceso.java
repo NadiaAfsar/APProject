@@ -6,11 +6,11 @@ import model.game.GameModel;
 
 public class WritOfAceso extends Skill{
     private final long startTime;
-    private boolean activated;
     private static boolean acesoUnlocked;
     private static boolean picked;
     public WritOfAceso() {
         startTime = System.currentTimeMillis();
+        name = "Writ Of Aceso";
     }
     @Override
     public void activate() {

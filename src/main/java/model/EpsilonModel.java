@@ -21,7 +21,6 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private Timer rightTimer;
     private InputListener inputListener;
     private int radius;
-    public static EpsilonModel INSTANCE;
     private movement.Point center;
     private int HP;
     private int XP;
@@ -124,23 +123,6 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     public int getX() {
         return (int)center.getX()-12;
     }
-//    public void move() {
-//        acceleration.setX(acceleration.getX() + accelerationRate.getX() /Constants.UPS);
-//        acceleration.setY(acceleration.getY() + accelerationRate.getY() /Constants.UPS);
-//        velocity.setX(velocity.getX()+acceleration.getX()*0.1/ Constants.UPS);
-//        velocity.setY(velocity.getY()+acceleration.getY()*0.1/ Constants.UPS);
-//        GameModel gameModel = GameModel.getINSTANCE();
-//        if (getX()+velocity.getX() >= 0 && getX()+velocity.getX() <= gameModel.getWidth()-24 && getY()+velocity.getY() >= 0 && getY()+velocity.getY() <= gameModel.getHeight()-24) {
-//            center = new Point(center.getX() + velocity.getX(), center.getY() + velocity.getY());
-//        }
-//        if ((velocity.getX() * accelerationRate.getX() >= 0 || velocity.getY() * accelerationRate.getY() >= 0)) {
-//            velocity.setX(0);
-//            velocity.setY(0);
-//            acceleration = new Point(0, 0);
-//            accelerationRate = new Point(0, 0);
-//        }
-//        moveVertexes();
-//    }
 
     @Override
     public boolean isImpact() {
@@ -159,30 +141,13 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         this.center = new Point(x+12, y+12);
     }
 
-    public void decreaseHP(Collidable collidable) {
-        if (collidable instanceof SquarantineModel) {
-            HP -= 6+GameManager.getINSTANCE().getGameModel().getEnemyPower();
-        }
-        else {
-            HP -= 10+GameManager.getINSTANCE().getGameModel().getEnemyPower();
-        }
+    public void decreaseHP(int hp) {
+        HP -= hp;
         if (HP <= 0) {
             SoundController.addGameOverSound();
             Controller.gameOver(XP);
         }
     }
-//    public void setImpactAcceleration(Direction direction, double distance) {
-//        velocity = new Point(0,0);
-//        center.setX(center.getX() - direction.getDx() * distance);
-//        center.setY(center.getY() - direction.getDy() * distance);
-//        x = (int)center.getX()-12;
-//        y = (int)center.getY()-12;
-//        setInFrame();
-//        acceleration.setX(-direction.getDx()*distance*1.5);
-//        acceleration.setY(-direction.getDy()*distance*1.5);
-//        accelerationRate.setX(direction.getDx()*distance*5/3);
-//        accelerationRate.setY(direction.getDy()*distance*5/3);
-//    }
 
     public int getXP() {
         return XP;
@@ -263,8 +228,32 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             }
         }
         else {
-            GameManager.getINSTANCE().setFinished(true);
+            GameManager.getINSTANCE().getGameModel().setFinished(true);
         }
+    }
+    public void shootBullet(int x, int y) {
+        GameModel gameModel = GameManager.getINSTANCE().getGameModel();
+        GameManager.getINSTANCE().checkAthenaTime();
+        if (gameModel.isAthena()) {
+            addBullet(x,y);
+            double dx = gameModel.getBullets().get(0).getDirection().getDx();
+            double dy = gameModel.getBullets().get(0).getDirection().getDy();
+            addBullet(x,y);
+            BulletModel bullet = gameModel.getBullets().get(1);
+            bullet.setPosition(bullet.getX1()+dx*100, bullet.getY1()+dy*100);
+            addBullet(x,y);
+            bullet = gameModel.getBullets().get(2);
+            bullet.setPosition(bullet.getX1()+dx*200, bullet.getY1()+dy*200);
+        }
+        else {
+            addBullet(x,y);
+        }
+    }
+    private void addBullet(int x, int y) {
+        BulletModel bulletModel = new BulletModel(getCenter(), new Point(x, y),
+                Constants.EPSILON_RADIUS, 5, false);
+        GameManager.getINSTANCE().getGameModel().getBullets().add(bulletModel);
+        Controller.addBulletView(bulletModel);
     }
 
     public int getRadius() {

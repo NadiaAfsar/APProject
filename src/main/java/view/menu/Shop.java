@@ -1,6 +1,5 @@
-package view;
+package view.menu;
 
-import com.sun.org.apache.bcel.internal.Const;
 import controller.Constants;
 import controller.Controller;
 import controller.GameManager;
@@ -63,6 +62,7 @@ public class Shop extends JFrame {
                     showNotEnoughXP();
                 }
                 else {
+                    GameManager.getINSTANCE().getGameView().getHui().setAbility("O' Hephaestus, Banish");
                     resumeGame();
                 }
             }
@@ -78,6 +78,7 @@ public class Shop extends JFrame {
                     showNotEnoughXP();
                 }
                 else {
+                    GameManager.getINSTANCE().getGameView().getHui().setAbility("O, Athena, Empower");
                     resumeGame();
                 }
             }
@@ -93,6 +94,7 @@ public class Shop extends JFrame {
                     showNotEnoughXP();
                 }
                 else {
+                    GameManager.getINSTANCE().getGameView().getHui().setAbility("O' Apollo Heal");
                     resumeGame();
                 }
             }
@@ -126,6 +128,7 @@ public class Shop extends JFrame {
     }
     private void resumeGame() {
         Controller.gameRunning = true;
+        GameManager.getINSTANCE().setLastSavedTime();
         dispose();
     }
     private void addMainMenu() {

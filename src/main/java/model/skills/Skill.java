@@ -3,6 +3,8 @@ package model.skills;
 
 public abstract class Skill {
     private long lastActivatedTime;
+    protected String name;
+    protected boolean activated;
     public Skill() {
 
     }
@@ -19,4 +21,15 @@ public abstract class Skill {
         }
     }
     public abstract void activate();
+
+    public String getName() {
+        return name;
+    }
+
+    public String getStatus() {
+        if (activated) {
+            return "on";
+        }
+        return "off";
+    }
 }

@@ -1,6 +1,7 @@
-package view;
+package view.game;
 
 import movement.Direction;
+import view.Rotation;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -6,6 +6,7 @@ import model.Collective;
 import model.enemies.Enemy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GameModel {
@@ -22,6 +23,13 @@ public abstract class GameModel {
     protected int enemyXP;
     private ArrayList<Collective> Collectives;
     private EpsilonModel epsilon;
+    private int ares;
+    private boolean athena;
+    private long athenaActivationTime;
+    private boolean finished;
+    private double totalPR;
+    private ArrayList<BulletModel> enemiesBullets;
+    private Map<Integer, Side> sides;
 
     public GameModel() {
         x = 0;
@@ -32,6 +40,13 @@ public abstract class GameModel {
         bullets = new ArrayList<>();
         Collectives = new ArrayList<>();
         epsilon = new EpsilonModel();
+        enemiesBullets = new ArrayList<>();
+        sides = new HashMap<Integer, Side>() {{
+            put(1, new Side());
+            put(2, new Side());
+            put(3, new Side());
+            put(4, new Side());
+        }};
     }
 
 
@@ -112,5 +127,53 @@ public abstract class GameModel {
 
     public Map<Integer, Integer> getWaves() {
         return waves;
+    }
+
+    public int getAres() {
+        return ares;
+    }
+
+    public void setAres(int ares) {
+        this.ares = ares;
+    }
+
+    public boolean isAthena() {
+        return athena;
+    }
+
+    public void setAthena(boolean athena) {
+        this.athena = athena;
+    }
+
+    public long getAthenaActivationTime() {
+        return athenaActivationTime;
+    }
+
+    public void setAthenaActivationTime(long athenaActivationTime) {
+        this.athenaActivationTime = athenaActivationTime;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public double getTotalPR() {
+        return totalPR;
+    }
+
+    public void setTotalPR(double totalPR) {
+        this.totalPR = totalPR;
+    }
+
+    public Map<Integer, Side> getSides() {
+        return sides;
+    }
+
+    public ArrayList<BulletModel> getEnemiesBullets() {
+        return enemiesBullets;
     }
 }

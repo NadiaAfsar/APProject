@@ -1,11 +1,8 @@
 package controller;
 
-import model.game.GameModel;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 public class GameMouseListener extends MouseAdapter{
     private static boolean gameRunning;
@@ -16,7 +13,7 @@ public class GameMouseListener extends MouseAdapter{
             super.mouseClicked(e);
             int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - GameManager.getINSTANCE().getGameModel().getX();
             int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - GameManager.getINSTANCE().getGameModel().getY();
-            GameManager.getINSTANCE().shotBullet(x,y);
+            GameManager.getINSTANCE().getGameModel().getEpsilon().shootBullet(x,y);
         }
 
     }

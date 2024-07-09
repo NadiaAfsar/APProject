@@ -10,10 +10,10 @@ import model.skills.WritOfProteus;
 import movement.Point;
 import movement.RotatablePoint;
 import save.Save;
-import view.*;
-import view.enemies.EnemyView;
-import view.enemies.SquarantineView;
-import view.enemies.TrigorathView;
+import view.game.*;
+import view.game.enemies.EnemyView;
+import view.game.enemies.SquarantineView;
+import view.game.enemies.TrigorathView;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -92,9 +92,6 @@ public class Controller {
     public static void gameOver(int xp) {
         endGame();
         new GameOver(xp);
-    }
-    public static void setGameHUI() {
-        GameManager.getINSTANCE().getGameView().setHUI();
     }
 
     public static void setAres(boolean ares) {
@@ -226,5 +223,8 @@ public class Controller {
     }
     public static void removeEpsilonVertexes() {
         GameManager.getINSTANCE().getGameView().getEpsilonView().removeVertexes();
+    }
+    public static void announceAppearance(Point point) {
+
     }
 }
