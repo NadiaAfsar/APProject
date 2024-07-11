@@ -3,6 +3,7 @@ package model.game;
 import model.BulletModel;
 import model.EpsilonModel;
 import model.Collective;
+import model.Frame;
 import model.enemies.Enemy;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public abstract class GameModel {
     private boolean finished;
     private double totalPR;
     private ArrayList<BulletModel> enemiesBullets;
-    private Map<Integer, Side> sides;
+    ArrayList<Frame> frames;
 
     public GameModel() {
         x = 0;
@@ -41,12 +42,8 @@ public abstract class GameModel {
         Collectives = new ArrayList<>();
         epsilon = new EpsilonModel();
         enemiesBullets = new ArrayList<>();
-        sides = new HashMap<Integer, Side>() {{
-            put(1, new Side());
-            put(2, new Side());
-            put(3, new Side());
-            put(4, new Side());
-        }};
+        frames = new ArrayList<>();
+        frames.add(epsilon.getFrame());
     }
 
 
@@ -169,9 +166,6 @@ public abstract class GameModel {
         this.totalPR = totalPR;
     }
 
-    public Map<Integer, Side> getSides() {
-        return sides;
-    }
 
     public ArrayList<BulletModel> getEnemiesBullets() {
         return enemiesBullets;

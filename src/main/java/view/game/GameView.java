@@ -20,7 +20,6 @@ public class GameView extends JFrame {
     private Map<String, EnemyView> enemies;
     private Map<String, BulletView> bullets;
     private Map<String, CollectiveView> Collectives;
-    private final long startTime;
     private EpsilonView epsilonView;
     private HUI hui;
     public GameView() {
@@ -39,7 +38,6 @@ public class GameView extends JFrame {
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        startTime = System.currentTimeMillis();
         epsilonView = new EpsilonView(this);
         add(epsilonView);
         hui = new HUI();

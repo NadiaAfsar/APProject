@@ -1,13 +1,15 @@
-package model.enemies.archmire;
+package model.enemies.normal.archmire;
 
+import controller.Controller;
 import controller.GameManager;
+import model.Collective;
 import model.enemies.Enemy;
-import model.game.GameModel;
 import movement.Direction;
 import movement.Movable;
 import movement.Point;
 import movement.RotatablePoint;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Archmire extends Enemy implements Movable {
@@ -165,7 +167,13 @@ public class Archmire extends Enemy implements Movable {
     }
 
     @Override
-    public void addCollective(GameModel gameModel) {
-
+    public void addCollective() {
+        int[] x = new int[]{-10, 10, -10, 10, 0};
+        int[] y = new int[]{-10, -10, 10, 10, 0};
+        for (int i = 0; i < 5; i++) {
+            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED, 6);
+            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
+            Controller.addCollectiveView(collective);
+        }
     }
 }

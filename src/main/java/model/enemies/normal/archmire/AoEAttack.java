@@ -1,4 +1,4 @@
-package model.enemies.archmire;
+package model.enemies.normal.archmire;
 
 import controller.GameManager;
 import model.enemies.Enemy;

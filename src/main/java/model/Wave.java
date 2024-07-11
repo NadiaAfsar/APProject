@@ -3,7 +3,7 @@ package model;
 import controller.Controller;
 import controller.GameManager;
 import controller.GameManagerHelper;
-import controller.SoundController;
+import controller.audio.AudioController;
 import model.enemies.Enemy;
 import model.game.GameModel;
 import movement.Point;
@@ -34,7 +34,7 @@ public class Wave {
         Controller.addEnemyView(enemy);
     }
     private void startWave() {
-        SoundController.addEnemyEnteringSound();
+        AudioController.addEnemyEnteringSound();
         addedEnemies = new boolean[4][6];
         gameModel.setEnemies(new ArrayList<>());
         for (int i = 0; i < enemies; i++) {
@@ -44,7 +44,7 @@ public class Wave {
     private void waitBeforeNextWave() {
         if (waveNumber != 1) {
             GameManager.getINSTANCE().setWait(true);
-            SoundController.addWaveEndSound();
+            AudioController.addWaveEndSound();
             Timer timer = new Timer(2000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

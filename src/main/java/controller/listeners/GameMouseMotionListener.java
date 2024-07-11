@@ -1,9 +1,7 @@
-package controller;
+package controller.listeners;
 
+import controller.GameManager;
 import model.EpsilonModel;
-import model.game.GameModel;
-import movement.Direction;
-import movement.Point;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

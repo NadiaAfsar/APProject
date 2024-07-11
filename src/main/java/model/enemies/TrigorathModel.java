@@ -4,7 +4,6 @@ import collision.Collidable;
 import collision.Impactable;
 import controller.Controller;
 import controller.GameManager;
-import model.game.GameModel;
 import model.Collective;
 import movement.Direction;
 import movement.Movable;
@@ -136,10 +135,10 @@ public class TrigorathModel extends Enemy implements Impactable, Collidable, Mov
     }
 
     @Override
-    public void addCollective(GameModel gameModel) {
+    public void addCollective() {
         for (int i = -1; i < 2; i += 2) {
             Collective collective = new Collective((int) center.getX()+i*13, (int) center.getY()+i*13, Color.BLUE, 5);
-            gameModel.getCollectives().add(collective);
+            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }
     }

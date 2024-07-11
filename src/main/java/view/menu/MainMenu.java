@@ -2,7 +2,7 @@ package view.menu;
 
 import controller.Controller;
 import controller.GameManager;
-import controller.Sound;
+import controller.audio.Audio;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +48,7 @@ public class MainMenu {
             public void actionPerformed(ActionEvent e) {
                 empty();
                 new Settings(gamePanel, Controller.getSensitivity(), Controller.getDifficulty(),
-                        (int)((Sound.getSoundValue()+80)/0.86));
+                        (int)((Audio.getSoundValue()+80)/0.86));
                 GameManager.getINSTANCE().getGameFrame().update();
             }
         });

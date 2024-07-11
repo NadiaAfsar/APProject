@@ -1,6 +1,9 @@
 package controller;
 
 import collision.Impactable;
+import controller.audio.Audio;
+import controller.listeners.GameMouseListener;
+import controller.listeners.GameMouseMotionListener;
 import model.*;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
@@ -29,10 +32,10 @@ import java.util.ArrayList;
 public class Controller {
     public static boolean gameRunning;
     public static boolean gameFinished;
-    public static Sound music;
+    public static Audio music;
     public static void runGame() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GameManager.getINSTANCE();
-        music = new Sound("src/main/resources/15 - Bad n Crazy - Kim Woo Kun (320).wav");
+        music = new Audio("src/main/resources/15 - Bad n Crazy - Kim Woo Kun (320).wav");
         music.setRepeat();
     }
     public static void startGame() {
@@ -215,7 +218,7 @@ public class Controller {
         GameManager.setSensitivity(s);
     }
 
-    public static Sound getMusic() {
+    public static Audio getMusic() {
         return music;
     }
     public static int getTotalXP() {

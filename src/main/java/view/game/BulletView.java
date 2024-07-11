@@ -9,16 +9,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class BulletView extends JLabel {
+public class BulletView {
     private int x;
     private int y;
     private int width;
     private int height;
     private Direction direction;
     private BufferedImage image;
-    public BulletView(int x, int y, Direction direction) {
+    private String ID;
+    public BulletView(int x, int y, Direction direction, String ID) {
         this.x = x;
         this.y = y;
+        this.ID = ID;
         this.direction = direction;
         setIcon();
     }
@@ -32,7 +34,6 @@ public class BulletView extends JLabel {
     public void update(int x, int y) {
         this.x = x;
         this.y = y;
-        setBounds(x, y, width, height);
     }
     private void setIcon() {
         try {
@@ -42,9 +43,32 @@ public class BulletView extends JLabel {
             throw new RuntimeException(ex);
         }
         BufferedImage rotatedImage = Rotation.rotate(image, getAngle());
-        setIcon(new ImageIcon(rotatedImage));
+        image = rotatedImage;
         width = rotatedImage.getWidth();
         height = rotatedImage.getHeight();
-        setBounds(x, y, width, height);
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public BufferedImage getImage() {
+        return image;
     }
 }

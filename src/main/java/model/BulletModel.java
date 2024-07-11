@@ -1,14 +1,8 @@
 package model;
 
 import collision.Collidable;
-import controller.Constants;
-import controller.Controller;
-import controller.GameManager;
-import controller.SoundController;
-import model.enemies.Enemy;
-import model.game.GameModel;
+import controller.audio.AudioController;
 import movement.Direction;
-import movement.Movable;
 import movement.Point;
 import movement.RotatablePoint;
 
@@ -27,9 +21,9 @@ public class BulletModel implements Collidable {
     private double radius;
     private int damage;
     private boolean stable;
-    public BulletModel(Point point1, Point point2, int radius, int damage, boolean stable) {
+    public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable) {
         this.stable = stable;
-        SoundController.addBulletShotSound();
+        AudioController.addBulletShotSound();
         ID = UUID.randomUUID().toString();
         this.direction = new Direction(point1, point2);
         angle = getAngle();
@@ -82,14 +76,14 @@ public class BulletModel implements Collidable {
         return end.getRotatedY();
     }
 
-    private void setX1(Point point, int radius) {
+    private void setX1(Point point, double radius) {
         x1 = point.getX() + cos * radius;
         if (direction.getDx() < 0) {
             x1 += cos * 10;
         }
     }
 
-    private void setY1(Point point, int radius) {
+    private void setY1(Point point, double radius) {
         y1 = point.getY() + sin * radius;
         if (direction.getDy() < 0) {
             y1 += sin * 10;

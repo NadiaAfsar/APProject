@@ -2,6 +2,7 @@ package controller;
 
 
 import collision.Impactable;
+import controller.audio.AudioController;
 import model.BulletModel;
 import model.Collective;
 import model.Wave;
@@ -89,14 +90,14 @@ public class GameManager {
             Point point = enemy.getCollisionPoint(gameModel.getEpsilon(), enemy.getVertexes());
             if (point != null) {
                 enemy.impact(point, gameModel.getEpsilon());
-                SoundController.addCollisionSound();
+                AudioController.addCollisionSound();
             }
             for (int j = i+1; j < gameModel.getEnemies().size(); j++) {
                 Enemy enemy2 = gameModel.getEnemies().get(j);
                 point = enemy.getCollisionPoint(enemy2, enemy.getVertexes());
                 if (point != null) {
                     enemy.impact(point, enemy2);
-                    SoundController.addCollisionSound();
+                    AudioController.addCollisionSound();
                 }
             }
         }
@@ -129,7 +130,7 @@ public class GameManager {
                             vanishedBullets.add(bullet);
                             Controller.removeBullet(bullet);
                             if (enemy.died(5+gameModel.getAres())) {
-                                SoundController.addEnemyDyingSound();
+                                AudioController.addEnemyDyingSound();
                                 Controller.removeEnemy(enemy);
                                 diedEnemies.add(enemy);
                             }
@@ -150,7 +151,7 @@ public class GameManager {
                 takenCollectives.add(collective);
                 gameModel.getEpsilon().setXP(gameModel.getEpsilon().getXP()+5+ gameModel.getEnemyXP());
                 Controller.removeXP(collective);
-                SoundController.addXPCollectingSound();
+                AudioController.addXPCollectingSound();
             }
             else {
                 long currentTime = System.currentTimeMillis();
@@ -188,25 +189,6 @@ public class GameManager {
         }
         setTimePlayed();
     }
-    public boolean checkPosition() {
-        if (gameModel.getX() < 0) {
-            gameModel.setX(0);
-            return true;
-        }
-        else if (gameModel.getX() > Constants.FRAME_SIZE.getWidth()-gameModel.getWidth()) {
-            gameModel.setX(Constants.FRAME_SIZE.getWidth()-gameModel.getWidth());
-            return true;
-        }
-        if (gameModel.getY() < 0) {
-            gameModel.setY(0);
-            return true;
-        }
-        else if (gameModel.getY() > Constants.FRAME_SIZE.getHeight()-gameModel.getHeight()) {
-            gameModel.setY(Constants.FRAME_SIZE.getHeight()-gameModel.getHeight());
-            return true;
-        }
-        return false;
-    }
     public void activateAthena() {
         gameModel.setAthena(true);
         gameModel.setAthenaActivationTime(System.currentTimeMillis());
@@ -219,7 +201,7 @@ public class GameManager {
     }
     private void endGame() {
         Controller.endGame();
-        SoundController.addWinningSound();
+        AudioController.addWinningSound();
         Controller.removeEpsilonVertexes();
         for (int i = 0; i < gameModel.getCollectives().size(); i++) {
             Controller.removeXP(gameModel.getCollectives().get(i));

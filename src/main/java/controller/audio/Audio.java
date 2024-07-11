@@ -1,15 +1,15 @@
-package controller;
+package controller.audio;
 
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Sound {
+public class Audio {
     private Clip clip;
     private AudioInputStream sound;
     private static float soundValue;
     FloatControl soundControl;
-    public Sound(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public Audio(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File music = new File(path);
         sound = AudioSystem.getAudioInputStream(music);
         clip = AudioSystem.getClip();

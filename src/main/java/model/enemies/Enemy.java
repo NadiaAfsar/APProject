@@ -1,12 +1,6 @@
 package model.enemies;
 
-import collision.Collidable;
-import collision.Impactable;
-import controller.GameManager;
-import model.EpsilonModel;
-import model.game.GameModel;
 import movement.Direction;
-import movement.Movable;
 import movement.Point;
 import movement.RotatablePoint;
 
@@ -78,7 +72,6 @@ public abstract class Enemy extends Thread {
     }
 
 
-    public abstract Direction getDirection();
 
 
     public int getHP() {
@@ -95,7 +88,7 @@ public abstract class Enemy extends Thread {
     public boolean died(int x) {
         HP -= x;
         if (getHP() <= 0) {
-            addCollective(GameManager.getINSTANCE().getGameModel());
+            addCollective();
             return true;
         }
         return false;
@@ -103,7 +96,7 @@ public abstract class Enemy extends Thread {
     protected abstract void addVertexes();
 
 
-    public abstract void addCollective(GameModel gameModel);
+    public abstract void addCollective();
 
     public int getInitialHP() {
         return initialHP;

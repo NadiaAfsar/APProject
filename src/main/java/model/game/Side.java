@@ -1,6 +1,6 @@
 package model.game;
 
-import model.enemies.Omenoct;
+import model.enemies.normal.Omenoct;
 
 import java.util.ArrayList;
 

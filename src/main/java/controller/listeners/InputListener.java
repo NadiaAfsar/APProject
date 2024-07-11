@@ -1,5 +1,7 @@
-package controller;
+package controller.listeners;
 
+import controller.Controller;
+import controller.GameManager;
 import model.EpsilonModel;
 import model.skills.Skill;
 import view.menu.Shop;

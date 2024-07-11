@@ -1,6 +1,7 @@
 package controller;
 
 import model.BulletModel;
+import model.Frame;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
 import model.enemies.TrigorathModel;
@@ -51,41 +52,25 @@ public class GameManagerHelper {
         }
         return enemy;
     }
-    public static boolean checkFrameCollisionWithBullet(BulletModel bullet) {
+    public static boolean checkFrameCollisionWithBullet(BulletModel bullet, Frame frame) {
         GameModel gameModel = GameManager.getINSTANCE().getGameModel();
-        if (bullet.getX2() <= 0) {
-            changeWidth(gameModel, bullet, -10);
+        if (bullet.getX2() <= frame.getX()) {
+            frame.changeWidth(bullet, -10);
             return true;
         }
-        else if (bullet.getX2() >= gameModel.getWidth()) {
-            changeWidth(gameModel, bullet, 10);
+        else if (bullet.getX2() >= frame.getX()+ frame.getWidth()) {
+            frame.changeWidth(bullet, 10);
             return true;
         }
         else if (bullet.getY2() <= 0) {
-            changeHeight(gameModel, bullet, -10);
+            frame.changeHeight(bullet, -10);
             return true;
         }
         else if (bullet.getY2() >= gameModel.getHeight()) {
-            changeHeight(gameModel, bullet, 10);
+            frame.changeHeight(bullet, 10);
             return true;
         }
         return false;
-    }
-    private static void changeWidth(GameModel gameModel, BulletModel bullet, int x) {
-        gameModel.setWidth(gameModel.getWidth()+10);
-        gameModel.setX(gameModel.getX()+ x + bullet.getDirection().getDx()*20);
-        gameModel.setY(gameModel.getY() + bullet.getDirection().getDy()*20);
-        if (GameManager.getINSTANCE().checkPosition()) {
-            gameModel.setWidth(gameModel.getWidth()-10);
-        }
-    }
-    private static void changeHeight(GameModel gameModel, BulletModel bullet, int y) {
-        gameModel.setHeight(gameModel.getHeight()+10);
-        gameModel.setX(gameModel.getX() + bullet.getDirection().getDx()*20);
-        gameModel.setY(gameModel.getY() + y + bullet.getDirection().getDy()*20);
-        if (GameManager.getINSTANCE().checkPosition()) {
-            gameModel.setHeight(gameModel.getHeight()-10);
-        }
     }
 
 }

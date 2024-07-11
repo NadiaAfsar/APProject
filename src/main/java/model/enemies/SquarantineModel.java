@@ -4,7 +4,6 @@ import collision.Collidable;
 import collision.Impactable;
 import controller.Controller;
 import controller.GameManager;
-import model.game.GameModel;
 import model.Collective;
 import movement.Direction;
 import movement.Movable;
@@ -139,9 +138,9 @@ public class SquarantineModel extends Enemy implements Impactable, Collidable, M
     }
 
     @Override
-    public void addCollective(GameModel gameModel) {
+    public void addCollective() {
         Collective collective = new Collective((int)center.getX(), (int)center.getY(), Color.MAGENTA, 5);
-        gameModel.getCollectives().add(collective);
+        GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
         Controller.addCollectiveView(collective);
     }
     public Direction getDirection() {

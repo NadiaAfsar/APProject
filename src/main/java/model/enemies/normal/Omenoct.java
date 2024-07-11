@@ -1,4 +1,4 @@
-package model.enemies;
+package model.enemies.normal;
 
 import collision.Collidable;
 import collision.Impactable;
@@ -6,7 +6,7 @@ import controller.Controller;
 import controller.GameManager;
 import model.BulletModel;
 import model.Collective;
-import model.game.GameModel;
+import model.enemies.Enemy;
 import movement.Direction;
 import movement.Movable;
 import movement.Point;
@@ -156,12 +156,12 @@ public class Omenoct extends Enemy implements Impactable, Collidable, Movable {
     }
 
     @Override
-    public void addCollective(GameModel gameModel) {
+    public void addCollective() {
         int[] x = new int[]{0, 5, 10, 5, 0, -5, -10, -5};
         int[] y = new int[]{-10, -15, 0, 5, 10, 5, 0, -5};
         for (int i = 0; i < 8; i++) {
             Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED, 4);
-            gameModel.getCollectives().add(collective);
+            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }
     }
@@ -173,7 +173,7 @@ public class Omenoct extends Enemy implements Impactable, Collidable, Movable {
                 (chosenSide.getX() == 0 && center.getY() == chosenSide.getY())) {
             stuck = true;
             velocityPower *= 2;
-            GameManager.getINSTANCE().getGameModel().getSides().get(side).getStuckOmenocts().add(this);
+            //GameManager.getINSTANCE().getGameModel().getSides().get(side).getStuckOmenocts().add(this);
         }
 
     }

@@ -1,16 +1,18 @@
-package model.enemies;
+package model.enemies.normal;
 
 import controller.Controller;
 import controller.GameManager;
 import model.BulletModel;
-import model.game.GameModel;
+import model.Collective;
+import model.enemies.Enemy;
 import movement.Direction;
 import movement.Point;
 import movement.RotatablePoint;
 
+import java.awt.*;
 import java.util.ArrayList;
 
-public class Necropick extends Enemy{
+public class Necropick extends Enemy {
     private final double height;
     private final double width;
     public Necropick(Point center, double velocity, int hp) {
@@ -30,8 +32,14 @@ public class Necropick extends Enemy{
 
 
     @Override
-    public void addCollective(GameModel gameModel) {
-
+    public void addCollective() {
+        int[] x = new int[]{-10, 10, -10, 10};
+        int[] y = new int[]{-10, -10, 10, 10};
+        for (int i = 0; i < 4; i++) {
+            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED, 2);
+            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
+            Controller.addCollectiveView(collective);
+        }
     }
     protected void addVertexes() {
         vertexes = new ArrayList<>();

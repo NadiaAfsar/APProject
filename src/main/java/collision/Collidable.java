@@ -4,7 +4,7 @@ package collision;
 import controller.Constants;
 import controller.Controller;
 import controller.GameManager;
-import controller.SoundController;
+import controller.audio.AudioController;
 import model.BulletModel;
 import model.EpsilonModel;
 import model.Collective;
@@ -42,7 +42,7 @@ public interface Collidable {
                 if ((enemy).died(5+ GameManager.getINSTANCE().getGameModel().getAres())) {
                     GameManager.getINSTANCE().getDiedEnemies().add(enemy);
                     Controller.removeEnemy(enemy);
-                    SoundController.addEnemyDyingSound();
+                    AudioController.addEnemyDyingSound();
                 }
                 return collisionPoint;
             }

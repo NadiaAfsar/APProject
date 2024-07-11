@@ -3,7 +3,8 @@ package model;
 import collision.Collidable;
 import collision.Impactable;
 import controller.*;
-import model.enemies.SquarantineModel;
+import controller.audio.AudioController;
+import controller.listeners.InputListener;
 import model.game.GameModel;
 import movement.Direction;
 import movement.Movable;
@@ -32,8 +33,9 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private double angularAcceleration;
     private double angularAccelerationRate;
     private ArrayList<RotatablePoint> vertexes;
-    private int sensitivity;
+    private final int sensitivity;
     private boolean impact;
+    private Frame frame;
 
     public EpsilonModel() {
         setCenter(Constants.FRAME_SIZE.width/2, Constants.FRAME_SIZE.height/2);
@@ -45,6 +47,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);
         vertexes = new ArrayList<>();
+        frame = new Frame(700,700,0,0,false,false);
         this.sensitivity = GameManager.getSensitivity();
     }
 
@@ -144,7 +147,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     public void decreaseHP(int hp) {
         HP -= hp;
         if (HP <= 0) {
-            SoundController.addGameOverSound();
+            AudioController.addGameOverSound();
             Controller.gameOver(XP);
         }
     }
@@ -256,6 +259,10 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         Controller.addBulletView(bulletModel);
     }
 
+    public Frame getFrame() {
+        return frame;
+    }
+
     public int getRadius() {
         return radius;
     }
@@ -360,4 +367,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         this.angularAccelerationRate = angularAccelerationRate;
     }
 
+    public void setFrame(Frame frame) {
+        this.frame = frame;
+    }
 }

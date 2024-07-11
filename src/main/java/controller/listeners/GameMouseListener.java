@@ -1,4 +1,6 @@
-package controller;
+package controller.listeners;
+
+import controller.GameManager;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
