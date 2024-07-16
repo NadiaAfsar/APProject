@@ -270,7 +270,6 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                         Collidable collidable = enemies.get(i);
                         Point collisionPoint = collidable.getCollisionPoint(this);
                         if (collisionPoint != null) {
-                            System.out.println("collided");
                             this.impact(collisionPoint, collidable);
                         }
                     }

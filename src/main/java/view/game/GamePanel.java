@@ -22,8 +22,8 @@ public class GamePanel extends JPanel {
     public GamePanel(int x, int y, int width, int height, String ID) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = width+10;
+        this.height = height+30;
         this.ID = ID;
         addFrame();
         addPanel();
@@ -33,7 +33,7 @@ public class GamePanel extends JPanel {
         frame = new JFrame();
         frame.setBounds(x,y,width,height);
         frame.setLocationRelativeTo(null);
-        frame.setUndecorated(true);
+        //frame.setUndecorated(true);
         frame.setResizable(false);
         frame.setVisible(true);
         frame.setLayout(null);
@@ -66,10 +66,10 @@ public class GamePanel extends JPanel {
     public void update(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
-        setBounds(0, 0, width, height);
-        frame.setBounds(x, y, width, height);
+        this.width = width+10;
+        this.height = height+30;
+        setBounds(0, 0, this.width, this.height);
+        frame.setBounds(x, y, this.width, this.height);
     }
     @Override
     public void paintComponent(Graphics g) {

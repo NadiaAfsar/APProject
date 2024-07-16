@@ -47,9 +47,9 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         position = new RotatablePoint(center.getX(), center.getY(), 1.22*Math.PI, 19.5*width/30);
     }
     public void nextMove() {
-        //move();
-//        frame.setX(getX()-100);
-//        frame.setY(getY()-100);
+        move();
+        frame.setX(center.getX()-width/2-10);
+        frame.setY(center.getY()-height/2-10);
         //shoot();
     }
     private void shoot() {
@@ -66,17 +66,27 @@ public class Wyrm extends Enemy implements Movable, Impactable {
     public Direction getDirection() {
         Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
         Direction direction = new Direction(center, epsilonCenter);
-        if (!isNearEpsilon()) {
+        if (isTooNearEpsilon()) {
+            Direction direction1 = new Direction();
+            direction1.setDx(-direction.getDx());
+            direction1.setDy(-direction.getDy());
+            return direction1;
+        }
+        else if (!isNearEpsilon()) {
             return direction;
         }
         Direction direction1 = new Direction();
-        direction1.setDx(direction.getDy()*this.direction);
-        direction1.setDy(-direction.getDx()*this.direction);
+        direction1.setDx(direction.getDy()*this.direction*3);
+        direction1.setDy(-direction.getDx()*this.direction*3);
         return direction1;
     }
     private boolean isNearEpsilon() {
         Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
-        return getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) < 100;
+        return getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) <= 100;
+    }
+    private boolean isTooNearEpsilon() {
+        Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
+        return getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) < 90;
     }
 
     @Override
