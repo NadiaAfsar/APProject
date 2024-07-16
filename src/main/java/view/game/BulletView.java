@@ -1,10 +1,10 @@
 package view.game;
 
-import movement.Direction;
+import controller.GameManager;
+import model.interfaces.movement.Direction;
 import view.Rotation;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class BulletView {
     }
     private void setIcon() {
         try {
-            image = ImageIO.read(new File("src/main/resources/bullet.png"));
+            image = ImageIO.read(new File(GameManager.configs.BULLET));
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);

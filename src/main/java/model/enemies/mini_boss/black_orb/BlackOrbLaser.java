@@ -1,20 +1,26 @@
 package model.enemies.mini_boss.black_orb;
 
+import controller.Controller;
 import controller.GameManager;
+import model.EpsilonModel;
 import model.enemies.Enemy;
-import model.enemies.normal.archmire.Interference;
-import movement.Point;
-import movement.RotatablePoint;
+import model.Interference;
+import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class BlackOrbLaser {
     private final BlackOrbVertex vertex1;
     private final BlackOrbVertex vertex2;
+    private String ID;
 
     public BlackOrbLaser(BlackOrbVertex vertex1, BlackOrbVertex vertex2) {
+        ID = UUID.randomUUID().toString();
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
+        Controller.addLaserView(this);
     }
     public void attack() {
         Point point1 = new Point(vertex1.getCenter().getX(), vertex1.getCenter().getY()-10);
@@ -25,8 +31,13 @@ public class BlackOrbLaser {
         ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
         for (int i = 0; i < enemies.size(); i++) {
             if (enemyCollidesLaser(enemies.get(i), points)) {
-                enemies.get(i).died(12);
+                enemies.get(i).decreaseHP(12);
             }
+        }
+        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        if (Interference.pointDistanceFromLine(epsilon.getCenter(), point1, point2) < epsilon.getRadius() ||
+        Interference.pointDistanceFromLine(epsilon.getCenter(), point3, point4) < epsilon.getRadius()) {
+            epsilon.decreaseHP(12);
         }
 
     }
@@ -35,8 +46,8 @@ public class BlackOrbLaser {
             boolean isIn = true;
             for (int j = 0; j < points.size(); j++) {
                 RotatablePoint point = enemy.getVertexes().get(i);
-                double x = enemy.getVertexes().get(i).getRotatedX();
-                double y = enemy.getVertexes().get(i).getRotatedY();
+                double x = point.getRotatedX();
+                double y = point.getRotatedY();
                 double x1 = points.get(j).getX();
                 double y1 = points.get(j).getY();
                 double x2, y2;
@@ -57,6 +68,20 @@ public class BlackOrbLaser {
         }
         return false;
     }
+    public int getX1() {
+        return (int)vertex1.getCenter().getX();
+    }
+    public int getY1() {
+        return (int)vertex1.getCenter().getY();
+    }
+    public int getX2() {
+        return (int)vertex2.getCenter().getX();
+    }
+    public int getY2() {
+        return (int)vertex2.getCenter().getY();
+    }
 
-
+    public String getID() {
+        return ID;
+    }
 }

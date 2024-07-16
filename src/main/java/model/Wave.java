@@ -5,8 +5,9 @@ import controller.GameManager;
 import controller.GameManagerHelper;
 import controller.audio.AudioController;
 import model.enemies.Enemy;
+import model.frame.Frame;
 import model.game.GameModel;
-import movement.Point;
+import model.interfaces.movement.Point;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,16 +29,17 @@ public class Wave {
         waitBeforeNextWave();
     }
     private void addEnemy() {
-        Point position = GameManagerHelper.getRandomPosition(addedEnemies, gameModel.getWidth(), gameModel.getHeight());
-        Enemy enemy = GameManagerHelper.getNewEnemy(position, gameModel.getEnemyHP(), gameModel.getEnemyVelocity());
+        Frame frame = gameModel.getEpsilon().getFrame();
+        Point position = GameManagerHelper.getRandomPosition(addedEnemies, frame.getWidth(), frame.getHeight());
+        Enemy enemy = GameManagerHelper.getNewEnemy(new Point(frame.getX()+ position.getX(),
+                frame.getY()+ position.getY()), gameModel.getEnemyHP(), gameModel.getEnemyVelocity());
         gameModel.getEnemies().add(enemy);
-        Controller.addEnemyView(enemy);
     }
     private void startWave() {
         AudioController.addEnemyEnteringSound();
         addedEnemies = new boolean[4][6];
         gameModel.setEnemies(new ArrayList<>());
-        for (int i = 0; i < enemies; i++) {
+        for (int i = 0; i < 1; i++) {
             addEnemy();
         }
     }

@@ -1,12 +1,13 @@
 package controller;
 
 import model.BulletModel;
-import model.Frame;
+import model.enemies.normal.Wyrm;
+import model.frame.Frame;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
 import model.enemies.TrigorathModel;
 import model.game.GameModel;
-import movement.Point;
+import model.interfaces.movement.Point;
 
 import java.util.ArrayList;
 
@@ -43,17 +44,11 @@ public class GameManagerHelper {
     }
     public static Enemy getNewEnemy(Point point, int hp, double velocity) {
         int x = (int)(Math.random()*2);
-        Enemy enemy;
-        if (x == 0) {
-            enemy = new SquarantineModel(point, hp, velocity);
-        }
-        else {
-            enemy = new TrigorathModel(point, hp, velocity);
-        }
+        Enemy enemy = new Wyrm(new Point(600,100),velocity, hp);
+        //Enemy enemy = new SquarantineModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         return enemy;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet, Frame frame) {
-        GameModel gameModel = GameManager.getINSTANCE().getGameModel();
         if (bullet.getX2() <= frame.getX()) {
             frame.changeWidth(bullet, -10);
             return true;
@@ -66,7 +61,7 @@ public class GameManagerHelper {
             frame.changeHeight(bullet, -10);
             return true;
         }
-        else if (bullet.getY2() >= gameModel.getHeight()) {
+        else if (bullet.getY2() >= frame.getHeight()) {
             frame.changeHeight(bullet, 10);
             return true;
         }

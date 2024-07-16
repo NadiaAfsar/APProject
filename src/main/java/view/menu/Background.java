@@ -1,6 +1,6 @@
 package view.menu;
 
-import controller.Constants;
+import controller.save.Configs;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,8 +15,8 @@ public class Background extends JPanel {
     private int ySize;
 
     public Background(String path) {
-        this.xSize = Constants.FRAME_SIZE.width;
-        this.ySize = Constants.FRAME_SIZE.height;
+        this.xSize = Configs.FRAME_SIZE.width;
+        this.ySize = Configs.FRAME_SIZE.height;
         try {
             backGround = ImageIO.read(new File(path));
         } catch (IOException e) {

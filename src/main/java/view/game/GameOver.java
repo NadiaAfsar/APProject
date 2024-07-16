@@ -1,7 +1,7 @@
 package view.game;
 
-import controller.Constants;
 import controller.GameManager;
+import controller.save.Configs;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,16 +25,16 @@ public class GameOver extends JFrame {
         this.xp = xp;
         width = 700;
         height = 500;
-        x = (int)Constants.FRAME_SIZE.getWidth()/2-350;
-        y = (int)Constants.FRAME_SIZE.getHeight()/2-250;
+        x = (int) Configs.FRAME_SIZE.getWidth()/2-350;
+        y = (int)Configs.FRAME_SIZE.getHeight()/2-250;
         addFrame();
         addPanel();
-        try {
-            setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+//        try {
+//            setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
+//        }
+//        catch (IOException ex) {
+//            throw new RuntimeException(ex);
+//        }
         addGameOver();
         addXP();
         addMainMenu();
@@ -80,7 +80,7 @@ public class GameOver extends JFrame {
         mainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameManager.getINSTANCE().getGameView().dispose();
+                //GameManager.getINSTANCE().getGameView().dispose();
                 GameManager.getINSTANCE().getGameFrame().setVisible(true);
                 dispose();
             }

@@ -3,18 +3,13 @@ package model.game;
 import model.BulletModel;
 import model.EpsilonModel;
 import model.Collective;
-import model.Frame;
+import model.frame.Frame;
 import model.enemies.Enemy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GameModel {
-    private double width;
-    private double height;
-    private double x;
-    private double y;
     private ArrayList<Enemy> enemies;
     private ArrayList<BulletModel> bullets;
     protected Map<Integer, Integer> waves;
@@ -30,41 +25,23 @@ public abstract class GameModel {
     private boolean finished;
     private double totalPR;
     private ArrayList<BulletModel> enemiesBullets;
-    ArrayList<Frame> frames;
+    private ArrayList<Frame> frames;
+    private final Object enemyLock;
 
     public GameModel() {
-        x = 0;
-        y = 0;
-        width = 700;
-        height = 700;
+        enemyLock = new Object();
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
         Collectives = new ArrayList<>();
-        epsilon = new EpsilonModel();
         enemiesBullets = new ArrayList<>();
         frames = new ArrayList<>();
+        epsilon = new EpsilonModel(new Frame(700, 700,0,0,false,false));
         frames.add(epsilon.getFrame());
-    }
 
-
-    public double getWidth() {
-        return width;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public int getX() {
-        return (int)x;
-    }
-
-    public int getY() {
-        return (int)y;
     }
 
     public ArrayList<Enemy> getEnemies() {
-        return enemies;
+            return enemies;
     }
 
     public ArrayList<BulletModel> getBullets() {
@@ -75,23 +52,6 @@ public abstract class GameModel {
     public ArrayList<Collective> getCollectives() {
         return Collectives;
     }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
 
 
     public int getEnemyPower() {
@@ -119,7 +79,7 @@ public abstract class GameModel {
     }
 
     public void setEnemies(ArrayList<Enemy> enemies) {
-        this.enemies = enemies;
+            this.enemies = enemies;
     }
 
     public Map<Integer, Integer> getWaves() {
@@ -169,5 +129,13 @@ public abstract class GameModel {
 
     public ArrayList<BulletModel> getEnemiesBullets() {
         return enemiesBullets;
+    }
+
+    public Object getEnemyLock() {
+        return enemyLock;
+    }
+
+    public ArrayList<Frame> getFrames() {
+        return frames;
     }
 }

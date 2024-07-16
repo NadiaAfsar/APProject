@@ -1,7 +1,7 @@
 package view.game;
 
-import controller.Constants;
 import controller.GameManager;
+import controller.save.Configs;
 import model.skills.Skill;
 
 import javax.swing.*;
@@ -26,7 +26,7 @@ public class HUI extends JFrame {
     private JPanel panel;
     private Timer timer;
     public HUI() {
-        x = Constants.FRAME_SIZE.width-200;
+        x = Configs.FRAME_SIZE.width-200;
         y = 10;
         width = 150;
         height = 300;
@@ -64,9 +64,7 @@ public class HUI extends JFrame {
         setVisible(true);
         setTimer();
         timer.start();
-        GameManager.getINSTANCE().getGameView().setFocusable(true);
-        GameManager.getINSTANCE().getGameView().requestFocus();
-        GameManager.getINSTANCE().getGameView().requestFocusInWindow();
+        GameManager.getINSTANCE().getGameView().setFocus();
     }
     private String getElapsedTime(long time1) {
         setTime(time1);

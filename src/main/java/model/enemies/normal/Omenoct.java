@@ -1,30 +1,37 @@
 package model.enemies.normal;
 
-import collision.Collidable;
-import collision.Impactable;
+import model.frame.Frame;
+import model.interfaces.collision.Collidable;
+import model.interfaces.collision.Impactable;
 import controller.Controller;
 import controller.GameManager;
 import model.BulletModel;
 import model.Collective;
 import model.enemies.Enemy;
-import movement.Direction;
-import movement.Movable;
-import movement.Point;
-import movement.RotatablePoint;
+import model.interfaces.movement.Direction;
+import model.interfaces.movement.Movable;
+import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Omenoct extends Enemy implements Impactable, Collidable, Movable {
+public class Omenoct extends Enemy implements Impactable, Movable {
     private boolean stuck;
     private boolean sideChosen;
     private int side;
-    public Omenoct(Point center, double velocity, int hp) {
+    private Frame frame;
+    private long lastShoot;
+    public Omenoct(Point center, double velocity, int hp, Frame frame) {
         super(center, velocity);
         addVertexes();
-        start();
+        width = GameManager.configs.OMENOCT_WIDTH;
+        height = GameManager.configs.OMENOCT_HEIGHT;
         this.HP = 20 + hp;
-        initialHP = HP;
+        damage = 8;
+        this.frame = frame;
+        this.frame.getEnemies().add(this);
+        Controller.addEnemyView(this);
     }
 
     @Override
@@ -45,21 +52,6 @@ public class Omenoct extends Enemy implements Impactable, Collidable, Movable {
         return new Direction(center, new Point(x, y));
     }
 
-    @Override
-    public double getAngularVelocity() {
-        return 0;
-    }
-
-    @Override
-    public double getAngularAcceleration() {
-        return 0;
-    }
-
-    @Override
-    public void setAngle(double angle) {
-
-    }
-
     private void choseSide() {
         side = (int)(Math.random()*4);
         sideChosen = true;
@@ -70,80 +62,15 @@ public class Omenoct extends Enemy implements Impactable, Collidable, Movable {
             chosenSide = new Point(0, 15);
         }
         else if (side == 1) {
-            chosenSide = new Point(GameManager.getINSTANCE().getGameModel().getWidth()-15, 0);
+            chosenSide = new Point(frame.getWidth()-15, 0);
         }
         else if (side == 2) {
-            chosenSide = new Point(0, GameManager.getINSTANCE().getGameModel().getHeight()-15);
+            chosenSide = new Point(0, frame.getHeight()-15);
         }
         else {
             chosenSide = new Point(15, 0);
         }
         return chosenSide;
-    }
-
-    @Override
-    public void setAngularVelocity(double velocity) {
-
-    }
-
-    @Override
-    public void setAngularAcceleration(double acceleration) {
-
-    }
-
-    @Override
-    public void setAngularAccelerationRate(double accelerationRate) {
-
-    }
-
-    @Override
-    public double getAngularAccelerationRate() {
-        return 0;
-    }
-
-    @Override
-    public void setCenter(Point center) {
-
-    }
-
-    @Override
-    public void setImpact(boolean impact) {
-
-    }
-
-    @Override
-    public Point getAcceleration() {
-        return null;
-    }
-
-    @Override
-    public void setAcceleration(Point acceleration) {
-
-    }
-
-    @Override
-    public Point getAccelerationRate() {
-        return null;
-    }
-
-    @Override
-    public void setAccelerationRate(Point accelerationRate) {
-
-    }
-
-    @Override
-    public void setVelocity(Point velocity) {
-
-    }
-
-    @Override
-    public Point getVelocity() {
-        return null;
-    }
-
-    @Override
-    public double getVelocityPower() {
-        return 0;
     }
 
     @Override
@@ -160,7 +87,8 @@ public class Omenoct extends Enemy implements Impactable, Collidable, Movable {
         int[] x = new int[]{0, 5, 10, 5, 0, -5, -10, -5};
         int[] y = new int[]{-10, -15, 0, 5, 10, 5, 0, -5};
         for (int i = 0; i < 8; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED, 4);
+            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED,
+                    4, frame);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }
@@ -173,7 +101,7 @@ public class Omenoct extends Enemy implements Impactable, Collidable, Movable {
                 (chosenSide.getX() == 0 && center.getY() == chosenSide.getY())) {
             stuck = true;
             velocityPower *= 2;
-            //GameManager.getINSTANCE().getGameModel().getSides().get(side).getStuckOmenocts().add(this);
+            frame.getSides().get(side).getStuckOmenocts().add(this);
         }
 
     }
@@ -182,33 +110,110 @@ public class Omenoct extends Enemy implements Impactable, Collidable, Movable {
         double[] angles = new double[]{11d/8*Math.PI, 13d/8*Math.PI, 15d/8*Math.PI, 1d/8*Math.PI,
         3d/8*Math.PI, 5d/8*Math.PI, 7d/8*Math.PI, 9d/8*Math.PI};
         for (int i = 0; i < 8; i++) {
-            RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angles[i]+angle, 18.4);
+            RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angles[i]+angle, 0.54*width);
             vertexes.add(vertex);
         }
-        position = new RotatablePoint(center.getX(), center.getY(), 5d/4*Math.PI+angle, 0);
+        position = new RotatablePoint(center.getX(), center.getY(), 5d/4*Math.PI+angle, Math.sqrt(0.5)*width);
     }
     public void separate() {
         stuck = false;
         sideChosen = false;
         velocityPower /= 2;
     }
-    private void shoot() {
-        BulletModel bulletModel = new BulletModel(center, GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter(),
-                15, 4, true);
-        GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
-        Controller.addBulletView(bulletModel);
-    }
-    public void run() {
-        while (true) {
-            if (stuck) {
-                shoot();
-            }
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+    private void shot() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime-lastShoot >= 500) {
+            BulletModel bulletModel = new BulletModel(center, GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter(),
+                    15, 4, true, frame);
+            GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
+            Controller.addBulletView(bulletModel);
+            lastShoot = currentTime;
         }
+    }
+    public void nextMove() {
+            move();
+            checkCollision();
+            if (stuck) {
+                shot();
+            }
+    }
+    @Override
+    public void setAngularVelocity(double velocity) {
+        angularVelocity = velocity;
+    }
+
+    @Override
+    public void setAngularAcceleration(double acceleration) {
+        angularAcceleration = acceleration;
+    }
+
+    @Override
+    public void setAngularAccelerationRate(double accelerationRate) {
+        angularAccelerationRate = accelerationRate;
+    }
+
+    @Override
+    public double getAngularAccelerationRate() {
+        return angularAccelerationRate;
+    }
+
+    @Override
+    public void setCenter(Point center) {
+        this.center = center;
+    }
+
+    @Override
+    public void setImpact(boolean impact) {
+        this.impact = impact;
+    }
+
+    @Override
+    public Point getAcceleration() {
+        return acceleration;
+    }
+
+    @Override
+    public void setAcceleration(Point acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    @Override
+    public Point getAccelerationRate() {
+        return accelerationRate;
+    }
+
+    @Override
+    public void setAccelerationRate(Point accelerationRate) {
+        this.accelerationRate = accelerationRate;
+    }
+
+    @Override
+    public void setVelocity(Point velocity) {
+        this.velocity = velocity;
+    }
+
+    @Override
+    public Point getVelocity() {
+        return velocity;
+    }
+
+    @Override
+    public double getVelocityPower() {
+        return velocityPower;
+    }
+    @Override
+    public double getAngularVelocity() {
+        return angularVelocity;
+    }
+
+    @Override
+    public double getAngularAcceleration() {
+        return angularAcceleration;
+    }
+
+    @Override
+    public void setAngle(double angle) {
+        this.angle = angle;
     }
 
 }

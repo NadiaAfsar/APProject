@@ -1,6 +1,6 @@
 package view.menu;
 
-import controller.Constants;
+import controller.save.Configs;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -47,7 +47,7 @@ public class Tutorial {
     }
     private void addShop() {
         shop = new JButton("Shop");
-        addJButton(shop, (int)Constants.FRAME_SIZE.getWidth()/2-100, 100);
+        addJButton(shop, (int) Configs.FRAME_SIZE.getWidth()/2-100, 100);
         shop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -60,7 +60,7 @@ public class Tutorial {
     }
     private void addSkills() {
         skills = new JButton("Skills");
-        addJButton(skills, (int)Constants.FRAME_SIZE.getWidth()/2-100, 300);
+        addJButton(skills, (int)Configs.FRAME_SIZE.getWidth()/2-100, 300);
         skills.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,7 +73,7 @@ public class Tutorial {
     }
     private void addAboutGame() {
         aboutGame = new JButton("About Game");
-        addJButton(aboutGame, (int)Constants.FRAME_SIZE.getWidth()/2-100, 500);
+        addJButton(aboutGame, (int)Configs.FRAME_SIZE.getWidth()/2-100, 500);
         aboutGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

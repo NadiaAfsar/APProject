@@ -1,22 +1,32 @@
 package controller;
 
-import collision.Impactable;
+import controller.update.Update;
+import model.enemies.TrigorathModel;
+import model.enemies.mini_boss.Barricados;
+import model.enemies.mini_boss.black_orb.BlackOrbLaser;
+import model.enemies.mini_boss.black_orb.BlackOrbVertex;
+import model.enemies.normal.Necropick;
+import model.enemies.normal.Omenoct;
+import model.enemies.normal.Wyrm;
+import model.enemies.normal.archmire.AoEAttack;
+import model.enemies.normal.archmire.Archmire;
+import model.frame.Frame;
+import model.interfaces.collision.Impactable;
 import controller.audio.Audio;
 import controller.listeners.GameMouseListener;
 import controller.listeners.GameMouseMotionListener;
 import model.*;
 import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
-import model.skills.WritOfAceso;
-import model.skills.WritOfAres;
-import model.skills.WritOfProteus;
-import movement.Point;
-import movement.RotatablePoint;
+import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 import save.Save;
 import view.game.*;
-import view.game.enemies.EnemyView;
-import view.game.enemies.SquarantineView;
-import view.game.enemies.TrigorathView;
+import view.game.enemies.*;
+import view.game.enemies.archmire.AoEView;
+import view.game.enemies.archmire.ArchmireView;
+import view.game.enemies.black_orb.BlackOrbLaserView;
+import view.game.enemies.black_orb.BlackOrbVertexView;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -35,7 +45,7 @@ public class Controller {
     public static Audio music;
     public static void runGame() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GameManager.getINSTANCE();
-        music = new Audio("src/main/resources/15 - Bad n Crazy - Kim Woo Kun (320).wav");
+        music = new Audio(GameManager.configs.THEME_SONG);
         music.setRepeat();
     }
     public static void startGame() {
@@ -55,93 +65,93 @@ public class Controller {
                 GameManager.getINSTANCE().startGame();
                 new Update();
                 GameMouseListener.setGameRunning(true);
-                GameManager.getINSTANCE().getGameView().addMouseListener(GameMouseListener.getINSTANCE());
+                //GameManager.getINSTANCE().getGameView().addMouseListener(GameMouseListener.getINSTANCE());
                 GameMouseMotionListener.getINSTANCE().setEpsilonModel(GameManager.getINSTANCE().getGameModel().getEpsilon());
-                GameManager.getINSTANCE().getGameView().addMouseMotionListener(GameMouseMotionListener.getINSTANCE());
+                //GameManager.getINSTANCE().getGameView().addMouseMotionListener(GameMouseMotionListener.getINSTANCE());
                 gameRunning = true;
             }
         });
         timer.setRepeats(false);
         timer.start();
     }
+    public static void addLaserView(BlackOrbLaser laser) {
+        GameManager.getINSTANCE().getGameView().addLaser(new BlackOrbLaserView(laser.getX1(), laser.getY1(),
+                laser.getX2(), laser.getY2(), laser.getID()));
+    }
+    public static void removeLaserView(BlackOrbLaser laser) {
+        GameManager.getINSTANCE().getGameView().removeLaser(laser.getID());
+    }
+    public static void addFrameView(Frame frame) {
+        GameManager.getINSTANCE().getGameView().addPanel((int)frame.getX(), (int)frame.getY(), (int)frame.getWidth(),
+                (int)frame.getHeight(), frame.getID());
+    }
     public static void addEnemyView(Enemy enemy) {
-        EnemyView enemyView;
+        GameView gameView = GameManager.getINSTANCE().getGameView();
         if (enemy instanceof SquarantineModel) {
-            enemyView = new SquarantineView(enemy.getX(), enemy.getY());
+            gameView.addEnemyView(new SquarantineView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int)enemy.getHeight(),  enemy.getID()));
         }
-        else {
-            enemyView = new TrigorathView(enemy.getX(), enemy.getY());
+        else if (enemy instanceof TrigorathModel){
+            gameView.addEnemyView(new TrigorathView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int)enemy.getHeight(),  enemy.getID()));;
         }
-        GameManager.getINSTANCE().getGameView().getEnemies().put(enemy.getID(), enemyView);
+        else if (enemy instanceof Wyrm) {
+            gameView.addEnemyView(new WyrmView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int)enemy.getHeight(),  enemy.getID()));
+        }
+        else if (enemy instanceof Omenoct) {
+            gameView.addEnemyView(new OmenoctView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int)enemy.getHeight(),  enemy.getID()));
+        }
+        else if (enemy instanceof Necropick) {
+            gameView.addEnemyView(new NecropickView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int)enemy.getHeight(),  enemy.getID()));
+        }
+        else if (enemy instanceof Barricados) {
+            gameView.addEnemyView(new BarricodesView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int)enemy.getHeight(),  enemy.getID()));
+        }
     }
-    public static void removeBullet(BulletModel bullet) {
-        GameView gameView = GameManager.getINSTANCE().getGameView();
-        gameView.remove(gameView.getBullets().get(bullet.getID()));
+    public static void addArchmireView(Archmire archmire) {
+        GameManager.getINSTANCE().getGameView().addArchmireView(new ArchmireView(archmire.getX(), archmire.getY(),
+                (int)archmire.getWidth(), (int)archmire.getHeight(),  archmire.getID()));
     }
-    public static void removeEnemy(Enemy enemy) {
-        GameView gameView = GameManager.getINSTANCE().getGameView();
-        gameView.remove(gameView.getEnemies().get(enemy.getID()));
+    public static void addAoEView(AoEAttack aoEAttack) {
+        GameManager.getINSTANCE().getGameView().addAoEView(new AoEView(aoEAttack.getX(), aoEAttack.getY(),
+                (int)aoEAttack.getWidth(), (int)aoEAttack.getHeight(), aoEAttack.getID()));
+    }
+    public static void addBlackOrbVertexView(BlackOrbVertex blackOrbVertex) {
+        GameManager.getINSTANCE().getGameView().addEnemyView(new BlackOrbVertexView((int)blackOrbVertex.getX(),
+                (int)blackOrbVertex.getY(), (int)blackOrbVertex.getWidth(), (int)blackOrbVertex.getHeight(),
+                blackOrbVertex.getID()));
+    }
+    public static void removeBulletView(BulletModel bullet) {
+        GameManager.getINSTANCE().getGameView().removeBulletView(bullet.getID());
+    }
+    public static void removeEnemyView(Enemy enemy) {
+        GameManager.getINSTANCE().getGameView().removeEnemyView(enemy.getID());
+    }
+    public static void removeArchmireView(Archmire archmire) {
+        GameManager.getINSTANCE().getGameView().removeArchmireView(archmire.getID());
+    }
+    public static void removeAoEAttackView(AoEAttack aoEAttack) {
+        GameManager.getINSTANCE().getGameView().removeAoEView(aoEAttack.getID());
+    }
+    public static void removeBlackOrbVertexView(BlackOrbVertex blackOrbVertex) {
+        GameManager.getINSTANCE().getGameView().removeEnemyView(blackOrbVertex.getID());
     }
     public static void addCollectiveView(Collective collective) {
-        CollectiveView collectiveView = new CollectiveView(collective.getX(), collective.getY(), collective.getColor());
-        GameView gameView = GameManager.getINSTANCE().getGameView();
-        gameView.add(collectiveView);
-        gameView.getCollectives().put(collective.getID(), collectiveView);
+        GameManager.getINSTANCE().getGameView().addCollectivesView(new CollectiveView(collective.getX(), collective.getY(),
+                collective.getColor(), collective.getFrame().getID(), collective.getID()));
     }
-    public static void removeXP(Collective collective) {
-        GameView gameView = GameManager.getINSTANCE().getGameView();
-        gameView.remove(gameView.getCollectives().get(collective.getID()));
+    public static void removeCollectiveView(Collective collective) {
+        GameManager.getINSTANCE().getGameView().removeCollectivesView(collective.getID());
     }
     public static void gameOver(int xp) {
         endGame();
         new GameOver(xp);
     }
 
-    public static void setAres(boolean ares) {
-        WritOfAres.setPicked(ares);
-        if (ares) {
-            GameManager.getINSTANCE().setPickedSkill(new WritOfAres());
-        }
-    }
-
-    public static void setAceso(boolean aceso) {
-        WritOfAceso.setPicked(aceso);
-        if (aceso) {
-            GameManager.getINSTANCE().setPickedSkill(new WritOfAceso());
-        }
-    }
-
-    public static void setProteus(boolean proteus) {
-        WritOfProteus.setPicked(proteus);
-        if (proteus) {
-            GameManager.getINSTANCE().setPickedSkill(new WritOfProteus());
-        }
-    }
-
-    public static boolean isAresUnlocked() {
-        return WritOfAres.isAresUnlocked();
-    }
-
-    public static void setAresUnlocked(boolean aresUnlocked) {
-        WritOfAres.setAresUnlocked(aresUnlocked);
-
-    }
-
-    public static boolean isAcesoUnlocked() {
-        return WritOfAceso.isAcesoUnlocked();
-    }
-
-    public static void setAcesoUnlocked(boolean acesoUnlocked) {
-        WritOfAceso.setAcesoUnlocked(acesoUnlocked);
-    }
-
-    public static boolean isProteusUnlocked() {
-        return WritOfProteus.isProteusUnlocked();
-    }
-
-    public static void setProteusUnlocked(boolean proteusUnlocked) {
-        WritOfProteus.setProteusUnlocked(proteusUnlocked);
-    }
     public static void setXP(int xp) {
         GameManager.getINSTANCE().setTotalXP(xp);
     }
@@ -167,9 +177,8 @@ public class Controller {
         return false;
     }
     public static void addBulletView(BulletModel bulletModel) {
-        BulletView bulletView = new BulletView((int) bulletModel.getX1(), (int) bulletModel.getY1(), bulletModel.getDirection());
-        GameManager.getINSTANCE().getGameView().getBullets().put(bulletModel.getID(), bulletView);
-        GameManager.getINSTANCE().getGameView().add(bulletView);
+        GameManager.getINSTANCE().getGameView().addBulletView(new BulletView((int)bulletModel.getX1(),
+                (int)bulletModel.getY1(), bulletModel.getDirection(), bulletModel.getID()));
     }
     public static boolean athena() {
         EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
@@ -188,15 +197,6 @@ public class Controller {
             return true;
         }
         return false;
-    }
-    public static boolean isAresPicked() {
-        return WritOfAres.isPicked();
-    }
-    public static boolean isAcesoPicked() {
-        return WritOfAceso.isPicked();
-    }
-    public static boolean isProteusPicked() {
-        return WritOfProteus.isPicked();
     }
     public static void endGame() {
         GameMouseListener.setGameRunning(false);

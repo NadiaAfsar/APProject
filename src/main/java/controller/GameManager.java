@@ -1,7 +1,13 @@
 package controller;
 
 
-import collision.Impactable;
+import controller.save.Configs;
+import controller.save.ReaderWriter;
+import controller.update.ModelLoop;
+import controller.update.ViewLoop;
+import model.enemies.mini_boss.black_orb.BlackOrb;
+import model.enemies.mini_boss.black_orb.BlackOrbVertex;
+import model.interfaces.collision.Impactable;
 import controller.audio.AudioController;
 import model.BulletModel;
 import model.Collective;
@@ -13,7 +19,7 @@ import model.game.HardGame;
 import model.game.MediumGame;
 import model.skills.Skill;
 import model.skills.WritOfAceso;
-import movement.Point;
+import model.interfaces.movement.Point;
 import view.menu.GameFrame;
 import view.game.GameView;
 
@@ -21,7 +27,7 @@ import java.util.ArrayList;
 
 public class GameManager {
     private int totalXP;
-    public static GameManager INSTANCE;
+    private static GameManager INSTANCE;
     private static int difficulty;
     private static int sensitivity;
     private Skill pickedSkill;
@@ -38,11 +44,17 @@ public class GameManager {
     private long timePlayed;
     private Wave currentWave;
     private GameFrame gameFrame;
+    public static Configs configs;
+    public static ReaderWriter readerWriter;
     private GameManager() {
         totalXP = 2000;
         sensitivity = 2;
         difficulty = 1;
+        readerWriter = new ReaderWriter();
+        configs = readerWriter.getConfigs();
         gameFrame = new GameFrame();
+        new ModelLoop().start();
+        new ViewLoop().start();
     }
     public void startGame() {
         decreaseSize = true;
@@ -57,58 +69,79 @@ public class GameManager {
         else {
             gameModel = new HardGame();
         }
+        gameView.getEpsilonView().setPanel(gameView.getGamePanelMap().get(gameModel.getEpsilon().getFrame().getID()));
         lastSavedTime = System.currentTimeMillis();
     }
     private void initialDecreaseSize() {
-        gameModel.setWidth(gameModel.getWidth() - 4);
-        gameModel.setHeight(gameModel.getHeight() - 4);
-        gameModel.setX((700 - gameModel.getWidth()) / 2);
-        gameModel.setY((700 - gameModel.getHeight()) / 2);
+        gameModel.getEpsilon().getFrame().setWidth(gameModel.getEpsilon().getFrame().getWidth() - 4);
+        gameModel.getEpsilon().getFrame().setHeight(gameModel.getEpsilon().getFrame().getHeight() - 4);
+        gameModel.getEpsilon().getFrame().setX(Configs.FRAME_SIZE.width/2 - gameModel.getEpsilon().getFrame().getWidth()/2);
+        gameModel.getEpsilon().getFrame().setY(Configs.FRAME_SIZE.height/2 - gameModel.getEpsilon().getFrame().getHeight()/2);
         gameModel.getEpsilon().setInCenter();
-        if (gameModel.getWidth() == 500) {
+        if (gameModel.getEpsilon().getFrame().getWidth() == 500) {
             gameStarted = true;
             decreaseSize = false;
         }
     }
     private void decreaseSize() {
-        if (gameModel.getWidth() > 300) {
-            gameModel.setWidth(gameModel.getWidth()-0.1);
+        if (gameModel.getEpsilon().getFrame().getWidth() > 300) {
+            gameModel.getEpsilon().getFrame().setWidth(gameModel.getEpsilon().getFrame().getWidth()-0.1);
         }
-        if (gameModel.getHeight() > 300) {
-            gameModel.setHeight(gameModel.getHeight()-0.1);
+        if (gameModel.getEpsilon().getFrame().getHeight() > 300) {
+            gameModel.getEpsilon().getFrame().setHeight(gameModel.getEpsilon().getFrame().getHeight()-0.1);
         }
         gameModel.getEpsilon().setInFrame();
     }
 
-    private void moveEnemies()  {
-        diedEnemies = new ArrayList<>();
-        for (int i = 0; i < gameModel.getEnemies().size(); i++) {
-            gameModel.getEnemies().get(i).move();
-        }
-        for (int i = 0; i < gameModel.getEnemies().size(); i++) {
-            Enemy enemy = gameModel.getEnemies().get(i);
-            Point point = enemy.getCollisionPoint(gameModel.getEpsilon(), enemy.getVertexes());
-            if (point != null) {
-                enemy.impact(point, gameModel.getEpsilon());
-                AudioController.addCollisionSound();
-            }
-            for (int j = i+1; j < gameModel.getEnemies().size(); j++) {
-                Enemy enemy2 = gameModel.getEnemies().get(j);
-                point = enemy.getCollisionPoint(enemy2, enemy.getVertexes());
-                if (point != null) {
-                    enemy.impact(point, enemy2);
-                    AudioController.addCollisionSound();
-                }
-            }
-        }
-    }
+//    private void moveEnemies()  {
+//        diedEnemies = new ArrayList<>();
+//        for (int i = 0; i < gameModel.getEnemies().size(); i++) {
+//            gameModel.getEnemies().get(i).move();
+//        }
+//        for (int i = 0; i < gameModel.getEnemies().size(); i++) {
+//            Enemy enemy = gameModel.getEnemies().get(i);
+//            Point point = enemy.getCollisionPoint(gameModel.getEpsilon(), enemy.getVertexes());
+//            if (point != null) {
+//                enemy.impact(point, gameModel.getEpsilon());
+//                AudioController.addCollisionSound();
+//            }
+//            for (int j = i+1; j < gameModel.getEnemies().size(); j++) {
+//                Enemy enemy2 = gameModel.getEnemies().get(j);
+//                point = enemy.getCollisionPoint(enemy2, enemy.getVertexes());
+//                if (point != null) {
+//                    enemy.impact(point, enemy2);
+//                    AudioController.addCollisionSound();
+//                }
+//            }
+//        }
+//    }
+
     private void moveBullets() {
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
             gameModel.getBullets().get(i).move();
         }
     }
+    private void moveEnemiesBullets() {
+        for (int i = 0; i < gameModel.getEnemiesBullets().size(); i++) {
+            gameModel.getEnemiesBullets().get(i).move();
+        }
+    }
+    private void checkEnemiesBulletsCollision() {
+        for (int i = 0; i < gameModel.getEnemiesBullets().size(); i++) {
+            BulletModel bullet = gameModel.getEnemiesBullets().get(i);
+            if (!checkBulletCollisionWithFrames(bullet)) {
+                Point collisionPoint = bullet.getCollisionPoint(gameModel.getEpsilon());
+                if (collisionPoint != null) {
+                    bulletCollided(bullet, collisionPoint);
+                    gameModel.getEpsilon().decreaseHP(bullet.getDamage());
+                }
+            }
+        }
+    }
     private void nextWave() {
-        gameModel.setTotalPR(gameModel.getTotalPR()+currentWave.getProgressRate());
+        if (currentWave != null) {
+            gameModel.setTotalPR(gameModel.getTotalPR() + currentWave.getProgressRate());
+        }
         currentWave = new Wave(wave, gameModel.getWaves().get(wave));
         wave++;
     }
@@ -117,47 +150,79 @@ public class GameManager {
         diedEnemies = new ArrayList<>();
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
             BulletModel bullet = gameModel.getBullets().get(i);
-            if (GameManagerHelper.checkFrameCollisionWithBullet(bullet)) {
-                vanishedBullets.add(bullet);
-                Controller.removeBullet(bullet);
-            } else {
-                for (int j = 0; j < gameModel.getEnemies().size(); j++) {
-                    Enemy enemy = gameModel.getEnemies().get(j);
-                    if (Math.abs(enemy.getX() - bullet.getX2()) < 40 && Math.abs(enemy.getY() - bullet.getY2()) < 40) {
-                        Point point = enemy.getCollisionPoint(bullet, enemy.getVertexes());
-                        if (point != null) {
-                            Impactable.impactOnOthers(point);
-                            vanishedBullets.add(bullet);
-                            Controller.removeBullet(bullet);
-                            if (enemy.died(5+gameModel.getAres())) {
-                                AudioController.addEnemyDyingSound();
-                                Controller.removeEnemy(enemy);
-                                diedEnemies.add(enemy);
-                            }
-                        }
-                    }
-                }
+            if (!checkBulletCollisionWithFrames(bullet)) {
+                checkBulletCollisionWithEnemies(bullet);
             }
         }
         GameManagerHelper.removeFrom(gameModel.getEnemies(), diedEnemies);
         GameManagerHelper.removeFrom(gameModel.getBullets(), vanishedBullets);
     }
+    private boolean checkBulletCollisionWithFrames(BulletModel bulletModel) {
+        for (int i = 0; i < gameModel.getFrames().size(); i++) {
+            if (GameManagerHelper.checkFrameCollisionWithBullet(bulletModel, gameModel.getFrames().get(i))) {
+                vanishedBullets.add(bulletModel);
+                Controller.removeBulletView(bulletModel);
+                return true;
+            }
+        }
+        return false;
+    }
+    private void checkBulletCollisionWithEnemies(BulletModel bullet) {
+        for (int i = 0; i < gameModel.getEnemies().size(); i++) {
+            Enemy enemy = gameModel.getEnemies().get(i);
+            if (enemy instanceof BlackOrb) {
+                checkCollisionWithBlackOrb(bullet, (BlackOrb) enemy);
+            }
+            else {
+                checkCollisionWithEnemy(bullet, enemy);
+            }
+        }
+    }
+    private void checkCollisionWithEnemy(BulletModel bullet, Enemy enemy) {
+        if (Math.abs(enemy.getX() - bullet.getX2()) < 40 && Math.abs(enemy.getY() - bullet.getY2()) < 40) {
+            Point point = bullet.getCollisionPoint(enemy);
+            if (point != null) {
+                Impactable.impactOnOthers(point);
+                vanishedBullets.add(bullet);
+                Controller.removeBulletView(bullet);
+                enemy.decreaseHP(bullet.getDamage());
+            }
+        }
+    }
+    private void checkCollisionWithBlackOrb(BulletModel bullet, BlackOrb blackOrb) {
+        ArrayList<BlackOrbVertex> vertices = blackOrb.getBlackOrbVertices();
+        for (int i = 0; i < vertices.size(); i++) {
+            if (Math.abs(vertices.get(i).getCenter().getX() - bullet.getX2()) < 40 &&
+                    Math.abs(vertices.get(i).getCenter().getY() - bullet.getY2()) < 40) {
+                Point point = bullet.getCollisionPoint(vertices.get(i));
+                if (point != null) {
+                    bulletCollided(bullet, point);
+                    vertices.get(i).decreaseHP(bullet.getDamage());
+                }
+            }
+        }
+    }
+    private void bulletCollided(BulletModel bullet, Point point) {
+        Impactable.impactOnOthers(point);
+        vanishedBullets.add(bullet);
+        Controller.removeBulletView(bullet);
+    }
     private void checkCollectives() {
         takenCollectives = new ArrayList<>();
         for (int i = 0; i < gameModel.getCollectives().size(); i++) {
             Collective collective = gameModel.getCollectives().get(i);
-            Point point = gameModel.getEpsilon().getCollisionPoint(gameModel.getCollectives().get(i), null);
+            Point point = gameModel.getEpsilon().getCollisionPoint(gameModel.getCollectives().get(i));
             if (point != null){
                 takenCollectives.add(collective);
                 gameModel.getEpsilon().setXP(gameModel.getEpsilon().getXP()+5+ gameModel.getEnemyXP());
-                Controller.removeXP(collective);
+                Controller.removeCollectiveView(collective);
                 AudioController.addXPCollectingSound();
             }
             else {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime- collective.getTime() >= 6000) {
                     takenCollectives.add(collective);
-                    Controller.removeXP(collective);
+                    Controller.removeCollectiveView(collective);
                 }
             }
         }
@@ -170,10 +235,12 @@ public class GameManager {
         else {
             decreaseSize();
         }
-        gameModel.getEpsilon().move();
         moveEnemies();
         moveBullets();
+        gameModel.getEpsilon().nextMove();
         checkBulletsCollision();
+        moveEnemiesBullets();
+        checkEnemiesBulletsCollision();
         if (gameStarted && gameModel.getEnemies().size() == 0 && !wait) {
             if (wave == 4) {
                 endGame();
@@ -188,6 +255,11 @@ public class GameManager {
             ((WritOfAceso)skill).increaseHP();
         }
         setTimePlayed();
+    }
+    private void moveEnemies() {
+        for (int i = 0; i < gameModel.getEnemies().size(); i++) {
+            gameModel.getEnemies().get(i).nextMove();
+        }
     }
     public void activateAthena() {
         gameModel.setAthena(true);
@@ -204,32 +276,32 @@ public class GameManager {
         AudioController.addWinningSound();
         Controller.removeEpsilonVertexes();
         for (int i = 0; i < gameModel.getCollectives().size(); i++) {
-            Controller.removeXP(gameModel.getCollectives().get(i));
+            Controller.removeCollectiveView(gameModel.getCollectives().get(i));
         }
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
-            Controller.removeBullet(gameModel.getBullets().get(i));
+            Controller.removeBulletView(gameModel.getBullets().get(i));
         }
         for (int i = 0; i < gameModel.getEnemies().size(); i++) {
-            Controller.removeEnemy(gameModel.getEnemies().get(i));
+            Controller.removeEnemyView(gameModel.getEnemies().get(i));
         }
         Controller.gameFinished = true;
         GameManager game = GameManager.getINSTANCE();
         game.setTotalXP(game.getTotalXP()+gameModel.getEpsilon().getXP());
     }
-    public void destroyFrame() {
-        if (gameModel.isFinished()) {
-            if (gameModel.getWidth() >= 2) {
-                gameModel.setWidth(gameModel.getWidth()-5);
-            }
-            if (gameModel.getHeight() >= 2) {
-                gameModel.setHeight(gameModel.getHeight()-5);
-            }
-            if (gameModel.getWidth() <= 2 && gameModel.getHeight() <= 2) {
-                gameModel.setFinished(false);
-                Controller.gameOver(gameModel.getEpsilon().getXP());
-            }
-        }
-    }
+//    public void destroyFrame() {
+//        if (gameModel.isFinished()) {
+//            if (gameModel.getWidth() >= 2) {
+//                gameModel.setWidth(gameModel.getWidth()-5);
+//            }
+//            if (gameModel.getHeight() >= 2) {
+//                gameModel.setHeight(gameModel.getHeight()-5);
+//            }
+//            if (gameModel.getWidth() <= 2 && gameModel.getHeight() <= 2) {
+//                gameModel.setFinished(false);
+//                Controller.gameOver(gameModel.getEpsilon().getXP());
+//            }
+//        }
+//    }
 
     public static GameManager getINSTANCE() {
         if (INSTANCE == null) {
@@ -285,7 +357,9 @@ public class GameManager {
 
 
     public ArrayList<Enemy> getDiedEnemies() {
-        return diedEnemies;
+        synchronized (gameModel.getEnemyLock()) {
+            return diedEnemies;
+        }
     }
 
     public GameFrame getGameFrame() {
@@ -310,4 +384,5 @@ public class GameManager {
     public void setWait(boolean wait) {
         this.wait = wait;
     }
+
 }

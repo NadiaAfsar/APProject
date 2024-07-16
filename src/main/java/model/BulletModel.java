@@ -1,10 +1,11 @@
 package model;
 
-import collision.Collidable;
+import model.frame.Frame;
+import model.interfaces.collision.Collidable;
 import controller.audio.AudioController;
-import movement.Direction;
-import movement.Point;
-import movement.RotatablePoint;
+import model.interfaces.movement.Direction;
+import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -12,6 +13,8 @@ import java.util.UUID;
 public class BulletModel implements Collidable {
     private double x1;
     private double y1;
+    private double width;
+    private double height;
     private double angle;
     private double cos;
     private double sin;
@@ -21,7 +24,8 @@ public class BulletModel implements Collidable {
     private double radius;
     private int damage;
     private boolean stable;
-    public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable) {
+    private Frame frame;
+    public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable, Frame frame) {
         this.stable = stable;
         AudioController.addBulletShotSound();
         ID = UUID.randomUUID().toString();
@@ -38,6 +42,8 @@ public class BulletModel implements Collidable {
         setX1(point1, radius);
         setY1(point1, radius);
         setEnd();
+        this.frame = frame;
+        this.frame.getBulletModels().add(this);
     }
     public void setPosition(double x, double y) {
         this.x1 = x;
@@ -111,5 +117,13 @@ public class BulletModel implements Collidable {
 
     public int getDamage() {
         return damage;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
     }
 }

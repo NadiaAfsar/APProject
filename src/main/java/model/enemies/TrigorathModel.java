@@ -1,31 +1,35 @@
 package model.enemies;
 
-import collision.Collidable;
-import collision.Impactable;
+import model.frame.Frame;
+import model.interfaces.collision.Impactable;
 import controller.Controller;
 import controller.GameManager;
 import model.Collective;
-import movement.Direction;
-import movement.Movable;
-import movement.RotatablePoint;
-import movement.Point;
+import model.interfaces.movement.Direction;
+import model.interfaces.movement.Movable;
+import model.interfaces.movement.RotatablePoint;
+import model.interfaces.movement.Point;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class TrigorathModel extends Enemy implements Impactable, Collidable, Movable {
+public class TrigorathModel extends Enemy implements Impactable, Movable {
     private int x;
     private int y;
     private boolean decreasedVelocity;
     private boolean increasedVelocity;
-    public TrigorathModel(Point center, int hp, double velocity) {
+    public TrigorathModel(Point center, int hp, double velocity, Frame frame) {
         super(center, velocity);
+        width = GameManager.configs.TRIGORATH_WIDTH;
+        height = GameManager.configs.TRIGORATH_HEIGHT;
+        this.frame = frame;
         increasedVelocity = true;
         decreasedVelocity = false;
-        this.velocity = new Point(0,0);
         HP = 15+hp;
-        initialHP = HP;
+        damage = 10;
         addVertexes();
+        this.frame.getEnemies().add(this);
+        Controller.addEnemyView(this);
     }
     protected void addVertexes() {
         vertexes = new ArrayList<>();
@@ -62,70 +66,74 @@ public class TrigorathModel extends Enemy implements Impactable, Collidable, Mov
             velocity = new Point(2*dx, 2*dy);
         }
     }
+    public void nextMove() {
+        move();
+        checkCollision();
+    }
 
     @Override
     public void setAngularVelocity(double velocity) {
-
+        angularVelocity = velocity;
     }
 
     @Override
     public void setAngularAcceleration(double acceleration) {
-
+        angularAcceleration = acceleration;
     }
 
     @Override
     public void setAngularAccelerationRate(double accelerationRate) {
-
+        angularAccelerationRate = accelerationRate;
     }
 
     @Override
     public double getAngularAccelerationRate() {
-        return 0;
+        return angularAccelerationRate;
     }
 
     @Override
     public void setCenter(Point center) {
-
+        this.center = center;
     }
 
     @Override
     public void setImpact(boolean impact) {
-
+        this.impact = impact;
     }
 
     @Override
     public Point getAcceleration() {
-        return null;
+        return acceleration;
     }
 
     @Override
     public void setAcceleration(Point acceleration) {
-
+        this.acceleration = acceleration;
     }
 
     @Override
     public Point getAccelerationRate() {
-        return null;
+        return accelerationRate;
     }
 
     @Override
     public void setAccelerationRate(Point accelerationRate) {
-
+        this.accelerationRate = accelerationRate;
     }
 
     @Override
     public void setVelocity(Point velocity) {
-
+        this.velocity = velocity;
     }
 
     @Override
     public Point getVelocity() {
-        return null;
+        return velocity;
     }
 
     @Override
     public double getVelocityPower() {
-        return 0;
+        return velocityPower;
     }
 
     public void setSpecialImpact() {
@@ -137,7 +145,8 @@ public class TrigorathModel extends Enemy implements Impactable, Collidable, Mov
     @Override
     public void addCollective() {
         for (int i = -1; i < 2; i += 2) {
-            Collective collective = new Collective((int) center.getX()+i*13, (int) center.getY()+i*13, Color.BLUE, 5);
+            Collective collective = new Collective((int) center.getX()+i*13, (int) center.getY()+i*13, Color.BLUE,
+                    5, frame);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }
@@ -148,17 +157,17 @@ public class TrigorathModel extends Enemy implements Impactable, Collidable, Mov
 
     @Override
     public double getAngularVelocity() {
-        return 0;
+        return angularVelocity;
     }
 
     @Override
     public double getAngularAcceleration() {
-        return 0;
+        return angularAcceleration;
     }
 
     @Override
     public void setAngle(double angle) {
-
+        this.angle = angle;
     }
 }
 

@@ -2,28 +2,32 @@ package model.enemies.normal.archmire;
 
 import controller.Controller;
 import controller.GameManager;
+import controller.audio.AudioController;
 import model.Collective;
+import model.Interference;
 import model.enemies.Enemy;
-import movement.Direction;
-import movement.Movable;
-import movement.Point;
-import movement.RotatablePoint;
+import model.frame.Frame;
+import model.interfaces.movement.Direction;
+import model.interfaces.movement.Movable;
+import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Archmire extends Enemy implements Movable {
-    protected double width;
-    protected double height;
     private long lastCheckedTime;
     private ArrayList<AoEAttack> aoeAttacks;
-    public Archmire(Point center, double velocity, int hp) {
+    private int initialHP;
+    public Archmire(Point center, double velocity, int hp, Frame frame) {
         super(center, velocity);
         this.HP = 30 + hp;
         initialHP = HP;
         aoeAttacks = new ArrayList<>();
-        width = 22;
-        height = 18;
+        width = GameManager.configs.ARCHMIRE_WIDTH;
+        height = GameManager.configs.ARCHMIRE_HEIGHT;
+        this.frame = frame;
+        Controller.addArchmireView(this);
     }
     protected void addVertexes(){
         vertexes = new ArrayList<>();
@@ -35,10 +39,9 @@ public class Archmire extends Enemy implements Movable {
             RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angles[i]+angle, radius[i]);
             vertexes.add(vertex);
         }
-        position = new RotatablePoint(center.getX(), center.getY(), 1.2*Math.PI+angle, 14.2);
+        position = new RotatablePoint(center.getX(), center.getY(), 1.2*Math.PI+angle, 14.2/22*width);
     }
-    public void run() {
-        while (true) {
+    public void nextMove() {
             move();
             aoeAttacks.add(new AoEAttack(this));
             if (System.currentTimeMillis() - lastCheckedTime >= 1000) {
@@ -46,7 +49,7 @@ public class Archmire extends Enemy implements Movable {
                     Enemy enemy = GameManager.getINSTANCE().getGameModel().getEnemies().get(i);
                     if (!(enemy instanceof Archmire)) {
                         if (Interference.enemyIsInArchmire(vertexes, enemy)) {
-                            enemy.died(10);
+                            enemy.decreaseHP(10);
                         }
                     }
                 }
@@ -60,30 +63,71 @@ public class Archmire extends Enemy implements Movable {
                 }
                 lastCheckedTime = System.currentTimeMillis();
             }
-            try {
-                sleep(10);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
-    public void die() {
-        new MiniArchmire(new Point(center.getX(), center.getY()-height/2), velocityPower, initialHP/2);
-        new MiniArchmire(new Point(center.getX(), center.getY()+height/2), velocityPower, initialHP/2);
+    protected void die() {
+        addCollective();
+        new MiniArchmire(new Point(center.getX(), center.getY()-height/2), velocityPower, initialHP/2,frame);
+        new MiniArchmire(new Point(center.getX(), center.getY()+height/2), velocityPower, initialHP/2, frame);
+        GameManager.getINSTANCE().getDiedEnemies().add(this);
+        Controller.removeArchmireView(this);
+        AudioController.addEnemyDyingSound();
     }
 
     public ArrayList<AoEAttack> getAoeAttacks() {
         return aoeAttacks;
     }
 
+
     @Override
-    public void setCenter(Point center) {
+    public Direction getDirection() {
+        return new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
+    }
+
+    @Override
+    public void addCollective() {
+        int[] x = new int[]{-10, 10, -10, 10, 0};
+        int[] y = new int[]{-10, -10, 10, 10, 0};
+        for (int i = 0; i < 5; i++) {
+            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED,
+                    6, frame);
+            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
+            Controller.addCollectiveView(collective);
+        }
+    }
+
+    @Override
+    public void setAngularVelocity(double velocity) {
+        angularVelocity = velocity;
+    }
+
+    @Override
+    public void setAngularAcceleration(double acceleration) {
+        angularAcceleration = acceleration;
+    }
+
+    @Override
+    public void setAngularAccelerationRate(double accelerationRate) {
+        angularAccelerationRate = accelerationRate;
+    }
+
+    @Override
+    public double getAngularAccelerationRate() {
+        return angularAccelerationRate;
+    }
+
+    @Override
+    public void specialMove() {
 
     }
 
     @Override
-    public void setImpact(boolean impact) {
+    public void setCenter(Point center) {
+        this.center = center;
+    }
 
+    @Override
+    public void setImpact(boolean impact) {
+        this.impact = impact;
     }
 
     @Override
@@ -93,7 +137,7 @@ public class Archmire extends Enemy implements Movable {
 
     @Override
     public void setAcceleration(Point acceleration) {
-
+        this.acceleration = acceleration;
     }
 
     @Override
@@ -103,12 +147,12 @@ public class Archmire extends Enemy implements Movable {
 
     @Override
     public void setAccelerationRate(Point accelerationRate) {
-
+        this.accelerationRate = accelerationRate;
     }
 
     @Override
     public void setVelocity(Point velocity) {
-
+        this.velocity = velocity;
     }
 
     @Override
@@ -120,12 +164,6 @@ public class Archmire extends Enemy implements Movable {
     public double getVelocityPower() {
         return velocityPower;
     }
-
-    @Override
-    public Direction getDirection() {
-        return new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
-    }
-
     @Override
     public double getAngularVelocity() {
         return angularVelocity;
@@ -138,42 +176,6 @@ public class Archmire extends Enemy implements Movable {
 
     @Override
     public void setAngle(double angle) {
-
-    }
-
-    @Override
-    public void setAngularVelocity(double velocity) {
-
-    }
-
-    @Override
-    public void setAngularAcceleration(double acceleration) {
-
-    }
-
-    @Override
-    public void setAngularAccelerationRate(double rate) {
-
-    }
-
-    @Override
-    public double getAngularAccelerationRate() {
-        return 0;
-    }
-
-    @Override
-    public void specialMove() {
-
-    }
-
-    @Override
-    public void addCollective() {
-        int[] x = new int[]{-10, 10, -10, 10, 0};
-        int[] y = new int[]{-10, -10, 10, 10, 0};
-        for (int i = 0; i < 5; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED, 6);
-            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
-            Controller.addCollectiveView(collective);
-        }
+        this.angle = angle;
     }
 }

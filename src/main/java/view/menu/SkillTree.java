@@ -1,6 +1,7 @@
 package view.menu;
 
 import controller.Controller;
+import controller.SkillsController;
 import save.Save;
 
 import javax.swing.*;
@@ -48,7 +49,7 @@ public class SkillTree {
         writOfAres.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.isAresUnlocked()) {
+                if (SkillsController.isAresUnlocked()) {
                     showPickOption(0, "Writ Of Ares");
                 }
                 else {
@@ -56,10 +57,10 @@ public class SkillTree {
                 }
             }
         });
-        if (Controller.isAresPicked()) {
+        if (SkillsController.isAresPicked()) {
             writOfAres.setBackground(Color.GREEN);
         }
-        else if (Controller.isAresUnlocked()) {
+        else if (SkillsController.isAresUnlocked()) {
             writOfAres.setBackground(Color.WHITE);
         }
     }
@@ -73,7 +74,7 @@ public class SkillTree {
         writOfAceso.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.isAcesoUnlocked()) {
+                if (SkillsController.isAcesoUnlocked()) {
                     showPickOption(1, "Writ Of Aceso");
                 }
                 else {
@@ -81,10 +82,10 @@ public class SkillTree {
                 }
             }
         });
-        if (Controller.isAcesoPicked()) {
+        if (SkillsController.isAcesoPicked()) {
             writOfAceso.setBackground(Color.GREEN);
         }
-        else if (Controller.isAcesoUnlocked()) {
+        else if (SkillsController.isAcesoUnlocked()) {
             writOfAceso.setBackground(Color.WHITE);
         }
     }
@@ -98,7 +99,7 @@ public class SkillTree {
         writOfProteus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.isProteusUnlocked()) {
+                if (SkillsController.isProteusUnlocked()) {
                     showPickOption(2, "Writ Of Proteus");
                 }
                 else {
@@ -106,10 +107,10 @@ public class SkillTree {
                 }
             }
         });
-        if (Controller.isProteusPicked()) {
+        if (SkillsController.isProteusPicked()) {
             writOfProteus.setBackground(Color.GREEN);
         }
-        else if (Controller.isProteusUnlocked()) {
+        else if (SkillsController.isProteusUnlocked()) {
             writOfProteus.setBackground(Color.WHITE);
         }
     }
@@ -163,43 +164,43 @@ public class SkillTree {
     }
     private void pickSkill(int x) {
         if (x != 0) {
-            if (Controller.isAresUnlocked()) {
+            if (SkillsController.isAresUnlocked()) {
                 writOfAres.setBackground(Color.WHITE);
             }
             else {
                 writOfAres.setBackground(Color.RED);
             }
-            Controller.setAres(false);
+            SkillsController.setAres(false);
         }
         else {
             writOfAres.setBackground(Color.GREEN);
-            Controller.setAres(true);
+            SkillsController.setAres(true);
         }
         if (x != 1) {
-            if (Controller.isAcesoUnlocked()) {
+            if (SkillsController.isAcesoUnlocked()) {
                 writOfAceso.setBackground(Color.WHITE);
             }
             else {
                 writOfAceso.setBackground(Color.RED);
             }
-            Controller.setAceso(false);
+            SkillsController.setAceso(false);
         }
         else {
             writOfAceso.setBackground(Color.GREEN);
-            Controller.setAceso(true);
+            SkillsController.setAceso(true);
         }
         if (x != 2) {
-            if (Controller.isProteusUnlocked()) {
+            if (SkillsController.isProteusUnlocked()) {
                 writOfProteus.setBackground(Color.WHITE);
             }
             else {
                 writOfProteus.setBackground(Color.RED);
             }
-            Controller.setProteus(false);
+            SkillsController.setProteus(false);
         }
         else {
             writOfProteus.setBackground(Color.GREEN);
-            Controller.setProteus(true);
+            SkillsController.setProteus(true);
         }
     }
     private void showPickOption(int skill, String title) {
@@ -219,11 +220,11 @@ public class SkillTree {
                 Controller.setXP(xp-price);
                 pickSkill(skill);
                 if (skill == 0) {
-                    Controller.setAresUnlocked(true);
+                    SkillsController.setAresUnlocked(true);
                 } else if (skill == 1) {
-                    Controller.setAcesoUnlocked(true);
+                    SkillsController.setAcesoUnlocked(true);
                 } else {
-                    Controller.setProteusUnlocked(true);
+                    SkillsController.setProteusUnlocked(true);
                 }
                 totalXP.setText("XPs: "+Controller.getTotalXP());
                 Save.save();

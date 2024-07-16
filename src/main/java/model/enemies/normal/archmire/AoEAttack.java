@@ -1,24 +1,34 @@
 package model.enemies.normal.archmire;
 
+import controller.Controller;
 import controller.GameManager;
+import model.Interference;
 import model.enemies.Enemy;
-import movement.Point;
-import movement.RotatablePoint;
+import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class AoEAttack {
     private ArrayList<RotatablePoint> vertexes;
     private RotatablePoint position;
     private Point center;
-    private int height;
-    private int width;
+    private int x;
+    private int y;
+    private double height;
+    private double width;
     private Archmire archmire;
     private int clarity;
+    private String ID;
     public AoEAttack(Archmire archmire) {
+        ID = UUID.randomUUID().toString();
+        width = archmire.getWidth();
+        height = archmire.getHeight();
         this.center = archmire.getCenter();
         this.archmire = archmire;
         addVertexes();
+        Controller.addAoEView(this);
         clarity = 5;
     }
     protected void addVertexes(){
@@ -38,7 +48,7 @@ public class AoEAttack {
             Enemy enemy = GameManager.getINSTANCE().getGameModel().getEnemies().get(i);
             if (!(enemy instanceof Archmire)) {
                 if (Interference.enemyIsInArchmire(vertexes, enemy)) {
-                    enemy.died(2);
+                    enemy.decreaseHP(2);
                 }
             }
         }
@@ -55,5 +65,25 @@ public class AoEAttack {
 
     public int getClarity() {
         return clarity;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

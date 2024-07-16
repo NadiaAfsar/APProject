@@ -1,60 +1,61 @@
 package controller.audio;
 
+import controller.GameManager;
 import controller.audio.Audio;
 
 public class AudioController {
     public static void addBulletShotSound() {
         try {
-            new Audio("src/main/resources/shot.wav");
+            new Audio(GameManager.configs.SHOT);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     public static void addXPCollectingSound() {
         try {
-            new Audio("src/main/resources/collectXP.wav");
+            new Audio(GameManager.configs.COLLECTING_SOUND);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     public static void addWinningSound() {
         try {
-            new Audio("src/main/resources/win.wav");
+            new Audio(GameManager.configs.WINNING_SOUND);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     public static void addGameOverSound() {
         try {
-            new Audio("src/main/resources/gameOver.wav");
+            new Audio(GameManager.configs.GAME_OVER_SOUND);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     public static void addEnemyDyingSound() {
         try {
-            new Audio("src/main/resources/enemyDying.wav");
+            new Audio(GameManager.configs.ENEMY_DYING_SOUND);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     public static void addCollisionSound() {
         try {
-            new Audio("src/main/resources/collision.wav");
+            new Audio(GameManager.configs.COLLISION_SOUND);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     public static void addWaveEndSound() {
         try {
-            new Audio("src/main/resources/waveEnd.wav");
+            new Audio(GameManager.configs.WAVE_END);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     public static void addEnemyEnteringSound() {
         try {
-            new Audio("src/main/resources/enemyEntering.wav");
+            new Audio(GameManager.configs.ENEMY_ENTERING_SOUND);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

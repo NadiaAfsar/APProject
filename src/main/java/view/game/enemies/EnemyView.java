@@ -1,9 +1,9 @@
 package view.game.enemies;
 
-import movement.Point;
+import model.interfaces.movement.Point;
+import view.Rotation;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,9 +19,11 @@ public abstract class EnemyView {
     private String ID;
 
 
-    public EnemyView(int x, int y, String path, String ID) {
+    public EnemyView(int x, int y, int width, int height, String path, String ID) {
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
         this.ID = ID;
         try {
             image = ImageIO.read(new File(path));
@@ -29,8 +31,18 @@ public abstract class EnemyView {
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        rotatedImage = image;
     }
-    public abstract void update(Point center, double angle);
+    public void update(Point center, double angle) {
+        setX((int)center.getX() - width/2);
+        setY((int)center.getY() - height/2);
+        if (getAngle() != angle) {
+            setAngle(angle);
+            rotatedImage = Rotation.rotate(image, angle);
+            width = rotatedImage.getWidth();
+            height = rotatedImage.getHeight();
+        }
+    }
 
     public int getX() {
         return x;

@@ -1,10 +1,9 @@
 package model;
 
-import collision.Collidable;
-import controller.Controller;
-import model.game.GameModel;
-import movement.Point;
-import movement.RotatablePoint;
+import model.frame.Frame;
+import model.interfaces.collision.Collidable;
+import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,15 +17,18 @@ public class Collective implements Collidable {
     private final long time;
     private final String ID;
     private int xp;
+    private Frame frame;
 
-    public Collective(int x, int y, Color color, int xp) {
+    public Collective(int x, int y, Color color, int xp, Frame frame) {
         ID = UUID.randomUUID().toString();
         this.x = x;
         this.y = y;
         this.center = new Point(x,y);
         this.color = color;
+        this.frame = frame;
         time = System.currentTimeMillis();
         this.xp = xp;
+        this.frame.getCollectives().add(this);
     }
 
     @Override
@@ -61,5 +63,9 @@ public class Collective implements Collidable {
 
     public int getXp() {
         return xp;
+    }
+
+    public Frame getFrame() {
+        return frame;
     }
 }

@@ -1,6 +1,7 @@
 package view.menu;
 
-import controller.Constants;
+import controller.GameManager;
+import controller.save.Configs;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,8 +17,8 @@ public class GameFrame extends JFrame {
     private MainMenu mainMenu;
     private Settings settings;
     public GameFrame() {
-        xSize = Constants.FRAME_SIZE.width;
-        ySize = Constants.FRAME_SIZE.height;
+        xSize = Configs.FRAME_SIZE.width;
+        ySize = Configs.FRAME_SIZE.height;
         addFrame();
         addPanel();
         addGamePanel();
@@ -26,12 +27,12 @@ public class GameFrame extends JFrame {
         panel.add(background);
         mainMenu = new MainMenu(gamePanel);
         update();
-        try {
-            setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+//        try {
+//            setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
+//        }
+//        catch (IOException ex) {
+//            throw new RuntimeException(ex);
+//        }
     }
     private void addFrame() {
         setTitle("Window Kill");
@@ -62,7 +63,7 @@ public class GameFrame extends JFrame {
         gamePanel.setOpaque(false);
     }
     private void addBackGround() {
-        background = new Background("src/main/resources/background.jpg");
+        background = new Background(GameManager.configs.BACKGROUND);
     }
     public void update() {
         panel.revalidate();

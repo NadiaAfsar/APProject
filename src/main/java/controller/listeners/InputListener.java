@@ -3,7 +3,9 @@ package controller.listeners;
 import controller.Controller;
 import controller.GameManager;
 import model.EpsilonModel;
+import model.frame.Frame;
 import model.skills.Skill;
+import view.game.GamePanel;
 import view.menu.Shop;
 
 import javax.swing.*;
@@ -13,17 +15,17 @@ import java.awt.event.KeyEvent;
 public class InputListener {
     private static InputMap inputMap;
     private ActionMap actionMap;
-    private EpsilonModel epsilon;
+    private GamePanel panel;
 
-    public InputListener(EpsilonModel epsilon) {
-        this.epsilon = epsilon;
+    public InputListener(GamePanel panel) {
+        this.panel = panel;
         createKeyBindings();
         createKeyActions();
     }
     private void createKeyBindings() {
 
-        inputMap = GameManager.getINSTANCE().getGameView().getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        actionMap = GameManager.getINSTANCE().getGameView().getRootPane().getActionMap();
+        inputMap = panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        actionMap = panel.getActionMap();
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "moveUp");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "moveDown");
@@ -45,7 +47,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    epsilon.moveUp(true);
+                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveUp(true);
                 }
             }
         });
@@ -53,7 +55,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    epsilon.moveDown(true);
+                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveDown(true);
                 }
             }
         });
@@ -61,7 +63,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    epsilon.moveRight(true);
+                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveRight(true);
                 }
             }
         });
@@ -69,7 +71,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    epsilon.moveLeft(true);
+                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveLeft(true);
                 }
             }
         });
@@ -77,7 +79,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    epsilon.moveUp(false);
+                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveUp(false);
                 }
             }
         });
@@ -85,7 +87,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    epsilon.moveDown(false);
+                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveDown(false);
                 }
             }
         });
@@ -93,7 +95,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    epsilon.moveRight(false);
+                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveRight(false);
                 }
             }
         });
@@ -101,7 +103,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    epsilon.moveLeft(false);
+                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveLeft(false);
                 }
             }
         });

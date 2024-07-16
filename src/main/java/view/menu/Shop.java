@@ -1,8 +1,8 @@
 package view.menu;
 
-import controller.Constants;
 import controller.Controller;
 import controller.GameManager;
+import controller.save.Configs;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +23,8 @@ public class Shop extends JFrame {
     public Shop() {
         width = 500;
         height = 600;
-        x = (int)Constants.FRAME_SIZE.getWidth()/2-width/2;
-        y = (int) Constants.FRAME_SIZE.getHeight()/2-height/2;
+        x = (int) Configs.FRAME_SIZE.getWidth()/2-width/2;
+        y = (int) Configs.FRAME_SIZE.getHeight()/2-height/2;
         addFrame();
         addPanel();
         addHephaestus();
@@ -140,7 +140,7 @@ public class Shop extends JFrame {
         mainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameManager.getINSTANCE().getGameView().dispose();
+                //GameManager.getINSTANCE().getGameView().dispose();
                 GameManager.getINSTANCE().getGameFrame().setVisible(true);
                 dispose();
             }

@@ -1,13 +1,23 @@
 package model.enemies;
 
-import movement.Direction;
-import movement.Point;
-import movement.RotatablePoint;
+import controller.Controller;
+import controller.GameManager;
+import controller.audio.AudioController;
+import model.enemies.mini_boss.black_orb.BlackOrb;
+import model.enemies.mini_boss.black_orb.BlackOrbVertex;
+import model.enemies.normal.Wyrm;
+import model.enemies.normal.archmire.Archmire;
+import model.enemies.normal.archmire.MiniArchmire;
+import model.frame.Frame;
+import model.interfaces.collision.Collidable;
+import model.interfaces.collision.Impactable;
+import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-public abstract class Enemy extends Thread {
+public abstract class Enemy implements Collidable{
     protected RotatablePoint position;
     protected Point center;
     protected ArrayList<RotatablePoint> vertexes;
@@ -22,11 +32,14 @@ public abstract class Enemy extends Thread {
     protected boolean impact;
     private final String ID;
     protected double velocityPower;
-    protected int initialHP;
+    protected int damage;
+    protected double width;
+    protected double height;
+    protected Frame frame;
     public Enemy(Point center, double velocity) {
         ID = UUID.randomUUID().toString();
         this.center = center;
-        this.moveVertexes();
+        this.velocity = new Point(0,0);
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);
         angularVelocity = 0;
@@ -71,9 +84,6 @@ public abstract class Enemy extends Thread {
         return impact;
     }
 
-
-
-
     public int getHP() {
         return HP;
     }
@@ -85,20 +95,60 @@ public abstract class Enemy extends Thread {
     public String getID() {
         return ID;
     }
-    public boolean died(int x) {
+
+    public void decreaseHP(int x) {
         HP -= x;
-        if (getHP() <= 0) {
-            addCollective();
-            return true;
+        if (HP <= 0) {
+            die();
         }
-        return false;
+    }
+    protected void die() {
+        addCollective();
+        GameManager.getINSTANCE().getDiedEnemies().add(this);
+        Controller.removeEnemyView(this);
+        AudioController.addEnemyDyingSound();
+    }
+    protected void checkCollision() {
+        synchronized (GameManager.getINSTANCE().getGameModel().getEnemyLock()) {
+            ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
+            for (int i = 0; i < enemies.size(); i++) {
+                if (!enemies.get(i).equals(this)) {
+                    if (!(enemies.get(i) instanceof Wyrm) && !(enemies.get(i) instanceof Archmire)) {
+                        if (enemies.get(i) instanceof BlackOrb) {
+                            ArrayList<BlackOrbVertex> vertices = ((BlackOrb) enemies.get(i)).getBlackOrbVertices();
+                            for (int j = 0; j < vertices.size(); j++) {
+                                Point collisionPoint = this.getCollisionPoint(vertices.get(j));
+                                if (collisionPoint != null) {
+                                    ((Impactable) this).impact(collisionPoint, vertices.get(j));
+                                }
+                            }
+                        } else {
+                            Collidable collidable = enemies.get(i);
+                            Point collisionPoint = this.getCollisionPoint(collidable);
+                            if (collisionPoint != null) {
+                                ((Impactable) this).impact(collisionPoint, collidable);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     protected abstract void addVertexes();
 
 
     public abstract void addCollective();
 
-    public int getInitialHP() {
-        return initialHP;
+    public int getDamage() {
+        return damage;
     }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+    public abstract void nextMove();
 }

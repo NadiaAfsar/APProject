@@ -39,7 +39,7 @@ public class Save {
             else {
                 fileWriter.append("locked"+"\n");
             }
-            Skill skill = GameManager.INSTANCE.getPickedSkill();
+            Skill skill = GameManager.getINSTANCE().getPickedSkill();
             if (skill != null) {
                 if (skill instanceof WritOfAres) {
                     fileWriter.append("1\n");

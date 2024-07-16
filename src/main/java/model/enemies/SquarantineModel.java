@@ -1,34 +1,40 @@
 package model.enemies;
 
-import collision.Collidable;
-import collision.Impactable;
+import model.frame.Frame;
+import model.interfaces.collision.Collidable;
+import model.interfaces.collision.Impactable;
 import controller.Controller;
 import controller.GameManager;
 import model.Collective;
-import movement.Direction;
-import movement.Movable;
-import movement.RotatablePoint;
-import movement.Point;
+import model.interfaces.movement.Direction;
+import model.interfaces.movement.Movable;
+import model.interfaces.movement.RotatablePoint;
+import model.interfaces.movement.Point;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class SquarantineModel extends Enemy implements Impactable, Collidable, Movable {
+public class SquarantineModel extends Enemy implements Impactable, Movable {
     private boolean hasRandomAcceleration;
     private Direction direction;
-    public SquarantineModel(Point center,  int hp, double velocity) {
+    public SquarantineModel(Point center, int hp, double velocity, Frame frame) {
         super(center, velocity);
-        this.velocity = new Point(0,0);
+        width = GameManager.configs.SQUARANTINE_WIDTH;
+        height = GameManager.configs.SQUARANTINE_WIDTH;
+        this.frame = frame;
         HP = 10+hp;
-        initialHP = HP;
+        damage = 6;
         hasRandomAcceleration = false;
         addVertexes();
+        this.frame.getEnemies().add(this);
+        Controller.addEnemyView(this);
     }
     protected void addVertexes() {
         vertexes = new ArrayList<>();
         double[] angles = new double[]{5d/4*Math.PI, 7d/4*Math.PI, 1d/4*Math.PI, 3d/4*Math.PI};
         for (int i = 0; i < 4; i++) {
-            RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angles[i]+angle, 18.4);
+            RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angles[i]+angle,
+                    width*Math.sqrt(0.5));
             vertexes.add(vertex);
             if (i == 0) {
                 position = vertex;
@@ -67,71 +73,6 @@ public class SquarantineModel extends Enemy implements Impactable, Collidable, M
         }
     }
 
-    @Override
-    public void setAngularVelocity(double velocity) {
-
-    }
-
-    @Override
-    public void setAngularAcceleration(double acceleration) {
-
-    }
-
-    @Override
-    public void setAngularAccelerationRate(double accelerationRate) {
-
-    }
-
-    @Override
-    public double getAngularAccelerationRate() {
-        return 0;
-    }
-
-    @Override
-    public void setCenter(Point center) {
-
-    }
-
-    @Override
-    public void setImpact(boolean impact) {
-
-    }
-
-    @Override
-    public Point getAcceleration() {
-        return null;
-    }
-
-    @Override
-    public void setAcceleration(Point acceleration) {
-
-    }
-
-    @Override
-    public Point getAccelerationRate() {
-        return null;
-    }
-
-    @Override
-    public void setAccelerationRate(Point accelerationRate) {
-
-    }
-
-    @Override
-    public void setVelocity(Point velocity) {
-
-    }
-
-    @Override
-    public Point getVelocity() {
-        return null;
-    }
-
-    @Override
-    public double getVelocityPower() {
-        return 0;
-    }
-
     public void setSpecialImpact() {
         hasRandomAcceleration = false;
         velocity = new Point(0,0);
@@ -139,27 +80,100 @@ public class SquarantineModel extends Enemy implements Impactable, Collidable, M
 
     @Override
     public void addCollective() {
-        Collective collective = new Collective((int)center.getX(), (int)center.getY(), Color.MAGENTA, 5);
+        Collective collective = new Collective((int)center.getX(), (int)center.getY(), Color.MAGENTA,
+                5, frame);
         GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
         Controller.addCollectiveView(collective);
     }
     public Direction getDirection() {
-        return new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
+        Direction direction1 = new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
+//        System.out.println(direction1.getDx());
+//        System.out.println(direction1.getDy());
+        return direction1;
+        //return new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
+    }
+    public void nextMove() {
+            move();
+            checkCollision();
     }
 
     @Override
+    public void setAngularVelocity(double velocity) {
+        angularVelocity = velocity;
+    }
+
+    @Override
+    public void setAngularAcceleration(double acceleration) {
+        angularAcceleration = acceleration;
+    }
+
+    @Override
+    public void setAngularAccelerationRate(double accelerationRate) {
+        angularAccelerationRate = accelerationRate;
+    }
+
+    @Override
+    public double getAngularAccelerationRate() {
+        return angularAccelerationRate;
+    }
+
+    @Override
+    public void setCenter(Point center) {
+        this.center = center;
+    }
+
+    @Override
+    public void setImpact(boolean impact) {
+        this.impact = impact;
+    }
+
+    @Override
+    public Point getAcceleration() {
+        return acceleration;
+    }
+
+    @Override
+    public void setAcceleration(Point acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    @Override
+    public Point getAccelerationRate() {
+        return accelerationRate;
+    }
+
+    @Override
+    public void setAccelerationRate(Point accelerationRate) {
+        this.accelerationRate = accelerationRate;
+    }
+
+    @Override
+    public void setVelocity(Point velocity) {
+        this.velocity = velocity;
+    }
+
+    @Override
+    public Point getVelocity() {
+        return velocity;
+    }
+
+    @Override
+    public double getVelocityPower() {
+        return velocityPower;
+    }
+    @Override
     public double getAngularVelocity() {
-        return 0;
+        return angularVelocity;
     }
 
     @Override
     public double getAngularAcceleration() {
-        return 0;
+        return angularAcceleration;
     }
 
     @Override
     public void setAngle(double angle) {
-
+        this.angle = angle;
     }
 
 }

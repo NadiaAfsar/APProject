@@ -1,88 +1,49 @@
 package view.game;
 
+import controller.GameManager;
 import model.skills.Skill;
 import view.game.enemies.EnemyView;
+import view.game.enemies.archmire.AoEView;
+import view.game.enemies.archmire.ArchmireView;
+import view.game.enemies.black_orb.BlackOrbLaserView;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameView extends JFrame {
-    private JPanel panel;
-    private int width;
-    private int height;
-    private int x;
-    private int y;
-    private Map<String, EnemyView> enemies;
-    private Map<String, BulletView> bullets;
-    private Map<String, CollectiveView> Collectives;
+public class GameView {
+    private Map<String, EnemyView> enemiesMap;
+    private ArrayList<EnemyView> enemies;
+    private Map<String, AoEView> aoEViewMap;
+    private ArrayList<AoEView> aoEViews;
+    private ArrayList<ArchmireView> archmires;
+    private Map<String, BulletView> bulletsMap;
+    private ArrayList<BulletView> bullets;
+    private Map<String, CollectiveView> collectivesMap;
     private EpsilonView epsilonView;
+    private ArrayList<GamePanel> gamePanels;
+    private Map<String, GamePanel> gamePanelMap;
+    private ArrayList<BlackOrbLaserView> laserViews;
+    private Map<String, BlackOrbLaserView> laserViewMap;
     private HUI hui;
     public GameView() {
-        x = 0;
-        y = 0;
-        width = 700;
-        height = 700;
-        addFrame();
-        addPanel();
-        enemies = new HashMap<>();
-        bullets = new HashMap<>();
-        Collectives = new HashMap<>();
-        try {
-            setIconImage(new ImageIcon(ImageIO.read(new File("src/main/resources/icon.png"))).getImage());
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        epsilonView = new EpsilonView(this);
-        add(epsilonView);
+        enemiesMap = new HashMap<>();
+        bulletsMap = new HashMap<>();
+        collectivesMap = new HashMap<>();
+        enemies = new ArrayList<>();
+        bullets = new ArrayList<>();
+        archmires = new ArrayList<>();
+        aoEViewMap = new HashMap<>();
+        aoEViews = new ArrayList<>();
+        gamePanels = new ArrayList<>();
+        gamePanelMap = new HashMap<>();
+        epsilonView = new EpsilonView();
+        laserViews = new ArrayList<>();
+        laserViewMap = new HashMap<>();
         hui = new HUI();
-        setFocusable(true);
-        requestFocus();
-        requestFocusInWindow();
-    }
-    private void addFrame() {
-        setBounds(x,y,width,height);
-        setUndecorated(true);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setUndecorated(true);
-        setVisible(true);
     }
 
-    private void addPanel() {
-        panel = new JPanel();
-        panel.setBounds(x, y, width, height);
-        panel.setVisible(true);
-        panel.setFocusable(true);
-        panel.requestFocus();
-        panel.requestFocusInWindow();
-        panel.setLayout(null);
-        panel.setBackground(Color.BLACK);
-        setContentPane(panel);
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    public void update(int x, int y, int width, int height, int HP, int XP, int wave, long time, Skill skill) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        setBounds(x,y,width,height);
+    public void update(int HP, int XP, int wave, long time, Skill skill) {
         if (hui.isVisible()) {
             hui.updateHP(HP);
             hui.updateXP(XP);
@@ -92,26 +53,19 @@ public class GameView extends JFrame {
         }
     }
 
-    public Map<String, EnemyView> getEnemies() {
-        return enemies;
+    public Map<String, EnemyView> getEnemiesMap() {
+        return enemiesMap;
     }
 
-    public Map<String, BulletView> getBullets() {
-        return bullets;
+    public Map<String, BulletView> getBulletsMap() {
+        return bulletsMap;
     }
 
-    public void update() {
-        panel.revalidate();
-        panel.repaint();
+
+    public Map<String, CollectiveView> getCollectivesMap() {
+        return collectivesMap;
     }
 
-    public Map<String, CollectiveView> getCollectives() {
-        return Collectives;
-    }
-
-    public void destroy(int width, int height) {
-        setBounds(x,y,width,height);
-    }
 
     public EpsilonView getEpsilonView() {
         return epsilonView;
@@ -119,5 +73,107 @@ public class GameView extends JFrame {
 
     public HUI getHui() {
         return hui;
+    }
+
+    public ArrayList<EnemyView> getEnemies() {
+        return enemies;
+    }
+
+    public ArrayList<BulletView> getBullets() {
+        return bullets;
+    }
+
+
+
+    public ArrayList<ArchmireView> getArchmires() {
+        return archmires;
+    }
+
+    public ArrayList<GamePanel> getGamePanels() {
+        return gamePanels;
+    }
+
+    public Map<String, AoEView> getAoEViewMap() {
+        return aoEViewMap;
+    }
+
+    public ArrayList<AoEView> getAoEViews() {
+        return aoEViews;
+    }
+
+    public Map<String, GamePanel> getGamePanelMap() {
+        return gamePanelMap;
+    }
+    public void addEnemyView(EnemyView enemyView) {
+        enemies.add(enemyView);
+        enemiesMap.put(enemyView.getID(), enemyView);
+    }
+    public void addBulletView(BulletView bulletView) {
+        bullets.add(bulletView);
+        bulletsMap.put(bulletView.getID(), bulletView);
+    }
+    public void addCollectivesView(CollectiveView collectiveView) {
+        collectivesMap.put(collectiveView.getID(), collectiveView);
+    }
+    public void addArchmireView(ArchmireView archmireView) {
+        archmires.add(archmireView);
+        enemiesMap.put(archmireView.getID(), archmireView);
+    }
+    public void addAoEView(AoEView aoEView) {
+        aoEViews.add(aoEView);
+        aoEViewMap.put(aoEView.getID(), aoEView);
+    }
+    public void removeEnemyView(String ID) {
+        enemies.remove(enemiesMap.get(ID));
+        enemiesMap.put(ID, null);
+    }
+    public void removeBulletView(String ID) {
+        bullets.remove(bulletsMap.get(ID));
+        bulletsMap.put(ID, null);
+    }
+    public void removeCollectivesView(String ID) {
+        collectivesMap.get(ID).getGamePanel().remove(collectivesMap.get(ID));
+        collectivesMap.put(ID, null);
+    }
+    public void removeArchmireView(String ID) {
+        archmires.remove((ArchmireView) enemiesMap.get(ID));
+        enemiesMap.put(ID, null);
+    }
+    public void removeAoEView(String ID) {
+        aoEViews.remove(aoEViewMap.get(ID));
+        aoEViewMap.put(ID, null);
+    }
+    public void addPanel(int x, int y, int width, int height, String ID) {
+        GamePanel gamePanel = new GamePanel(x, y, width, height, ID);
+        gamePanels.add(gamePanel);
+        gamePanelMap.put(ID, gamePanel);
+        setFocus();
+    }
+    public void addLaser(BlackOrbLaserView laser) {
+        laserViews.add(laser);
+        laserViewMap.put(laser.getID(), laser);
+    }
+    public void removeLaser(String ID) {
+        laserViews.remove(laserViewMap.get(ID));
+        laserViewMap.put(ID, null);
+    }
+
+    public ArrayList<BlackOrbLaserView> getLaserViews() {
+        return laserViews;
+    }
+
+    public Map<String, BlackOrbLaserView> getLaserViewMap() {
+        return laserViewMap;
+    }
+    public void updatePanels() {
+        for (int i = 0; i < gamePanels.size(); i++) {
+            gamePanels.get(i).revalidate();
+            gamePanels.get(i).repaint();
+        }
+    }
+    public void setFocus() {
+        GameManager.getINSTANCE().getGameFrame().setFocusable(true);
+        GameManager.getINSTANCE().getGameFrame().requestFocus();
+        //gamePanels.get(0).getFrame().requestFocusInWindow();
     }
 }
