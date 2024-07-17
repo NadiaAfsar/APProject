@@ -107,8 +107,7 @@ public class Necropick extends Enemy {
     private void shoot() {
         int x = (int)(Math.random()*100);
         int y = (int)(Math.random()*100);
-        BulletModel bulletModel = new BulletModel(center, new Point(x, y), (int)(2*height/21), 4, false, frame);
+        BulletModel bulletModel = new BulletModel(center, new Point(x, y), (int)(2*height/21), 4, false, frame, null);
         GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
-        Controller.addBulletView(bulletModel);
     }
 }

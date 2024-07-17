@@ -1,5 +1,7 @@
 package model;
 
+import controller.Controller;
+import controller.GameManager;
 import model.frame.Frame;
 import model.interfaces.collision.Collidable;
 import controller.audio.AudioController;
@@ -13,8 +15,6 @@ import java.util.UUID;
 public class BulletModel implements Collidable {
     private double x1;
     private double y1;
-    private double width;
-    private double height;
     private double angle;
     private double cos;
     private double sin;
@@ -25,11 +25,24 @@ public class BulletModel implements Collidable {
     private int damage;
     private boolean stable;
     private Frame frame;
-    public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable, Frame frame) {
+    private Frame bulletproof;
+    public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable, Frame frame, Frame bulletproof) {
         this.stable = stable;
         AudioController.addBulletShotSound();
         ID = UUID.randomUUID().toString();
         this.direction = new Direction(point1, point2);
+        setAngle();
+        this.damage = damage;
+        this.radius = 10;
+        this.bulletproof = bulletproof;
+        setX1(point1, radius);
+        setY1(point1, radius);
+        setEnd();
+        Controller.addBulletView(this);
+        this.frame = frame;
+        this.frame.getBulletModels().add(this);
+    }
+    private void setAngle() {
         angle = getAngle();
         sin = Math.sin(angle);
         cos = Math.cos(angle);
@@ -37,13 +50,6 @@ public class BulletModel implements Collidable {
             cos *= -1;
             sin *= -1;
         }
-        this.damage = damage;
-        this.radius = 10;
-        setX1(point1, radius);
-        setY1(point1, radius);
-        setEnd();
-        this.frame = frame;
-        this.frame.getBulletModels().add(this);
     }
     public void setPosition(double x, double y) {
         this.x1 = x;
@@ -63,7 +69,7 @@ public class BulletModel implements Collidable {
         return angle;
     }
     private void setEnd() {
-        end = new RotatablePoint(x1, y1, angle, radius);
+        end = new RotatablePoint(x1, y1, angle, 10);
     }
 
     public double getX1() {
@@ -119,11 +125,7 @@ public class BulletModel implements Collidable {
         return damage;
     }
 
-    public double getWidth() {
-        return width;
-    }
-
-    public double getHeight() {
-        return height;
+    public Frame getBulletproof() {
+        return bulletproof;
     }
 }

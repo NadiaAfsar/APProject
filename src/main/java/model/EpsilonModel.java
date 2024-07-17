@@ -244,9 +244,8 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
     private void addBullet(int x, int y) {
         BulletModel bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
-                5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame);
+                5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame, null);
         GameManager.getINSTANCE().getGameModel().getBullets().add(bulletModel);
-        Controller.addBulletView(bulletModel);
     }
     public void nextMove() {
             move();

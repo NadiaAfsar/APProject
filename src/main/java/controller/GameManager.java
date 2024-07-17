@@ -46,6 +46,7 @@ public class GameManager {
     private GameFrame gameFrame;
     public static Configs configs;
     public static ReaderWriter readerWriter;
+    private ArrayList<BulletModel> vanishedEnemiesBullets;
     private GameManager() {
         totalXP = 2000;
         sensitivity = 2;
@@ -69,6 +70,9 @@ public class GameManager {
         else {
             gameModel = new HardGame();
         }
+        diedEnemies = new ArrayList<>();
+        vanishedBullets = new ArrayList<>();
+        vanishedEnemiesBullets = new ArrayList<>();
         gameView.getEpsilonView().setPanel(gameView.getGamePanelMap().get(gameModel.getEpsilon().getFrame().getID()));
         lastSavedTime = System.currentTimeMillis();
     }
@@ -129,14 +133,16 @@ public class GameManager {
     private void checkEnemiesBulletsCollision() {
         for (int i = 0; i < gameModel.getEnemiesBullets().size(); i++) {
             BulletModel bullet = gameModel.getEnemiesBullets().get(i);
-            if (!checkBulletCollisionWithFrames(bullet)) {
+            if (!checkBulletCollisionWithFrames(bullet, vanishedEnemiesBullets)) {
                 Point collisionPoint = bullet.getCollisionPoint(gameModel.getEpsilon());
                 if (collisionPoint != null) {
-                    bulletCollided(bullet, collisionPoint);
+                    bulletCollided(bullet, collisionPoint, vanishedEnemiesBullets);
                     gameModel.getEpsilon().decreaseHP(bullet.getDamage());
                 }
             }
         }
+        GameManagerHelper.removeFrom(gameModel.getEnemiesBullets(), vanishedEnemiesBullets);
+        vanishedEnemiesBullets = new ArrayList<>();
     }
     private void nextWave() {
         if (currentWave != null) {
@@ -146,18 +152,16 @@ public class GameManager {
         wave++;
     }
     private void checkBulletsCollision() {
-        vanishedBullets = new ArrayList<>();
-        diedEnemies = new ArrayList<>();
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
             BulletModel bullet = gameModel.getBullets().get(i);
-            if (!checkBulletCollisionWithFrames(bullet)) {
+            if (!checkBulletCollisionWithFrames(bullet, vanishedBullets)) {
                 checkBulletCollisionWithEnemies(bullet);
             }
         }
-        GameManagerHelper.removeFrom(gameModel.getEnemies(), diedEnemies);
         GameManagerHelper.removeFrom(gameModel.getBullets(), vanishedBullets);
+        vanishedBullets = new ArrayList<>();
     }
-    private boolean checkBulletCollisionWithFrames(BulletModel bulletModel) {
+    private boolean checkBulletCollisionWithFrames(BulletModel bulletModel, ArrayList<BulletModel> vanishedBullets) {
         for (int i = 0; i < gameModel.getFrames().size(); i++) {
             if (GameManagerHelper.checkFrameCollisionWithBullet(bulletModel, gameModel.getFrames().get(i))) {
                 vanishedBullets.add(bulletModel);
@@ -182,9 +186,7 @@ public class GameManager {
         if (Math.abs(enemy.getX() - bullet.getX2()) < 40 && Math.abs(enemy.getY() - bullet.getY2()) < 40) {
             Point point = bullet.getCollisionPoint(enemy);
             if (point != null) {
-                Impactable.impactOnOthers(point);
-                vanishedBullets.add(bullet);
-                Controller.removeBulletView(bullet);
+                bulletCollided(bullet, point, vanishedBullets);
                 enemy.decreaseHP(bullet.getDamage());
             }
         }
@@ -196,13 +198,13 @@ public class GameManager {
                     Math.abs(vertices.get(i).getCenter().getY() - bullet.getY2()) < 40) {
                 Point point = bullet.getCollisionPoint(vertices.get(i));
                 if (point != null) {
-                    bulletCollided(bullet, point);
+                    bulletCollided(bullet, point, vanishedBullets);
                     vertices.get(i).decreaseHP(bullet.getDamage());
                 }
             }
         }
     }
-    private void bulletCollided(BulletModel bullet, Point point) {
+    private void bulletCollided(BulletModel bullet, Point point, ArrayList<BulletModel> vanishedBullets) {
         Impactable.impactOnOthers(point);
         vanishedBullets.add(bullet);
         Controller.removeBulletView(bullet);
@@ -241,6 +243,8 @@ public class GameManager {
         checkBulletsCollision();
         moveEnemiesBullets();
         checkEnemiesBulletsCollision();
+        GameManagerHelper.removeFrom(gameModel.getEnemies(), diedEnemies);
+        diedEnemies = new ArrayList<>();
         if (gameStarted && gameModel.getEnemies().size() == 0 && !wait) {
             if (wave == 4) {
                 endGame();
@@ -357,9 +361,8 @@ public class GameManager {
 
 
     public ArrayList<Enemy> getDiedEnemies() {
-        synchronized (gameModel.getEnemyLock()) {
             return diedEnemies;
-        }
+
     }
 
     public GameFrame getGameFrame() {

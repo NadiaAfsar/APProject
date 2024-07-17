@@ -31,6 +31,7 @@ public class Update {
                 gameView.updatePanels();
                 updateEnemies();
                 updateBullets();
+                updateEnemiesBullets();
                 epsilonView.update(epsilon.getX(), epsilon.getY());
                 epsilonView.updateVertexes(epsilon.getVertexes());
                 updatePanels();
@@ -72,6 +73,16 @@ public class Update {
         ArrayList<BulletModel> bullets = GameManager.getINSTANCE().getGameModel().getBullets();
         for (int i = 0; i < bullets.size(); i++) {
             BulletModel bullet = bullets.get(i);
+            if (bulletsView.get(bullet.getID()) != null)
+            bulletsView.get(bullet.getID()).update((int)bullet.getX1(), (int)bullet.getY1());
+        }
+    }
+    private static void updateEnemiesBullets() {
+        Map<String, BulletView> bulletsView = GameManager.getINSTANCE().getGameView().getBulletsMap();
+        ArrayList<BulletModel> bullets = GameManager.getINSTANCE().getGameModel().getEnemiesBullets();
+        for (int i = 0; i < bullets.size(); i++) {
+            BulletModel bullet = bullets.get(i);
+            if (bulletsView.get(bullet.getID()) != null)
             bulletsView.get(bullet.getID()).update((int)bullet.getX1(), (int)bullet.getY1());
         }
     }

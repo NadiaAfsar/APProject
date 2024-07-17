@@ -120,13 +120,12 @@ public class Omenoct extends Enemy implements Impactable, Movable {
         sideChosen = false;
         velocityPower /= 2;
     }
-    private void shot() {
+    private void shoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime-lastShoot >= 500) {
             BulletModel bulletModel = new BulletModel(center, GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter(),
-                    15, 4, true, frame);
+                    15, 4, true, frame, null);
             GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
-            Controller.addBulletView(bulletModel);
             lastShoot = currentTime;
         }
     }
@@ -134,7 +133,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
             move();
             checkCollision();
             if (stuck) {
-                shot();
+                shoot();
             }
     }
     @Override

@@ -6,6 +6,7 @@ import model.BulletModel;
 import model.Collective;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
+import model.enemies.normal.archmire.Archmire;
 import model.frame.Frame;
 import model.enemies.Enemy;
 import model.interfaces.collision.Collidable;
@@ -15,7 +16,6 @@ import model.interfaces.movement.Movable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -50,13 +50,13 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         move();
         frame.setX(center.getX()-width/2-10);
         frame.setY(center.getY()-height/2-10);
-        //shoot();
+        shoot();
     }
     private void shoot() {
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastShotTime >= 1000 && isNearEpsilon()) {
+        if (currentTime - lastShotTime >= 1500 && isNearEpsilon()) {
             BulletModel bulletModel = new BulletModel(center, GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter(),
-                    width/2, 8, false, frame);
+                    height/2, 8, false, frame, frame);
             GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
             lastShotTime = currentTime;
         }
@@ -82,11 +82,11 @@ public class Wyrm extends Enemy implements Movable, Impactable {
     }
     private boolean isNearEpsilon() {
         Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
-        return getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) <= 100;
+        return getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) <= 150;
     }
     private boolean isTooNearEpsilon() {
         Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
-        return getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) < 90;
+        return getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) < 140;
     }
 
     @Override
@@ -97,23 +97,21 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         synchronized (GameManager.getINSTANCE().getGameModel().getEnemyLock()) {
             ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
             for (int i = 0; i < enemies.size(); i++) {
-                if (!(enemies.get(i) instanceof Wyrm)) {
-                    if (enemies.get(i) instanceof Collidable) {
-                        Collidable collidable = (Collidable) enemies.get(i);
+                if (enemies.get(i) instanceof BlackOrb) {
+                    ArrayList<BlackOrbVertex> vertices = ((BlackOrb)enemies.get(i)).getBlackOrbVertices();
+                    for (int j = 0; j < vertices.size(); j++) {
+                        Point collisionPoint = (this).getCollisionPoint(vertices.get(j));
+                        if (collisionPoint != null) {
+                            (this).impact(collisionPoint, vertices.get(j));
+                        }
+                    }
+                }
+                else if (!(enemies.get(i) instanceof Wyrm) && !(enemies.get(i) instanceof Archmire)) {
+                        Collidable collidable = enemies.get(i);
                         Point collisionPoint = (this).getCollisionPoint(collidable);
                         if (collisionPoint != null) {
                             (this).impact(collisionPoint, collidable);
                         }
-                    }
-                    else if (enemies.get(i) instanceof BlackOrb) {
-                        ArrayList<BlackOrbVertex> vertices = ((BlackOrb)enemies.get(i)).getBlackOrbVertices();
-                        for (int j = 0; j < vertices.size(); j++) {
-                            Point collisionPoint = (this).getCollisionPoint(vertices.get(j));
-                            if (collisionPoint != null) {
-                                (this).impact(collisionPoint, vertices.get(j));
-                            }
-                        }
-                    }
                 }
             }
         }

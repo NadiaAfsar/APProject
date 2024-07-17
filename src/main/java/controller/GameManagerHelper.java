@@ -49,21 +49,20 @@ public class GameManagerHelper {
         return enemy;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet, Frame frame) {
-        if (bullet.getX2() <= frame.getX()) {
-            frame.changeWidth(bullet, -10);
-            return true;
-        }
-        else if (bullet.getX2() >= frame.getX()+ frame.getWidth()) {
-            frame.changeWidth(bullet, 10);
-            return true;
-        }
-        else if (bullet.getY2() <= 0) {
-            frame.changeHeight(bullet, -10);
-            return true;
-        }
-        else if (bullet.getY2() >= frame.getHeight()) {
-            frame.changeHeight(bullet, 10);
-            return true;
+        if (!frame.equals(bullet.getBulletproof())) {
+            if (bullet.getX2() <= frame.getX() && bullet.getX2() > frame.getX() - 10) {
+                frame.changeWidth(bullet, -10);
+                return true;
+            } else if (bullet.getX2() >= frame.getX() + frame.getWidth() && bullet.getX2() < frame.getX() + frame.getWidth() + 10) {
+                frame.changeWidth(bullet, 10);
+                return true;
+            } else if (bullet.getY2() <= frame.getY() && bullet.getY2() > frame.getY() - 10) {
+                frame.changeHeight(bullet, -10);
+                return true;
+            } else if (bullet.getY2() >= frame.getHeight() + frame.getY() && bullet.getY2() < frame.getY() + frame.getHeight() + 10) {
+                frame.changeHeight(bullet, 10);
+                return true;
+            }
         }
         return false;
     }

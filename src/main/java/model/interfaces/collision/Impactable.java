@@ -62,7 +62,7 @@ public interface Impactable {
         }
     }
     default void setImpactAcceleration(Direction direction, double distance) {
-        setCenter(new Point(getCenter().getX() - direction.getDx() * distance , getCenter().getY() - direction.getDy() * distance ));
+        setCenter(new Point(getCenter().getX() - direction.getDx() * distance/2 , getCenter().getY() - direction.getDy() * distance/2 ));
         if (this instanceof EpsilonModel) {
             setCenter(new Point(getCenter().getX()-12, getCenter().getY()-12));
         }
