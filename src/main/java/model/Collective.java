@@ -12,23 +12,18 @@ import java.util.UUID;
 public class Collective implements Collidable {
     private int x;
     private int y;
-    private Color color;
     private Point center;
     private final long time;
     private final String ID;
     private int xp;
-    private Frame frame;
 
-    public Collective(int x, int y, Color color, int xp, Frame frame) {
+    public Collective(int x, int y,int xp) {
         ID = UUID.randomUUID().toString();
         this.x = x;
         this.y = y;
         this.center = new Point(x,y);
-        this.color = color;
-        this.frame = frame;
         time = System.currentTimeMillis();
         this.xp = xp;
-        this.frame.getCollectives().add(this);
     }
 
     @Override
@@ -53,9 +48,6 @@ public class Collective implements Collidable {
         return y;
     }
 
-    public Color getColor() {
-        return color;
-    }
 
     public long getTime() {
         return time;
@@ -65,7 +57,4 @@ public class Collective implements Collidable {
         return xp;
     }
 
-    public Frame getFrame() {
-        return frame;
-    }
 }

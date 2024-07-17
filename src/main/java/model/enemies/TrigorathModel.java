@@ -145,8 +145,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     @Override
     public void addCollective() {
         for (int i = -1; i < 2; i += 2) {
-            Collective collective = new Collective((int) center.getX()+i*13, (int) center.getY()+i*13, Color.BLUE,
-                    5, frame);
+            Collective collective = new Collective((int) center.getX()+i*13, (int) center.getY()+i*13, 5);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }

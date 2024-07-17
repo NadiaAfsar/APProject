@@ -88,8 +88,7 @@ public class Archmire extends Enemy implements Movable {
         int[] x = new int[]{-10, 10, -10, 10, 0};
         int[] y = new int[]{-10, -10, 10, 10, 0};
         for (int i = 0; i < 5; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED,
-                    6, frame);
+            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i],6);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }

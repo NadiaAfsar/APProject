@@ -65,9 +65,7 @@ public class Controller {
                 GameManager.getINSTANCE().startGame();
                 new Update();
                 GameMouseListener.setGameRunning(true);
-                //GameManager.getINSTANCE().getGameView().addMouseListener(GameMouseListener.getINSTANCE());
                 GameMouseMotionListener.getINSTANCE().setEpsilonModel(GameManager.getINSTANCE().getGameModel().getEpsilon());
-                //GameManager.getINSTANCE().getGameView().addMouseMotionListener(GameMouseMotionListener.getINSTANCE());
                 gameRunning = true;
             }
         });
@@ -142,7 +140,7 @@ public class Controller {
     }
     public static void addCollectiveView(Collective collective) {
         GameManager.getINSTANCE().getGameView().addCollectivesView(new CollectiveView(collective.getX(), collective.getY(),
-                collective.getColor(), collective.getFrame().getID(), collective.getID()));
+                collective.getID()));
     }
     public static void removeCollectiveView(Collective collective) {
         GameManager.getINSTANCE().getGameView().removeCollectivesView(collective.getID());

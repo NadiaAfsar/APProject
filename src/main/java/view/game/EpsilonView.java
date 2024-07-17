@@ -29,7 +29,6 @@ public class EpsilonView{
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        Image newImage = image.getScaledInstance(radius*2, radius*2, Image.SCALE_DEFAULT);
         vertexes = new ArrayList<>();
     }
     public void update(int x, int y) {

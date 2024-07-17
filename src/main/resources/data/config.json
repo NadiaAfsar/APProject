@@ -14,8 +14,8 @@
   "TRIGORATH_HEIGHT": 17,
   "WYRM_WIDTH": 90,
   "WYRM_HEIGHT": 75,
-  "OMENOCT_WIDTH": 20,
-  "OMENOCT_HEIGHT": 20,
+  "OMENOCT_WIDTH": 50,
+  "OMENOCT_HEIGHT": 50,
   "NECROPICK_WIDTH": 19,
   "NECROPICK_HEIGHT": 21,
   "ARCHMIRE_WIDTH": 22,
@@ -36,5 +36,6 @@
   "GAME_OVER_SOUND": "src/main/resources/audios/gameOver.wav",
   "SHOT": "src/main/resources/audios/shot.wav",
   "WAVE_END": "src/main/resources/audios/waveEnd.wav",
-  "WINNING_SOUND": "src/main/resources/audios/win.wav"
+  "WINNING_SOUND": "src/main/resources/audios/win.wav",
+  "COLLECTIVE": "src/main/resources/pictures/collective.png"
 }

@@ -25,8 +25,7 @@ public class BulletModel implements Collidable {
     private int damage;
     private boolean stable;
     private Frame frame;
-    private Frame bulletproof;
-    public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable, Frame frame, Frame bulletproof) {
+    public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable, Frame frame) {
         this.stable = stable;
         AudioController.addBulletShotSound();
         ID = UUID.randomUUID().toString();
@@ -34,7 +33,6 @@ public class BulletModel implements Collidable {
         setAngle();
         this.damage = damage;
         this.radius = 10;
-        this.bulletproof = bulletproof;
         setX1(point1, radius);
         setY1(point1, radius);
         setEnd();
@@ -125,7 +123,4 @@ public class BulletModel implements Collidable {
         return damage;
     }
 
-    public Frame getBulletproof() {
-        return bulletproof;
-    }
 }

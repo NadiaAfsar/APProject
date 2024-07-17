@@ -65,6 +65,7 @@ public class Update {
                 updateBlackOrbVertexes((BlackOrb) enemy);
                 updateBlackOrbLasers((BlackOrb) enemy);
             }
+            if (enemiesView.get(enemy.getID()) != null)
             enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
         }
     }

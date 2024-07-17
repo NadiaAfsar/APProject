@@ -1,6 +1,7 @@
 package controller;
 
 import model.BulletModel;
+import model.enemies.normal.Omenoct;
 import model.enemies.normal.Wyrm;
 import model.frame.Frame;
 import model.enemies.Enemy;
@@ -44,12 +45,13 @@ public class GameManagerHelper {
     }
     public static Enemy getNewEnemy(Point point, int hp, double velocity) {
         int x = (int)(Math.random()*2);
-        Enemy enemy = new Wyrm(new Point(600,100),velocity, hp);
+        //Enemy enemy = new Wyrm(new Point(600,100),velocity, hp);
         //Enemy enemy = new SquarantineModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
+        Enemy enemy = new Omenoct(new Point(600, 300), velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         return enemy;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet, Frame frame) {
-        if (!frame.equals(bullet.getBulletproof())) {
+        if (!frame.isWyrmFrame()) {
             if (bullet.getX2() <= frame.getX() && bullet.getX2() > frame.getX() - 10) {
                 frame.changeWidth(bullet, -10);
                 return true;

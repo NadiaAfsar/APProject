@@ -132,7 +132,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
 
     public void setCenter(double x, double y) {
-        this.center = new Point(x+12, y+12);
+        this.center = new Point(x+radius, y+radius);
     }
 
     public void decreaseHP(int hp) {
@@ -154,14 +154,14 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         if (getX()- frame.getX() <= 0) {
             setCenter(10+ frame.getX(),getY());
         }
-        else if (getX()- frame.getX() > frame.getWidth()-24) {
-            setCenter((int)frame.getWidth()-34+ frame.getX(),getY());
+        else if (getX()- frame.getX() >= frame.getWidth()-2*radius) {
+            setCenter((int)frame.getWidth()+ frame.getX()-10-2*radius,getY());
         }
         if (getY()-frame.getY() <= 0) {
             setCenter(getX(),10+ frame.getY());
         }
-        else if (getY()- frame.getY() > frame.getHeight()-24) {
-            setCenter(getX(),(int)frame.getHeight()-34+ frame.getY());
+        else if (getY()- frame.getY() > frame.getHeight()-2*radius) {
+            setCenter(getX(),(int)frame.getHeight()+ frame.getY()-10-2*radius);
         }
     }
 
@@ -244,7 +244,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
     private void addBullet(int x, int y) {
         BulletModel bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
-                5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame, null);
+                5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame);
         GameManager.getINSTANCE().getGameModel().getBullets().add(bulletModel);
     }
     public void nextMove() {

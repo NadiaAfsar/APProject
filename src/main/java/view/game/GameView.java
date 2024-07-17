@@ -25,11 +25,13 @@ public class GameView {
     private Map<String, GamePanel> gamePanelMap;
     private ArrayList<BlackOrbLaserView> laserViews;
     private Map<String, BlackOrbLaserView> laserViewMap;
+    private ArrayList<CollectiveView> collectiveViews;
     private HUI hui;
     public GameView() {
         enemiesMap = new HashMap<>();
         bulletsMap = new HashMap<>();
         collectivesMap = new HashMap<>();
+        collectiveViews = new ArrayList<>();
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
         archmires = new ArrayList<>();
@@ -113,6 +115,7 @@ public class GameView {
         bulletsMap.put(bulletView.getID(), bulletView);
     }
     public void addCollectivesView(CollectiveView collectiveView) {
+        collectiveViews.add(collectiveView);
         collectivesMap.put(collectiveView.getID(), collectiveView);
     }
     public void addArchmireView(ArchmireView archmireView) {
@@ -132,7 +135,7 @@ public class GameView {
         bulletsMap.put(ID, null);
     }
     public void removeCollectivesView(String ID) {
-        collectivesMap.get(ID).getGamePanel().remove(collectivesMap.get(ID));
+        collectiveViews.remove(collectivesMap.get(ID));
         collectivesMap.put(ID, null);
     }
     public void removeArchmireView(String ID) {
@@ -147,7 +150,6 @@ public class GameView {
         GamePanel gamePanel = new GamePanel(x, y, width, height, ID);
         gamePanels.add(gamePanel);
         gamePanelMap.put(ID, gamePanel);
-        setFocus();
     }
     public void addLaser(BlackOrbLaserView laser) {
         laserViews.add(laser);
@@ -174,6 +176,10 @@ public class GameView {
     public void setFocus() {
         GameManager.getINSTANCE().getGameFrame().setFocusable(true);
         GameManager.getINSTANCE().getGameFrame().requestFocus();
-        //gamePanels.get(0).getFrame().requestFocusInWindow();
+        gamePanels.get(0).getFrame().requestFocusInWindow();
+    }
+
+    public ArrayList<CollectiveView> getCollectiveViews() {
+        return collectiveViews;
     }
 }

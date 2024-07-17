@@ -48,4 +48,5 @@ public class Configs {
     public String SHOT;
     public String WAVE_END;
     public String WINNING_SOUND;
+    public String COLLECTIVE;
 }

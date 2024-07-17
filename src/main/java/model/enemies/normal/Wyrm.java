@@ -28,7 +28,8 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         direction = 1;
         width = GameManager.configs.WYRM_WIDTH;
         height = GameManager.configs.WYRM_HEIGHT;
-        frame = new Frame(width+20, height+20, center.getX()-width/2-10, center.getY()-height/2-10, true, false);
+        frame = new Frame(width+20, height+20, center.getX()-width/2-10, center.getY()-height/2-10,
+                true, false, true);
         addVertexes();
         frame.getEnemies().add(this);
         Controller.addEnemyView(this);
@@ -56,7 +57,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= 1500 && isNearEpsilon()) {
             BulletModel bulletModel = new BulletModel(center, GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter(),
-                    height/2, 8, false, frame, frame);
+                    height/2, 8, false, frame);
             GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
             lastShotTime = currentTime;
         }
@@ -122,8 +123,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         int[] x = new int[]{-10, 10};
         int[] y = new int[]{-10, 10};
         for (int i = 0; i < 2; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED,
-                    8, frame);
+            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i],8);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }

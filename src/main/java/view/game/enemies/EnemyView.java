@@ -4,6 +4,7 @@ import model.interfaces.movement.Point;
 import view.Rotation;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +16,12 @@ public abstract class EnemyView {
     protected BufferedImage image;
     private int width;
     private int height;
+    private double initialWidth;
+    private double initialHeight;
     protected BufferedImage rotatedImage;
     private String ID;
+    private double imageWidth;
+    private double imageHeight;
 
 
     public EnemyView(int x, int y, int width, int height, String path, String ID) {
@@ -24,6 +29,8 @@ public abstract class EnemyView {
         this.y = y;
         this.width = width;
         this.height = height;
+        initialWidth = width;
+        initialHeight = height;
         this.ID = ID;
         try {
             image = ImageIO.read(new File(path));
@@ -31,6 +38,8 @@ public abstract class EnemyView {
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        imageWidth = image.getWidth();
+        imageHeight = image.getHeight();
         rotatedImage = image;
     }
     public void update(Point center, double angle) {
@@ -39,8 +48,8 @@ public abstract class EnemyView {
         if (getAngle() != angle) {
             setAngle(angle);
             rotatedImage = Rotation.rotate(image, angle);
-            width = rotatedImage.getWidth();
-            height = rotatedImage.getHeight();
+            width = (int)(rotatedImage.getWidth()/imageWidth*initialWidth);
+            height = (int)(rotatedImage.getHeight()/imageHeight*initialHeight);
         }
     }
 

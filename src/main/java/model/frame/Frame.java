@@ -29,9 +29,10 @@ public class Frame {
     private EpsilonModel epsilon;
     private ArrayList<BulletModel> bulletModels;
     private ArrayList<Collective> collectives;
-    private String ID;
+    private final String ID;
+    private boolean isWyrmFrame;
 
-    public Frame(double width, double height, double x, double y, boolean isIsometric, boolean isRigid) {
+    public Frame(double width, double height, double x, double y, boolean isIsometric, boolean isRigid, boolean isWyrmFrame) {
         ID = UUID.randomUUID().toString();
         this.width = width;
         this.height = height;
@@ -39,6 +40,7 @@ public class Frame {
         this.y = y;
         this.isIsometric = isIsometric;
         this.isRigid = isRigid;
+        this.isWyrmFrame = isWyrmFrame;
         enemies = new ArrayList<>();
         blackOrbVertices = new ArrayList<>();
         blackOrbLasers = new ArrayList<>();
@@ -161,5 +163,9 @@ public class Frame {
 
     public ArrayList<Collective> getCollectives() {
         return collectives;
+    }
+
+    public boolean isWyrmFrame() {
+        return isWyrmFrame;
     }
 }

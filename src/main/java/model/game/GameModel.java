@@ -35,7 +35,7 @@ public abstract class GameModel {
         Collectives = new ArrayList<>();
         enemiesBullets = new ArrayList<>();
         frames = new ArrayList<>();
-        epsilon = new EpsilonModel(new Frame(700, 700,0,0,false,false));
+        epsilon = new EpsilonModel(new Frame(700, 700,0,0,false,false, false));
         frames.add(epsilon.getFrame());
 
     }

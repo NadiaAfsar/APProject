@@ -16,8 +16,7 @@ public class Side {
     public void separateAll() {
         for (int i = 0; i < stuckOmenocts.size(); i++) {
             stuckOmenocts.get(i).separate();
-            stuckOmenocts.remove(stuckOmenocts.get(i));
-            i--;
         }
+        stuckOmenocts = new ArrayList<>();
     }
 }

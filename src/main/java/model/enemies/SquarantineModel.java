@@ -80,8 +80,7 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
 
     @Override
     public void addCollective() {
-        Collective collective = new Collective((int)center.getX(), (int)center.getY(), Color.MAGENTA,
-                5, frame);
+        Collective collective = new Collective((int)center.getX(), (int)center.getY(),5);
         GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
         Controller.addCollectiveView(collective);
     }

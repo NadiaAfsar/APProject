@@ -2,23 +2,51 @@ package view.game;
 
 import controller.GameManager;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class CollectiveView extends JLabel {
-    private GamePanel gamePanel;
+public class CollectiveView {
     private String ID;
-    public CollectiveView(int x, int y, Color color, String panel, String ID) {
-        setText("●");
-        setBounds(x,y,15,15);
-        setForeground(color);
-        gamePanel = GameManager.getINSTANCE().getGameView().getGamePanelMap().get(panel);
+    private BufferedImage image;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    public CollectiveView(int x, int y,String ID) {
+        width = 10;
+        height = 10;
+        this.x = x-width/2;
+        this.y = y-height/2;
         this.ID = ID;
-        gamePanel.add(this);
+        try {
+            image = ImageIO.read(new File(GameManager.configs.COLLECTIVE));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public GamePanel getGamePanel() {
-        return gamePanel;
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public String getID() {

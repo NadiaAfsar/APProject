@@ -20,8 +20,7 @@ public class MiniArchmire extends Archmire{
         int[] x = new int[]{-10, 10};
         int[] y = new int[]{-10, 10};
         for (int i = 0; i < 2; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED,
-                    3, frame);
+            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i],3);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }

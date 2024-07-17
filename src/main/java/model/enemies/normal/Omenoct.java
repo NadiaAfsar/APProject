@@ -13,6 +13,7 @@ import model.interfaces.movement.Movable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -24,9 +25,9 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     private long lastShoot;
     public Omenoct(Point center, double velocity, int hp, Frame frame) {
         super(center, velocity);
-        addVertexes();
         width = GameManager.configs.OMENOCT_WIDTH;
         height = GameManager.configs.OMENOCT_HEIGHT;
+        addVertexes();
         this.HP = 20 + hp;
         damage = 8;
         this.frame = frame;
@@ -59,16 +60,16 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     private Point getChosenSide() {
         Point chosenSide = null;
         if (side == 0) {
-            chosenSide = new Point(0, 15);
+            chosenSide = new Point(0, 15+ frame.getY());
         }
         else if (side == 1) {
-            chosenSide = new Point(frame.getWidth()-15, 0);
+            chosenSide = new Point(frame.getWidth()+ frame.getX()-width, 0);
         }
         else if (side == 2) {
-            chosenSide = new Point(0, frame.getHeight()-15);
+            chosenSide = new Point(0, frame.getHeight()+ frame.getY()-height);
         }
         else {
-            chosenSide = new Point(15, 0);
+            chosenSide = new Point(15+ frame.getX(), 0);
         }
         return chosenSide;
     }
@@ -87,8 +88,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
         int[] x = new int[]{0, 5, 10, 5, 0, -5, -10, -5};
         int[] y = new int[]{-10, -15, 0, 5, 10, 5, 0, -5};
         for (int i = 0; i < 8; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED,
-                    4, frame);
+            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i],4);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }
@@ -122,9 +122,9 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     }
     private void shoot() {
         long currentTime = System.currentTimeMillis();
-        if (currentTime-lastShoot >= 500) {
+        if (currentTime-lastShoot >= 1500) {
             BulletModel bulletModel = new BulletModel(center, GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter(),
-                    15, 4, true, frame, null);
+                    width/2, 4, true, frame);
             GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
             lastShoot = currentTime;
         }

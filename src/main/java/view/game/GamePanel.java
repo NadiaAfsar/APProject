@@ -1,6 +1,8 @@
 package view.game;
 
 import controller.GameManager;
+import controller.listeners.GameMouseListener;
+import controller.listeners.GameMouseMotionListener;
 import controller.listeners.InputListener;
 import view.game.enemies.EnemyView;
 import view.game.enemies.archmire.AoEView;
@@ -28,12 +30,13 @@ public class GamePanel extends JPanel {
         addFrame();
         addPanel();
         new InputListener(this);
+        addMouseListener(GameMouseListener.getINSTANCE());
+        addMouseMotionListener(GameMouseMotionListener.getINSTANCE());
     }
     private void addFrame() {
         frame = new JFrame();
         frame.setBounds(x,y,width,height);
         frame.setLocationRelativeTo(null);
-        //frame.setUndecorated(true);
         frame.setResizable(false);
         frame.setVisible(true);
         frame.setLayout(null);
@@ -78,6 +81,7 @@ public class GamePanel extends JPanel {
         drawAoEs(g);
         drawArchmires(g);
         drawEnemies(g);
+        drawCollectives(g);
         drawEpsilon(g);
         drawBullets(g);
     }
@@ -123,6 +127,14 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < lasers.size(); i++) {
             BlackOrbLaserView laser = lasers.get(i);
             BlackOrbLaserView.draw(laser.getX1()-x, laser.getY1()-y, laser.getX2()-x, laser.getY2()-y, g);
+        }
+    }
+    private void drawCollectives(Graphics g) {
+        ArrayList<CollectiveView> collectiveViews = GameManager.getINSTANCE().getGameView().getCollectiveViews();
+        for (int i = 0; i < collectiveViews.size(); i++) {
+            CollectiveView collective = collectiveViews.get(i);
+            g.drawImage(collective.getImage(), collective.getX()-x, collective.getY()-y, collective.getWidth(),
+                    collective.getHeight(), null);
         }
     }
 

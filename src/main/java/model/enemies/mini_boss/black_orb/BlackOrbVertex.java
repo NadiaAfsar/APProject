@@ -33,7 +33,7 @@ public class BlackOrbVertex implements Collidable {
         width = GameManager.configs.BLACKORBVERTEX_RADIUS*2;
         height = GameManager.configs.BLACKORBVERTEX_RADIUS*2;
         frame = new Frame(width+20, height+20, center.getX()-width/2-10, center.getY()-height/2-10,
-                true, false);
+                true, false, false);
         lasers = new ArrayList<>();
         frame.getBlackOrbVertices().add(this);
         HP = 30;
@@ -50,7 +50,7 @@ public class BlackOrbVertex implements Collidable {
         AudioController.addEnemyDyingSound();
     }
     private void addCollective() {
-        Collective collective = new Collective((int)center.getX(), (int)center.getY(), Color.PINK, 30, frame);
+        Collective collective = new Collective((int)center.getX(), (int)center.getY(),30);
         GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
         Controller.addCollectiveView(collective);
     }

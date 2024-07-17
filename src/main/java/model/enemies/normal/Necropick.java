@@ -31,8 +31,7 @@ public class Necropick extends Enemy {
         int[] x = new int[]{-10, 10, -10, 10};
         int[] y = new int[]{-10, -10, 10, 10};
         for (int i = 0; i < 4; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], Color.RED,
-                    2, frame);
+            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], 2);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
             Controller.addCollectiveView(collective);
         }
@@ -107,7 +106,7 @@ public class Necropick extends Enemy {
     private void shoot() {
         int x = (int)(Math.random()*100);
         int y = (int)(Math.random()*100);
-        BulletModel bulletModel = new BulletModel(center, new Point(x, y), (int)(2*height/21), 4, false, frame, null);
+        BulletModel bulletModel = new BulletModel(center, new Point(x, y), (int)(2*height/21), 4, false, frame);
         GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
     }
 }
