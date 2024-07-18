@@ -4,13 +4,13 @@ import model.frame.Frame;
 import model.interfaces.collision.Impactable;
 import controller.Controller;
 import controller.GameManager;
-import model.Collective;
+import model.Collectible;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
 import model.interfaces.movement.RotatablePoint;
 import model.interfaces.movement.Point;
+import org.apache.log4j.Logger;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class TrigorathModel extends Enemy implements Impactable, Movable {
@@ -18,8 +18,11 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     private int y;
     private boolean decreasedVelocity;
     private boolean increasedVelocity;
+    private static int number;
     public TrigorathModel(Point center, int hp, double velocity, Frame frame) {
         super(center, velocity);
+        number++;
+        logger = Logger.getLogger(TrigorathModel.class.getName()+number);
         width = GameManager.configs.TRIGORATH_WIDTH;
         height = GameManager.configs.TRIGORATH_HEIGHT;
         this.frame = frame;
@@ -69,71 +72,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     public void nextMove() {
         move();
         checkCollision();
-    }
-
-    @Override
-    public void setAngularVelocity(double velocity) {
-        angularVelocity = velocity;
-    }
-
-    @Override
-    public void setAngularAcceleration(double acceleration) {
-        angularAcceleration = acceleration;
-    }
-
-    @Override
-    public void setAngularAccelerationRate(double accelerationRate) {
-        angularAccelerationRate = accelerationRate;
-    }
-
-    @Override
-    public double getAngularAccelerationRate() {
-        return angularAccelerationRate;
-    }
-
-    @Override
-    public void setCenter(Point center) {
-        this.center = center;
-    }
-
-    @Override
-    public void setImpact(boolean impact) {
-        this.impact = impact;
-    }
-
-    @Override
-    public Point getAcceleration() {
-        return acceleration;
-    }
-
-    @Override
-    public void setAcceleration(Point acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    @Override
-    public Point getAccelerationRate() {
-        return accelerationRate;
-    }
-
-    @Override
-    public void setAccelerationRate(Point accelerationRate) {
-        this.accelerationRate = accelerationRate;
-    }
-
-    @Override
-    public void setVelocity(Point velocity) {
-        this.velocity = velocity;
-    }
-
-    @Override
-    public Point getVelocity() {
-        return velocity;
-    }
-
-    @Override
-    public double getVelocityPower() {
-        return velocityPower;
+        super.nextMove();
     }
 
     public void setSpecialImpact() {
@@ -145,29 +84,16 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     @Override
     public void addCollective() {
         for (int i = -1; i < 2; i += 2) {
-            Collective collective = new Collective((int) center.getX()+i*13, (int) center.getY()+i*13, 5);
-            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
-            Controller.addCollectiveView(collective);
+            Collectible collectible = new Collectible((int) center.getX()+i*13, (int) center.getY()+i*13, 5);
+            GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+            Controller.addCollectiveView(collectible);
         }
     }
     public Direction getDirection() {
         return new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
     }
 
-    @Override
-    public double getAngularVelocity() {
-        return angularVelocity;
-    }
 
-    @Override
-    public double getAngularAcceleration() {
-        return angularAcceleration;
-    }
-
-    @Override
-    public void setAngle(double angle) {
-        this.angle = angle;
-    }
 }
 
 

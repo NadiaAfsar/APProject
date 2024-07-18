@@ -19,19 +19,19 @@ public class GameView {
     private ArrayList<ArchmireView> archmires;
     private Map<String, BulletView> bulletsMap;
     private ArrayList<BulletView> bullets;
-    private Map<String, CollectiveView> collectivesMap;
+    private Map<String, CollectibleView> collectibleMap;
     private EpsilonView epsilonView;
     private ArrayList<GamePanel> gamePanels;
     private Map<String, GamePanel> gamePanelMap;
     private ArrayList<BlackOrbLaserView> laserViews;
     private Map<String, BlackOrbLaserView> laserViewMap;
-    private ArrayList<CollectiveView> collectiveViews;
+    private ArrayList<CollectibleView> collectibleViews;
     private HUI hui;
     public GameView() {
         enemiesMap = new HashMap<>();
         bulletsMap = new HashMap<>();
-        collectivesMap = new HashMap<>();
-        collectiveViews = new ArrayList<>();
+        collectibleMap = new HashMap<>();
+        collectibleViews = new ArrayList<>();
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
         archmires = new ArrayList<>();
@@ -64,8 +64,8 @@ public class GameView {
     }
 
 
-    public Map<String, CollectiveView> getCollectivesMap() {
-        return collectivesMap;
+    public Map<String, CollectibleView> getCollectibleMap() {
+        return collectibleMap;
     }
 
 
@@ -114,9 +114,9 @@ public class GameView {
         bullets.add(bulletView);
         bulletsMap.put(bulletView.getID(), bulletView);
     }
-    public void addCollectivesView(CollectiveView collectiveView) {
-        collectiveViews.add(collectiveView);
-        collectivesMap.put(collectiveView.getID(), collectiveView);
+    public void addCollectivesView(CollectibleView collectibleView) {
+        collectibleViews.add(collectibleView);
+        collectibleMap.put(collectibleView.getID(), collectibleView);
     }
     public void addArchmireView(ArchmireView archmireView) {
         archmires.add(archmireView);
@@ -134,9 +134,9 @@ public class GameView {
         bullets.remove(bulletsMap.get(ID));
         bulletsMap.put(ID, null);
     }
-    public void removeCollectivesView(String ID) {
-        collectiveViews.remove(collectivesMap.get(ID));
-        collectivesMap.put(ID, null);
+    public void removeCollectibleView(String ID) {
+        collectibleViews.remove(collectibleMap.get(ID));
+        collectibleMap.put(ID, null);
     }
     public void removeArchmireView(String ID) {
         archmires.remove((ArchmireView) enemiesMap.get(ID));
@@ -179,7 +179,7 @@ public class GameView {
         gamePanels.get(0).getFrame().requestFocusInWindow();
     }
 
-    public ArrayList<CollectiveView> getCollectiveViews() {
-        return collectiveViews;
+    public ArrayList<CollectibleView> getCollectiveViews() {
+        return collectibleViews;
     }
 }

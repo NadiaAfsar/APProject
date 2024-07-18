@@ -4,7 +4,7 @@ package model.interfaces.collision;
 import controller.GameManager;
 import model.BulletModel;
 import model.EpsilonModel;
-import model.Collective;
+import model.Collectible;
 import model.enemies.Enemy;
 import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
@@ -40,8 +40,8 @@ public interface Collidable {
             return checkVertexes(getVertexes(), collidable.getVertexes());
         } else if (collidable instanceof EpsilonModel) {
             return getCollisionWithEpsilon((EpsilonModel) collidable, getVertexes());
-        } else if (collidable instanceof Collective) {
-            return getCollisionWithCollective((Collective) collidable, getCenter());
+        } else if (collidable instanceof Collectible) {
+            return getCollisionWithCollective((Collectible) collidable, getCenter());
         }
         return null;
     }
@@ -132,10 +132,10 @@ public interface Collidable {
         return null;
     }
 
-    default Point getCollisionWithCollective(Collective collective, Point point) {
-        double distance = getDistance(collective.getX(), collective.getY(), point.getX(), point.getY());
+    default Point getCollisionWithCollective(Collectible collectible, Point point) {
+        double distance = getDistance(collectible.getX(), collectible.getY(), point.getX(), point.getY());
         if (distance <= GameManager.getINSTANCE().getGameModel().getEpsilon().getRadius() + 5) {
-            return new Point(collective.getX(), collective.getY());
+            return new Point(collectible.getX(), collectible.getY());
         }
         return null;
     }

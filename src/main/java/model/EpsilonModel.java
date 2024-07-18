@@ -1,9 +1,9 @@
 package model;
 
+import log.EpsilonLogger;
 import model.enemies.Enemy;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
-import model.enemies.normal.Wyrm;
 import model.enemies.normal.archmire.Archmire;
 import model.frame.Frame;
 import model.interfaces.collision.Collidable;
@@ -16,6 +16,7 @@ import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private Timer downTimer;
     private Timer leftTimer;
     private Timer rightTimer;
-    private InputListener inputListener;
     private int radius;
     private Point center;
     private int HP;
@@ -41,8 +41,10 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private final int sensitivity;
     private boolean impact;
     private Frame frame;
+    private Logger logger;
 
     public EpsilonModel(Frame frame) {
+        logger = Logger.getLogger(EpsilonModel.class);
         setCenter((int)(frame.getX()+frame.getWidth()/2), (int)(frame.getY()+frame.getHeight()/2));
         radius = GameManager.configs.EPSILON_RADIUS;
         addMoveTimers();
@@ -224,7 +226,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             GameManager.getINSTANCE().getGameModel().setFinished(true);
         }
     }
-    public void shotBullet(int x, int y) {
+    public void shootBullet(int x, int y) {
         GameModel gameModel = GameManager.getINSTANCE().getGameModel();
         GameManager.getINSTANCE().checkAthenaTime();
         if (gameModel.isAthena()) {
@@ -250,6 +252,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     public void nextMove() {
             move();
             checkCollisions();
+        //EpsilonLogger.getInfo(logger, this);
     }
     private void checkCollisions() {
         synchronized (GameManager.getINSTANCE().getGameModel().getEnemyLock()) {
@@ -261,6 +264,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                         for (int j = 0; j < vertices.size(); j++) {
                             Point collisionPoint = vertices.get(i).getCollisionPoint(this);
                             if (collisionPoint != null) {
+                                logger.debug("collided");
                                 this.impact(collisionPoint, vertices.get(j));
                             }
                         }
@@ -269,6 +273,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                         Collidable collidable = enemies.get(i);
                         Point collisionPoint = collidable.getCollisionPoint(this);
                         if (collisionPoint != null) {
+                            logger.debug("collided");
                             this.impact(collisionPoint, collidable);
                         }
                     }

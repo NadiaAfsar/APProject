@@ -3,20 +3,18 @@ package view.game;
 import controller.GameManager;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class CollectiveView {
+public class CollectibleView {
     private String ID;
     private BufferedImage image;
     private int x;
     private int y;
     private int width;
     private int height;
-    public CollectiveView(int x, int y,String ID) {
+    public CollectibleView(int x, int y, String ID) {
         width = 10;
         height = 10;
         this.x = x-width/2;

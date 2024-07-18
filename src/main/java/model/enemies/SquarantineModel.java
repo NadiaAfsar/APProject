@@ -1,24 +1,26 @@
 package model.enemies;
 
 import model.frame.Frame;
-import model.interfaces.collision.Collidable;
 import model.interfaces.collision.Impactable;
 import controller.Controller;
 import controller.GameManager;
-import model.Collective;
+import model.Collectible;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
 import model.interfaces.movement.RotatablePoint;
 import model.interfaces.movement.Point;
+import org.apache.log4j.Logger;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class SquarantineModel extends Enemy implements Impactable, Movable {
     private boolean hasRandomAcceleration;
     private Direction direction;
+    private static int number;
     public SquarantineModel(Point center, int hp, double velocity, Frame frame) {
         super(center, velocity);
+        number++;
+        logger = Logger.getLogger(SquarantineModel.class.getName()+number);
         width = GameManager.configs.SQUARANTINE_WIDTH;
         height = GameManager.configs.SQUARANTINE_WIDTH;
         this.frame = frame;
@@ -80,99 +82,19 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
 
     @Override
     public void addCollective() {
-        Collective collective = new Collective((int)center.getX(), (int)center.getY(),5);
-        GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
-        Controller.addCollectiveView(collective);
+        Collectible collectible = new Collectible((int)center.getX(), (int)center.getY(),5);
+        GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+        Controller.addCollectiveView(collectible);
     }
     public Direction getDirection() {
         Direction direction1 = new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
-//        System.out.println(direction1.getDx());
-//        System.out.println(direction1.getDy());
         return direction1;
-        //return new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
     }
     public void nextMove() {
             move();
             checkCollision();
+            super.nextMove();
     }
 
-    @Override
-    public void setAngularVelocity(double velocity) {
-        angularVelocity = velocity;
-    }
-
-    @Override
-    public void setAngularAcceleration(double acceleration) {
-        angularAcceleration = acceleration;
-    }
-
-    @Override
-    public void setAngularAccelerationRate(double accelerationRate) {
-        angularAccelerationRate = accelerationRate;
-    }
-
-    @Override
-    public double getAngularAccelerationRate() {
-        return angularAccelerationRate;
-    }
-
-    @Override
-    public void setCenter(Point center) {
-        this.center = center;
-    }
-
-    @Override
-    public void setImpact(boolean impact) {
-        this.impact = impact;
-    }
-
-    @Override
-    public Point getAcceleration() {
-        return acceleration;
-    }
-
-    @Override
-    public void setAcceleration(Point acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    @Override
-    public Point getAccelerationRate() {
-        return accelerationRate;
-    }
-
-    @Override
-    public void setAccelerationRate(Point accelerationRate) {
-        this.accelerationRate = accelerationRate;
-    }
-
-    @Override
-    public void setVelocity(Point velocity) {
-        this.velocity = velocity;
-    }
-
-    @Override
-    public Point getVelocity() {
-        return velocity;
-    }
-
-    @Override
-    public double getVelocityPower() {
-        return velocityPower;
-    }
-    @Override
-    public double getAngularVelocity() {
-        return angularVelocity;
-    }
-
-    @Override
-    public double getAngularAcceleration() {
-        return angularAcceleration;
-    }
-
-    @Override
-    public void setAngle(double angle) {
-        this.angle = angle;
-    }
 
 }

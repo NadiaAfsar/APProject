@@ -10,7 +10,7 @@ import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.interfaces.collision.Impactable;
 import controller.audio.AudioController;
 import model.BulletModel;
-import model.Collective;
+import model.Collectible;
 import model.Wave;
 import model.enemies.Enemy;
 import model.game.EasyGame;
@@ -34,7 +34,7 @@ public class GameManager {
     private boolean gameStarted;
     private ArrayList<Enemy> diedEnemies;
     private ArrayList<BulletModel> vanishedBullets;
-    private ArrayList<Collective> takenCollectives;
+    private ArrayList<Collectible> takenCollectibles;
     private boolean wait;
     private GameModel gameModel;
     private GameView gameView;
@@ -87,12 +87,9 @@ public class GameManager {
             decreaseSize = false;
         }
     }
-    private void decreaseSize() {
-        if (gameModel.getEpsilon().getFrame().getWidth() > 300) {
-            gameModel.getEpsilon().getFrame().setWidth(gameModel.getEpsilon().getFrame().getWidth()-0.1);
-        }
-        if (gameModel.getEpsilon().getFrame().getHeight() > 300) {
-            gameModel.getEpsilon().getFrame().setHeight(gameModel.getEpsilon().getFrame().getHeight()-0.1);
+    private void decreaseFramesSize() {
+        for (int i = 0; i < gameModel.getFrames().size(); i++) {
+            gameModel.getFrames().get(i).decreaseSize();
         }
         gameModel.getEpsilon().setInFrame();
     }
@@ -210,32 +207,32 @@ public class GameManager {
         Controller.removeBulletView(bullet);
     }
     private void checkCollectives() {
-        takenCollectives = new ArrayList<>();
+        takenCollectibles = new ArrayList<>();
         for (int i = 0; i < gameModel.getCollectives().size(); i++) {
-            Collective collective = gameModel.getCollectives().get(i);
+            Collectible collectible = gameModel.getCollectives().get(i);
             Point point = gameModel.getEpsilon().getCollisionPoint(gameModel.getCollectives().get(i));
             if (point != null){
-                takenCollectives.add(collective);
+                takenCollectibles.add(collectible);
                 gameModel.getEpsilon().setXP(gameModel.getEpsilon().getXP()+5+ gameModel.getEnemyXP());
-                Controller.removeCollectiveView(collective);
+                Controller.removeCollectiveView(collectible);
                 AudioController.addXPCollectingSound();
             }
             else {
                 long currentTime = System.currentTimeMillis();
-                if (currentTime- collective.getTime() >= 6000) {
-                    takenCollectives.add(collective);
-                    Controller.removeCollectiveView(collective);
+                if (currentTime- collectible.getTime() >= 6000) {
+                    takenCollectibles.add(collectible);
+                    Controller.removeCollectiveView(collectible);
                 }
             }
         }
-        GameManagerHelper.removeFrom(gameModel.getCollectives(), takenCollectives);
+        GameManagerHelper.removeFrom(gameModel.getCollectives(), takenCollectibles);
     }
     public void update() {
         if (decreaseSize) {
             initialDecreaseSize();
         }
         else {
-            decreaseSize();
+            decreaseFramesSize();
         }
         moveEnemies();
         moveBullets();

@@ -1,6 +1,7 @@
 package model.enemies.mini_boss.black_orb;
 
 import model.enemies.Enemy;
+import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
 
 import java.util.ArrayList;
@@ -60,6 +61,11 @@ public class BlackOrb extends Enemy {
                 lasers.get(i).attack();
             }
 
+    }
+
+    @Override
+    public Direction getDirection() {
+        return null;
     }
 
     public ArrayList<BlackOrbVertex> getBlackOrbVertices() {

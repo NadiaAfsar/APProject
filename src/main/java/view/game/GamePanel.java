@@ -69,8 +69,8 @@ public class GamePanel extends JPanel {
     public void update(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
-        this.width = width+10;
-        this.height = height+30;
+        this.width = width+15;
+        this.height = height+35;
         setBounds(0, 0, this.width, this.height);
         frame.setBounds(x, y, this.width, this.height);
     }
@@ -130,9 +130,9 @@ public class GamePanel extends JPanel {
         }
     }
     private void drawCollectives(Graphics g) {
-        ArrayList<CollectiveView> collectiveViews = GameManager.getINSTANCE().getGameView().getCollectiveViews();
-        for (int i = 0; i < collectiveViews.size(); i++) {
-            CollectiveView collective = collectiveViews.get(i);
+        ArrayList<CollectibleView> collectibleViews = GameManager.getINSTANCE().getGameView().getCollectiveViews();
+        for (int i = 0; i < collectibleViews.size(); i++) {
+            CollectibleView collective = collectibleViews.get(i);
             g.drawImage(collective.getImage(), collective.getX()-x, collective.getY()-y, collective.getWidth(),
                     collective.getHeight(), null);
         }

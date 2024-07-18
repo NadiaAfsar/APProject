@@ -1,10 +1,9 @@
 package model.frame;
 
 import controller.Controller;
-import controller.GameManager;
 import controller.save.Configs;
 import model.BulletModel;
-import model.Collective;
+import model.Collectible;
 import model.EpsilonModel;
 import model.enemies.Enemy;
 import model.enemies.mini_boss.black_orb.BlackOrbLaser;
@@ -28,7 +27,7 @@ public class Frame {
     private ArrayList<BlackOrbLaser> blackOrbLasers;
     private EpsilonModel epsilon;
     private ArrayList<BulletModel> bulletModels;
-    private ArrayList<Collective> collectives;
+    private ArrayList<Collectible> collectibles;
     private final String ID;
     private boolean isWyrmFrame;
 
@@ -45,7 +44,7 @@ public class Frame {
         blackOrbVertices = new ArrayList<>();
         blackOrbLasers = new ArrayList<>();
         bulletModels = new ArrayList<>();
-        collectives = new ArrayList<>();
+        collectibles = new ArrayList<>();
         sides = new HashMap<Integer, Side>() {{
             put(1, new Side());
             put(2, new Side());
@@ -91,6 +90,12 @@ public class Frame {
     }
     public void changeWidth(BulletModel bullet, int x) {
         if (!isRigid) {
+            if (x < 0) {
+                sides.get(4).separateAll();
+            }
+            else {
+                sides.get(2).separateAll();
+            }
             setX(getX() + x + bullet.getDirection().getDx() * 20);
             setY(getY() + bullet.getDirection().getDy() * 20);
         }
@@ -100,9 +105,21 @@ public class Frame {
                 setWidth(getWidth() - 10);
             }
         }
+        if (x < 0) {
+            sides.get(4).shootAll();
+        }
+        else {
+            sides.get(2).shootAll();
+        }
     }
     public void changeHeight(BulletModel bullet, int y) {
         if (!isRigid) {
+            if (y < 0) {
+                sides.get(1).separateAll();
+            }
+            else {
+                sides.get(3).separateAll();
+            }
             setX(getX() + bullet.getDirection().getDx() * 20);
             setY(getY() + y + bullet.getDirection().getDy() * 20);
         }
@@ -111,6 +128,12 @@ public class Frame {
             if (checkPosition()) {
                 setHeight(getHeight() - 10);
             }
+        }
+        if (y < 0) {
+            sides.get(1).shootAll();
+        }
+        else {
+            sides.get(3).shootAll();
         }
     }
     private boolean checkPosition() {
@@ -161,11 +184,21 @@ public class Frame {
         return ID;
     }
 
-    public ArrayList<Collective> getCollectives() {
-        return collectives;
+    public ArrayList<Collectible> getCollectives() {
+        return collectibles;
     }
 
     public boolean isWyrmFrame() {
         return isWyrmFrame;
+    }
+    public void decreaseSize() {
+        if (width > 300) {
+            width -= 0.1;
+            sides.get(2).separateAll();
+        }
+        if (height > 300) {
+            height -= 0.1;
+            sides.get(3).separateAll();
+        }
     }
 }

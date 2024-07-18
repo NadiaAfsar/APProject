@@ -1,15 +1,13 @@
 package model;
 
-import model.frame.Frame;
 import model.interfaces.collision.Collidable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Collective implements Collidable {
+public class Collectible implements Collidable {
     private int x;
     private int y;
     private Point center;
@@ -17,7 +15,7 @@ public class Collective implements Collidable {
     private final String ID;
     private int xp;
 
-    public Collective(int x, int y,int xp) {
+    public Collectible(int x, int y, int xp) {
         ID = UUID.randomUUID().toString();
         this.x = x;
         this.y = y;

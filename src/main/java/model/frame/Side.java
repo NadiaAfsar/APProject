@@ -19,4 +19,9 @@ public class Side {
         }
         stuckOmenocts = new ArrayList<>();
     }
+    public void shootAll() {
+        for (int i = 0; i < stuckOmenocts.size(); i++) {
+            stuckOmenocts.get(i).decreaseHP(5);
+        }
+    }
 }

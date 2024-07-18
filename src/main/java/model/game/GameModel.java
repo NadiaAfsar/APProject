@@ -2,7 +2,7 @@ package model.game;
 
 import model.BulletModel;
 import model.EpsilonModel;
-import model.Collective;
+import model.Collectible;
 import model.frame.Frame;
 import model.enemies.Enemy;
 
@@ -17,7 +17,7 @@ public abstract class GameModel {
     protected int enemyPower;
     protected int enemyHP;
     protected int enemyXP;
-    private ArrayList<Collective> Collectives;
+    private ArrayList<Collectible> collectibles;
     private EpsilonModel epsilon;
     private int ares;
     private boolean athena;
@@ -32,7 +32,7 @@ public abstract class GameModel {
         enemyLock = new Object();
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
-        Collectives = new ArrayList<>();
+        collectibles = new ArrayList<>();
         enemiesBullets = new ArrayList<>();
         frames = new ArrayList<>();
         epsilon = new EpsilonModel(new Frame(700, 700,0,0,false,false, false));
@@ -49,8 +49,8 @@ public abstract class GameModel {
     }
 
 
-    public ArrayList<Collective> getCollectives() {
-        return Collectives;
+    public ArrayList<Collectible> getCollectives() {
+        return collectibles;
     }
 
 

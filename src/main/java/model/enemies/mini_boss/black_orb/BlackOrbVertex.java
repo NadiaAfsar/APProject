@@ -3,14 +3,12 @@ package model.enemies.mini_boss.black_orb;
 import controller.Controller;
 import controller.GameManager;
 import controller.audio.AudioController;
-import model.Collective;
+import model.Collectible;
 import model.frame.Frame;
-import model.enemies.Enemy;
 import model.interfaces.collision.Collidable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -50,9 +48,9 @@ public class BlackOrbVertex implements Collidable {
         AudioController.addEnemyDyingSound();
     }
     private void addCollective() {
-        Collective collective = new Collective((int)center.getX(), (int)center.getY(),30);
-        GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
-        Controller.addCollectiveView(collective);
+        Collectible collectible = new Collectible((int)center.getX(), (int)center.getY(),30);
+        GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+        Controller.addCollectiveView(collectible);
     }
     public void decreaseHP(int x) {
         HP -= x;

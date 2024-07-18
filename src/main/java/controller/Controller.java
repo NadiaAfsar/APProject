@@ -138,12 +138,12 @@ public class Controller {
     public static void removeBlackOrbVertexView(BlackOrbVertex blackOrbVertex) {
         GameManager.getINSTANCE().getGameView().removeEnemyView(blackOrbVertex.getID());
     }
-    public static void addCollectiveView(Collective collective) {
-        GameManager.getINSTANCE().getGameView().addCollectivesView(new CollectiveView(collective.getX(), collective.getY(),
-                collective.getID()));
+    public static void addCollectiveView(Collectible collectible) {
+        GameManager.getINSTANCE().getGameView().addCollectivesView(new CollectibleView(collectible.getX(), collectible.getY(),
+                collectible.getID()));
     }
-    public static void removeCollectiveView(Collective collective) {
-        GameManager.getINSTANCE().getGameView().removeCollectivesView(collective.getID());
+    public static void removeCollectiveView(Collectible collectible) {
+        GameManager.getINSTANCE().getGameView().removeCollectibleView(collectible.getID());
     }
     public static void gameOver(int xp) {
         endGame();

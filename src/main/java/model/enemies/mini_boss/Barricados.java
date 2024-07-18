@@ -4,6 +4,7 @@ import controller.Controller;
 import controller.GameManager;
 import model.frame.Frame;
 import model.enemies.Enemy;
+import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
@@ -40,5 +41,10 @@ public class Barricados extends Enemy {
             if (System.currentTimeMillis()-startTime >= 120000) {
                 die();
             }
+    }
+
+    @Override
+    public Direction getDirection() {
+        return null;
     }
 }

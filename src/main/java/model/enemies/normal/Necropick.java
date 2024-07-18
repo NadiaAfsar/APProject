@@ -3,15 +3,14 @@ package model.enemies.normal;
 import controller.Controller;
 import controller.GameManager;
 import model.BulletModel;
-import model.Collective;
+import model.Collectible;
 import model.EpsilonModel;
 import model.enemies.Enemy;
 import model.frame.Frame;
-import model.interfaces.collision.Collidable;
+import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Necropick extends Enemy {
@@ -31,9 +30,9 @@ public class Necropick extends Enemy {
         int[] x = new int[]{-10, 10, -10, 10};
         int[] y = new int[]{-10, -10, 10, 10};
         for (int i = 0; i < 4; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i], 2);
-            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
-            Controller.addCollectiveView(collective);
+            Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i], 2);
+            GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+            Controller.addCollectiveView(collectible);
         }
     }
     protected void addVertexes() {
@@ -64,6 +63,11 @@ public class Necropick extends Enemy {
 //            sleepFor(2000);
 //            appear();
         }
+    }
+
+    @Override
+    public Direction getDirection() {
+        return null;
     }
 
     private void disappear() {

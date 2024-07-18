@@ -3,16 +3,18 @@ package model.enemies;
 import controller.Controller;
 import controller.GameManager;
 import controller.audio.AudioController;
+import log.EnemyLogger;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.Wyrm;
 import model.enemies.normal.archmire.Archmire;
-import model.enemies.normal.archmire.MiniArchmire;
 import model.frame.Frame;
 import model.interfaces.collision.Collidable;
 import model.interfaces.collision.Impactable;
+import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -36,6 +38,7 @@ public abstract class Enemy implements Collidable{
     protected double width;
     protected double height;
     protected Frame frame;
+    protected Logger logger;
     public Enemy(Point center, double velocity) {
         ID = UUID.randomUUID().toString();
         this.center = center;
@@ -61,7 +64,7 @@ public abstract class Enemy implements Collidable{
     }
 
     public Point getCenter() {
-        return center;
+            return center;
     }
 
     public double getAngle() {
@@ -119,6 +122,7 @@ public abstract class Enemy implements Collidable{
                             for (int j = 0; j < vertices.size(); j++) {
                                 Point collisionPoint = this.getCollisionPoint(vertices.get(j));
                                 if (collisionPoint != null) {
+                                    logger.debug("collided");
                                     ((Impactable) this).impact(collisionPoint, vertices.get(j));
                                 }
                             }
@@ -126,6 +130,7 @@ public abstract class Enemy implements Collidable{
                             Collidable collidable = enemies.get(i);
                             Point collisionPoint = this.getCollisionPoint(collidable);
                             if (collisionPoint != null) {
+                                logger.debug("collided");
                                 ((Impactable) this).impact(collisionPoint, collidable);
                             }
                         }
@@ -150,5 +155,72 @@ public abstract class Enemy implements Collidable{
     public double getHeight() {
         return height;
     }
-    public abstract void nextMove();
+    public void nextMove() {
+        EnemyLogger.getInfo(logger, this);
+    }
+
+    public Point getVelocity() {
+        return velocity;
+    }
+
+    public Point getAcceleration() {
+        return acceleration;
+    }
+
+    public Point getAccelerationRate() {
+        return accelerationRate;
+    }
+
+    public double getAngularVelocity() {
+        return angularVelocity;
+    }
+
+    public double getAngularAcceleration() {
+        return angularAcceleration;
+    }
+
+    public double getAngularAccelerationRate() {
+        return angularAccelerationRate;
+    }
+
+    public void setCenter(Point center) {
+        this.center = center;
+    }
+
+    public void setVelocity(Point velocity) {
+        this.velocity = velocity;
+    }
+
+    public void setAcceleration(Point acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public void setAccelerationRate(Point accelerationRate) {
+        this.accelerationRate = accelerationRate;
+    }
+
+    public void setAngularVelocity(double angularVelocity) {
+        this.angularVelocity = angularVelocity;
+    }
+
+    public void setAngularAcceleration(double angularAcceleration) {
+        this.angularAcceleration = angularAcceleration;
+    }
+
+    public void setAngularAccelerationRate(double angularAccelerationRate) {
+        this.angularAccelerationRate = angularAccelerationRate;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
+    public void setImpact(boolean impact) {
+        this.impact = impact;
+    }
+
+    public double getVelocityPower() {
+        return velocityPower;
+    }
+    public abstract Direction getDirection();
 }

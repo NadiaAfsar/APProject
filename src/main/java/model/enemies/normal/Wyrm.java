@@ -3,7 +3,8 @@ package model.enemies.normal;
 import controller.Controller;
 import controller.GameManager;
 import model.BulletModel;
-import model.Collective;
+import model.Collectible;
+import model.enemies.TrigorathModel;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.archmire.Archmire;
@@ -15,15 +16,18 @@ import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
+import org.apache.log4j.Logger;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Wyrm extends Enemy implements Movable, Impactable {
     private int direction;
     private long lastShotTime;
+    private static int number;
     public Wyrm(Point center, double velocity, int hp) {
         super(center, velocity);
+        number++;
+        logger = Logger.getLogger(Wyrm.class.getName()+number);
         this.HP = 12 + hp;
         direction = 1;
         width = GameManager.configs.WYRM_WIDTH;
@@ -52,6 +56,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         frame.setX(center.getX()-width/2-10);
         frame.setY(center.getY()-height/2-10);
         shoot();
+        super.nextMove();
     }
     private void shoot() {
         long currentTime = System.currentTimeMillis();
@@ -123,97 +128,14 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         int[] x = new int[]{-10, 10};
         int[] y = new int[]{-10, 10};
         for (int i = 0; i < 2; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i],8);
-            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
-            Controller.addCollectiveView(collective);
+            Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i],8);
+            GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+            Controller.addCollectiveView(collectible);
         }
-    }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
-
-    @Override
-    public void setAngularVelocity(double velocity) {
-        angularVelocity = velocity;
-    }
-
-    @Override
-    public void setAngularAcceleration(double acceleration) {
-        angularAcceleration = acceleration;
-    }
-
-    @Override
-    public void setAngularAccelerationRate(double accelerationRate) {
-        angularAccelerationRate = accelerationRate;
-    }
-
-    @Override
-    public double getAngularAccelerationRate() {
-        return angularAccelerationRate;
-    }
-
-    @Override
-    public void setCenter(Point center) {
-        this.center = center;
-    }
-
-    @Override
-    public void setImpact(boolean impact) {
-        this.impact = impact;
-    }
-
-    @Override
-    public Point getAcceleration() {
-        return acceleration;
-    }
-
-    @Override
-    public void setAcceleration(Point acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    @Override
-    public Point getAccelerationRate() {
-        return accelerationRate;
-    }
-
-    @Override
-    public void setAccelerationRate(Point accelerationRate) {
-        this.accelerationRate = accelerationRate;
     }
 
     @Override
     public void setSpecialImpact() {
         direction *= -1;
-    }
-
-    @Override
-    public void setVelocity(Point velocity) {
-        this.velocity = velocity;
-    }
-
-    @Override
-    public Point getVelocity() {
-        return velocity;
-    }
-
-    @Override
-    public double getVelocityPower() {
-        return velocityPower;
-    }
-    @Override
-    public double getAngularVelocity() {
-        return angularVelocity;
-    }
-
-    @Override
-    public double getAngularAcceleration() {
-        return angularAcceleration;
-    }
-
-    @Override
-    public void setAngle(double angle) {
-        this.angle = angle;
     }
 }

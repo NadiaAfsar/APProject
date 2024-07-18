@@ -3,7 +3,7 @@ package model.enemies.normal.archmire;
 import controller.Controller;
 import controller.GameManager;
 import controller.audio.AudioController;
-import model.Collective;
+import model.Collectible;
 import model.Interference;
 import model.enemies.Enemy;
 import model.frame.Frame;
@@ -12,7 +12,6 @@ import model.interfaces.movement.Movable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Archmire extends Enemy implements Movable {
@@ -84,97 +83,19 @@ public class Archmire extends Enemy implements Movable {
     }
 
     @Override
-    public void addCollective() {
-        int[] x = new int[]{-10, 10, -10, 10, 0};
-        int[] y = new int[]{-10, -10, 10, 10, 0};
-        for (int i = 0; i < 5; i++) {
-            Collective collective = new Collective((int)center.getX()+x[i], (int)center.getY()+y[i],6);
-            GameManager.getINSTANCE().getGameModel().getCollectives().add(collective);
-            Controller.addCollectiveView(collective);
-        }
-    }
-
-    @Override
-    public void setAngularVelocity(double velocity) {
-        angularVelocity = velocity;
-    }
-
-    @Override
-    public void setAngularAcceleration(double acceleration) {
-        angularAcceleration = acceleration;
-    }
-
-    @Override
-    public void setAngularAccelerationRate(double accelerationRate) {
-        angularAccelerationRate = accelerationRate;
-    }
-
-    @Override
-    public double getAngularAccelerationRate() {
-        return angularAccelerationRate;
-    }
-
-    @Override
     public void specialMove() {
 
     }
 
     @Override
-    public void setCenter(Point center) {
-        this.center = center;
+    public void addCollective() {
+        int[] x = new int[]{-10, 10, -10, 10, 0};
+        int[] y = new int[]{-10, -10, 10, 10, 0};
+        for (int i = 0; i < 5; i++) {
+            Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i],6);
+            GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+            Controller.addCollectiveView(collectible);
+        }
     }
 
-    @Override
-    public void setImpact(boolean impact) {
-        this.impact = impact;
-    }
-
-    @Override
-    public Point getAcceleration() {
-        return acceleration;
-    }
-
-    @Override
-    public void setAcceleration(Point acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    @Override
-    public Point getAccelerationRate() {
-        return accelerationRate;
-    }
-
-    @Override
-    public void setAccelerationRate(Point accelerationRate) {
-        this.accelerationRate = accelerationRate;
-    }
-
-    @Override
-    public void setVelocity(Point velocity) {
-        this.velocity = velocity;
-    }
-
-    @Override
-    public Point getVelocity() {
-        return velocity;
-    }
-
-    @Override
-    public double getVelocityPower() {
-        return velocityPower;
-    }
-    @Override
-    public double getAngularVelocity() {
-        return angularVelocity;
-    }
-
-    @Override
-    public double getAngularAcceleration() {
-        return angularAcceleration;
-    }
-
-    @Override
-    public void setAngle(double angle) {
-        this.angle = angle;
-    }
 }
