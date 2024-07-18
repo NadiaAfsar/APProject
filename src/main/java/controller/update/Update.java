@@ -65,8 +65,9 @@ public class Update {
                 updateBlackOrbVertexes((BlackOrb) enemy);
                 updateBlackOrbLasers((BlackOrb) enemy);
             }
-            if (enemiesView.get(enemy.getID()) != null)
-            enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
+            if (enemiesView.get(enemy.getID()) != null) {
+                enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
+            }
         }
     }
     private static void updateBullets() {
@@ -74,8 +75,9 @@ public class Update {
         ArrayList<BulletModel> bullets = GameManager.getINSTANCE().getGameModel().getBullets();
         for (int i = 0; i < bullets.size(); i++) {
             BulletModel bullet = bullets.get(i);
-            if (bulletsView.get(bullet.getID()) != null)
-            bulletsView.get(bullet.getID()).update((int)bullet.getX1(), (int)bullet.getY1());
+            if (bulletsView.get(bullet.getID()) != null) {
+                bulletsView.get(bullet.getID()).update((int) bullet.getX1(), (int) bullet.getY1());
+            }
         }
     }
     private static void updateEnemiesBullets() {
@@ -83,8 +85,9 @@ public class Update {
         ArrayList<BulletModel> bullets = GameManager.getINSTANCE().getGameModel().getEnemiesBullets();
         for (int i = 0; i < bullets.size(); i++) {
             BulletModel bullet = bullets.get(i);
-            if (bulletsView.get(bullet.getID()) != null)
-            bulletsView.get(bullet.getID()).update((int)bullet.getX1(), (int)bullet.getY1());
+            if (bulletsView.get(bullet.getID()) != null) {
+                bulletsView.get(bullet.getID()).update((int) bullet.getX1(), (int) bullet.getY1());
+            }
         }
     }
     private static void updateBlackOrbVertexes(BlackOrb blackOrb) {

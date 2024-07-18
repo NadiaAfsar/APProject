@@ -1,16 +1,15 @@
 package model;
 
-import log.EpsilonLogger;
 import model.enemies.Enemy;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
+import model.enemies.normal.Necropick;
 import model.enemies.normal.archmire.Archmire;
 import model.frame.Frame;
 import model.interfaces.collision.Collidable;
 import model.interfaces.collision.Impactable;
 import controller.*;
 import controller.audio.AudioController;
-import controller.listeners.InputListener;
 import model.game.GameModel;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
@@ -117,7 +116,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
 
     public int getX() {
-        return (int)center.getX()-12;
+        return (int)center.getX()-radius;
     }
 
     @Override
@@ -126,7 +125,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
 
     public int getY() {
-        return (int)center.getY()-12;
+        return (int)center.getY()-radius;
     }
 
     public Point getCenter() {
@@ -252,7 +251,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     public void nextMove() {
             move();
             checkCollisions();
-        //EpsilonLogger.getInfo(logger, this);
+            //EpsilonLogger.getInfo(logger, this);
     }
     private void checkCollisions() {
         synchronized (GameManager.getINSTANCE().getGameModel().getEnemyLock()) {
@@ -262,23 +261,27 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                     if (enemies.get(i) instanceof BlackOrb) {
                         ArrayList<BlackOrbVertex> vertices = ((BlackOrb)enemies.get(i)).getBlackOrbVertices();
                         for (int j = 0; j < vertices.size(); j++) {
-                            Point collisionPoint = vertices.get(i).getCollisionPoint(this);
-                            if (collisionPoint != null) {
-                                logger.debug("collided");
-                                this.impact(collisionPoint, vertices.get(j));
-                            }
+                            checkCollisionWithCollidable(vertices.get(j));
                         }
                     }
                     else {
                         Collidable collidable = enemies.get(i);
-                        Point collisionPoint = collidable.getCollisionPoint(this);
-                        if (collisionPoint != null) {
-                            logger.debug("collided");
-                            this.impact(collisionPoint, collidable);
+                        if (!(collidable instanceof Necropick)) {
+                            checkCollisionWithCollidable(collidable);
+                        }
+                        else if (!((Necropick)collidable).isDisappeared()){
+                            checkCollisionWithCollidable(collidable);
                         }
                     }
                 }
             }
+        }
+    }
+    private void checkCollisionWithCollidable(Collidable collidable){
+        Point collisionPoint = collidable.getCollisionPoint(this);
+        if (collisionPoint != null) {
+            logger.debug("collided");
+            this.impact(collisionPoint, collidable);
         }
     }
 

@@ -1,6 +1,7 @@
 package log;
 
 import model.enemies.Enemy;
+import model.enemies.normal.Necropick;
 import model.enemies.normal.Omenoct;
 import model.interfaces.movement.Direction;
 import org.apache.log4j.Logger;
@@ -10,18 +11,23 @@ public class EnemyLogger {
     public static void getInfo(Logger logger, Enemy enemy) {
         logger.info("x: "+enemy.getX());
         logger.info("y: "+enemy.getY());
-        logger.info("center: ("+enemy.getCenter().getX()+","+enemy.getCenter().getY()+")");
-        Direction direction = enemy.getDirection();
-        logger.info("direction: ("+direction.getDy()+","+direction.getDy());
-        logger.info("velocity power: "+enemy.getVelocityPower());
-        logger.info("velocity: ("+enemy.getVelocity().getX()+","+enemy.getVelocity().getY()+")");
-        logger.info("acceleration: ("+enemy.getAcceleration().getX()+","+enemy.getAcceleration().getY()+")");
-        logger.info("acceleration rate: ("+enemy.getAccelerationRate().getX()+","+enemy.getAccelerationRate().getY()+")");
-        logger.info("angle: "+enemy.getAngle());
-        logger.info("angular velocity: "+enemy.getAngularVelocity());
-        logger.info("HP: "+enemy.getHP());
-        if (enemy instanceof Omenoct) {
-            getOmenoctInfo(logger, (Omenoct) enemy);
+        logger.info("center: "+enemy.getCenter().toString());
+        if (enemy instanceof Necropick){
+            getNecropickInfo(logger, (Necropick) enemy);
+        }
+        else {
+            Direction direction = enemy.getDirection();
+            logger.info("direction: " + direction.toString());
+            logger.info("velocity power: " + enemy.getVelocityPower());
+            logger.info("velocity: " + enemy.getVelocity().toString());
+            logger.info("acceleration: " + enemy.getAcceleration().toString());
+            logger.info("acceleration rate: " + enemy.getAccelerationRate());
+            logger.info("angle: " + enemy.getAngle());
+            logger.info("angular velocity: " + enemy.getAngularVelocity());
+            logger.info("HP: " + enemy.getHP());
+            if (enemy instanceof Omenoct) {
+                getOmenoctInfo(logger, (Omenoct) enemy);
+            }
         }
     }
     private static void getOmenoctInfo(Logger logger, Omenoct omenoct) {
@@ -30,5 +36,10 @@ public class EnemyLogger {
             logger.info("side: " + omenoct.getSide());
         }
         logger.info("is stuck: "+omenoct.isStuck());
+    }
+    private static void getNecropickInfo(Logger logger, Necropick necropick) {
+        logger.info("is announced: "+necropick.isAnnounced());
+        logger.info("is appeared: "+necropick.isAppeared());
+        logger.info("is disappeared: "+necropick.isDisappeared());
     }
 }

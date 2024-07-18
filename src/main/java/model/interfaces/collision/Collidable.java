@@ -22,23 +22,37 @@ public interface Collidable {
     default Point getCollisionPoint(Collidable collidable) {
         if (this instanceof BulletModel) {
             if (collidable instanceof Enemy) {
-                return checkVertexes(getVertexes(), collidable.getVertexes());
+                if (!(collidable instanceof Necropick)) {
+                    return checkVertexes(getVertexes(), collidable.getVertexes());
+                }
+                else if (!((Necropick)collidable).isDisappeared()) {
+                    System.out.println(1);
+                    return checkVertexes(getVertexes(), collidable.getVertexes());
+                }
             }
             else if (collidable instanceof BlackOrbVertex) {
-                return getCircleCollisionWithBullet(collidable.getCenter(), ((BlackOrbVertex)this).getWidth()/2);
+                return getCircleCollisionWithBullet(collidable.getCenter(), ((BlackOrbVertex)collidable).getWidth()/2);
             }
             else {
                 return getCircleCollisionWithBullet(collidable.getCenter(), ((EpsilonModel)collidable).getRadius());
             }
-        } else if (this instanceof BlackOrbVertex) {
+        }
+        else if (this instanceof BlackOrbVertex) {
             if (collidable instanceof Enemy) {
                 return getBlackOrbCollisionWithEnemy((Enemy) collidable);
             } else if (collidable instanceof EpsilonModel) {
                 return getBlackOrbCollisionWithEpsilon((EpsilonModel) collidable);
             }
-        } else if (collidable instanceof Enemy) {
-            return checkVertexes(getVertexes(), collidable.getVertexes());
-        } else if (collidable instanceof EpsilonModel) {
+        }
+        else if (collidable instanceof Enemy) {
+            if (!(collidable instanceof Necropick)) {
+                return checkVertexes(getVertexes(), collidable.getVertexes());
+            }
+            else if (!((Necropick)collidable).isDisappeared()) {
+                return checkVertexes(getVertexes(), collidable.getVertexes());
+            }
+        }
+        else if (collidable instanceof EpsilonModel) {
             return getCollisionWithEpsilon((EpsilonModel) collidable, getVertexes());
         } else if (collidable instanceof Collectible) {
             return getCollisionWithCollective((Collectible) collidable, getCenter());

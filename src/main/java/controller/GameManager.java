@@ -7,6 +7,7 @@ import controller.update.ModelLoop;
 import controller.update.ViewLoop;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
+import model.enemies.normal.Necropick;
 import model.interfaces.collision.Impactable;
 import controller.audio.AudioController;
 import model.BulletModel;
@@ -94,28 +95,6 @@ public class GameManager {
         gameModel.getEpsilon().setInFrame();
     }
 
-//    private void moveEnemies()  {
-//        diedEnemies = new ArrayList<>();
-//        for (int i = 0; i < gameModel.getEnemies().size(); i++) {
-//            gameModel.getEnemies().get(i).move();
-//        }
-//        for (int i = 0; i < gameModel.getEnemies().size(); i++) {
-//            Enemy enemy = gameModel.getEnemies().get(i);
-//            Point point = enemy.getCollisionPoint(gameModel.getEpsilon(), enemy.getVertexes());
-//            if (point != null) {
-//                enemy.impact(point, gameModel.getEpsilon());
-//                AudioController.addCollisionSound();
-//            }
-//            for (int j = i+1; j < gameModel.getEnemies().size(); j++) {
-//                Enemy enemy2 = gameModel.getEnemies().get(j);
-//                point = enemy.getCollisionPoint(enemy2, enemy.getVertexes());
-//                if (point != null) {
-//                    enemy.impact(point, enemy2);
-//                    AudioController.addCollisionSound();
-//                }
-//            }
-//        }
-//    }
 
     private void moveBullets() {
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
@@ -234,7 +213,6 @@ public class GameManager {
         else {
             decreaseFramesSize();
         }
-        moveEnemies();
         moveBullets();
         gameModel.getEpsilon().nextMove();
         checkBulletsCollision();
@@ -256,11 +234,6 @@ public class GameManager {
             ((WritOfAceso)skill).increaseHP();
         }
         setTimePlayed();
-    }
-    private void moveEnemies() {
-        for (int i = 0; i < gameModel.getEnemies().size(); i++) {
-            gameModel.getEnemies().get(i).nextMove();
-        }
     }
     public void activateAthena() {
         gameModel.setAthena(true);

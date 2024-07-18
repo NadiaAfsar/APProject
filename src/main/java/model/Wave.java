@@ -1,6 +1,5 @@
 package model;
 
-import controller.Controller;
 import controller.GameManager;
 import controller.GameManagerHelper;
 import controller.audio.AudioController;

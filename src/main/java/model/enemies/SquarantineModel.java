@@ -1,5 +1,7 @@
 package model.enemies;
 
+import controller.save.Configs;
+import log.EnemyLogger;
 import model.frame.Frame;
 import model.interfaces.collision.Impactable;
 import controller.Controller;
@@ -30,6 +32,7 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
         addVertexes();
         this.frame.getEnemies().add(this);
         Controller.addEnemyView(this);
+        start();
     }
     protected void addVertexes() {
         vertexes = new ArrayList<>();
@@ -90,10 +93,17 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
         Direction direction1 = new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
         return direction1;
     }
-    public void nextMove() {
+    public void run() {
+        while (true) {
             move();
             checkCollision();
-            super.nextMove();
+            EnemyLogger.getInfo(logger, this);
+            try {
+                sleep((long) Configs.MODEL_UPDATE_TIME);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 

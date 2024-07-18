@@ -1,5 +1,7 @@
 package model.enemies.normal;
 
+import controller.save.Configs;
+import log.EnemyLogger;
 import model.enemies.TrigorathModel;
 import model.frame.Frame;
 import model.interfaces.collision.Impactable;
@@ -35,6 +37,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
         this.frame = frame;
         this.frame.getEnemies().add(this);
         Controller.addEnemyView(this);
+        start();
     }
 
     @Override
@@ -150,14 +153,21 @@ public class Omenoct extends Enemy implements Impactable, Movable {
             logger.debug("shot");
         }
     }
-    public void nextMove() {
-        move();
-        checkCollision();
-        frame = GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame();
-        if (stuck) {
-            shoot();
+    public void run() {
+        while (true) {
+            move();
+            checkCollision();
+            frame = GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame();
+            if (stuck) {
+                shoot();
+            }
+            EnemyLogger.getInfo(logger, this);
+            try {
+                sleep((long) Configs.MODEL_UPDATE_TIME);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-        super.nextMove();
     }
 
     public boolean isStuck() {

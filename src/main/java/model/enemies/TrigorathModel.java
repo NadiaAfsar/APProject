@@ -1,5 +1,7 @@
 package model.enemies;
 
+import controller.save.Configs;
+import log.EnemyLogger;
 import model.frame.Frame;
 import model.interfaces.collision.Impactable;
 import controller.Controller;
@@ -33,6 +35,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
         addVertexes();
         this.frame.getEnemies().add(this);
         Controller.addEnemyView(this);
+        start();
     }
     protected void addVertexes() {
         vertexes = new ArrayList<>();
@@ -69,10 +72,17 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
             velocity = new Point(2*dx, 2*dy);
         }
     }
-    public void nextMove() {
-        move();
-        checkCollision();
-        super.nextMove();
+    public void run() {
+        while (true) {
+            move();
+            checkCollision();
+            EnemyLogger.getInfo(logger, this);
+            try {
+                sleep((long) Configs.MODEL_UPDATE_TIME);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void setSpecialImpact() {

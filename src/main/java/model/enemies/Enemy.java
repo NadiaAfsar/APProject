@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public abstract class Enemy implements Collidable{
+public abstract class Enemy extends Thread implements Collidable{
     protected RotatablePoint position;
     protected Point center;
     protected ArrayList<RotatablePoint> vertexes;
@@ -79,7 +79,7 @@ public abstract class Enemy implements Collidable{
         }
         position.setX(center.getX());
         position.setY(center.getY());
-        position.setAngle(position.getAngle()+angle);
+        position.setAngle(position.getInitialAngle()+angle);
     }
 
 
@@ -110,6 +110,7 @@ public abstract class Enemy implements Collidable{
         GameManager.getINSTANCE().getDiedEnemies().add(this);
         Controller.removeEnemyView(this);
         AudioController.addEnemyDyingSound();
+        interrupt();
     }
     protected void checkCollision() {
         synchronized (GameManager.getINSTANCE().getGameModel().getEnemyLock()) {
@@ -154,9 +155,6 @@ public abstract class Enemy implements Collidable{
 
     public double getHeight() {
         return height;
-    }
-    public void nextMove() {
-        EnemyLogger.getInfo(logger, this);
     }
 
     public Point getVelocity() {

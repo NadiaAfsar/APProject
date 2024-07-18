@@ -2,6 +2,8 @@ package model.enemies.normal;
 
 import controller.Controller;
 import controller.GameManager;
+import controller.save.Configs;
+import log.EnemyLogger;
 import model.BulletModel;
 import model.Collectible;
 import model.enemies.TrigorathModel;
@@ -38,6 +40,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         frame.getEnemies().add(this);
         Controller.addEnemyView(this);
         GameManager.getINSTANCE().getGameModel().getFrames().add(frame);
+        start();
     }
     protected void addVertexes() {
         vertexes = new ArrayList<>();
@@ -51,12 +54,20 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         }
         position = new RotatablePoint(center.getX(), center.getY(), 1.22*Math.PI, 19.5*width/30);
     }
-    public void nextMove() {
-        move();
-        frame.setX(center.getX()-width/2-10);
-        frame.setY(center.getY()-height/2-10);
-        shoot();
-        super.nextMove();
+    public void run() {
+        while (true) {
+            move();
+            frame.setX(center.getX() - width / 2 - 10);
+            frame.setY(center.getY() - height / 2 - 10);
+            shoot();
+            EnemyLogger.getInfo(logger, this);
+            try {
+                sleep((long) Configs.MODEL_UPDATE_TIME);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
     private void shoot() {
         long currentTime = System.currentTimeMillis();
