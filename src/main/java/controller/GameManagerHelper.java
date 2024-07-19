@@ -52,7 +52,7 @@ public class GameManagerHelper {
         //Enemy enemy = new Omenoct(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new TrigorathModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Necropick(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
-        Enemy enemy = new Archmire(new Point(700, 300),velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
+        Enemy enemy = new Archmire(point,velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         return enemy;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet, Frame frame) {

@@ -62,33 +62,41 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
     public void moveUp(boolean move) {
         if (move) {
+            logger.debug("move up");
             upTimer.start();
         }
         else {
+            logger.debug("stop up");
             upTimer.stop();
         }
     }
     public void moveDown(boolean move) {
         if (move) {
+            logger.debug("move down");
             downTimer.start();
         }
         else {
+            logger.debug("stop down");
             downTimer.stop();
         }
     }
     public void moveRight(boolean move) {
         if (move) {
+            logger.debug("move right");
             rightTimer.start();
         }
         else {
+            logger.debug("stop right");
             rightTimer.stop();
         }
     }
     public void moveLeft(boolean move) {
         if (move) {
+            logger.debug("move left");
             leftTimer.start();
         }
         else {
+            logger.debug("stop left");
             leftTimer.stop();
         }
     }
@@ -152,13 +160,13 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         this.XP = XP;
     }
     public void setInFrame() {
-        if (getX()- frame.getX() <= 0) {
+        if (getX()- frame.getX() <= -10) {
             setCenter(10+ frame.getX(),getY());
         }
         else if (getX()- frame.getX() >= frame.getWidth()-2*radius) {
             setCenter((int)frame.getWidth()+ frame.getX()-10-2*radius,getY());
         }
-        if (getY()-frame.getY() <= 0) {
+        if (getY()-frame.getY() <= -10) {
             setCenter(getX(),10+ frame.getY());
         }
         else if (getY()- frame.getY() > frame.getHeight()-2*radius) {

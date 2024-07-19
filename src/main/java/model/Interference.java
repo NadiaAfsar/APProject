@@ -62,9 +62,9 @@ public class Interference {
         double slope1 = (y1-y)/(x-x1);
         double slope2 = (y-y2)/(x2-x);
         if ((x > x1 && x < x2) || (x < x1 && x > x2)) {
-            return slope1 > slope2;
+            return slope1 < slope2;
         }
-        return slope1 < slope2;
+        return slope1 > slope2;
     }
     public static double pointDistanceFromLine(Point point1, Point point2, Point point3) {
         double a = getDistance(point1.getX(), point1.getY(), point2.getX(), point2.getY());

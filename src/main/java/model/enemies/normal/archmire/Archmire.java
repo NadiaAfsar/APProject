@@ -47,18 +47,17 @@ public class Archmire extends Enemy implements Movable {
         for (int i = 0; i < 9; i++) {
             RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angles[i]+angle, radius[i]);
             vertexes.add(vertex);
-            Controller.addCollectibleView(new Collectible((int)vertex.getRotatedX(), (int)vertex.getRotatedY(),0));
+            //Controller.addCollectibleView(new Collectible((int)vertex.getRotatedX(), (int)vertex.getRotatedY(),0));
         }
         position = new RotatablePoint(center.getX(), center.getY(), 1.2*Math.PI+angle, 14.2/22*width);
     }
     public void run() {
         while (true) {
-            //move();
+            move();
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastAoEAdded > 1000) {
                 aoeAttacks.add(new AoEAttack(this));
                 lastAoEAdded = currentTime;
-                logger.debug("aoe added");
             }
             if (currentTime - lastCheckedTime >= 1000) {
                 for (int i = 0; i < GameManager.getINSTANCE().getGameModel().getEnemies().size(); i++) {
