@@ -25,8 +25,8 @@ public class BlackOrb extends Enemy {
         start();
     }
     private void setBlackOrbVertices() {
-        int[] x = new int[]{-70, 70, -80, 0, 80};
-        int[] y = new int[]{-70, -70, 50, 90, 50};
+        int[] x = new int[]{-100, 100, -120, 0, 120};
+        int[] y = new int[]{-110, -110, 60, 130, 60};
         for (int i = 0; i < 5; i++) {
             BlackOrbVertex vertex = new BlackOrbVertex(new Point(center.getX()+x[i], center.getY()+y[i]), this);
             blackOrbVertices.add(vertex);

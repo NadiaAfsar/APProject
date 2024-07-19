@@ -72,7 +72,7 @@ public class Interference {
         double c = getDistance(point2.getX(), point2.getY(), point3.getX(), point3.getY());
         double cos = (Math.pow(a, 2)+Math.pow(b, 2)-Math.pow(c, 2)) / (2 * a * b);
         double sin = Math.sqrt(1-Math.pow(cos, 2));
-        if (sin <= 0.5) {
+        if (sin <= 0.3) {
             return a;
         }
         return (a * b * sin)/c;

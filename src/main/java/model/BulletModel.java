@@ -123,4 +123,7 @@ public class BulletModel implements Collidable {
         return damage;
     }
 
+    public Frame getFrame() {
+        return frame;
+    }
 }

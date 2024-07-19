@@ -53,7 +53,7 @@ public class GameManagerHelper {
         return enemy;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet, Frame frame) {
-        if (!frame.isBulletproof()) {
+        if (bullet.getFrame().equals(frame)) {
             if (bullet.getX2() <= frame.getX() && bullet.getX2() > frame.getX() - 10) {
                 frame.changeWidth(bullet, -10);
                 return true;
