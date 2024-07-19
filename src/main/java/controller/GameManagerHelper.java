@@ -1,6 +1,7 @@
 package controller;
 
 import model.BulletModel;
+import model.enemies.mini_boss.Barricados;
 import model.enemies.normal.Necropick;
 import model.enemies.normal.Omenoct;
 import model.enemies.normal.Wyrm;
@@ -52,7 +53,8 @@ public class GameManagerHelper {
         //Enemy enemy = new Omenoct(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new TrigorathModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Necropick(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
-        Enemy enemy = new Archmire(point,velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
+        //Enemy enemy = new Archmire(point,velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
+        Enemy enemy = new Barricados(new Point(800, 300), velocity, false);
         return enemy;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet, Frame frame) {

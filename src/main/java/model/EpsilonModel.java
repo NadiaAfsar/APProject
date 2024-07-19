@@ -62,41 +62,33 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
     public void moveUp(boolean move) {
         if (move) {
-            logger.debug("move up");
             upTimer.start();
         }
         else {
-            logger.debug("stop up");
             upTimer.stop();
         }
     }
     public void moveDown(boolean move) {
         if (move) {
-            logger.debug("move down");
             downTimer.start();
         }
         else {
-            logger.debug("stop down");
             downTimer.stop();
         }
     }
     public void moveRight(boolean move) {
         if (move) {
-            logger.debug("move right");
             rightTimer.start();
         }
         else {
-            logger.debug("stop right");
             rightTimer.stop();
         }
     }
     public void moveLeft(boolean move) {
         if (move) {
-            logger.debug("move left");
             leftTimer.start();
         }
         else {
-            logger.debug("stop left");
             leftTimer.stop();
         }
     }

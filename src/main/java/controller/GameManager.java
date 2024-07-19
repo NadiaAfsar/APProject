@@ -5,6 +5,7 @@ import controller.save.Configs;
 import controller.save.ReaderWriter;
 import controller.update.ModelLoop;
 import controller.update.ViewLoop;
+import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.interfaces.collision.Impactable;
@@ -162,7 +163,9 @@ public class GameManager {
             Point point = bullet.getCollisionPoint(enemy);
             if (point != null) {
                 bulletCollided(bullet, point, vanishedBullets);
-                enemy.decreaseHP(bullet.getDamage());
+                if (!(enemy instanceof Barricados)) {
+                    enemy.decreaseHP(bullet.getDamage());
+                }
             }
         }
     }

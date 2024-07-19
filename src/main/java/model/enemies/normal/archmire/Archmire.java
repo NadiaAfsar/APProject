@@ -81,11 +81,11 @@ public class Archmire extends Enemy implements Movable {
                 }
                 lastCheckedTime = currentTime;
             }
-            try {
-                sleep((long) Configs.MODEL_UPDATE_TIME);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+                try {
+                    sleep((long) Configs.MODEL_UPDATE_TIME);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
         }
     }
     protected void die() {
