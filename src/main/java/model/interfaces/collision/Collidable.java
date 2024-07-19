@@ -5,6 +5,7 @@ import controller.GameManager;
 import model.BulletModel;
 import model.EpsilonModel;
 import model.Collectible;
+import model.Interference;
 import model.enemies.Enemy;
 import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
@@ -72,7 +73,7 @@ public interface Collidable {
     default Point getBlackOrbCollisionWithEnemy(Enemy enemy) {
         ArrayList<RotatablePoint> vertexes = enemy.getVertexes();
         for (int i = 0; i < vertexes.size(); i++) {
-            Point collisionPoint = getCollisionWithSide(getCenter(), vertexes, i);
+            Point collisionPoint = getCollisionWithSide(getCenter(), vertexes, i, GameManager.configs.BLACKORBVERTEX_RADIUS);
             if (collisionPoint != null) {
                 return collisionPoint;
             }
@@ -103,7 +104,7 @@ public interface Collidable {
             }
         }
         for (int i = 0; i < vertexes.size(); i++) {
-            Point collisionPoint = getCollisionWithSide(epsilonModel.getCenter(), vertexes, i);
+            Point collisionPoint = getCollisionWithSide(epsilonModel.getCenter(), vertexes, i, epsilonModel.getRadius());
             if (collisionPoint != null) {
                 return collisionPoint;
             }
@@ -118,7 +119,7 @@ public interface Collidable {
         return null;
     }
 
-    default Point getCollisionWithSide(Point center, ArrayList<RotatablePoint> vertexes, int i) {
+    default Point getCollisionWithSide(Point center, ArrayList<RotatablePoint> vertexes, int i, double radius) {
         RotatablePoint point1 = vertexes.get(i);
         RotatablePoint point2;
         if (i == vertexes.size() - 1) {
@@ -126,9 +127,8 @@ public interface Collidable {
         } else {
             point2 = vertexes.get(i + 1);
         }
-        double d1 = Math.sqrt(Math.pow(point1.getRotatedX() - center.getX(), 2) + Math.pow(point1.getRotatedY() - center.getY(), 2));
-        double d2 = Math.sqrt(Math.pow(point2.getRotatedX() - center.getX(), 2) + Math.pow(point2.getRotatedY() - center.getY(), 2));
-        if (d1 <= 15 && d2 <= 15) {
+        if (Interference.pointDistanceFromLine(center, new Point(point1.getRotatedX(), point1.getRotatedY()),
+                new Point(point2.getRotatedX(), point2.getRotatedY())) <= radius) {
             return new Point((point1.getRotatedX() + point2.getRotatedX()) / 2, (point1.getRotatedY() + point2.getRotatedY()) / 2);
         }
         return null;
@@ -162,7 +162,7 @@ public interface Collidable {
             if ((x == x1 || x == x2) && (y == y1 || y == y2)) {
                 return true;
             }
-            return 1.0 * (y1 - y) / (x - x1) <= 1.0 * (y - y2) / (x2 - x);
+            return 1.0 * (y1 - y) / (x - x1) >= 1.0 * (y - y2) / (x2 - x);
         }
         return false;
     }
@@ -185,7 +185,7 @@ public interface Collidable {
                     x2 = (int) vertexes2.get(j + 1).getRotatedX();
                     y2 = (int) vertexes2.get(j + 1).getRotatedY();
                 }
-                if (collides(x, y, x1, y1, x2, y2)) {
+                if (Interference.pointDistanceFromLine(new Point(x, y), new Point(x1, y1), new Point(x2, y2)) <= 5) {
                     return new Point(vertexes.get(i).getRotatedX(), vertexes.get(i).getRotatedY());
                 }
             }
