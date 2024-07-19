@@ -10,9 +10,15 @@ import model.interfaces.movement.Point;
 public class MiniArchmire extends Archmire{
     public MiniArchmire(Point center, double velocity, int hp, Frame frame) {
         super(center, velocity, hp, frame);
+        this.HP = hp;
+    }
+    protected void setArchmire() {
         width = GameManager.configs.MINI_ARCHMIRE_WIDTH;
         height = GameManager.configs.MINI_ARCHMIRE_HEIGHT;
-        this.HP = hp;
+        addVertexes();
+        GameManager.getINSTANCE().getGameModel().getEnemies().add(this);
+        Controller.addArchmireView(this);
+        start();
     }
     public void addCollective() {
         int[] x = new int[]{-10, 10};
@@ -24,9 +30,11 @@ public class MiniArchmire extends Archmire{
         }
     }
     protected void die() {
+        removeAll();
         addCollective();
         GameManager.getINSTANCE().getDiedEnemies().add(this);
         Controller.removeArchmireView(this);
         AudioController.addEnemyDyingSound();
+        interrupt();
     }
 }

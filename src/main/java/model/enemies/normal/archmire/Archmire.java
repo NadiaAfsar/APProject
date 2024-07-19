@@ -23,6 +23,7 @@ public class Archmire extends Enemy implements Movable {
     private int initialHP;
     private static int number;
     private long lastAoEAdded;
+    private long timeBetweenAoEAttacks;
     public Archmire(Point center, double velocity, int hp, Frame frame) {
         super(center, velocity);
         number++;
@@ -30,11 +31,14 @@ public class Archmire extends Enemy implements Movable {
         this.HP = 30 + hp;
         initialHP = HP;
         aoeAttacks = new ArrayList<>();
+        this.frame = frame;
+        velocityPower *= 2;
+        setArchmire();
+    }
+    protected void setArchmire() {
         width = GameManager.configs.ARCHMIRE_WIDTH;
         height = GameManager.configs.ARCHMIRE_HEIGHT;
         addVertexes();
-        this.frame = frame;
-        velocityPower *= 2;
         Controller.addArchmireView(this);
         start();
     }
@@ -47,7 +51,6 @@ public class Archmire extends Enemy implements Movable {
         for (int i = 0; i < 9; i++) {
             RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angles[i]+angle, radius[i]);
             vertexes.add(vertex);
-            //Controller.addCollectibleView(new Collectible((int)vertex.getRotatedX(), (int)vertex.getRotatedY(),0));
         }
         position = new RotatablePoint(center.getX(), center.getY(), 1.2*Math.PI+angle, 14.2/22*width);
     }
@@ -55,7 +58,7 @@ public class Archmire extends Enemy implements Movable {
         while (true) {
             move();
             long currentTime = System.currentTimeMillis();
-            if (currentTime - lastAoEAdded > 1000) {
+            if (currentTime - lastAoEAdded > 500) {
                 aoeAttacks.add(new AoEAttack(this));
                 lastAoEAdded = currentTime;
             }
@@ -86,12 +89,19 @@ public class Archmire extends Enemy implements Movable {
         }
     }
     protected void die() {
+        removeAll();
         addCollective();
         new MiniArchmire(new Point(center.getX()-width, center.getY()-height), velocityPower, initialHP/2,frame);
         new MiniArchmire(new Point(center.getX()+width, center.getY()+height), velocityPower, initialHP/2, frame);
         GameManager.getINSTANCE().getDiedEnemies().add(this);
         Controller.removeArchmireView(this);
         AudioController.addEnemyDyingSound();
+        interrupt();
+    }
+    protected void removeAll(){
+        for (int i = 0; i < aoeAttacks.size(); i++){
+           Controller.removeAoEAttackView(aoeAttacks.get(i));
+        }
     }
 
     public ArrayList<AoEAttack> getAoeAttacks() {

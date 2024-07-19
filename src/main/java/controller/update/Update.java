@@ -125,7 +125,9 @@ public class Update {
         ArrayList<AoEAttack> aoes = archmire.getAoeAttacks();
         Map<String, AoEView> aoEViewMap = GameManager.getINSTANCE().getGameView().getAoEViewMap();
         for (int i = 0; i < aoes.size(); i++){
-            aoEViewMap.get(aoes.get(i).getID()).update(aoes.get(i).getClarity());
+            if (aoEViewMap.get(aoes.get(i).getID()) != null) {
+                aoEViewMap.get(aoes.get(i).getID()).update(aoes.get(i).getClarity());
+            }
         }
     }
 
