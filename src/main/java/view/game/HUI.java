@@ -1,6 +1,7 @@
 package view.game;
 
 import controller.GameManager;
+import controller.listeners.InputListener;
 import controller.save.Configs;
 import model.skills.Skill;
 
@@ -35,6 +36,7 @@ public class HUI extends JFrame {
         setHUI();
         setTimer();
         timer.start();
+        new InputListener(panel);
     }
     private void addFrame() {
         setBounds(x,y,width,height);
@@ -64,7 +66,6 @@ public class HUI extends JFrame {
         setVisible(true);
         setTimer();
         timer.start();
-        GameManager.getINSTANCE().getGameView().setFocus();
     }
     private String getElapsedTime(long time1) {
         setTime(time1);

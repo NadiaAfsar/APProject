@@ -21,9 +21,11 @@ public class EnemyLogger {
             logger.info("velocity power: " + enemy.getVelocityPower());
             logger.info("velocity: " + enemy.getVelocity().toString());
             logger.info("acceleration: " + enemy.getAcceleration().toString());
-            logger.info("acceleration rate: " + enemy.getAccelerationRate());
+            logger.info("acceleration rate: " + enemy.getAccelerationRate().toString());
             logger.info("angle: " + enemy.getAngle());
             logger.info("angular velocity: " + enemy.getAngularVelocity());
+            logger.info("angular acceleration: "+enemy.getAngularAcceleration());
+            logger.info("angular acceleration rate: "+enemy.getAngularAccelerationRate());
             logger.info("HP: " + enemy.getHP());
             if (enemy instanceof Omenoct) {
                 getOmenoctInfo(logger, (Omenoct) enemy);

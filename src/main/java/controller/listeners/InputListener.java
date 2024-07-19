@@ -15,9 +15,9 @@ import java.awt.event.KeyEvent;
 public class InputListener {
     private static InputMap inputMap;
     private ActionMap actionMap;
-    private GamePanel panel;
+    private JPanel panel;
 
-    public InputListener(GamePanel panel) {
+    public InputListener(JPanel panel) {
         this.panel = panel;
         createKeyBindings();
         createKeyActions();

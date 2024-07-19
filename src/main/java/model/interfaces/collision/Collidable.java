@@ -21,42 +21,38 @@ public interface Collidable {
     ArrayList<RotatablePoint> getVertexes();
 
     default Point getCollisionPoint(Collidable collidable) {
-        if (this instanceof BulletModel) {
-            if (collidable instanceof Enemy) {
+        if (getDistance(getCenter().getX(), getCenter().getY(), collidable.getCenter().getX(),
+                collidable.getCenter().getY()) <= 100) {
+            if (this instanceof BulletModel) {
+                if (collidable instanceof Enemy) {
+                    if (!(collidable instanceof Necropick)) {
+                        return checkVertexes(getVertexes(), collidable.getVertexes());
+                    } else if (!((Necropick) collidable).isDisappeared()) {
+                        System.out.println(1);
+                        return checkVertexes(getVertexes(), collidable.getVertexes());
+                    }
+                } else if (collidable instanceof BlackOrbVertex) {
+                    return getCircleCollisionWithBullet(collidable.getCenter(), ((BlackOrbVertex) collidable).getWidth() / 2);
+                } else {
+                    return getCircleCollisionWithBullet(collidable.getCenter(), ((EpsilonModel) collidable).getRadius());
+                }
+            } else if (this instanceof BlackOrbVertex) {
+                if (collidable instanceof Enemy) {
+                    return getBlackOrbCollisionWithEnemy((Enemy) collidable);
+                } else if (collidable instanceof EpsilonModel) {
+                    return getBlackOrbCollisionWithEpsilon((EpsilonModel) collidable);
+                }
+            } else if (collidable instanceof Enemy) {
                 if (!(collidable instanceof Necropick)) {
                     return checkVertexes(getVertexes(), collidable.getVertexes());
-                }
-                else if (!((Necropick)collidable).isDisappeared()) {
-                    System.out.println(1);
+                } else if (!((Necropick) collidable).isDisappeared()) {
                     return checkVertexes(getVertexes(), collidable.getVertexes());
                 }
-            }
-            else if (collidable instanceof BlackOrbVertex) {
-                return getCircleCollisionWithBullet(collidable.getCenter(), ((BlackOrbVertex)collidable).getWidth()/2);
-            }
-            else {
-                return getCircleCollisionWithBullet(collidable.getCenter(), ((EpsilonModel)collidable).getRadius());
-            }
-        }
-        else if (this instanceof BlackOrbVertex) {
-            if (collidable instanceof Enemy) {
-                return getBlackOrbCollisionWithEnemy((Enemy) collidable);
             } else if (collidable instanceof EpsilonModel) {
-                return getBlackOrbCollisionWithEpsilon((EpsilonModel) collidable);
+                return getCollisionWithEpsilon((EpsilonModel) collidable, getVertexes());
+            } else if (collidable instanceof Collectible) {
+                return getCollisionWithCollective((Collectible) collidable, getCenter());
             }
-        }
-        else if (collidable instanceof Enemy) {
-            if (!(collidable instanceof Necropick)) {
-                return checkVertexes(getVertexes(), collidable.getVertexes());
-            }
-            else if (!((Necropick)collidable).isDisappeared()) {
-                return checkVertexes(getVertexes(), collidable.getVertexes());
-            }
-        }
-        else if (collidable instanceof EpsilonModel) {
-            return getCollisionWithEpsilon((EpsilonModel) collidable, getVertexes());
-        } else if (collidable instanceof Collectible) {
-            return getCollisionWithCollective((Collectible) collidable, getCenter());
         }
         return null;
     }
@@ -120,16 +116,16 @@ public interface Collidable {
     }
 
     default Point getCollisionWithSide(Point center, ArrayList<RotatablePoint> vertexes, int i, double radius) {
-        RotatablePoint point1 = vertexes.get(i);
-        RotatablePoint point2;
+        Point point1 = new Point(vertexes.get(i).getRotatedX(), vertexes.get(i).getRotatedY());
+        Point point2;
         if (i == vertexes.size() - 1) {
-            point2 = vertexes.get(0);
+            point2 = new Point(vertexes.get(0).getRotatedX(), vertexes.get(0).getRotatedY());
         } else {
-            point2 = vertexes.get(i + 1);
+            point2 = new Point(vertexes.get(i+1).getRotatedX(), vertexes.get(i+1).getRotatedY());
         }
-        if (Interference.pointDistanceFromLine(center, new Point(point1.getRotatedX(), point1.getRotatedY()),
-                new Point(point2.getRotatedX(), point2.getRotatedY())) <= radius) {
-            return new Point((point1.getRotatedX() + point2.getRotatedX()) / 2, (point1.getRotatedY() + point2.getRotatedY()) / 2);
+        double distance = Interference.pointDistanceFromLine(center, point1, point2);
+        if (distance <= radius) {
+            return new Point((point1.getX() + point2.getX()) / 2, (point1.getY() + point2.getY()) / 2);
         }
         return null;
     }
@@ -140,7 +136,7 @@ public interface Collidable {
         double x2 = center.getX();
         double y2 = center.getY();
         double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        if (distance <= GameManager.getINSTANCE().getGameModel().getEpsilon().getRadius()) {
+        if (distance <= GameManager.getINSTANCE().getGameModel().getEpsilon().getRadius()+5) {
             return new Point(point.getRotatedX(), point.getRotatedY());
         }
         return null;
