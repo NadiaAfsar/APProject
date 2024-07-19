@@ -8,6 +8,7 @@ import view.game.enemies.EnemyView;
 import view.game.enemies.archmire.AoEView;
 import view.game.enemies.archmire.ArchmireView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
+import view.game.enemies.necropick.NecropickAnnouncement;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,6 +81,7 @@ public class GamePanel extends JPanel {
         drawLasers(g);
         drawAoEs(g);
         drawArchmires(g);
+        drawNecropickAnnouncements(g);
         drawEnemies(g);
         drawCollectives(g);
         drawEpsilon(g);
@@ -135,6 +137,14 @@ public class GamePanel extends JPanel {
             CollectibleView collective = collectibleViews.get(i);
             g.drawImage(collective.getImage(), collective.getX()-x, collective.getY()-y, collective.getWidth(),
                     collective.getHeight(), null);
+        }
+    }
+    private void drawNecropickAnnouncements(Graphics g){
+        ArrayList<NecropickAnnouncement> neropicks = GameManager.getINSTANCE().getGameView().getNecropickAnnouncements();
+        for (int i = 0; i < neropicks.size(); i++){
+            NecropickAnnouncement necropick = neropicks.get(i);
+            g.drawImage(necropick.getImage(), necropick.getX()-x, necropick.getY()-y, necropick.getWidth(),
+                    necropick.getWidth(), null);
         }
     }
 

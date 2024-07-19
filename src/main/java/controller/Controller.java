@@ -27,6 +27,8 @@ import view.game.enemies.archmire.AoEView;
 import view.game.enemies.archmire.ArchmireView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
 import view.game.enemies.black_orb.BlackOrbVertexView;
+import view.game.enemies.necropick.NecropickAnnouncement;
+import view.game.enemies.necropick.NecropickView;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -225,7 +227,11 @@ public class Controller {
     public static void removeEpsilonVertexes() {
         GameManager.getINSTANCE().getGameView().getEpsilonView().removeVertexes();
     }
-    public static void announceAppearance(Point point) {
-
+    public static void announceAppearance(Point point, String ID) {
+        GameManager.getINSTANCE().getGameView().addNecropickAnnouncement(new NecropickAnnouncement((int)point.getX(),
+                (int)point.getY(), ID));
+    }
+    public static void removeAnnouncement(String ID){
+        GameManager.getINSTANCE().getGameView().removeNecropickAnnouncement(ID);
     }
 }

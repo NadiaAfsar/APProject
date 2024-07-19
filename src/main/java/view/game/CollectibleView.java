@@ -21,7 +21,7 @@ public class CollectibleView {
         this.y = y-height/2;
         this.ID = ID;
         try {
-            image = ImageIO.read(new File(GameManager.configs.COLLECTIVE));
+            image = ImageIO.read(new File(GameManager.configs.COLLECTIBLE));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

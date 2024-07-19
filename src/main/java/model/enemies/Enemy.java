@@ -32,7 +32,7 @@ public abstract class Enemy extends Thread implements Collidable{
     protected double angle;
     protected int HP;
     protected boolean impact;
-    private final String ID;
+    protected final String ID;
     protected double velocityPower;
     protected int damage;
     protected double width;

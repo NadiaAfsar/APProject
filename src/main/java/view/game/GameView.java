@@ -6,6 +6,7 @@ import view.game.enemies.EnemyView;
 import view.game.enemies.archmire.AoEView;
 import view.game.enemies.archmire.ArchmireView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
+import view.game.enemies.necropick.NecropickAnnouncement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ public class GameView {
     private ArrayList<BlackOrbLaserView> laserViews;
     private Map<String, BlackOrbLaserView> laserViewMap;
     private ArrayList<CollectibleView> collectibleViews;
+    private ArrayList<NecropickAnnouncement> necropickAnnouncements;
+    private Map<String, NecropickAnnouncement> necropickAnnouncementMap;
     private HUI hui;
     public GameView() {
         enemiesMap = new HashMap<>();
@@ -42,6 +45,8 @@ public class GameView {
         epsilonView = new EpsilonView();
         laserViews = new ArrayList<>();
         laserViewMap = new HashMap<>();
+        necropickAnnouncements = new ArrayList<>();
+        necropickAnnouncementMap = new HashMap<>();
         hui = new HUI();
     }
 
@@ -181,5 +186,17 @@ public class GameView {
 
     public ArrayList<CollectibleView> getCollectiveViews() {
         return collectibleViews;
+    }
+
+    public ArrayList<NecropickAnnouncement> getNecropickAnnouncements() {
+        return necropickAnnouncements;
+    }
+    public void addNecropickAnnouncement(NecropickAnnouncement necropickAnnouncement) {
+        necropickAnnouncements.add(necropickAnnouncement);
+        necropickAnnouncementMap.put(necropickAnnouncement.getID(), necropickAnnouncement);
+    }
+    public void removeNecropickAnnouncement(String ID){
+        necropickAnnouncements.remove(necropickAnnouncementMap.get(ID));
+        necropickAnnouncementMap.put(ID, null);
     }
 }

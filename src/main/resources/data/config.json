@@ -37,5 +37,7 @@
   "SHOT": "src/main/resources/audios/shot.wav",
   "WAVE_END": "src/main/resources/audios/waveEnd.wav",
   "WINNING_SOUND": "src/main/resources/audios/win.wav",
-  "COLLECTIVE": "src/main/resources/pictures/collective.png"
+  "COLLECTIBLE": "src/main/resources/pictures/collective.png",
+  "NECROPICK_ANNOUNCEMENT": "src/main/resources/pictures/necropick-announcement.png",
+  "NECROPICK_ANNOUNCEMENT_WIDTH": 50
 }

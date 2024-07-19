@@ -104,12 +104,13 @@ public class Necropick extends Enemy {
     }
     private void announceAppearance(){
         appearancePoint = getRandomPosition();
-        Controller.announceAppearance(appearancePoint);
+        Controller.announceAppearance(appearancePoint, ID);
         announced = true;
         logger.debug("announced");
     }
 
     private void appear() {
+        Controller.removeAnnouncement(ID);
         center = appearancePoint;
         moveVertexes();
         Controller.addEnemyView(this);
