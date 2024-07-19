@@ -6,7 +6,6 @@ import controller.save.Configs;
 import log.EnemyLogger;
 import model.BulletModel;
 import model.Collectible;
-import model.enemies.TrigorathModel;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.archmire.Archmire;
@@ -141,7 +140,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         for (int i = 0; i < 2; i++) {
             Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i],8);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
-            Controller.addCollectiveView(collectible);
+            Controller.addCollectibleView(collectible);
         }
     }
 

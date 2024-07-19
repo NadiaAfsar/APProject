@@ -18,7 +18,11 @@ public class Configs {
     public String OMENOCT;
     public String NECROPICK;
     public String ARCHMIRE;
-    public String AOE_ATTACK;
+    public String AOE_ATTACK_1;
+    public String AOE_ATTACK_2;
+    public String AOE_ATTACK_3;
+    public String AOE_ATTACK_4;
+    public String AOE_ATTACK_5;
     public int EPSILON_RADIUS;
     public int SQUARANTINE_WIDTH;
     public int TRIGORATH_WIDTH;

@@ -97,11 +97,12 @@ public abstract class EnemyView {
         return rotatedImage;
     }
 
-    public void setRotatedImage(BufferedImage rotatedImage) {
-        this.rotatedImage = rotatedImage;
+    public BufferedImage getImage() {
+        return image;
     }
 
     public String getID() {
         return ID;
     }
+
 }

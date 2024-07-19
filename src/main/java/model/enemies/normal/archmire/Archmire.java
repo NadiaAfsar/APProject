@@ -3,14 +3,17 @@ package model.enemies.normal.archmire;
 import controller.Controller;
 import controller.GameManager;
 import controller.audio.AudioController;
+import controller.save.Configs;
 import model.Collectible;
 import model.Interference;
 import model.enemies.Enemy;
+import model.enemies.mini_boss.Barricados;
 import model.frame.Frame;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -18,15 +21,22 @@ public class Archmire extends Enemy implements Movable {
     private long lastCheckedTime;
     private ArrayList<AoEAttack> aoeAttacks;
     private int initialHP;
+    private static int number;
+    private long lastAoEAdded;
     public Archmire(Point center, double velocity, int hp, Frame frame) {
         super(center, velocity);
+        number++;
+        logger = Logger.getLogger(Archmire.class.getName()+number);
         this.HP = 30 + hp;
         initialHP = HP;
         aoeAttacks = new ArrayList<>();
         width = GameManager.configs.ARCHMIRE_WIDTH;
         height = GameManager.configs.ARCHMIRE_HEIGHT;
+        addVertexes();
         this.frame = frame;
+        velocityPower *= 2;
         Controller.addArchmireView(this);
+        start();
     }
     protected void addVertexes(){
         vertexes = new ArrayList<>();
@@ -37,16 +47,23 @@ public class Archmire extends Enemy implements Movable {
         for (int i = 0; i < 9; i++) {
             RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angles[i]+angle, radius[i]);
             vertexes.add(vertex);
+            Controller.addCollectibleView(new Collectible((int)vertex.getRotatedX(), (int)vertex.getRotatedY(),0));
         }
         position = new RotatablePoint(center.getX(), center.getY(), 1.2*Math.PI+angle, 14.2/22*width);
     }
-    public void nextMove() {
-            move();
-            aoeAttacks.add(new AoEAttack(this));
-            if (System.currentTimeMillis() - lastCheckedTime >= 1000) {
+    public void run() {
+        while (true) {
+            //move();
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastAoEAdded > 1000) {
+                aoeAttacks.add(new AoEAttack(this));
+                lastAoEAdded = currentTime;
+                logger.debug("aoe added");
+            }
+            if (currentTime - lastCheckedTime >= 1000) {
                 for (int i = 0; i < GameManager.getINSTANCE().getGameModel().getEnemies().size(); i++) {
                     Enemy enemy = GameManager.getINSTANCE().getGameModel().getEnemies().get(i);
-                    if (!(enemy instanceof Archmire)) {
+                    if (!(enemy instanceof Archmire) && !(enemy instanceof Barricados)) {
                         if (Interference.enemyIsInArchmire(vertexes, enemy)) {
                             enemy.decreaseHP(10);
                         }
@@ -60,13 +77,19 @@ public class Archmire extends Enemy implements Movable {
                         i--;
                     }
                 }
-                lastCheckedTime = System.currentTimeMillis();
+                lastCheckedTime = currentTime;
             }
+            try {
+                sleep((long) Configs.MODEL_UPDATE_TIME);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
     protected void die() {
         addCollective();
-        new MiniArchmire(new Point(center.getX(), center.getY()-height/2), velocityPower, initialHP/2,frame);
-        new MiniArchmire(new Point(center.getX(), center.getY()+height/2), velocityPower, initialHP/2, frame);
+        new MiniArchmire(new Point(center.getX()-width, center.getY()-height), velocityPower, initialHP/2,frame);
+        new MiniArchmire(new Point(center.getX()+width, center.getY()+height), velocityPower, initialHP/2, frame);
         GameManager.getINSTANCE().getDiedEnemies().add(this);
         Controller.removeArchmireView(this);
         AudioController.addEnemyDyingSound();
@@ -94,7 +117,7 @@ public class Archmire extends Enemy implements Movable {
         for (int i = 0; i < 5; i++) {
             Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i],6);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
-            Controller.addCollectiveView(collectible);
+            Controller.addCollectibleView(collectible);
         }
     }
 

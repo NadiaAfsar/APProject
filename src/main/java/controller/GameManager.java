@@ -7,7 +7,6 @@ import controller.update.ModelLoop;
 import controller.update.ViewLoop;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
-import model.enemies.normal.Necropick;
 import model.interfaces.collision.Impactable;
 import controller.audio.AudioController;
 import model.BulletModel;
@@ -193,14 +192,14 @@ public class GameManager {
             if (point != null){
                 takenCollectibles.add(collectible);
                 gameModel.getEpsilon().setXP(gameModel.getEpsilon().getXP()+5+ gameModel.getEnemyXP());
-                Controller.removeCollectiveView(collectible);
+                Controller.removeCollectibleView(collectible);
                 AudioController.addXPCollectingSound();
             }
             else {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime- collectible.getTime() >= 6000) {
                     takenCollectibles.add(collectible);
-                    Controller.removeCollectiveView(collectible);
+                    Controller.removeCollectibleView(collectible);
                 }
             }
         }
@@ -250,7 +249,7 @@ public class GameManager {
         AudioController.addWinningSound();
         Controller.removeEpsilonVertexes();
         for (int i = 0; i < gameModel.getCollectives().size(); i++) {
-            Controller.removeCollectiveView(gameModel.getCollectives().get(i));
+            Controller.removeCollectibleView(gameModel.getCollectives().get(i));
         }
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
             Controller.removeBulletView(gameModel.getBullets().get(i));

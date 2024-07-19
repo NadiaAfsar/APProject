@@ -2,7 +2,6 @@ package model.enemies.normal;
 
 import controller.save.Configs;
 import log.EnemyLogger;
-import model.enemies.TrigorathModel;
 import model.frame.Frame;
 import model.interfaces.collision.Impactable;
 import controller.Controller;
@@ -100,7 +99,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
         for (int i = 0; i < 8; i++) {
             Collectible collectible = new Collectible((int)vertexes.get(i).getRotatedX(), (int)vertexes.get(i).getRotatedY(),4);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
-            Controller.addCollectiveView(collectible);
+            Controller.addCollectibleView(collectible);
         }
     }
 

@@ -108,7 +108,7 @@ public class Controller {
                     (int)enemy.getHeight(),  enemy.getID()));
         }
         else if (enemy instanceof Barricados) {
-            gameView.addEnemyView(new BarricodesView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+            gameView.addEnemyView(new BarricadosView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
                     (int)enemy.getHeight(),  enemy.getID()));
         }
     }
@@ -140,11 +140,11 @@ public class Controller {
     public static void removeBlackOrbVertexView(BlackOrbVertex blackOrbVertex) {
         GameManager.getINSTANCE().getGameView().removeEnemyView(blackOrbVertex.getID());
     }
-    public static void addCollectiveView(Collectible collectible) {
+    public static void addCollectibleView(Collectible collectible) {
         GameManager.getINSTANCE().getGameView().addCollectivesView(new CollectibleView(collectible.getX(), collectible.getY(),
                 collectible.getID()));
     }
-    public static void removeCollectiveView(Collectible collectible) {
+    public static void removeCollectibleView(Collectible collectible) {
         GameManager.getINSTANCE().getGameView().removeCollectibleView(collectible.getID());
     }
     public static void gameOver(int xp) {

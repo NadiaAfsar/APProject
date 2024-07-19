@@ -4,6 +4,7 @@ import controller.Controller;
 import controller.GameManager;
 import model.Interference;
 import model.enemies.Enemy;
+import model.enemies.mini_boss.Barricados;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
@@ -14,8 +15,6 @@ public class AoEAttack {
     private ArrayList<RotatablePoint> vertexes;
     private RotatablePoint position;
     private Point center;
-    private int x;
-    private int y;
     private double height;
     private double width;
     private Archmire archmire;
@@ -46,7 +45,7 @@ public class AoEAttack {
     public boolean update() {
         for (int i = 0; i < GameManager.getINSTANCE().getGameModel().getEnemies().size(); i++) {
             Enemy enemy = GameManager.getINSTANCE().getGameModel().getEnemies().get(i);
-            if (!(enemy instanceof Archmire)) {
+            if (!(enemy instanceof Archmire) && !(enemy instanceof Barricados)) {
                 if (Interference.enemyIsInArchmire(vertexes, enemy)) {
                     enemy.decreaseHP(2);
                 }
@@ -58,6 +57,7 @@ public class AoEAttack {
         clarity--;
         if (clarity == 0) {
             archmire.getAoeAttacks().remove(this);
+            Controller.removeAoEAttackView(this);
             return false;
         }
         return true;
@@ -68,11 +68,11 @@ public class AoEAttack {
     }
 
     public int getX() {
-        return x;
+        return (int)(center.getX()-width/2);
     }
 
     public int getY() {
-        return y;
+        return (int)(center.getY()-height/2);
     }
 
     public double getHeight() {

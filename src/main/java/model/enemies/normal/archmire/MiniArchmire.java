@@ -20,7 +20,7 @@ public class MiniArchmire extends Archmire{
         for (int i = 0; i < 2; i++) {
             Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i],3);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
-            Controller.addCollectiveView(collectible);
+            Controller.addCollectibleView(collectible);
         }
     }
     protected void die() {

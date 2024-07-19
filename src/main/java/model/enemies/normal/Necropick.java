@@ -2,7 +2,6 @@ package model.enemies.normal;
 
 import controller.Controller;
 import controller.GameManager;
-import controller.save.Configs;
 import log.EnemyLogger;
 import model.BulletModel;
 import model.Collectible;
@@ -44,7 +43,7 @@ public class Necropick extends Enemy {
         for (int i = 0; i < 4; i++) {
             Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i], 2);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
-            Controller.addCollectiveView(collectible);
+            Controller.addCollectibleView(collectible);
         }
     }
     protected void addVertexes() {

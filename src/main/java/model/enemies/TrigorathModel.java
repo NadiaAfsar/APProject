@@ -96,7 +96,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
         for (int i = -1; i < 2; i += 2) {
             Collectible collectible = new Collectible((int) center.getX()+i*13, (int) center.getY()+i*13, 5);
             GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
-            Controller.addCollectiveView(collectible);
+            Controller.addCollectibleView(collectible);
         }
     }
     public Direction getDirection() {

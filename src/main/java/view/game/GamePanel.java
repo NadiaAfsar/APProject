@@ -83,7 +83,7 @@ public class GamePanel extends JPanel {
         drawArchmires(g);
         drawNecropickAnnouncements(g);
         drawEnemies(g);
-        drawCollectives(g);
+        drawCollectibles(g);
         drawEpsilon(g);
         drawBullets(g);
     }
@@ -96,7 +96,7 @@ public class GamePanel extends JPanel {
         ArrayList<AoEView> aoEViews = GameManager.getINSTANCE().getGameView().getAoEViews();
         for (int i = 0; i < aoEViews.size(); i++) {
             AoEView aoEView = aoEViews.get(i);
-            g.drawImage(aoEView.getRotatedImage(), aoEView.getX()-x, aoEView.getY()-y,
+            g.drawImage(aoEView.getImage(), aoEView.getX()-x, aoEView.getY()-y,
                     aoEView.getWidth(), aoEView.getHeight(), null);
         }
     }
@@ -131,7 +131,7 @@ public class GamePanel extends JPanel {
             BlackOrbLaserView.draw(laser.getX1()-x, laser.getY1()-y, laser.getX2()-x, laser.getY2()-y, g);
         }
     }
-    private void drawCollectives(Graphics g) {
+    private void drawCollectibles(Graphics g) {
         ArrayList<CollectibleView> collectibleViews = GameManager.getINSTANCE().getGameView().getCollectiveViews();
         for (int i = 0; i < collectibleViews.size(); i++) {
             CollectibleView collective = collectibleViews.get(i);

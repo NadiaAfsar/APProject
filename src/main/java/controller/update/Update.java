@@ -8,12 +8,15 @@ import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbLaser;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.Enemy;
+import model.enemies.normal.archmire.AoEAttack;
+import model.enemies.normal.archmire.Archmire;
 import model.frame.Frame;
 import view.game.BulletView;
 import view.game.EpsilonView;
 import view.game.GamePanel;
 import view.game.GameView;
 import view.game.enemies.EnemyView;
+import view.game.enemies.archmire.AoEView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
 
 import java.util.ArrayList;
@@ -65,8 +68,11 @@ public class Update {
                 updateBlackOrbVertexes((BlackOrb) enemy);
                 updateBlackOrbLasers((BlackOrb) enemy);
             }
-            if (enemiesView.get(enemy.getID()) != null) {
+            else if (enemiesView.get(enemy.getID()) != null) {
                 enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
+                if (enemy instanceof Archmire){
+                    updateAoEs((Archmire) enemy);
+                }
             }
         }
     }
@@ -113,6 +119,13 @@ public class Update {
             Frame frame = frames.get(i);
             panels.get(frames.get(i).getID()).update((int)frame.getX(), (int)frame.getY(), (int)frame.getWidth(),
                     (int)frame.getHeight());
+        }
+    }
+    private static void updateAoEs(Archmire archmire){
+        ArrayList<AoEAttack> aoes = archmire.getAoeAttacks();
+        Map<String, AoEView> aoEViewMap = GameManager.getINSTANCE().getGameView().getAoEViewMap();
+        for (int i = 0; i < aoes.size(); i++){
+            aoEViewMap.get(aoes.get(i).getID()).update(aoes.get(i).getClarity());
         }
     }
 
