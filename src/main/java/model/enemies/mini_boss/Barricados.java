@@ -8,18 +8,22 @@ import model.enemies.Enemy;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 
 public class Barricados extends Enemy {
     private Frame frame;
+    private static int number;
     public Barricados(Point center, double velocity, boolean isRigid) {
         super(center, velocity);
+        number++;
+        logger = Logger.getLogger(Barricados.class.getName()+number);
         width = GameManager.configs.BARRICODES_WIDTH;
         height = GameManager.configs.BARRICODES_HEIGHT;
         addVertexes();
         frame = new Frame(width+50, height+50, center.getX()-width/2-25, center.getY()-height/2-25,
-                true, isRigid, false);
+                true, isRigid, true);
         frame.getEnemies().add(this);
         Controller.addEnemyView(this);
         GameManager.getINSTANCE().getGameModel().getFrames().add(frame);

@@ -260,9 +260,9 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                 if ( !(enemies.get(i) instanceof Archmire)) {
                     if (enemies.get(i) instanceof BlackOrb) {
                         ArrayList<BlackOrbVertex> vertices = ((BlackOrb)enemies.get(i)).getBlackOrbVertices();
-                        for (int j = 0; j < vertices.size(); j++) {
-                            checkCollisionWithCollidable(vertices.get(j));
-                        }
+                            for (int j = 0; j < vertices.size(); j++) {
+                                checkCollisionWithCollidable(vertices.get(j));
+                            }
                     }
                     else {
                         Collidable collidable = enemies.get(i);

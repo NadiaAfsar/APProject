@@ -5,6 +5,7 @@ import controller.GameManager;
 import model.EpsilonModel;
 import model.enemies.Enemy;
 import model.Interference;
+import model.enemies.normal.archmire.Archmire;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
@@ -30,8 +31,10 @@ public class BlackOrbLaser {
         ArrayList<Point> points = new ArrayList<Point>() {{ add(point1); add(point2); add(point3); add(point4);}};
         ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
         for (int i = 0; i < enemies.size(); i++) {
-            if (enemyCollidesLaser(enemies.get(i), points)) {
-                enemies.get(i).decreaseHP(12);
+            if (!(enemies.get(i) instanceof BlackOrb)) {
+                if (enemyCollidesLaser(enemies.get(i), points)) {
+                    enemies.get(i).decreaseHP(12);
+                }
             }
         }
         EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();

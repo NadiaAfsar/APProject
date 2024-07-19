@@ -73,7 +73,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
         }
     }
     public void run() {
-        while (true) {
+        while (!died) {
             move();
             checkCollision();
             EnemyLogger.getInfo(logger, this);
@@ -83,6 +83,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
                 throw new RuntimeException(e);
             }
         }
+        interrupt();
     }
 
     public void setSpecialImpact() {

@@ -1,16 +1,10 @@
 package controller;
 
 import model.BulletModel;
-import model.enemies.mini_boss.Barricados;
-import model.enemies.normal.Necropick;
-import model.enemies.normal.Omenoct;
+import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.normal.Wyrm;
-import model.enemies.normal.archmire.Archmire;
 import model.frame.Frame;
 import model.enemies.Enemy;
-import model.enemies.SquarantineModel;
-import model.enemies.TrigorathModel;
-import model.game.GameModel;
 import model.interfaces.movement.Point;
 
 import java.util.ArrayList;
@@ -49,16 +43,17 @@ public class GameManagerHelper {
     public static Enemy getNewEnemy(Point point, int hp, double velocity) {
         int x = (int)(Math.random()*2);
         //Enemy enemy = new Wyrm(new Point(600,100),velocity, hp);
-        Enemy enemy = new SquarantineModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
+        //Enemy enemy = new SquarantineModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Omenoct(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new TrigorathModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Necropick(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Archmire(point,velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Barricados(new Point(800, 300), velocity, false);
+        Enemy enemy = new BlackOrb(new Point(600, 300),velocity);
         return enemy;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet, Frame frame) {
-        if (!frame.isWyrmFrame()) {
+        if (!frame.isBulletproof()) {
             if (bullet.getX2() <= frame.getX() && bullet.getX2() > frame.getX() - 10) {
                 frame.changeWidth(bullet, -10);
                 return true;

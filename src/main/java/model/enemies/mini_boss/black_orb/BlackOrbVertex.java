@@ -30,10 +30,11 @@ public class BlackOrbVertex implements Collidable {
         this.blackOrb = blackOrb;
         width = GameManager.configs.BLACKORBVERTEX_RADIUS*2;
         height = GameManager.configs.BLACKORBVERTEX_RADIUS*2;
-        frame = new Frame(width+20, height+20, center.getX()-width/2-10, center.getY()-height/2-10,
-                true, false, false);
+        frame = new Frame(width+50, height+50, center.getX()-width/2-25, center.getY()-height/2-25,
+                true, false, true);
         lasers = new ArrayList<>();
         frame.getBlackOrbVertices().add(this);
+        GameManager.getINSTANCE().getGameModel().getFrames().add(frame);
         HP = 30;
         Controller.addBlackOrbVertexView(this);
     }
@@ -46,6 +47,9 @@ public class BlackOrbVertex implements Collidable {
         blackOrb.getBlackOrbVertices().remove(this);
         Controller.removeBlackOrbVertexView(this);
         AudioController.addEnemyDyingSound();
+        if (blackOrb.getBlackOrbVertices().size() == 0){
+            blackOrb.setDied(true);
+        }
     }
     private void addCollective() {
         Collectible collectible = new Collectible((int)center.getX(), (int)center.getY(),30);

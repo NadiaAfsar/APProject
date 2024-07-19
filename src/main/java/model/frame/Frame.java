@@ -29,9 +29,9 @@ public class Frame {
     private ArrayList<BulletModel> bulletModels;
     private ArrayList<Collectible> collectibles;
     private final String ID;
-    private boolean isWyrmFrame;
+    private boolean bulletproof;
 
-    public Frame(double width, double height, double x, double y, boolean isIsometric, boolean isRigid, boolean isWyrmFrame) {
+    public Frame(double width, double height, double x, double y, boolean isIsometric, boolean isRigid, boolean bulletproof) {
         ID = UUID.randomUUID().toString();
         this.width = width;
         this.height = height;
@@ -39,7 +39,7 @@ public class Frame {
         this.y = y;
         this.isIsometric = isIsometric;
         this.isRigid = isRigid;
-        this.isWyrmFrame = isWyrmFrame;
+        this.bulletproof = bulletproof;
         enemies = new ArrayList<>();
         blackOrbVertices = new ArrayList<>();
         blackOrbLasers = new ArrayList<>();
@@ -188,8 +188,8 @@ public class Frame {
         return collectibles;
     }
 
-    public boolean isWyrmFrame() {
-        return isWyrmFrame;
+    public boolean isBulletproof() {
+        return bulletproof;
     }
     public void decreaseSize() {
         if (width > 300) {
@@ -201,4 +201,5 @@ public class Frame {
             sides.get(3).separateAll();
         }
     }
+
 }

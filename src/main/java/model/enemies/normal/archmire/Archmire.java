@@ -55,7 +55,7 @@ public class Archmire extends Enemy implements Movable {
         position = new RotatablePoint(center.getX(), center.getY(), 1.2*Math.PI+angle, 14.2/22*width);
     }
     public void run() {
-        while (true) {
+        while (!died) {
             move();
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastAoEAdded > 500) {
@@ -87,6 +87,7 @@ public class Archmire extends Enemy implements Movable {
                     throw new RuntimeException(e);
                 }
         }
+        interrupt();
     }
     protected void die() {
         removeAll();
@@ -96,7 +97,7 @@ public class Archmire extends Enemy implements Movable {
         GameManager.getINSTANCE().getDiedEnemies().add(this);
         Controller.removeArchmireView(this);
         AudioController.addEnemyDyingSound();
-        interrupt();
+        died = true;
     }
     protected void removeAll(){
         for (int i = 0; i < aoeAttacks.size(); i++){

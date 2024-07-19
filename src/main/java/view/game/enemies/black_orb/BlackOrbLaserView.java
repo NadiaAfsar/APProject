@@ -1,5 +1,6 @@
 package view.game.enemies.black_orb;
 
+import controller.GameManager;
 import model.interfaces.movement.Point;
 
 import java.awt.*;
@@ -21,11 +22,9 @@ public class BlackOrbLaserView {
 
     public static void draw(int x1, int y1, int x2, int y2, Graphics g) {
         Graphics2D g2D = (Graphics2D)g;
-        g2D.setStroke(new BasicStroke(7));
+        g2D.setStroke(new BasicStroke(20));
         g2D.setColor(Color.CYAN);
-        int[] x = new int[]{x1, x2, x2, x1};
-        int[] y = new int[]{y1-10, y2-10, y2+10, y1+10};
-        g2D.fillPolygon(x, y, 4);
+        g2D.drawLine(x1, y1, x2, y2);
     }
 
     public int getX1() {

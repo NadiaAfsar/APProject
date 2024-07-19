@@ -54,7 +54,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         position = new RotatablePoint(center.getX(), center.getY(), 1.22*Math.PI, 19.5*width/30);
     }
     public void run() {
-        while (true) {
+        while (!died) {
             move();
             frame.setX(center.getX() - width / 2 - 10);
             frame.setY(center.getY() - height / 2 - 10);
@@ -66,7 +66,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
                 throw new RuntimeException(e);
             }
         }
-
+        interrupt();
     }
     private void shoot() {
         long currentTime = System.currentTimeMillis();

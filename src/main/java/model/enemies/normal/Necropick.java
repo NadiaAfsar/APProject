@@ -61,7 +61,7 @@ public class Necropick extends Enemy {
         position = new RotatablePoint(center.getX(), center.getY(), 1.26*Math.PI+angle, 14.2/21*height);
     }
     public void run() {
-        while (true) {
+        while (!died) {
             disappear();
             sleepFor(3000);
             announceAppearance();
@@ -74,6 +74,7 @@ public class Necropick extends Enemy {
             sleepFor(1000);
             EnemyLogger.getInfo(logger, this);
         }
+        interrupt();
     }
     private void sleepFor(long time){
         try {

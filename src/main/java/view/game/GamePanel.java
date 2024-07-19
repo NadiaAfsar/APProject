@@ -70,7 +70,7 @@ public class GamePanel extends JPanel {
     public void update(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
-        this.width = width+15;
+        this.width = width+10;
         this.height = height+35;
         setBounds(0, 0, this.width, this.height);
         frame.setBounds(x, y, this.width, this.height);

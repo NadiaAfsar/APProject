@@ -94,16 +94,17 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
         return direction1;
     }
     public void run() {
-        while (true) {
+        while (!died) {
             move();
             checkCollision();
-            //EnemyLogger.getInfo(logger, this);
+            EnemyLogger.getInfo(logger, this);
             try {
                 sleep((long) Configs.MODEL_UPDATE_TIME);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
+        interrupt();
     }
 
 

@@ -112,7 +112,7 @@ public class BulletModel implements Collidable {
 
     @Override
     public Point getCenter() {
-        return null;
+        return new Point(end.getRotatedX(), end.getRotatedY());
     }
 
     public String getID() {

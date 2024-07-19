@@ -153,7 +153,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
         }
     }
     public void run() {
-        while (true) {
+        while (!died) {
             move();
             checkCollision();
             frame = GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame();
@@ -167,6 +167,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
                 throw new RuntimeException(e);
             }
         }
+        interrupt();
     }
 
     public boolean isStuck() {

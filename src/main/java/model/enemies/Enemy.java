@@ -39,6 +39,7 @@ public abstract class Enemy extends Thread implements Collidable{
     protected double height;
     protected Frame frame;
     protected Logger logger;
+    protected  boolean died;
     public Enemy(Point center, double velocity) {
         ID = UUID.randomUUID().toString();
         this.center = center;
@@ -110,7 +111,7 @@ public abstract class Enemy extends Thread implements Collidable{
         GameManager.getINSTANCE().getDiedEnemies().add(this);
         Controller.removeEnemyView(this);
         AudioController.addEnemyDyingSound();
-        interrupt();
+        died = true;
     }
     protected void checkCollision() {
         synchronized (GameManager.getINSTANCE().getGameModel().getEnemyLock()) {
@@ -120,13 +121,13 @@ public abstract class Enemy extends Thread implements Collidable{
                     if (!(enemies.get(i) instanceof Wyrm) && !(enemies.get(i) instanceof Archmire)) {
                         if (enemies.get(i) instanceof BlackOrb) {
                             ArrayList<BlackOrbVertex> vertices = ((BlackOrb) enemies.get(i)).getBlackOrbVertices();
-                            for (int j = 0; j < vertices.size(); j++) {
-                                Point collisionPoint = this.getCollisionPoint(vertices.get(j));
-                                if (collisionPoint != null) {
-                                    logger.debug("collided");
-                                    ((Impactable) this).impact(collisionPoint, vertices.get(j));
+                                for (int j = 0; j < vertices.size(); j++) {
+                                    Point collisionPoint = this.getCollisionPoint(vertices.get(j));
+                                    if (collisionPoint != null) {
+                                        logger.debug("collided");
+                                        ((Impactable) this).impact(collisionPoint, vertices.get(j));
+                                    }
                                 }
-                            }
                         } else {
                             Collidable collidable = enemies.get(i);
                             Point collisionPoint = this.getCollisionPoint(collidable);
