@@ -5,6 +5,7 @@ import controller.GameManager;
 import controller.save.Configs;
 import log.EnemyLogger;
 import model.BulletModel;
+import model.Calculations;
 import model.Collectible;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
@@ -33,7 +34,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         direction = 1;
         width = GameManager.configs.WYRM_WIDTH;
         height = GameManager.configs.WYRM_HEIGHT;
-        frame = new Frame(width+20, height+20, center.getX()-width/2-10, center.getY()-height/2-10,
+        frame = new Frame(width+100, height+100, center.getX()-width/2-10, center.getY()-height/2-10,
                 true, false);
         addVertexes();
         frame.getEnemies().add(this);
@@ -55,11 +56,11 @@ public class Wyrm extends Enemy implements Movable, Impactable {
     }
     public void run() {
         while (!died) {
-            move();
+            //move();
             frame.setX(center.getX() - width / 2 - 10);
             frame.setY(center.getY() - height / 2 - 10);
-            shoot();
-            EnemyLogger.getInfo(logger, this);
+            //shoot();
+            //EnemyLogger.getInfo(logger, this);
             try {
                 sleep((long) Configs.MODEL_UPDATE_TIME);
             } catch (InterruptedException e) {
@@ -98,11 +99,11 @@ public class Wyrm extends Enemy implements Movable, Impactable {
     }
     private boolean isNearEpsilon() {
         Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
-        return getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) <= 150;
+        return Calculations.getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) <= 150;
     }
     private boolean isTooNearEpsilon() {
         Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
-        return getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) < 140;
+        return Calculations.getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) < 140;
     }
 
     @Override
@@ -139,7 +140,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         int[] y = new int[]{-10, 10};
         for (int i = 0; i < 2; i++) {
             Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i],8);
-            GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+            GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
             Controller.addCollectibleView(collectible);
         }
     }

@@ -52,6 +52,7 @@ public class Update {
         if (Controller.gameRunning) {
             if (GameManager.getINSTANCE().getGameModel() != null) {
                 GameManager.getINSTANCE().update();
+                updateFrames();
             }
         }
 //        else if (Controller.gameFinished) {
@@ -110,6 +111,12 @@ public class Update {
         for (int i = 0; i < lasers.size(); i++) {
             BlackOrbLaser laser = lasers.get(i);
             laserViewMap.get(laser.getID()).update(laser.getX1(), laser.getY1(), laser.getX2(), laser.getY2());
+        }
+    }
+    private static void updateFrames(){
+        ArrayList<Frame> frames = GameManager.getINSTANCE().getGameModel().getFrames();
+        for (int i = 0; i < frames.size(); i++){
+            frames.get(i).update();
         }
     }
     private static void updatePanels() {

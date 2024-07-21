@@ -53,7 +53,7 @@ public class BlackOrbVertex implements Collidable {
     }
     private void addCollective() {
         Collectible collectible = new Collectible((int)center.getX(), (int)center.getY(),30);
-        GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+        GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
         Controller.addCollectibleView(collectible);
     }
     public void decreaseHP(int x) {
@@ -102,5 +102,9 @@ public class BlackOrbVertex implements Collidable {
 
     public String getID() {
         return ID;
+    }
+
+    public void setCenter(Point center) {
+        this.center = center;
     }
 }

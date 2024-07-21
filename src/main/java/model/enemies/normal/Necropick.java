@@ -42,7 +42,7 @@ public class Necropick extends Enemy {
         int[] y = new int[]{-10, -10, 10, 10};
         for (int i = 0; i < 4; i++) {
             Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i], 2);
-            GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+            GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
             Controller.addCollectibleView(collectible);
         }
     }

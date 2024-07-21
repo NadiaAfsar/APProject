@@ -8,6 +8,8 @@ import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Interference {
     public static boolean enemyIsInArchmire(ArrayList<RotatablePoint> vertexes, Enemy enemy) {
@@ -25,7 +27,7 @@ public class Interference {
                     x2 = vertexes.get(j + 1).getRotatedX();
                     y2 = vertexes.get(j + 1).getRotatedY();
                 }
-                if (!isUnderLine(x, y, x1, y1, x2, y2)) {
+                if (!Calculations.isUnderLine(x, y, x1, y1, x2, y2)) {
                     return false;
                 }
             }
@@ -46,84 +48,46 @@ public class Interference {
                 x2 = vertexes.get(i + 1).getRotatedX();
                 y2 = vertexes.get(i + 1).getRotatedY();
             }
-            if (!isUnderLine(x, y, x1, y1, x2, y2)) {
+            if (!Calculations.isUnderLine(x, y, x1, y1, x2, y2)) {
                 return false;
             }
-            else if (getDistance(x, y, x1, y1) < GameManager.getINSTANCE().getGameModel().getEpsilon().getRadius()) {
+            else if (Calculations.getDistance(x, y, x1, y1) < GameManager.getINSTANCE().getGameModel().getEpsilon().getRadius()) {
                 return false;
             }
         }
         return true;
     }
-    private static double getDistance(double x1, double y1, double x2, double y2) {
-        return Math.sqrt(Math.pow(x2-x1, 2)+Math.pow(y2-y1, 2));
-    }
-    public static boolean isUnderLine(double x, double y, double x1, double y1, double x2, double y2) {
-        double slope1 = (y1-y)/(x-x1);
-        double slope2 = (y-y2)/(x2-x);
-        if ((x > x1 && x < x2) || (x < x1 && x > x2)) {
-            return slope1 < slope2;
-        }
-        return slope1 > slope2;
-    }
-    public static double pointDistanceFromLine(Point point1, Point point2, Point point3) {
-        double a = getDistance(point1.getX(), point1.getY(), point2.getX(), point2.getY());
-        double b = getDistance(point1.getX(), point1.getY(), point3.getX(), point3.getY());
-        double c = getDistance(point2.getX(), point2.getY(), point3.getX(), point3.getY());
-        double cos = (Math.pow(a, 2)+Math.pow(b, 2)-Math.pow(c, 2)) / (2 * a * b);
-        double sin = Math.sqrt(1-Math.pow(cos, 2));
-        if (sin <= 0.3) {
-            return a;
-        }
-        return (a * b * sin)/c;
-    }
-    public boolean[] isInFrame(Enemy enemy, Frame frame) {
-        boolean[] result = new boolean[2];
-        result[1] = true;
-        ArrayList<RotatablePoint> vertexes = enemy.getVertexes();
-        for (int i = 0; i < vertexes.size(); i++) {
-            if (vertexes.get(i).getRotatedX() >= frame.getX() && vertexes.get(i).getRotatedX() <= frame.getX()+frame.getWidth()
-            && vertexes.get(i).getRotatedY() >= frame.getY() && vertexes.get(i).getRotatedY() <= frame.getY()+frame.getHeight()){
-                result[0] = true;
-            }
-            else {
-                result[1] = false;
+    public static boolean isInFrame(double x, double y, double width, double height, Frame frame) {
+        double[] a = new double[]{x, x+width, y, y+height};
+        double[] b = new double[]{frame.getX()-15, frame.getX()-15, frame.getY()-10, frame.getY()-10};
+        double[] c = new double[]{frame.getX()+ frame.getWidth()+10, frame.getX()+ frame.getWidth()+10,
+                frame.getY()+ frame.getHeight()+10, frame.getY()+ frame.getHeight()+10};
+        for (int i = 0; i < 4; i++){
+            if (!Calculations.isInDomain(a[i], b[i], c[i])){
+                return false;
             }
         }
-        return result;
+        return true;
     }
-    public boolean[] isEpsilonInFrame(EpsilonModel epsilon, Frame frame) {
-        return isCircleInFrame(epsilon.getCenter(), epsilon.getRadius(), frame);
-    }
-    public boolean[] isBlackOrnVertexInFrame(BlackOrbVertex vertex, Frame frame) {
-        return isCircleInFrame(vertex.getCenter(), vertex.getWidth()/2, frame);
-    }
-    private boolean[] isCircleInFrame(Point center, double radius, Frame frame) {
-        double[] x = new double[]{0, frame.getWidth(), 0, frame.getWidth()};
-        double[] y = new double[]{0, 0, frame.getHeight(), frame.getHeight()};
-        boolean[] result = new boolean[2];
-        if (center.getX() >= frame.getX() && center.getX() <= frame.getX()+frame.getWidth()
-                && center.getY() >= frame.getY() && center.getY() <= frame.getY()+frame.getHeight()){
-            result[1] = true;
-        }
-        for (int i = 0; i < 4; i++) {
-            Point point1 = new Point(frame.getX()+x[i], frame.getY()+y[i]);
-            Point point2 = null;
-            if (i < 3) {
-                point2 = new Point(frame.getX()+x[i+1], frame.getY()+y[i+1]);
-            }
-            else {
-                point2 = new Point(frame.getX()+x[0], frame.getY()+y[0]);
-            }
-            if (pointDistanceFromLine(center, point1, point2) < radius) {
-                result[0] = true;
-                result[1] = false;
+    private static boolean overlaps(Frame frame1, Frame frame2){
+        double[] xs = new double[]{0, frame1.getWidth(), frame1.getWidth(), 0};
+        double[] ys = new double[]{0, 0, frame1.getHeight(), frame1.getHeight()};
+        for (int i = 0; i < 4; i++){
+            double x = frame1.getX()+xs[i];
+            double y = frame1.getY()+ys[i];
+            if (Calculations.isInDomain(x, frame2.getX(), frame2.getX()+frame2.getWidth()) &&
+            Calculations.isInDomain(y, frame2.getY(), frame2.getY()+frame2.getHeight())){
+                return true;
             }
         }
-        if (result[1]) {
-            result[0] = true;
+        return false;
+    }
+    public static void getOverlaps(Frame frame1, Frame frame2){
+        if (overlaps(frame1, frame2) || overlaps(frame2, frame1)){
+            Map<String, double[]> overlap = new HashMap<String, double[]>(){{put("x", new double[]{frame2.getX(), frame2.getX()+ frame2.getWidth()});
+            put("y", new double[]{frame2.getY(), frame2.getY()+ frame2.getHeight()});}};
+            frame1.getOverlaps().add(overlap);
         }
-        return result;
     }
 
 

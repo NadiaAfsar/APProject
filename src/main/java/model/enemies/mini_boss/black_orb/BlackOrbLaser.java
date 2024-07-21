@@ -2,6 +2,7 @@ package model.enemies.mini_boss.black_orb;
 
 import controller.Controller;
 import controller.GameManager;
+import model.Calculations;
 import model.EpsilonModel;
 import model.enemies.Enemy;
 import model.Interference;
@@ -49,8 +50,8 @@ public class BlackOrbLaser {
                 }
             }
             EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
-            if (Interference.pointDistanceFromLine(epsilon.getCenter(), point1, point2) < epsilon.getRadius() ||
-                    Interference.pointDistanceFromLine(epsilon.getCenter(), point3, point4) < epsilon.getRadius()) {
+            if (Calculations.isUnderLine(epsilon.getCenter().getX(), epsilon.getCenter().getY(), point1.getX(), point1.getY(), point2.getX(), point2.getY())
+                    && Calculations.isUnderLine(epsilon.getCenter().getX(), epsilon.getCenter().getY(), point3.getX(), point3.getY(), point4.getX(), point4.getY())) {
                 epsilon.decreaseHP(12);
             }
             lastAttack = currentTime;
@@ -74,7 +75,7 @@ public class BlackOrbLaser {
                     x2 = points.get(j + 1).getX();
                     y2 = points.get(j + 1).getY();
                 }
-                if (!Interference.isUnderLine(x, y, x1, y1, x2, y2)) {
+                if (!Calculations.isUnderLine(x, y, x1, y1, x2, y2)) {
                     isIn = false;
                 }
             }

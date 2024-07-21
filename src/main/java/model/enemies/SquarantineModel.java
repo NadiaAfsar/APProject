@@ -86,7 +86,7 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
     @Override
     public void addCollective() {
         Collectible collectible = new Collectible((int)center.getX(), (int)center.getY(),5);
-        GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+        GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
         Controller.addCollectibleView(collectible);
     }
     public Direction getDirection() {

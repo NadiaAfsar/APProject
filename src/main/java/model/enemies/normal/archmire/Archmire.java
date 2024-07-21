@@ -126,7 +126,7 @@ public class Archmire extends Enemy implements Movable {
         int[] y = new int[]{-10, -10, 10, 10, 0};
         for (int i = 0; i < 5; i++) {
             Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i],6);
-            GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+            GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
             Controller.addCollectibleView(collectible);
         }
     }

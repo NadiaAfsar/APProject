@@ -98,7 +98,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     public void addCollective() {
         for (int i = 0; i < 8; i++) {
             Collectible collectible = new Collectible((int)vertexes.get(i).getRotatedX(), (int)vertexes.get(i).getRotatedY(),4);
-            GameManager.getINSTANCE().getGameModel().getCollectives().add(collectible);
+            GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
             Controller.addCollectibleView(collectible);
         }
     }

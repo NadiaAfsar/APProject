@@ -1,6 +1,7 @@
 package controller;
 
 import model.BulletModel;
+import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.normal.Wyrm;
 import model.frame.Frame;
@@ -10,11 +11,11 @@ import model.interfaces.movement.Point;
 import java.util.ArrayList;
 
 public class GameManagerHelper {
-    public static <T> void removeFrom(ArrayList<T> list1, ArrayList<T> list2) {
-        for (int i= 0; i < list2.size(); i++) {
-            list1.remove(list2.get(i));
-        }
-    }
+//    public static <T> void removeFrom(ArrayList<T> list1, ArrayList<T> list2) {
+//        for (int i= 0; i < list2.size(); i++) {
+//            list1.remove(list2.get(i));
+//        }
+//    }
     public static Point getRandomPosition(boolean[][] addedEnemies, double width, double height) {
         double x = 0;
         double y = 0;
@@ -42,28 +43,29 @@ public class GameManagerHelper {
     }
     public static Enemy getNewEnemy(Point point, int hp, double velocity) {
         int x = (int)(Math.random()*2);
-        //Enemy enemy = new Wyrm(new Point(600,100),velocity, hp);
+        Enemy enemy = new Wyrm(new Point(440,300),velocity, hp);
         //Enemy enemy = new SquarantineModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Omenoct(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new TrigorathModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Necropick(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Archmire(point,velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Barricados(new Point(800, 300), velocity, false);
-        Enemy enemy = new BlackOrb(new Point(600, 300),velocity);
+        //Enemy enemy = new BlackOrb(new Point(600, 300),velocity);
         return enemy;
     }
-    public static boolean checkFrameCollisionWithBullet(BulletModel bullet, Frame frame) {
-        if (bullet.getFrame().equals(frame)) {
-            if (bullet.getX2() <= frame.getX() && bullet.getX2() > frame.getX() - 10) {
+    public static boolean checkFrameCollisionWithBullet(BulletModel bullet) {
+        Frame frame = bullet.getFrame();
+        if (frame != null) {
+            if (bullet.getX2() <= frame.getX()) {
                 frame.changeWidth(bullet, -10);
                 return true;
-            } else if (bullet.getX2() >= frame.getX() + frame.getWidth() && bullet.getX2() < frame.getX() + frame.getWidth() + 10) {
+            } else if (bullet.getX2() >= frame.getX() + frame.getWidth()) {
                 frame.changeWidth(bullet, 10);
                 return true;
-            } else if (bullet.getY2() <= frame.getY() && bullet.getY2() > frame.getY() - 10) {
+            } else if (bullet.getY2() <= frame.getY()) {
                 frame.changeHeight(bullet, -10);
                 return true;
-            } else if (bullet.getY2() >= frame.getHeight() + frame.getY() && bullet.getY2() < frame.getY() + frame.getHeight() + 10) {
+            } else if (bullet.getY2() >= frame.getHeight() + frame.getY()) {
                 frame.changeHeight(bullet, 10);
                 return true;
             }

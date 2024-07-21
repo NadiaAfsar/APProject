@@ -27,6 +27,7 @@ public abstract class GameModel {
     private ArrayList<BulletModel> enemiesBullets;
     private ArrayList<Frame> frames;
     private final Object enemyLock;
+    private Frame initialFrame;
 
     public GameModel() {
         enemyLock = new Object();
@@ -37,6 +38,7 @@ public abstract class GameModel {
         frames = new ArrayList<>();
         epsilon = new EpsilonModel(new Frame(700, 700,0,0,false,false));
         frames.add(epsilon.getFrame());
+        initialFrame = epsilon.getFrame();
 
     }
 
@@ -49,7 +51,7 @@ public abstract class GameModel {
     }
 
 
-    public ArrayList<Collectible> getCollectives() {
+    public ArrayList<Collectible> getCollectibles() {
         return collectibles;
     }
 
@@ -137,5 +139,9 @@ public abstract class GameModel {
 
     public ArrayList<Frame> getFrames() {
         return frames;
+    }
+
+    public Frame getInitialFrame() {
+        return initialFrame;
     }
 }

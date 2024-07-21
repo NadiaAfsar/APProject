@@ -41,6 +41,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private boolean impact;
     private Frame frame;
     private Logger logger;
+    private Frame prevFrame;
 
     public EpsilonModel(Frame frame) {
         logger = Logger.getLogger(EpsilonModel.class);
@@ -94,24 +95,20 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
     private void addMoveTimers() {
         upTimer = new Timer(10, e -> {
-            if (getY()-0.5*sensitivity-frame.getY() >= 0) {
                 center = new Point(center.getX(), center.getY()-0.5*sensitivity);
-            }
+                setInFrame();
         });
         downTimer = new Timer(10, e -> {
-            if (getY() + 0.5*sensitivity-frame.getY() < frame.getHeight()-25) {
                 center = new Point(center.getX(), center.getY()+0.5*sensitivity);
-            }
+                setInFrame();
         });
         rightTimer = new Timer(10, e -> {
-            if (getX() + 0.5*sensitivity-frame.getX() < frame.getWidth() - 25) {
                 center = new Point(center.getX()+0.5*sensitivity, center.getY());
-            }
+                setInFrame();
         });
         leftTimer = new Timer(10, e -> {
-            if (getX()-0.5*sensitivity-frame.getX() >= 0) {
                 center = new Point(center.getX()-0.5*sensitivity, center.getY());
-            }
+                setInFrame();
         });
     }
 
@@ -152,17 +149,38 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         this.XP = XP;
     }
     public void setInFrame() {
-        if (getX()- frame.getX() <= -10) {
-            setCenter(10+ frame.getX(),getY());
+        if (frame != null) {
+            if (getX() - frame.getX() <= -10 && !frame.isInOverLap(getX(), getY())) {
+                setCenter(10 + frame.getX(), getY());
+            } else if (getX() - frame.getX() >= frame.getWidth() - 2 * radius && !frame.isInOverLap(getX() + 2 * radius, getY())) {
+                setCenter((int) frame.getWidth() + frame.getX() - 10 - 2 * radius, getY());
+            }
+            if (getY() - frame.getY() <= -10 && !frame.isInOverLap(getX(), getY())) {
+                setCenter(getX(), 10 + frame.getY());
+            } else if (getY() - frame.getY() > frame.getHeight() - 2 * radius && !frame.isInOverLap(getX(), getY() + 2 * radius)) {
+                setCenter(getX(), (int) frame.getHeight() + frame.getY() - 10 - 2 * radius);
+            }
         }
-        else if (getX()- frame.getX() >= frame.getWidth()-2*radius) {
-            setCenter((int)frame.getWidth()+ frame.getX()-10-2*radius,getY());
+    }
+    private void checkFrame() {
+        if (frame != null){
+            if (!Interference.isInFrame(getX(), getY(), 2*radius, 2*radius, frame)){
+                prevFrame = frame;
+                prevFrame.setStopMoving(true);
+                frame = null;
+                //logger.debug("out");
+            }
         }
-        if (getY()-frame.getY() <= -10) {
-            setCenter(getX(),10+ frame.getY());
-        }
-        else if (getY()- frame.getY() > frame.getHeight()-2*radius) {
-            setCenter(getX(),(int)frame.getHeight()+ frame.getY()-10-2*radius);
+        if (frame == null){
+            ArrayList<Frame> frames = GameManager.getINSTANCE().getGameModel().getFrames();
+            for (int i = 0; i < frames.size(); i++){
+                if (Interference.isInFrame(getX(), getY(), 2*radius, 2*radius, frames.get(i))){
+                    frame = frames.get(i);
+                    prevFrame.setStopMoving(false);
+                    //logger.debug(i);
+                    return;
+                }
+            }
         }
     }
 
@@ -251,6 +269,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     public void nextMove() {
             move();
             checkCollisions();
+            checkFrame();
             //EpsilonLogger.getInfo(logger, this);
     }
     private void checkCollisions() {

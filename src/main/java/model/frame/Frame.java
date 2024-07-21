@@ -1,13 +1,15 @@
 package model.frame;
 
 import controller.Controller;
+import controller.GameManager;
 import controller.save.Configs;
-import model.BulletModel;
-import model.Collectible;
-import model.EpsilonModel;
+import controller.update.Update;
+import model.*;
 import model.enemies.Enemy;
 import model.enemies.mini_boss.black_orb.BlackOrbLaser;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
+import model.interfaces.movement.Point;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,14 +26,17 @@ public class Frame {
     private final Map<Integer, Side> sides;
     private ArrayList<Enemy> enemies;
     private ArrayList<BlackOrbVertex> blackOrbVertices;
-    private ArrayList<BlackOrbLaser> blackOrbLasers;
-    private EpsilonModel epsilon;
-    private ArrayList<BulletModel> bulletModels;
-    private ArrayList<Collectible> collectibles;
     private final String ID;
+    private ArrayList<Map<String, double[]>> overlaps;
+    private final Object overlapLock;
+    private Logger logger;
+    private static int number;
+    private boolean stopMoving;
 
     public Frame(double width, double height, double x, double y, boolean isIsometric, boolean isRigid) {
         ID = UUID.randomUUID().toString();
+        number++;
+        logger = Logger.getLogger(Frame.class.getName()+number);
         this.width = width;
         this.height = height;
         this.x = x;
@@ -40,9 +45,8 @@ public class Frame {
         this.isRigid = isRigid;
         enemies = new ArrayList<>();
         blackOrbVertices = new ArrayList<>();
-        blackOrbLasers = new ArrayList<>();
-        bulletModels = new ArrayList<>();
-        collectibles = new ArrayList<>();
+        overlaps = new ArrayList<>();
+        overlapLock = new Object();
         sides = new HashMap<Integer, Side>() {{
             put(1, new Side());
             put(2, new Side());
@@ -87,51 +91,53 @@ public class Frame {
         this.y = y;
     }
     public void changeWidth(BulletModel bullet, int x) {
-        if (!isRigid) {
+        if (!stopMoving) {
+            if (!isRigid) {
+                if (x < 0) {
+                    sides.get(4).separateAll();
+                } else {
+                    sides.get(2).separateAll();
+                }
+                setX(getX() + x + bullet.getDirection().getDx() * 20);
+                setY(getY() + bullet.getDirection().getDy() * 20);
+                moveEntities(x + bullet.getDirection().getDx() * 20, bullet.getDirection().getDy() * 20);
+            }
+            if (!isIsometric) {
+                setWidth(getWidth() + 10);
+                if (checkPosition()) {
+                    setWidth(getWidth() - 10);
+                }
+            }
             if (x < 0) {
-                sides.get(4).separateAll();
+                sides.get(4).shootAll();
+            } else {
+                sides.get(2).shootAll();
             }
-            else {
-                sides.get(2).separateAll();
-            }
-            setX(getX() + x + bullet.getDirection().getDx() * 20);
-            setY(getY() + bullet.getDirection().getDy() * 20);
-        }
-        if (!isIsometric) {
-            setWidth(getWidth() + 10);
-            if (checkPosition()) {
-                setWidth(getWidth() - 10);
-            }
-        }
-        if (x < 0) {
-            sides.get(4).shootAll();
-        }
-        else {
-            sides.get(2).shootAll();
         }
     }
     public void changeHeight(BulletModel bullet, int y) {
-        if (!isRigid) {
+        if (!stopMoving) {
+            if (!isRigid) {
+                if (y < 0) {
+                    sides.get(1).separateAll();
+                } else {
+                    sides.get(3).separateAll();
+                }
+                setX(getX() + bullet.getDirection().getDx() * 20);
+                setY(getY() + y + bullet.getDirection().getDy() * 20);
+                moveEntities(bullet.getDirection().getDx() * 20, y + bullet.getDirection().getDy() * 20);
+            }
+            if (!isIsometric) {
+                setHeight(getHeight() + 10);
+                if (checkPosition()) {
+                    setHeight(getHeight() - 10);
+                }
+            }
             if (y < 0) {
-                sides.get(1).separateAll();
+                sides.get(1).shootAll();
+            } else {
+                sides.get(3).shootAll();
             }
-            else {
-                sides.get(3).separateAll();
-            }
-            setX(getX() + bullet.getDirection().getDx() * 20);
-            setY(getY() + y + bullet.getDirection().getDy() * 20);
-        }
-        if (!isIsometric) {
-            setHeight(getHeight() + 10);
-            if (checkPosition()) {
-                setHeight(getHeight() - 10);
-            }
-        }
-        if (y < 0) {
-            sides.get(1).shootAll();
-        }
-        else {
-            sides.get(3).shootAll();
         }
     }
     private boolean checkPosition() {
@@ -162,29 +168,10 @@ public class Frame {
         return blackOrbVertices;
     }
 
-    public ArrayList<BlackOrbLaser> getBlackOrbLasers() {
-        return blackOrbLasers;
-    }
-
-    public EpsilonModel getEpsilon() {
-        return epsilon;
-    }
-
-    public ArrayList<BulletModel> getBulletModels() {
-        return bulletModels;
-    }
-
-    public void setEpsilon(EpsilonModel epsilon) {
-        this.epsilon = epsilon;
-    }
-
     public String getID() {
         return ID;
     }
 
-    public ArrayList<Collectible> getCollectives() {
-        return collectibles;
-    }
     public void decreaseSize() {
         if (width > 300) {
             width -= 0.1;
@@ -195,5 +182,44 @@ public class Frame {
             sides.get(3).separateAll();
         }
     }
+    private void moveEntities(double x, double y){
+        for (int i = 0; i < enemies.size(); i++){
+            enemies.get(i).setCenter(new Point(enemies.get(i).getCenter().getX()+x, enemies.get(i).getCenter().getY()+y));
+        }
+        for (int i = 0; i < blackOrbVertices.size(); i++){
+            blackOrbVertices.get(i).setCenter(new Point(blackOrbVertices.get(i).getCenter().getX()+x,
+                    blackOrbVertices.get(i).getCenter().getY()+y));
+        }
+    }
+    public void update(){
+            overlaps = new ArrayList<>();
+            ArrayList<Frame> frames = GameManager.getINSTANCE().getGameModel().getFrames();
+            for (int i = 0; i < frames.size(); i++){
+                if (!frames.get(i).equals(this)) {
+                    Interference.getOverlaps(this, frames.get(i));
+                }
+            }
+            //logger.debug(overlaps.size());
+    }
+    public boolean isInOverLap(double x, double y){
+            for (int i = 0; i < overlaps.size(); i++){
+                if (Calculations.isInDomain(x, overlaps.get(i).get("x")[0], overlaps.get(i).get("x")[1]) &&
+                        Calculations.isInDomain(y, overlaps.get(i).get("y")[0], overlaps.get(i).get("y")[1])) {
+                    return true;
+                }
+            }
+            return false;
+    }
 
+    public void setOverlaps(ArrayList<Map<String, double[]>> overlaps) {
+        this.overlaps = overlaps;
+    }
+
+    public ArrayList<Map<String, double[]>> getOverlaps() {
+        return overlaps;
+    }
+
+    public void setStopMoving(boolean stopMoving) {
+        this.stopMoving = stopMoving;
+    }
 }

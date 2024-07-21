@@ -8,6 +8,7 @@ import controller.audio.AudioController;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -25,8 +26,12 @@ public class BulletModel implements Collidable {
     private int damage;
     private boolean stable;
     private Frame frame;
+    private static int number;
+    private Logger logger;
     public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable, Frame frame) {
         this.stable = stable;
+        number++;
+        logger = Logger.getLogger(BulletModel.class.getName()+number);
         AudioController.addBulletShotSound();
         ID = UUID.randomUUID().toString();
         this.direction = new Direction(point1, point2);
@@ -38,7 +43,6 @@ public class BulletModel implements Collidable {
         setEnd();
         Controller.addBulletView(this);
         this.frame = frame;
-        this.frame.getBulletModels().add(this);
     }
     private void setAngle() {
         angle = getAngle();
@@ -58,6 +62,7 @@ public class BulletModel implements Collidable {
         y1 += direction.getDy()*30;
         end.setX(end.getX() + direction.getDx()*30);
         end.setY(end.getY() + direction.getDy()*30);
+        checkFrame();
     }
     private double getAngle() {
         double angle = Math.atan(direction.getDy()/direction.getDx());
@@ -125,5 +130,23 @@ public class BulletModel implements Collidable {
 
     public Frame getFrame() {
         return frame;
+    }
+    private void checkFrame() {
+        if (frame != null){
+            if (!Interference.isInFrame(x1, y1, end.getRotatedX()-x1, end.getRotatedY()-y1, frame)){
+                frame = null;
+                //logger.debug("out");
+            }
+        }
+        if (frame == null){
+            ArrayList<Frame> frames = GameManager.getINSTANCE().getGameModel().getFrames();
+            for (int i = 0; i < frames.size(); i++){
+                if (Interference.isInFrame(x1, y1, end.getRotatedX()-x1, end.getRotatedY()-y1, frames.get(i))){
+                    frame = frames.get(i);
+                    //logger.debug(i);
+                    return;
+                }
+            }
+        }
     }
 }

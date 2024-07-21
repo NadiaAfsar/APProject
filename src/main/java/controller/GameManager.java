@@ -117,7 +117,7 @@ public class GameManager {
                 }
             }
         }
-        GameManagerHelper.removeFrom(gameModel.getEnemiesBullets(), vanishedEnemiesBullets);
+        gameModel.getEnemiesBullets().removeAll(vanishedEnemiesBullets);
         vanishedEnemiesBullets = new ArrayList<>();
     }
     private void nextWave() {
@@ -134,15 +134,17 @@ public class GameManager {
                 checkBulletCollisionWithEnemies(bullet);
             }
         }
-        GameManagerHelper.removeFrom(gameModel.getBullets(), vanishedBullets);
+        gameModel.getBullets().removeAll(vanishedBullets);
         vanishedBullets = new ArrayList<>();
     }
     private boolean checkBulletCollisionWithFrames(BulletModel bulletModel, ArrayList<BulletModel> vanishedBullets) {
-        for (int i = 0; i < gameModel.getFrames().size(); i++) {
-            if (GameManagerHelper.checkFrameCollisionWithBullet(bulletModel, gameModel.getFrames().get(i))) {
-                vanishedBullets.add(bulletModel);
-                Controller.removeBulletView(bulletModel);
-                return true;
+        if (bulletModel.getFrame() != null) {
+            if (!bulletModel.getFrame().isInOverLap(bulletModel.getX2(), bulletModel.getY2())) {
+                if (GameManagerHelper.checkFrameCollisionWithBullet(bulletModel)) {
+                    vanishedBullets.add(bulletModel);
+                    Controller.removeBulletView(bulletModel);
+                    return true;
+                }
             }
         }
         return false;
@@ -159,7 +161,6 @@ public class GameManager {
         }
     }
     private void checkCollisionWithEnemy(BulletModel bullet, Enemy enemy) {
-        if (Math.abs(enemy.getX() - bullet.getX2()) < 40 && Math.abs(enemy.getY() - bullet.getY2()) < 40) {
             Point point = bullet.getCollisionPoint(enemy);
             if (point != null) {
                 bulletCollided(bullet, point, vanishedBullets);
@@ -167,19 +168,15 @@ public class GameManager {
                     enemy.decreaseHP(bullet.getDamage());
                 }
             }
-        }
     }
     private void checkCollisionWithBlackOrb(BulletModel bullet, BlackOrb blackOrb) {
         ArrayList<BlackOrbVertex> vertices = blackOrb.getBlackOrbVertices();
         for (int i = 0; i < vertices.size(); i++) {
-            if (Math.abs(vertices.get(i).getCenter().getX() - bullet.getX2()) < 40 &&
-                    Math.abs(vertices.get(i).getCenter().getY() - bullet.getY2()) < 40) {
                 Point point = bullet.getCollisionPoint(vertices.get(i));
                 if (point != null) {
                     bulletCollided(bullet, point, vanishedBullets);
                     vertices.get(i).decreaseHP(bullet.getDamage());
                 }
-            }
         }
     }
     private void bulletCollided(BulletModel bullet, Point point, ArrayList<BulletModel> vanishedBullets) {
@@ -187,11 +184,11 @@ public class GameManager {
         vanishedBullets.add(bullet);
         Controller.removeBulletView(bullet);
     }
-    private void checkCollectives() {
+    private void checkCollectibles() {
         takenCollectibles = new ArrayList<>();
-        for (int i = 0; i < gameModel.getCollectives().size(); i++) {
-            Collectible collectible = gameModel.getCollectives().get(i);
-            Point point = gameModel.getEpsilon().getCollisionPoint(gameModel.getCollectives().get(i));
+        for (int i = 0; i < gameModel.getCollectibles().size(); i++) {
+            Collectible collectible = gameModel.getCollectibles().get(i);
+            Point point = gameModel.getEpsilon().getCollisionPoint(gameModel.getCollectibles().get(i));
             if (point != null){
                 takenCollectibles.add(collectible);
                 gameModel.getEpsilon().setXP(gameModel.getEpsilon().getXP()+5+ gameModel.getEnemyXP());
@@ -206,7 +203,8 @@ public class GameManager {
                 }
             }
         }
-        GameManagerHelper.removeFrom(gameModel.getCollectives(), takenCollectibles);
+        gameModel.getCollectibles().removeAll(takenCollectibles);
+        takenCollectibles = new ArrayList<>();
     }
     public void update() {
         if (decreaseSize) {
@@ -220,7 +218,7 @@ public class GameManager {
         checkBulletsCollision();
         moveEnemiesBullets();
         checkEnemiesBulletsCollision();
-        GameManagerHelper.removeFrom(gameModel.getEnemies(), diedEnemies);
+        gameModel.getEnemies().removeAll(diedEnemies);
         diedEnemies = new ArrayList<>();
         if (gameStarted && gameModel.getEnemies().size() == 0 && !wait) {
             if (wave == 4) {
@@ -230,7 +228,7 @@ public class GameManager {
                 nextWave();
             }
         }
-        checkCollectives();
+        checkCollectibles();
         Skill skill = GameManager.getINSTANCE().getPickedSkill();
         if (skill instanceof WritOfAceso) {
             ((WritOfAceso)skill).increaseHP();
@@ -251,8 +249,8 @@ public class GameManager {
         Controller.endGame();
         AudioController.addWinningSound();
         Controller.removeEpsilonVertexes();
-        for (int i = 0; i < gameModel.getCollectives().size(); i++) {
-            Controller.removeCollectibleView(gameModel.getCollectives().get(i));
+        for (int i = 0; i < gameModel.getCollectibles().size(); i++) {
+            Controller.removeCollectibleView(gameModel.getCollectibles().get(i));
         }
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
             Controller.removeBulletView(gameModel.getBullets().get(i));

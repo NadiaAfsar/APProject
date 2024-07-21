@@ -2,10 +2,7 @@ package model.interfaces.collision;
 
 
 import controller.GameManager;
-import model.BulletModel;
-import model.EpsilonModel;
-import model.Collectible;
-import model.Interference;
+import model.*;
 import model.enemies.Enemy;
 import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
@@ -21,7 +18,7 @@ public interface Collidable {
     ArrayList<RotatablePoint> getVertexes();
 
     default Point getCollisionPoint(Collidable collidable) {
-        if (getDistance(getCenter().getX(), getCenter().getY(), collidable.getCenter().getX(),
+        if (Calculations.getDistance(getCenter().getX(), getCenter().getY(), collidable.getCenter().getX(),
                 collidable.getCenter().getY()) <= 100) {
             if (this instanceof BulletModel) {
                 if (collidable instanceof Enemy) {
@@ -58,7 +55,7 @@ public interface Collidable {
     }
 
     default Point getBlackOrbCollisionWithEpsilon(EpsilonModel epsilon) {
-        double distance = getDistance(getCenter().getX(), getCenter().getY(), epsilon.getCenter().getX(), epsilon.getCenter().getY());
+        double distance = Calculations.getDistance(getCenter().getX(), getCenter().getY(), epsilon.getCenter().getX(), epsilon.getCenter().getY());
         if (distance <= epsilon.getRadius()+((BlackOrbVertex)this).getWidth()/2) {
             return new Point((epsilon.getCenter().getX()+getCenter().getX())/2,
                     (epsilon.getCenter().getY()+getCenter().getY())/2);
@@ -81,7 +78,7 @@ public interface Collidable {
         return null;
     }
     default Point getCircleCollisionWithBullet(Point center, double radius) {
-        if (getDistance(center.getX(), center.getY(), getVertexes().get(0).getRotatedX(),
+        if (Calculations.getDistance(center.getX(), center.getY(), getVertexes().get(0).getRotatedX(),
                 getVertexes().get(0).getRotatedY()) <= radius) {
             return new Point(getVertexes().get(0).getX(), getVertexes().get(0).getY());
         }
@@ -123,7 +120,7 @@ public interface Collidable {
         } else {
             point2 = new Point(vertexes.get(i+1).getRotatedX(), vertexes.get(i+1).getRotatedY());
         }
-        double distance = Interference.pointDistanceFromLine(center, point1, point2);
+        double distance = Calculations.pointDistanceFromLine(center, point1, point2);
         if (distance <= radius) {
             return new Point((point1.getX() + point2.getX()) / 2, (point1.getY() + point2.getY()) / 2);
         }
@@ -143,27 +140,12 @@ public interface Collidable {
     }
 
     default Point getCollisionWithCollective(Collectible collectible, Point point) {
-        double distance = getDistance(collectible.getX(), collectible.getY(), point.getX(), point.getY());
+        double distance = Calculations.getDistance(collectible.getX(), collectible.getY(), point.getX(), point.getY());
         if (distance <= GameManager.getINSTANCE().getGameModel().getEpsilon().getRadius() + 5) {
             return new Point(collectible.getX(), collectible.getY());
         }
         return null;
     }
-    default double getDistance(double x1, double y1, double x2, double y2) {
-        return Math.sqrt(Math.pow(x2-x1, 2)+Math.pow(y2-y1, 2));
-    }
-
-    default boolean collides(int x, int y, int x1, int y1, int x2, int y2) {
-        if (((x >= x1 && x <= x2) || (x <= x1 && x >= x2)) && ((y >= y1 && y <= y2) || (y <= y1 && y >= y2))) {
-            if ((x == x1 || x == x2) && (y == y1 || y == y2)) {
-                return true;
-            }
-            return 1.0 * (y1 - y) / (x - x1) >= 1.0 * (y - y2) / (x2 - x);
-        }
-        return false;
-    }
-
-
     Point getCenter();
 
     default Point checkVertexes(ArrayList<RotatablePoint> vertexes, ArrayList<RotatablePoint> vertexes2) {
@@ -181,7 +163,7 @@ public interface Collidable {
                     x2 = (int) vertexes2.get(j + 1).getRotatedX();
                     y2 = (int) vertexes2.get(j + 1).getRotatedY();
                 }
-                if (Interference.pointDistanceFromLine(new Point(x, y), new Point(x1, y1), new Point(x2, y2)) <= 5) {
+                if (Calculations.pointDistanceFromLine(new Point(x, y), new Point(x1, y1), new Point(x2, y2)) <= 5) {
                     return new Point(vertexes.get(i).getRotatedX(), vertexes.get(i).getRotatedY());
                 }
             }
