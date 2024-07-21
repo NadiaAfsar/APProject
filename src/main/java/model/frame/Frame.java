@@ -22,7 +22,7 @@ public class Frame {
     private double x;
     private double y;
     private final boolean isIsometric;
-    private final boolean isRigid;
+    private boolean isRigid;
     private final Map<Integer, Side> sides;
     private ArrayList<Enemy> enemies;
     private ArrayList<BlackOrbVertex> blackOrbVertices;
@@ -192,14 +192,16 @@ public class Frame {
         }
     }
     public void update(){
+        if (!isRigid) {
             overlaps = new ArrayList<>();
             ArrayList<Frame> frames = GameManager.getINSTANCE().getGameModel().getFrames();
-            for (int i = 0; i < frames.size(); i++){
-                if (!frames.get(i).equals(this)) {
-                    Interference.getOverlaps(this, frames.get(i));
+            for (int i = 0; i < frames.size(); i++) {
+                if (!frames.get(i).isRigid && !frames.get(i).equals(this)) {
+                        Interference.getOverlaps(this, frames.get(i));
                 }
             }
             //logger.debug(overlaps.size());
+        }
     }
     public boolean isInOverLap(double x, double y){
             for (int i = 0; i < overlaps.size(); i++){
@@ -221,5 +223,9 @@ public class Frame {
 
     public void setStopMoving(boolean stopMoving) {
         this.stopMoving = stopMoving;
+    }
+
+    public void setRigid(boolean rigid) {
+        isRigid = rigid;
     }
 }

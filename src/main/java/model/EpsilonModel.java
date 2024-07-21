@@ -416,4 +416,5 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         this.frame = frame;
     }
 
+
 }

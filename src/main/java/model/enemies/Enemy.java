@@ -222,4 +222,8 @@ public abstract class Enemy extends Thread implements Collidable{
         return velocityPower;
     }
     public abstract Direction getDirection();
+
+    public Frame getFrame() {
+        return frame;
+    }
 }

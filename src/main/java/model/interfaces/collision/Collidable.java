@@ -25,7 +25,6 @@ public interface Collidable {
                     if (!(collidable instanceof Necropick)) {
                         return checkVertexes(getVertexes(), collidable.getVertexes());
                     } else if (!((Necropick) collidable).isDisappeared()) {
-                        System.out.println(1);
                         return checkVertexes(getVertexes(), collidable.getVertexes());
                     }
                 } else if (collidable instanceof BlackOrbVertex) {

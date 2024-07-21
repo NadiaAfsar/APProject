@@ -56,10 +56,10 @@ public class Wyrm extends Enemy implements Movable, Impactable {
     }
     public void run() {
         while (!died) {
-            //move();
+            move();
             frame.setX(center.getX() - width / 2 - 10);
             frame.setY(center.getY() - height / 2 - 10);
-            //shoot();
+            shoot();
             //EnemyLogger.getInfo(logger, this);
             try {
                 sleep((long) Configs.MODEL_UPDATE_TIME);

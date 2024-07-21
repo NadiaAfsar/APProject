@@ -43,5 +43,17 @@
   "WINNING_SOUND": "src/main/resources/audios/win.wav",
   "COLLECTIBLE": "src/main/resources/pictures/collective.png",
   "NECROPICK_ANNOUNCEMENT": "src/main/resources/pictures/necropick-announcement.png",
-  "NECROPICK_ANNOUNCEMENT_WIDTH": 50
+  "NECROPICK_ANNOUNCEMENT_WIDTH": 50,
+  "SMILEY": "src/main/resources/pictures/smiley.png",
+  "SMILEY_RADIUS": 100,
+  "FIST": "src/main/resources/pictures/fist.png",
+  "RIGHT_HAND":"src/main/resources/pictures/right-hand.png",
+  "LEFT_HAND": "src/main/resources/pictures/left-hand.png",
+  "FIST_WIDTH": 116,
+  "FIST_HEIGHT": 100,
+  "HAND_WIDTH": 90,
+  "HAND_HEIGHT": 141,
+  "DEAD": "src/main/resources/pictures/dead.png",
+  "DEAD_WIDTH": 200,
+  "DEAD_HEIGHT": 198
 }
