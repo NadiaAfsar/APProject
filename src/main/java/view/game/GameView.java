@@ -15,8 +15,8 @@ import java.util.Map;
 public class GameView {
     private Map<String, EnemyView> enemiesMap;
     private ArrayList<EnemyView> enemies;
-    private Map<String, AoEView> aoEViewMap;
-    private ArrayList<AoEView> aoEViews;
+    private Map<String, EnemyView> aoEViewMap;
+    private ArrayList<EnemyView> aoEViews;
     private ArrayList<ArchmireView> archmires;
     private Map<String, BulletView> bulletsMap;
     private ArrayList<BulletView> bullets;
@@ -100,11 +100,11 @@ public class GameView {
         return gamePanels;
     }
 
-    public Map<String, AoEView> getAoEViewMap() {
+    public Map<String, EnemyView> getAoEViewMap() {
         return aoEViewMap;
     }
 
-    public ArrayList<AoEView> getAoEViews() {
+    public ArrayList<EnemyView> getAoEViews() {
         return aoEViews;
     }
 
@@ -127,7 +127,7 @@ public class GameView {
         archmires.add(archmireView);
         enemiesMap.put(archmireView.getID(), archmireView);
     }
-    public void addAoEView(AoEView aoEView) {
+    public void addAoEView(EnemyView aoEView) {
         aoEViews.add(aoEView);
         aoEViewMap.put(aoEView.getID(), aoEView);
     }
@@ -177,11 +177,6 @@ public class GameView {
             gamePanels.get(i).revalidate();
             gamePanels.get(i).repaint();
         }
-    }
-    public void setFocus() {
-        GameManager.getINSTANCE().getGameFrame().setFocusable(true);
-        GameManager.getINSTANCE().getGameFrame().requestFocus();
-        gamePanels.get(0).getFrame().requestFocusInWindow();
     }
 
     public ArrayList<CollectibleView> getCollectiveViews() {

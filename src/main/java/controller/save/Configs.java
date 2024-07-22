@@ -67,4 +67,9 @@ public class Configs {
     public String DEAD;
     public int DEAD_WIDTH;
     public int DEAD_HEIGHT;
+    public String AoE1;
+    public String AoE2;
+    public String AoE3;
+    public String AoE4;
+    public String AoE5;
 }

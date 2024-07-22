@@ -130,10 +130,10 @@ public class Update {
     }
     private static void updateAoEs(Archmire archmire){
         ArrayList<AoEAttack> aoes = archmire.getAoeAttacks();
-        Map<String, AoEView> aoEViewMap = GameManager.getINSTANCE().getGameView().getAoEViewMap();
+        Map<String, EnemyView> aoEViewMap = GameManager.getINSTANCE().getGameView().getAoEViewMap();
         for (int i = 0; i < aoes.size(); i++){
             if (aoEViewMap.get(aoes.get(i).getID()) != null) {
-                aoEViewMap.get(aoes.get(i).getID()).update(aoes.get(i).getClarity());
+                ((AoEView)aoEViewMap.get(aoes.get(i).getID())).update(aoes.get(i).getClarity());
             }
         }
     }

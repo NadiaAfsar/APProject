@@ -57,7 +57,7 @@ public class AoEAttack {
         clarity--;
         if (clarity == 0) {
             archmire.getAoeAttacks().remove(this);
-            Controller.removeAoEAttackView(this);
+            Controller.removeAoEAttackView(ID);
             return false;
         }
         return true;

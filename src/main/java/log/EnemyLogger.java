@@ -16,8 +16,6 @@ public class EnemyLogger {
             getNecropickInfo(logger, (Necropick) enemy);
         }
         else {
-            Direction direction = enemy.getDirection();
-            logger.info("direction: " + direction.toString());
             logger.info("velocity power: " + enemy.getVelocityPower());
             logger.info("velocity: " + enemy.getVelocity().toString());
             logger.info("acceleration: " + enemy.getAcceleration().toString());

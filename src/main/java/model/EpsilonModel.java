@@ -5,6 +5,7 @@ import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.Necropick;
 import model.enemies.normal.archmire.Archmire;
+import model.enemies.smiley.Fist;
 import model.frame.Frame;
 import model.interfaces.collision.Collidable;
 import model.interfaces.collision.Impactable;
@@ -95,21 +96,46 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
     private void addMoveTimers() {
         upTimer = new Timer(10, e -> {
-                center = new Point(center.getX(), center.getY()-0.5*sensitivity);
+            if (GameManager.getINSTANCE().isQuake()){
+                moveRandom();
+            }
+            else {
+                center = new Point(center.getX(), center.getY() - 0.5 * sensitivity);
+            }
                 setInFrame();
         });
         downTimer = new Timer(10, e -> {
-                center = new Point(center.getX(), center.getY()+0.5*sensitivity);
+            if (GameManager.getINSTANCE().isQuake()){
+                moveRandom();
+            }
+            else {
+                center = new Point(center.getX(), center.getY() + 0.5 * sensitivity);
+            }
                 setInFrame();
         });
         rightTimer = new Timer(10, e -> {
-                center = new Point(center.getX()+0.5*sensitivity, center.getY());
+            if (GameManager.getINSTANCE().isQuake()){
+                moveRandom();
+            }
+            else {
+                center = new Point(center.getX() + 0.5 * sensitivity, center.getY());
+            }
                 setInFrame();
         });
         leftTimer = new Timer(10, e -> {
-                center = new Point(center.getX()-0.5*sensitivity, center.getY());
+            if (GameManager.getINSTANCE().isQuake()){
+                moveRandom();
+            }
+            else {
+                center = new Point(center.getX() - 0.5 * sensitivity, center.getY());
+            }
                 setInFrame();
         });
+    }
+    private void moveRandom(){
+        double x = (-1+(Math.random()*3))*0.5;
+        double y = (-1+(Math.random()*3))*0.5;
+        center = new Point(center.getX()+x, center.getY()+y);
     }
 
     public int getX() {
@@ -300,6 +326,9 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         Point collisionPoint = collidable.getCollisionPoint(this);
         if (collisionPoint != null) {
             logger.debug("collided");
+            if (collidable instanceof Fist){
+                ((Fist)collidable).slapped();
+            }
             this.impact(collisionPoint, collidable);
         }
     }

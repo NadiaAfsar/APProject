@@ -10,6 +10,7 @@ import model.enemies.normal.Omenoct;
 import model.enemies.normal.Wyrm;
 import model.enemies.normal.archmire.AoEAttack;
 import model.enemies.normal.archmire.Archmire;
+import model.enemies.smiley.*;
 import model.frame.Frame;
 import model.interfaces.collision.Impactable;
 import controller.audio.Audio;
@@ -29,6 +30,7 @@ import view.game.enemies.black_orb.BlackOrbLaserView;
 import view.game.enemies.black_orb.BlackOrbVertexView;
 import view.game.enemies.necropick.NecropickAnnouncement;
 import view.game.enemies.necropick.NecropickView;
+import view.game.enemies.smiley.*;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -111,6 +113,22 @@ public class Controller {
             gameView.addEnemyView(new BarricadosView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
                     (int)enemy.getHeight(),  enemy.getID()));
         }
+        else if (enemy instanceof Smiley){
+            gameView.addEnemyView(new SmileyView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int) enemy.getHeight(), enemy.getID()));
+        }
+        else if (enemy instanceof RightHand){
+            gameView.addEnemyView(new RightHandView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int) enemy.getHeight(), enemy.getID()));
+        }
+        else if (enemy instanceof LeftHand){
+            gameView.addEnemyView(new LeftHandView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int) enemy.getHeight(), enemy.getID()));
+        }
+        else if (enemy instanceof Fist){
+            gameView.addEnemyView(new FistView(enemy.getX(), enemy.getY(), (int)enemy.getWidth(),
+                    (int) enemy.getHeight(), enemy.getID()));
+        }
     }
     public static void addArchmireView(Archmire archmire) {
         GameManager.getINSTANCE().getGameView().addArchmireView(new ArchmireView(archmire.getX(), archmire.getY(),
@@ -118,6 +136,10 @@ public class Controller {
     }
     public static void addAoEView(AoEAttack aoEAttack) {
         GameManager.getINSTANCE().getGameView().addAoEView(new AoEView(aoEAttack.getX(), aoEAttack.getY(),
+                (int)aoEAttack.getWidth(), (int)aoEAttack.getHeight(), aoEAttack.getID()));
+    }
+    public static void addSmileyAoE(SmileyAoEAttack aoEAttack){
+        GameManager.getINSTANCE().getGameView().addAoEView(new SmileyAoEView((int)aoEAttack.getX(), (int)aoEAttack.getY(),
                 (int)aoEAttack.getWidth(), (int)aoEAttack.getHeight(), aoEAttack.getID()));
     }
     public static void addBlackOrbVertexView(BlackOrbVertex blackOrbVertex) {
@@ -134,8 +156,8 @@ public class Controller {
     public static void removeArchmireView(Archmire archmire) {
         GameManager.getINSTANCE().getGameView().removeArchmireView(archmire.getID());
     }
-    public static void removeAoEAttackView(AoEAttack aoEAttack) {
-        GameManager.getINSTANCE().getGameView().removeAoEView(aoEAttack.getID());
+    public static void removeAoEAttackView(String ID) {
+        GameManager.getINSTANCE().getGameView().removeAoEView(ID);
     }
     public static void removeBlackOrbVertexView(BlackOrbVertex blackOrbVertex) {
         GameManager.getINSTANCE().getGameView().removeEnemyView(blackOrbVertex.getID());

@@ -101,7 +101,7 @@ public class Archmire extends Enemy implements Movable {
     }
     protected void removeAll(){
         for (int i = 0; i < aoeAttacks.size(); i++){
-           Controller.removeAoEAttackView(aoeAttacks.get(i));
+           Controller.removeAoEAttackView(aoeAttacks.get(i).getID());
         }
     }
 

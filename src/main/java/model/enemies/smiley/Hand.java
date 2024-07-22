@@ -1,5 +1,6 @@
 package model.enemies.smiley;
 
+import controller.Controller;
 import controller.GameManager;
 import model.enemies.Enemy;
 import model.frame.Frame;
@@ -14,6 +15,10 @@ public abstract class Hand extends Enemy {
         frame = new Frame(width+20, height+20, center.getX()-width/2-10, center.getY()-height/2-10,
                 false, false);
         HP = 100;
+        addVertexes();
+        frame.getEnemies().add(this);
+        Controller.addEnemyView(this);
+        GameManager.getINSTANCE().getGameModel().getFrames().add(frame);
     }
     public void setCenter(Point center){
         this.center = center;

@@ -48,6 +48,7 @@ public class GameManager {
     public static Configs configs;
     public static ReaderWriter readerWriter;
     private ArrayList<BulletModel> vanishedEnemiesBullets;
+    private boolean quake;
     private GameManager() {
         totalXP = 2000;
         sensitivity = 2;
@@ -358,4 +359,11 @@ public class GameManager {
         this.wait = wait;
     }
 
+    public boolean isQuake() {
+        return quake;
+    }
+
+    public void setQuake(boolean quake) {
+        this.quake = quake;
+    }
 }

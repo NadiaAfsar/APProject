@@ -1,6 +1,7 @@
 package controller.listeners;
 
 import controller.GameManager;
+import model.frame.Frame;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -13,8 +14,17 @@ public class GameMouseListener extends MouseAdapter{
     public void mouseClicked(MouseEvent e) {
         if (gameRunning) {
             super.mouseClicked(e);
-            int x = (int) MouseInfo.getPointerInfo().getLocation().getX();
-            int y = (int) MouseInfo.getPointerInfo().getLocation().getY();
+            int x = 0;
+            int y = 0;
+            if (GameManager.getINSTANCE().isQuake()){
+                Frame frame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
+                x = (int)frame.getX()+(int)(Math.random()* frame.getWidth());
+                y = (int)frame.getY()+(int)(Math.random()* frame.getHeight());
+            }
+            else {
+                x = (int) MouseInfo.getPointerInfo().getLocation().getX();
+                y = (int) MouseInfo.getPointerInfo().getLocation().getY();
+            }
             GameManager.getINSTANCE().getGameModel().getEpsilon().shootBullet(x,y);
         }
 

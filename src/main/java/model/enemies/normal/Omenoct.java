@@ -105,6 +105,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
 
     @Override
     public void specialMove() {
+        frame = GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame();
         Point chosenSide = getChosenSide();
         if ((chosenSide.getY() == 0 && Math.abs(center.getX()-chosenSide.getX()) < 10) ||
                 (chosenSide.getX() == 0 && Math.abs(center.getY()-chosenSide.getY()) < 10) && !stuck) {

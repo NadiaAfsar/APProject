@@ -89,6 +89,9 @@ public class Interference {
             frame1.getOverlaps().add(overlap);
         }
     }
+    public static boolean circleIsInCircle(Point center1, double radius1, Point center2, double radius2){
+        return (Calculations.getDistance(center1.getX(), center1.getY(), center2.getX(), center2.getY()) <= radius2-radius1);
+    }
 
 
 }

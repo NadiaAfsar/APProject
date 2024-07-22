@@ -93,9 +93,9 @@ public class GamePanel extends JPanel {
                 epsilon.getRadius()*2, null);
     }
     private void drawAoEs(Graphics g) {
-        ArrayList<AoEView> aoEViews = GameManager.getINSTANCE().getGameView().getAoEViews();
+        ArrayList<EnemyView> aoEViews = GameManager.getINSTANCE().getGameView().getAoEViews();
         for (int i = 0; i < aoEViews.size(); i++) {
-            AoEView aoEView = aoEViews.get(i);
+            EnemyView aoEView = aoEViews.get(i);
             g.drawImage(aoEView.getImage(), aoEView.getX()-x, aoEView.getY()-y,
                     aoEView.getWidth(), aoEView.getHeight(), null);
         }
