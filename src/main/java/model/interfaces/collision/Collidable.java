@@ -22,8 +22,8 @@ public interface Collidable {
 
     default Point getCollisionPoint(Collidable collidable) {
         if (this instanceof Smiley){
-                return circleWithCircle(getCenter(), collidable.getCenter(), ((Smiley) this).getWidth() / 2,
-                        ((EpsilonModel) collidable).getRadius());
+            return circleWithCircle(getCenter(), collidable.getCenter(), ((Smiley) this).getWidth() / 2,
+                    ((EpsilonModel) collidable).getRadius());
         }
         else if (collidable instanceof Smiley){
             return getCircleCollisionWithBullet(collidable.getCenter(), ((Smiley)collidable).getWidth()/2);

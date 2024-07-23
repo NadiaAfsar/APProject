@@ -103,6 +103,9 @@ public class Smiley extends Enemy implements Movable {
             if (projectile){
                 checkProjectile();
             }
+            if (powerPunch){
+                fist.move();
+            }
         }
         else {
             squeezeSetPosition();
@@ -142,6 +145,7 @@ public class Smiley extends Enemy implements Movable {
         }
     }
     public void run() {
+        startPhase2();
         while (true){
             move();
 //            if (phase == 1 && !squeezing && !projectile){
@@ -184,7 +188,7 @@ public class Smiley extends Enemy implements Movable {
     private void secondPhaseAttack() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastAttack >= 5000) {
-            vomit();
+            powerPunch();
             lastAttack = currentTime;
         }
     }
@@ -221,6 +225,10 @@ public class Smiley extends Enemy implements Movable {
         susceptible = false;
         setHandsSusceptible(true);
     }
+    private void startPhase2(){
+        phase = 2;
+        fist = new Fist(new Point(800, 300), velocityPower, this);
+    }
     private void vomit() {
         susceptible = true;
         setHandsSusceptible(false);
@@ -238,25 +246,22 @@ public class Smiley extends Enemy implements Movable {
     private void powerPunch(){
         susceptible = true;
         setHandsSusceptible(false);
-        double[] location = getNearestLocation();
+        double[] location = getLocation();
+        logger.debug(location[0]);
+        logger.debug(location[1]);
         fist.setDirection(location[0], location[1]);
         fist.setPowerPunch(true);
         powerPunch = true;
     }
-    private double[] getNearestLocation(){
-        Frame frame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
-        double d1 = Calculations.getDistance(fist.getX(), fist.getY(), frame.getX(), frame.getY()+frame.getHeight()/2);
-        double d2 = Calculations.getDistance(fist.getX(), fist.getY(), frame.getX()+frame.getWidth()/2, frame.getY());
-        double d3 = Calculations.getDistance(fist.getX(), fist.getY(), frame.getX()+frame.getWidth(), frame.getY()+frame.getHeight()/2);
-        double d4 = Calculations.getDistance(fist.getX(), fist.getY(), frame.getX()+frame.getWidth()/2, frame.getY()+frame.getHeight());
-        double min = Math.min(d1, Math.min(d2, Math.min(d3, d4)));
-        if (min == d1){
+    private double[] getLocation(){
+        int x = (int)(Math.random()*4);
+        if (x == 0){
             return new double[]{0, 0.5};
         }
-        else if (min == d2){
+        else if (x == 1){
             return new double[]{0.5, 0};
         }
-        else if (min == d3){
+        else if (x == 2){
             return new double[]{1, 0.5};
         }
         return new double[]{0.5, 1};
@@ -305,5 +310,6 @@ public class Smiley extends Enemy implements Movable {
         if (susceptible){
             super.decreaseHP(x);
         }
+        logger.debug("HP:"+HP);
     }
 }

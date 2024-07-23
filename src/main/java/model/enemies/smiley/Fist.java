@@ -9,6 +9,7 @@ import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -22,15 +23,18 @@ public class Fist extends Enemy implements Movable {
     private Smiley smiley;
     public Fist(Point center, double velocity, Smiley smiley) {
         super(center, velocity);
+        logger = Logger.getLogger(Fist.class.getName());
         width = GameManager.configs.FIST_WIDTH;
         height = GameManager.configs.FIST_HEIGHT;
         frame = new Frame(width+30, height+30, center.getX()-width/2-15, center.getY()-height/2-15,
                 false, false, width+30, height+30);
-        velocityPower = 5;
+        velocityPower*= 20;
+        addVertexes();
         this.smiley = smiley;
         frame.getEnemies().add(this);
         Controller.addEnemyView(this);
         GameManager.getINSTANCE().getGameModel().getFrames().add(frame);
+        GameManager.getINSTANCE().getGameModel().getEnemies().add(this);
     }
 
     @Override
@@ -87,11 +91,11 @@ public class Fist extends Enemy implements Movable {
             if (Math.abs(center.getX()-x) <= 10 && Math.abs(center.getY()-y) <= 10){
                 powerPunch = false;
                 if (xDirection == 0 || xDirection == 1){
-                    epsilonFrame.setX((xDirection*(-2)+1)*30);
+                    epsilonFrame.setX(epsilonFrame.getX()+(xDirection*(-2)+1)*30);
                     epsilonFrame.setWidth(epsilonFrame.getWidth()-30);
                 }
                 else {
-                    epsilonFrame.setY((yDirection*(-2)+1)*30);
+                    epsilonFrame.setY(epsilonFrame.getY()+(yDirection*(-2)+1)*30);
                     epsilonFrame.setHeight(epsilonFrame.getHeight()-30);
                 }
                 smiley.setPowerPunch(false);
@@ -128,5 +132,10 @@ public class Fist extends Enemy implements Movable {
         damage = 0;
         slap = false;
         smiley.setSlap(false);
+    }
+    public void setCenter(Point center){
+        this.center = center;
+        frame.setX(center.getX()-width/2-20);
+        frame.setY(center.getY()-height/2-20);
     }
 }
