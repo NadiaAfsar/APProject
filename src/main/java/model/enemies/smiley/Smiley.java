@@ -30,6 +30,7 @@ public class Smiley extends Enemy implements Movable {
     private long rapidFireActivated;
     private boolean slap;
     private long lastAttack;
+    private long lasShot;
     public Smiley(Point center, double velocity) {
         super(center, velocity);
         logger = Logger.getLogger(Smiley.class.getName());
@@ -105,6 +106,9 @@ public class Smiley extends Enemy implements Movable {
             }
             if (powerPunch || quake){
                 fist.move();
+            }
+            if (rapidFire){
+                shoot();
             }
         }
         else {
@@ -188,7 +192,7 @@ public class Smiley extends Enemy implements Movable {
     private void secondPhaseAttack() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastAttack >= 20000) {
-            quake();
+            rapidFire();
             lastAttack = currentTime;
         }
     }
@@ -286,12 +290,16 @@ public class Smiley extends Enemy implements Movable {
         setHandsSusceptible(false);
     }
     private void shoot(){
-        double x = Math.random()* Configs.FRAME_SIZE.width;
-        double y = Math.random()*Configs.FRAME_SIZE.height;
-        BulletModel bulletModel = new BulletModel(center, new Point(x, y),width/2,3,false, frame);
-        GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
-        if (System.currentTimeMillis()-rapidFireActivated >= 30000){
-            rapidFire = false;
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lasShot >= 500) {
+            double x = Math.random() * Configs.FRAME_SIZE.width;
+            double y = Math.random() * Configs.FRAME_SIZE.height;
+            BulletModel bulletModel = new BulletModel(center, new Point(x, y), width / 2, 3, false, frame);
+            GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
+            lasShot = currentTime;
+            if (System.currentTimeMillis() - rapidFireActivated >= 30000) {
+                rapidFire = false;
+            }
         }
     }
     private void setHandsSusceptible(boolean b){
