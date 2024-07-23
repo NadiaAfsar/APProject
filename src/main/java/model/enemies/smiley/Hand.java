@@ -2,12 +2,14 @@ package model.enemies.smiley;
 
 import controller.Controller;
 import controller.GameManager;
+import model.BulletModel;
 import model.enemies.Enemy;
 import model.frame.Frame;
 import model.interfaces.movement.Point;
 
 public abstract class Hand extends Enemy {
     private boolean susceptible;
+    private long lastShotTime;
     public Hand(Point center, double velocity) {
         super(center, velocity);
         width = GameManager.configs.HAND_WIDTH;
@@ -38,5 +40,19 @@ public abstract class Hand extends Enemy {
 
     public void setSusceptible(boolean susceptible) {
         this.susceptible = susceptible;
+    }
+    public void shoot() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastShotTime >= 2000) {
+            BulletModel bulletModel = new BulletModel(center, GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter(),
+                    height/2, 3, false, frame);
+            GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
+            lastShotTime = currentTime;
+        }
+    }
+    public void decreaseHP(int x){
+        if (susceptible){
+            super.decreaseHP(x);
+        }
     }
 }

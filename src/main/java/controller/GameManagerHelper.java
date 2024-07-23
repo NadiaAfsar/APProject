@@ -54,7 +54,7 @@ public class GameManagerHelper {
         //Enemy enemy = new Archmire(point,velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Barricados(new Point(1000, 300), velocity, true);
         //Enemy enemy = new BlackOrb(new Point(600, 300),velocity);
-        Enemy enemy = new Smiley(new Point(700,300),velocity);
+        Enemy enemy = new Smiley(new Point(700,100),velocity);
         return enemy;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet) {

@@ -39,6 +39,7 @@ public class Smiley extends Enemy implements Movable {
                 false, false, width+50, height+50);
         HP = 300;
         smileyAoEAttacks = new ArrayList<>();
+        velocityPower/=2;
         addVertexes();
         addHands();
         frame.getEnemies().add(this);
@@ -49,6 +50,7 @@ public class Smiley extends Enemy implements Movable {
 
     @Override
     protected void addVertexes() {
+        vertexes = new ArrayList<>();
         position = new RotatablePoint(center.getX(), center.getY(), 1.25*Math.PI, width*Math.sqrt(2));
     }
     private void addHands(){
@@ -67,12 +69,18 @@ public class Smiley extends Enemy implements Movable {
 
     @Override
     public Direction getDirection() {
+        if (squeezing){
+            Direction direction = new Direction();
+            direction.setDx(0);
+            direction.setDy(0);
+            return direction;
+        }
         Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
         Direction direction = new Direction(center, epsilonCenter);
         if (projectile) {
             Direction direction1 = new Direction();
-            direction1.setDx(direction.getDy()*3);
-            direction1.setDy(-direction.getDx()*3);
+            direction1.setDx(direction.getDy()*10);
+            direction1.setDy(-direction.getDx()*10);
             return direction1;
         }
         return direction;
@@ -80,11 +88,64 @@ public class Smiley extends Enemy implements Movable {
 
     @Override
     public void specialMove() {
-
+        if (!squeezing){
+            for (int i = 0; i < hands.size(); i++){
+                Hand hand = hands.get(i);
+                int j = -1;
+                if (hand instanceof RightHand){
+                    j = 1;
+                }
+                double x = frame.getX()+frame.getWidth()*((j+1)/2)+(GameManager.configs.HAND_WIDTH/2+20)*j;
+                double y = frame.getY()+frame.getHeight()/2;
+                hand.setCenter(new Point(x, y));
+            }
+            if (projectile){
+                checkProjectile();
+            }
+        }
+        else {
+            squeezeSetPosition();
+        }
+    }
+    private void checkProjectile(){
+        Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
+        double distance = Calculations.getDistance(epsilonCenter.getX(), epsilonCenter.getY(), center.getX(), center.getY());
+        if (Math.abs(distance-300) > 50 || hands.size()==0) {
+            projectile = false;
+            susceptible = true;
+            setHandsSusceptible(false);
+        }
+        else {
+            for (int i = 0; i < hands.size(); i++){
+                hands.get(i).shoot();
+            }
+        }
+    }
+    private void squeezeSetPosition(){
+        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        for (int i = 0; i < hands.size(); i++) {
+            Hand hand = hands.get(i);
+            int j = -1;
+            if (hand instanceof RightHand){
+                j = 1;
+            }
+            double x = epsilon.getFrame().getX()+j*(hand.getFrame().getWidth()/2+20)+epsilon.getFrame().getWidth()*((j+1)/2);
+            double y = epsilon.getFrame().getY()+20;
+            hand.setCenter(new Point(x, y));
+            hand.getFrame().setRigid(true);
+            hand.setSusceptible(false);
+        }
+        setCenter((new Point(epsilon.getFrame().getX()+epsilon.getFrame().getWidth()/2, center.getY())));
+        if (Math.abs(frame.getY()+frame.getHeight()-epsilon.getFrame().getY()) > 40){
+            squeezing = false;
+        }
     }
     public void run() {
         while (true){
-            squeeze();
+            move();
+            if (phase == 1 && !squeezing && !projectile){
+                firstPhaseAttack();
+            }
             try {
                 sleep((long)Configs.MODEL_UPDATE_TIME);
             } catch (InterruptedException e) {
@@ -92,14 +153,36 @@ public class Smiley extends Enemy implements Movable {
             }
         }
     }
-    private void firstFazeAttack() {
+    private void firstPhaseAttack() {
+        if (hands.size() != 0) {
+            Frame epsilonFrame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
+            if (Math.abs(frame.getY() + frame.getHeight() - epsilonFrame.getY()) < 40 && (Calculations.isInDomain(frame.getX(),
+                    epsilonFrame.getX(), epsilonFrame.getX() + epsilonFrame.getWidth()) ||
+                    Calculations.isInDomain(frame.getX() + frame.getWidth(), epsilonFrame.getX(),
+                            epsilonFrame.getX() + epsilonFrame.getWidth()))) {
+                logger.debug("squeeze");
+                squeeze();
+            } else {
+                Point epsilonCenter = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter();
+                double distance = Calculations.getDistance(epsilonCenter.getX(), epsilonCenter.getY(), center.getX(), center.getY());
+                //logger.debug("distance:" + distance);
+                if (Math.abs(distance-300) < 10) {
+                    logger.debug("projectile");
+                    projectile();
+                }
+            }
+        }
     }
     private void squeeze() {
         squeezing = true;
         EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
         for (int i = 0; i < hands.size(); i++) {
             Hand hand = hands.get(i);
-            double x = epsilon.getFrame().getX()+(-1+2*i)*(hand.getFrame().getWidth()/2+20)+epsilon.getFrame().getWidth()*i;
+            int j = -1;
+            if (hand instanceof RightHand){
+                j = 1;
+            }
+            double x = epsilon.getFrame().getX()+j*(hand.getFrame().getWidth()/2+20)+epsilon.getFrame().getWidth()*((j+1)/2);
             double y = epsilon.getFrame().getY()+20;
             hand.setCenter(new Point(x, y));
             hand.getFrame().setRigid(true);
@@ -202,5 +285,10 @@ public class Smiley extends Enemy implements Movable {
 
     public void setSlap(boolean slap) {
         this.slap = slap;
+    }
+    public void decreaseHP(int x){
+        if (susceptible){
+            super.decreaseHP(x);
+        }
     }
 }

@@ -96,9 +96,8 @@ public class Frame {
         this.y = y;
     }
     public void changeWidth(BulletModel bullet, int x) {
-        if (!stopMoving && !checkRigidFramesX()) {
+        if (!stopMoving && !checkRigidFramesX(x)) {
             if (!isRigid) {
-                if (!checkRigidFramesX()) {
                     if (x < 0) {
                         sides.get(4).separateAll();
                     } else {
@@ -107,7 +106,6 @@ public class Frame {
                     setX(getX() + x + bullet.getDirection().getDx() * 20);
                     setY(getY() + bullet.getDirection().getDy() * 20);
                     moveEntities(x + bullet.getDirection().getDx() * 20, bullet.getDirection().getDy() * 20);
-                }
             }
             if (!isIsometric) {
                 setWidth(getWidth() + 10);
@@ -123,9 +121,8 @@ public class Frame {
         }
     }
     public void changeHeight(BulletModel bullet, int y) {
-        if (!stopMoving && !checkRigidFramesY()) {
+        if (!stopMoving && !checkRigidFramesY(y)) {
             if (!isRigid) {
-                if (!checkRigidFramesY()) {
                     if (y < 0) {
                         sides.get(1).separateAll();
                     } else {
@@ -134,7 +131,6 @@ public class Frame {
                     setX(getX() + bullet.getDirection().getDx() * 20);
                     setY(getY() + y + bullet.getDirection().getDy() * 20);
                     moveEntities(bullet.getDirection().getDx() * 20, y + bullet.getDirection().getDy() * 20);
-                }
             }
             if (!isIsometric) {
                 setHeight(getHeight() + 10);
@@ -168,39 +164,43 @@ public class Frame {
         }
         return false;
     }
-    private boolean checkRigidFramesX() {
+    private boolean checkRigidFramesX(int x) {
         ArrayList<Frame> frames = GameManager.getINSTANCE().getGameModel().getFrames();
         for (int i = 0; i < frames.size(); i++){
             if (frames.get(i).isRigid && !frames.get(i).equals(this)){
                 Frame frame = frames.get(i);
-                if (Math.abs(getX()-frame.getX()+ frame.getWidth()) < 10 && (Calculations.isInDomain(getY(), frame.getY(), frame.getY()+frame.getHeight())
-                || Calculations.isInDomain(getY()+getHeight(), frame.getY(), frame.getY()+frame.getHeight()) ||
-                        Calculations.isInDomain(frame.getY() , getY(), getY() + getHeight()))){
-                    return true;
+                if (x < 0) {
+                    if (Math.abs(getX() - frame.getX() - frame.getWidth()) < 10 && (Calculations.isInDomain(getY(), frame.getY(), frame.getY() + frame.getHeight())
+                            || Calculations.isInDomain(getY() + getHeight(), frame.getY(), frame.getY() + frame.getHeight()) ||
+                            Calculations.isInDomain(frame.getY(), getY(), getY() + getHeight()))) {
+                        logger.debug(1);
+                        return true;
+                    }
                 }
                 else if (Math.abs(getX()+getWidth()-frame.getX()) < 10 && (Calculations.isInDomain(getY(), frame.getY(), frame.getY()+frame.getHeight())
                         || Calculations.isInDomain(getY()+getHeight(), frame.getY(), frame.getY()+frame.getHeight()) ||
                         Calculations.isInDomain(frame.getY() , getY(), getY() + getHeight()))){
+                    logger.debug(2);
                     return true;
                 }
             }
         }
         return false;
     }
-    private boolean checkRigidFramesY() {
+    private boolean checkRigidFramesY(int y) {
         ArrayList<Frame> frames = GameManager.getINSTANCE().getGameModel().getFrames();
         for (int i = 0; i < frames.size(); i++) {
             if (frames.get(i).isRigid && !frames.get(i).equals(this)) {
                 Frame frame = frames.get(i);
-                if (Math.abs(getY()-frame.getY() + frame.getHeight()) < 10 && (Calculations.isInDomain(getX(), frame.getX(), frame.getX() + frame.getWidth())
+                if (y < 0) {
+                    if (Math.abs(getY() - frame.getY() - frame.getHeight()) < 10 && (Calculations.isInDomain(getX(), frame.getX(), frame.getX() + frame.getWidth())
+                            || Calculations.isInDomain(getX() + getWidth(), frame.getX(), frame.getX() + frame.getWidth()) ||
+                            Calculations.isInDomain(frame.getX(), getX(), getX() + getWidth()))) {
+                        return true;
+                    }
+                }else if (Math.abs(getY() + getHeight()-frame.getY()) < 10 && (Calculations.isInDomain(getX(), frame.getX(), frame.getX() + frame.getWidth())
                         || Calculations.isInDomain(getX() + getWidth(), frame.getX(), frame.getX() + frame.getWidth()) ||
                         Calculations.isInDomain(frame.getX() , getX(), getX() + getWidth()))) {
-                    logger.debug(1);
-                    return true;
-                } else if (Math.abs(getY() + getHeight()-frame.getY()) < 10 && (Calculations.isInDomain(getX(), frame.getX(), frame.getX() + frame.getWidth())
-                        || Calculations.isInDomain(getX() + getWidth(), frame.getX(), frame.getX() + frame.getWidth()) ||
-                        Calculations.isInDomain(frame.getX() , getX(), getX() + getWidth()))) {
-                    logger.debug(2);
                     return true;
                 }
             }
