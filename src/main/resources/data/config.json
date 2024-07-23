@@ -56,9 +56,9 @@
   "DEAD": "src/main/resources/pictures/dead.png",
   "DEAD_WIDTH": 200,
   "DEAD_HEIGHT": 198,
-  "AoE1":"src/main/resources/pictures/aoe1.png",
-  "AoE2": "src/main/resources/pictures/aoe2.png",
-  "AoE3": "src/main/resources/pictures/aoe3.png",
-  "AoE4": "src/main/resources/pictures/aoe4.png",
-  "AoE5": "src/main/resources/pictures/aoe5.png"
+  "AoE1":"src/main/resources/pictures/smiley-aoe1.png",
+  "AoE2": "src/main/resources/pictures/smiley-aoe2.png",
+  "AoE3": "src/main/resources/pictures/smiley-aoe3.png",
+  "AoE4": "src/main/resources/pictures/smiley-aoe4.png",
+  "AoE5": "src/main/resources/pictures/smiley-aoe5.png"
 }

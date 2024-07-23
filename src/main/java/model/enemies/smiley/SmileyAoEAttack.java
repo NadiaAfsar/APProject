@@ -20,6 +20,7 @@ public class SmileyAoEAttack {
         this.smiley = smiley;
         radius = GameManager.configs.EPSILON_RADIUS+15;
         this.center = center;
+        clarity = 6;
         Controller.addSmileyAoE(this);
     }
     public boolean update() {
@@ -54,5 +55,9 @@ public class SmileyAoEAttack {
 
     public String getID() {
         return ID;
+    }
+
+    public int getClarity() {
+        return clarity;
     }
 }

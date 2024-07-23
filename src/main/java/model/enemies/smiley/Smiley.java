@@ -29,6 +29,7 @@ public class Smiley extends Enemy implements Movable {
     private boolean rapidFire;
     private long rapidFireActivated;
     private boolean slap;
+    private long lastAttack;
     public Smiley(Point center, double velocity) {
         super(center, velocity);
         logger = Logger.getLogger(Smiley.class.getName());
@@ -143,14 +144,21 @@ public class Smiley extends Enemy implements Movable {
     public void run() {
         while (true){
             move();
-            if (phase == 1 && !squeezing && !projectile){
-                firstPhaseAttack();
-            }
+//            if (phase == 1 && !squeezing && !projectile){
+//                firstPhaseAttack();
+//            }
+            secondPhaseAttack();
+            checkAoEs();
             try {
                 sleep((long)Configs.MODEL_UPDATE_TIME);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+    private void checkAoEs() {
+        for (int i = 0; i < smileyAoEAttacks.size(); i++){
+            smileyAoEAttacks.get(i).update();
         }
     }
     private void firstPhaseAttack() {
@@ -171,6 +179,13 @@ public class Smiley extends Enemy implements Movable {
                     projectile();
                 }
             }
+        }
+    }
+    private void secondPhaseAttack() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastAttack >= 5000) {
+            vomit();
+            lastAttack = currentTime;
         }
     }
     private void squeeze() {
@@ -210,7 +225,7 @@ public class Smiley extends Enemy implements Movable {
         susceptible = true;
         setHandsSusceptible(false);
         Frame frame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 5; i++){
             int x = (int)(Math.random()*frame.getWidth()+frame.getX());
             int y = (int)(Math.random()*frame.getHeight()+frame.getY());
             smileyAoEAttacks.add(new SmileyAoEAttack(this, new Point(x, y)));

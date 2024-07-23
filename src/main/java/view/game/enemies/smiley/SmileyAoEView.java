@@ -11,13 +11,16 @@ public class SmileyAoEView extends EnemyView {
     private int clarity;
     public SmileyAoEView(int x, int y, int width, int height, String ID) {
         super(x, y, width, height, GameManager.configs.AoE1, ID);
-        clarity = 5;
+        clarity = 6;
     }
     public void update(int clarity){
         if (this.clarity != clarity){
             this.clarity = clarity;
             String path = null;
-            if (clarity == 4){
+            if (clarity == 5){
+                path = GameManager.configs.AoE1;
+            }
+            else if (clarity == 4){
                 path = GameManager.configs.AoE2;
             }
             else if (clarity == 3){

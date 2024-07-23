@@ -10,6 +10,8 @@ import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.Enemy;
 import model.enemies.normal.archmire.AoEAttack;
 import model.enemies.normal.archmire.Archmire;
+import model.enemies.smiley.Smiley;
+import model.enemies.smiley.SmileyAoEAttack;
 import model.frame.Frame;
 import view.game.BulletView;
 import view.game.EpsilonView;
@@ -18,6 +20,7 @@ import view.game.GameView;
 import view.game.enemies.EnemyView;
 import view.game.enemies.archmire.AoEView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
+import view.game.enemies.smiley.SmileyAoEView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -73,6 +76,9 @@ public class Update {
                 enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
                 if (enemy instanceof Archmire){
                     updateAoEs((Archmire) enemy);
+                }
+                else if (enemy instanceof Smiley){
+                    updateSmileyAoEs((Smiley) enemy);
                 }
             }
         }
@@ -134,6 +140,15 @@ public class Update {
         for (int i = 0; i < aoes.size(); i++){
             if (aoEViewMap.get(aoes.get(i).getID()) != null) {
                 ((AoEView)aoEViewMap.get(aoes.get(i).getID())).update(aoes.get(i).getClarity());
+            }
+        }
+    }
+    private static void updateSmileyAoEs(Smiley smiley){
+        ArrayList<SmileyAoEAttack> aoes = smiley.getAoEAttacks();
+        Map<String, EnemyView> aoEViewMap = GameManager.getINSTANCE().getGameView().getAoEViewMap();
+        for (int i = 0; i < aoes.size(); i++){
+            if (aoEViewMap.get(aoes.get(i).getID()) != null) {
+                ((SmileyAoEView)aoEViewMap.get(aoes.get(i).getID())).update(aoes.get(i).getClarity());
             }
         }
     }
