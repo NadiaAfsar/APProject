@@ -12,18 +12,20 @@ public abstract class Hand extends Enemy {
         super(center, velocity);
         width = GameManager.configs.HAND_WIDTH;
         height = GameManager.configs.HAND_HEIGHT;
-        frame = new Frame(width+20, height+20, center.getX()-width/2-10, center.getY()-height/2-10,
-                false, false);
+        frame = new Frame(width+40, height+40, center.getX()-width/2-20, center.getY()-height/2-20,
+                false, false, width+40, height+40);
         HP = 100;
         addVertexes();
         frame.getEnemies().add(this);
         Controller.addEnemyView(this);
         GameManager.getINSTANCE().getGameModel().getFrames().add(frame);
+        GameManager.getINSTANCE().getGameModel().getEnemies().add(this);
     }
     public void setCenter(Point center){
         this.center = center;
-        frame.setX(center.getX()-width/2-10);
-        frame.setY(center.getY()-height/2-10);
+        frame.setX(center.getX()-width/2-20);
+        frame.setY(center.getY()-height/2-20);
+        moveVertexes();
     }
     @Override
     public void addCollective() {

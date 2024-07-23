@@ -35,7 +35,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         width = GameManager.configs.WYRM_WIDTH;
         height = GameManager.configs.WYRM_HEIGHT;
         frame = new Frame(width+100, height+100, center.getX()-width/2-10, center.getY()-height/2-10,
-                true, false);
+                true, false, width+100, height+100);
         addVertexes();
         frame.getEnemies().add(this);
         Controller.addEnemyView(this);

@@ -19,6 +19,8 @@ import java.util.UUID;
 public class Frame {
     private double width;
     private double height;
+    private double minWidth;
+    private double minHeight;
     private double x;
     private double y;
     private final boolean isIsometric;
@@ -33,12 +35,15 @@ public class Frame {
     private static int number;
     private boolean stopMoving;
 
-    public Frame(double width, double height, double x, double y, boolean isIsometric, boolean isRigid) {
+    public Frame(double width, double height, double x, double y, boolean isIsometric, boolean isRigid, double minWidth,
+                 double minHeight) {
         ID = UUID.randomUUID().toString();
         number++;
         logger = Logger.getLogger(Frame.class.getName()+number);
         this.width = width;
         this.height = height;
+        this.minWidth = minWidth;
+        this.minHeight = minHeight;
         this.x = x;
         this.y = y;
         this.isIsometric = isIsometric;
@@ -91,16 +96,18 @@ public class Frame {
         this.y = y;
     }
     public void changeWidth(BulletModel bullet, int x) {
-        if (!stopMoving) {
+        if (!stopMoving && !checkRigidFramesX()) {
             if (!isRigid) {
-                if (x < 0) {
-                    sides.get(4).separateAll();
-                } else {
-                    sides.get(2).separateAll();
+                if (!checkRigidFramesX()) {
+                    if (x < 0) {
+                        sides.get(4).separateAll();
+                    } else {
+                        sides.get(2).separateAll();
+                    }
+                    setX(getX() + x + bullet.getDirection().getDx() * 20);
+                    setY(getY() + bullet.getDirection().getDy() * 20);
+                    moveEntities(x + bullet.getDirection().getDx() * 20, bullet.getDirection().getDy() * 20);
                 }
-                setX(getX() + x + bullet.getDirection().getDx() * 20);
-                setY(getY() + bullet.getDirection().getDy() * 20);
-                moveEntities(x + bullet.getDirection().getDx() * 20, bullet.getDirection().getDy() * 20);
             }
             if (!isIsometric) {
                 setWidth(getWidth() + 10);
@@ -116,16 +123,18 @@ public class Frame {
         }
     }
     public void changeHeight(BulletModel bullet, int y) {
-        if (!stopMoving) {
+        if (!stopMoving && !checkRigidFramesY()) {
             if (!isRigid) {
-                if (y < 0) {
-                    sides.get(1).separateAll();
-                } else {
-                    sides.get(3).separateAll();
+                if (!checkRigidFramesY()) {
+                    if (y < 0) {
+                        sides.get(1).separateAll();
+                    } else {
+                        sides.get(3).separateAll();
+                    }
+                    setX(getX() + bullet.getDirection().getDx() * 20);
+                    setY(getY() + y + bullet.getDirection().getDy() * 20);
+                    moveEntities(bullet.getDirection().getDx() * 20, y + bullet.getDirection().getDy() * 20);
                 }
-                setX(getX() + bullet.getDirection().getDx() * 20);
-                setY(getY() + y + bullet.getDirection().getDy() * 20);
-                moveEntities(bullet.getDirection().getDx() * 20, y + bullet.getDirection().getDy() * 20);
             }
             if (!isIsometric) {
                 setHeight(getHeight() + 10);
@@ -159,6 +168,45 @@ public class Frame {
         }
         return false;
     }
+    private boolean checkRigidFramesX() {
+        ArrayList<Frame> frames = GameManager.getINSTANCE().getGameModel().getFrames();
+        for (int i = 0; i < frames.size(); i++){
+            if (frames.get(i).isRigid && !frames.get(i).equals(this)){
+                Frame frame = frames.get(i);
+                if (Math.abs(getX()-frame.getX()+ frame.getWidth()) < 10 && (Calculations.isInDomain(getY(), frame.getY(), frame.getY()+frame.getHeight())
+                || Calculations.isInDomain(getY()+getHeight(), frame.getY(), frame.getY()+frame.getHeight()) ||
+                        Calculations.isInDomain(frame.getY() , getY(), getY() + getHeight()))){
+                    return true;
+                }
+                else if (Math.abs(getX()+getWidth()-frame.getX()) < 10 && (Calculations.isInDomain(getY(), frame.getY(), frame.getY()+frame.getHeight())
+                        || Calculations.isInDomain(getY()+getHeight(), frame.getY(), frame.getY()+frame.getHeight()) ||
+                        Calculations.isInDomain(frame.getY() , getY(), getY() + getHeight()))){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean checkRigidFramesY() {
+        ArrayList<Frame> frames = GameManager.getINSTANCE().getGameModel().getFrames();
+        for (int i = 0; i < frames.size(); i++) {
+            if (frames.get(i).isRigid && !frames.get(i).equals(this)) {
+                Frame frame = frames.get(i);
+                if (Math.abs(getY()-frame.getY() + frame.getHeight()) < 10 && (Calculations.isInDomain(getX(), frame.getX(), frame.getX() + frame.getWidth())
+                        || Calculations.isInDomain(getX() + getWidth(), frame.getX(), frame.getX() + frame.getWidth()) ||
+                        Calculations.isInDomain(frame.getX() , getX(), getX() + getWidth()))) {
+                    logger.debug(1);
+                    return true;
+                } else if (Math.abs(getY() + getHeight()-frame.getY()) < 10 && (Calculations.isInDomain(getX(), frame.getX(), frame.getX() + frame.getWidth())
+                        || Calculations.isInDomain(getX() + getWidth(), frame.getX(), frame.getX() + frame.getWidth()) ||
+                        Calculations.isInDomain(frame.getX() , getX(), getX() + getWidth()))) {
+                    logger.debug(2);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
@@ -173,11 +221,11 @@ public class Frame {
     }
 
     public void decreaseSize() {
-        if (width > 300) {
+        if (width > minWidth) {
             width -= 0.1;
             sides.get(2).separateAll();
         }
-        if (height > 300) {
+        if (height > minHeight) {
             height -= 0.1;
             sides.get(3).separateAll();
         }
@@ -227,5 +275,13 @@ public class Frame {
 
     public void setRigid(boolean rigid) {
         isRigid = rigid;
+    }
+
+    public double getMinWidth() {
+        return minWidth;
+    }
+
+    public double getMinHeight() {
+        return minHeight;
     }
 }

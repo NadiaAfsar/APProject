@@ -36,7 +36,7 @@ public class Smiley extends Enemy implements Movable {
         width = 2 * GameManager.configs.SMILEY_RADIUS;
         height = 2 * GameManager.configs.SMILEY_RADIUS;
         frame = new Frame(width+50, height+50, center.getX()-width/2-25, center.getY()-height/2-25,
-                false, false);
+                false, false, width+50, height+50);
         HP = 300;
         smileyAoEAttacks = new ArrayList<>();
         addVertexes();
@@ -44,6 +44,7 @@ public class Smiley extends Enemy implements Movable {
         frame.getEnemies().add(this);
         Controller.addEnemyView(this);
         GameManager.getINSTANCE().getGameModel().getFrames().add(frame);
+        start();
     }
 
     @Override
@@ -51,10 +52,10 @@ public class Smiley extends Enemy implements Movable {
         position = new RotatablePoint(center.getX(), center.getY(), 1.25*Math.PI, width*Math.sqrt(2));
     }
     private void addHands(){
-        double x = frame.getX()+frame.getWidth()+GameManager.configs.HAND_WIDTH/2+10;
+        double x = frame.getX()+frame.getWidth()+GameManager.configs.HAND_WIDTH/2+20;
         double y = frame.getY()+frame.getHeight()/2;
         RightHand rightHand = new RightHand(new Point(x, y),velocityPower);
-        x = frame.getX()-GameManager.configs.HAND_WIDTH/2-10;
+        x = frame.getX()-GameManager.configs.HAND_WIDTH/2-20;
         LeftHand leftHand = new LeftHand(new Point(x, y), velocityPower);
         hands = new ArrayList<Hand>(){{add(rightHand);add(leftHand);}};
     }
@@ -83,7 +84,12 @@ public class Smiley extends Enemy implements Movable {
     }
     public void run() {
         while (true){
-
+            squeeze();
+            try {
+                sleep((long)Configs.MODEL_UPDATE_TIME);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     private void firstFazeAttack() {
@@ -93,16 +99,24 @@ public class Smiley extends Enemy implements Movable {
         EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
         for (int i = 0; i < hands.size(); i++) {
             Hand hand = hands.get(i);
-            double x = epsilon.getFrame().getX()-hand.getFrame().getWidth()+epsilon.getFrame().getWidth()*i;
+            double x = epsilon.getFrame().getX()+(-1+2*i)*(hand.getFrame().getWidth()/2+20)+epsilon.getFrame().getWidth()*i;
             double y = epsilon.getFrame().getY()+20;
             hand.setCenter(new Point(x, y));
             hand.getFrame().setRigid(true);
             hand.setSusceptible(false);
         }
-        frame.setX(epsilon.getFrame().getX()+(epsilon.getFrame().getWidth()-frame.getWidth())/2);
-        frame.setY(epsilon.getFrame().getY()-frame.getHeight());
+        setCenter((new Point(epsilon.getFrame().getX()+epsilon.getFrame().getWidth()/2,
+                epsilon.getFrame().getY()-frame.getHeight()/2)));
         susceptible = true;
 
+    }
+    public void setCenter(Point center){
+        this.center = center;
+        frame.setX(center.getX()-width/2-25);
+        frame.setY(center.getY()-height/2-25);
+        position.setX(center.getX());
+        position.setY(center.getY());
+        position.setAngle(position.getInitialAngle()+angle);
     }
     private void projectile() {
         projectile = true;

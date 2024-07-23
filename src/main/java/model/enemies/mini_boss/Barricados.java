@@ -23,7 +23,7 @@ public class Barricados extends Enemy {
         height = GameManager.configs.BARRICODES_HEIGHT;
         addVertexes();
         frame = new Frame(width+50, height+50, center.getX()-width/2-25, center.getY()-height/2-25,
-                true, isRigid);
+                true, isRigid, width+50, height+50);
         frame.getEnemies().add(this);
         Controller.addEnemyView(this);
         GameManager.getINSTANCE().getGameModel().getFrames().add(frame);

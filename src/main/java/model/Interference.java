@@ -60,8 +60,8 @@ public class Interference {
     public static boolean isInFrame(double x, double y, double width, double height, Frame frame) {
         double[] a = new double[]{x, x+width, y, y+height};
         double[] b = new double[]{frame.getX()-15, frame.getX()-15, frame.getY()-10, frame.getY()-10};
-        double[] c = new double[]{frame.getX()+ frame.getWidth()+10, frame.getX()+ frame.getWidth()+10,
-                frame.getY()+ frame.getHeight()+10, frame.getY()+ frame.getHeight()+10};
+        double[] c = new double[]{frame.getX()+ frame.getWidth()+15, frame.getX()+ frame.getWidth()+15,
+                frame.getY()+ frame.getHeight()+15, frame.getY()+ frame.getHeight()+15};
         for (int i = 0; i < 4; i++){
             if (!Calculations.isInDomain(a[i], b[i], c[i])){
                 return false;

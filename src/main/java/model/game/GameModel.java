@@ -36,7 +36,8 @@ public abstract class GameModel {
         collectibles = new ArrayList<>();
         enemiesBullets = new ArrayList<>();
         frames = new ArrayList<>();
-        epsilon = new EpsilonModel(new Frame(700, 700,0,0,false,false));
+        epsilon = new EpsilonModel(new Frame(700, 700,0,0,false,false, 300,
+                300));
         frames.add(epsilon.getFrame());
         initialFrame = epsilon.getFrame();
 

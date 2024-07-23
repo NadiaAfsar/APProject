@@ -31,7 +31,7 @@ public class BlackOrbVertex implements Collidable {
         width = GameManager.configs.BLACKORBVERTEX_RADIUS*2;
         height = GameManager.configs.BLACKORBVERTEX_RADIUS*2;
         frame = new Frame(width+50, height+50, center.getX()-width/2-25, center.getY()-height/2-25,
-                true, false);
+                true, false, width+50, height+50);
         lasers = new ArrayList<>();
         frame.getBlackOrbVertices().add(this);
         GameManager.getINSTANCE().getGameModel().getFrames().add(frame);

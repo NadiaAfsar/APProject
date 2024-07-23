@@ -2,12 +2,15 @@ package model.interfaces.collision;
 
 
 import controller.GameManager;
+import javafx.scene.shape.Circle;
 import model.*;
 import model.enemies.Enemy;
 import model.enemies.mini_boss.Barricados;
+import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.Necropick;
 import model.enemies.normal.Wyrm;
+import model.enemies.smiley.Smiley;
 import model.interfaces.movement.RotatablePoint;
 import model.interfaces.movement.Point;
 
@@ -18,7 +21,14 @@ public interface Collidable {
     ArrayList<RotatablePoint> getVertexes();
 
     default Point getCollisionPoint(Collidable collidable) {
-        if (Calculations.getDistance(getCenter().getX(), getCenter().getY(), collidable.getCenter().getX(),
+        if (this instanceof Smiley){
+                return circleWithCircle(getCenter(), collidable.getCenter(), ((Smiley) this).getWidth() / 2,
+                        ((EpsilonModel) collidable).getRadius());
+        }
+        else if (collidable instanceof Smiley){
+            return getCircleCollisionWithBullet(collidable.getCenter(), ((Smiley)collidable).getWidth()/2);
+        }
+        else if (Calculations.getDistance(getCenter().getX(), getCenter().getY(), collidable.getCenter().getX(),
                 collidable.getCenter().getY()) <= 100) {
             if (this instanceof BulletModel) {
                 if (collidable instanceof Enemy) {
@@ -29,7 +39,8 @@ public interface Collidable {
                     }
                 } else if (collidable instanceof BlackOrbVertex) {
                     return getCircleCollisionWithBullet(collidable.getCenter(), ((BlackOrbVertex) collidable).getWidth() / 2);
-                } else {
+                }
+                else {
                     return getCircleCollisionWithBullet(collidable.getCenter(), ((EpsilonModel) collidable).getRadius());
                 }
             } else if (this instanceof BlackOrbVertex) {
@@ -54,10 +65,12 @@ public interface Collidable {
     }
 
     default Point getBlackOrbCollisionWithEpsilon(EpsilonModel epsilon) {
-        double distance = Calculations.getDistance(getCenter().getX(), getCenter().getY(), epsilon.getCenter().getX(), epsilon.getCenter().getY());
-        if (distance <= epsilon.getRadius()+((BlackOrbVertex)this).getWidth()/2) {
-            return new Point((epsilon.getCenter().getX()+getCenter().getX())/2,
-                    (epsilon.getCenter().getY()+getCenter().getY())/2);
+        return circleWithCircle(epsilon.getCenter(), getCenter(), epsilon.getRadius(), ((BlackOrb)this).getWidth()/2);
+    }
+    default Point circleWithCircle(Point center1, Point center2, double radius1, double radius2){
+        double distance = Calculations.getDistance(center1.getX(), center1.getY(), center2.getX(), center2.getY());
+        if (distance <= radius1+radius2) {
+            return new Point((center1.getX()+center2.getX())/2, (center1.getY()+center2.getY())/2);
         }
         return null;
     }

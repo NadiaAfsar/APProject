@@ -52,7 +52,7 @@ public class GameManagerHelper {
         //Enemy enemy = new TrigorathModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Necropick(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Archmire(point,velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
-        //Enemy enemy = new Barricados(new Point(800, 300), velocity, false);
+        //Enemy enemy = new Barricados(new Point(1000, 300), velocity, true);
         //Enemy enemy = new BlackOrb(new Point(600, 300),velocity);
         Enemy enemy = new Smiley(new Point(700,300),velocity);
         return enemy;

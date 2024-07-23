@@ -25,7 +25,7 @@ public class Fist extends Enemy implements Movable {
         width = GameManager.configs.FIST_WIDTH;
         height = GameManager.configs.FIST_HEIGHT;
         frame = new Frame(width+30, height+30, center.getX()-width/2-15, center.getY()-height/2-15,
-                false, false);
+                false, false, width+30, height+30);
         velocityPower = 5;
         this.smiley = smiley;
         frame.getEnemies().add(this);
