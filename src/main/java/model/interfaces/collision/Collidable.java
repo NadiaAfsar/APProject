@@ -10,10 +10,13 @@ import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.Necropick;
 import model.enemies.normal.Wyrm;
+import model.enemies.smiley.Fist;
+import model.enemies.smiley.Hand;
 import model.enemies.smiley.Smiley;
 import model.interfaces.movement.RotatablePoint;
 import model.interfaces.movement.Point;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -101,7 +104,8 @@ public interface Collidable {
         if (epsilonModel.getVertexes().size() != 0) {
             Point collisionPoint = checkVertexes(epsilonModel.getVertexes(), vertexes);
             if (collisionPoint != null) {
-                if (!(this instanceof Wyrm) && !(this instanceof Barricados)) {
+                if (!(this instanceof Wyrm) && !(this instanceof Barricados) && !(this instanceof Smiley) &&
+                        !(this instanceof Hand) && !(this instanceof Fist)) {
                     Enemy enemy = (Enemy) this;
                     enemy.decreaseHP(5 + GameManager.getINSTANCE().getGameModel().getAres());
                 }

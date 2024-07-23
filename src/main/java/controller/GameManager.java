@@ -8,6 +8,8 @@ import controller.update.ViewLoop;
 import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
+import model.enemies.smiley.Fist;
+import model.enemies.smiley.Smiley;
 import model.interfaces.collision.Impactable;
 import controller.audio.AudioController;
 import model.BulletModel;
@@ -49,6 +51,7 @@ public class GameManager {
     public static ReaderWriter readerWriter;
     private ArrayList<BulletModel> vanishedEnemiesBullets;
     private boolean quake;
+    public Smiley smiley;
     private GameManager() {
         totalXP = 2000;
         sensitivity = 2;
@@ -165,7 +168,7 @@ public class GameManager {
             Point point = bullet.getCollisionPoint(enemy);
             if (point != null) {
                 bulletCollided(bullet, point, vanishedBullets);
-                if (!(enemy instanceof Barricados)) {
+                if (!(enemy instanceof Barricados) && !(enemy instanceof Fist)) {
                     enemy.decreaseHP(bullet.getDamage());
                 }
             }
@@ -365,5 +368,13 @@ public class GameManager {
 
     public void setQuake(boolean quake) {
         this.quake = quake;
+    }
+
+    public Smiley getSmiley() {
+        return smiley;
+    }
+
+    public void setSmiley(Smiley smiley) {
+        this.smiley = smiley;
     }
 }

@@ -6,6 +6,7 @@ import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.Necropick;
 import model.enemies.normal.archmire.Archmire;
 import model.enemies.smiley.Fist;
+import model.enemies.smiley.Smiley;
 import model.frame.Frame;
 import model.interfaces.collision.Collidable;
 import model.interfaces.collision.Impactable;
@@ -291,6 +292,9 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         BulletModel bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
                 5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame);
         GameManager.getINSTANCE().getGameModel().getBullets().add(bulletModel);
+        if (GameManager.getINSTANCE().getWave() == 2){
+            GameManager.getINSTANCE().getSmiley().bulletShot(bulletModel);
+        }
     }
     public void nextMove() {
             move();

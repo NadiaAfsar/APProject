@@ -55,7 +55,8 @@ public class Configs {
     public String COLLECTIBLE;
     public String NECROPICK_ANNOUNCEMENT;
     public int NECROPICK_ANNOUNCEMENT_WIDTH;
-    public String SMILEY;
+    public String SMILEY1;
+    public String SMILEY2;
     public int SMILEY_RADIUS;
     public String FIST;
     public String RIGHT_HAND;

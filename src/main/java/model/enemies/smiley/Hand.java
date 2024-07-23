@@ -14,8 +14,8 @@ public abstract class Hand extends Enemy {
         super(center, velocity);
         width = GameManager.configs.HAND_WIDTH;
         height = GameManager.configs.HAND_HEIGHT;
-        frame = new Frame(width+40, height+40, center.getX()-width/2-20, center.getY()-height/2-20,
-                false, false, width+40, height+40);
+        frame = new Frame(width+80, height+80, center.getX()-width/2-40, center.getY()-height/2-40,
+                false, false, width+80, height+80);
         HP = 100;
         addVertexes();
         frame.getEnemies().add(this);
@@ -25,8 +25,8 @@ public abstract class Hand extends Enemy {
     }
     public void setCenter(Point center){
         this.center = center;
-        frame.setX(center.getX()-width/2-20);
-        frame.setY(center.getY()-height/2-20);
+        frame.setX(center.getX()-width/2-40);
+        frame.setY(center.getY()-height/2-40);
         moveVertexes();
     }
     @Override

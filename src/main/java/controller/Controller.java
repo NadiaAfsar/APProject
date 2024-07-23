@@ -173,6 +173,9 @@ public class Controller {
         endGame();
         new GameOver(xp);
     }
+    public static void smileyPhase2(Smiley smiley) {
+        ((SmileyView)GameManager.getINSTANCE().getGameView().getEnemiesMap().get(smiley.getID())).phase2();
+    }
 
     public static void setXP(int xp) {
         GameManager.getINSTANCE().setTotalXP(xp);
