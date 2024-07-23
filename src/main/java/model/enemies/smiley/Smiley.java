@@ -103,7 +103,7 @@ public class Smiley extends Enemy implements Movable {
             if (projectile){
                 checkProjectile();
             }
-            if (powerPunch){
+            if (powerPunch || quake){
                 fist.move();
             }
         }
@@ -187,8 +187,8 @@ public class Smiley extends Enemy implements Movable {
     }
     private void secondPhaseAttack() {
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastAttack >= 5000) {
-            powerPunch();
+        if (currentTime - lastAttack >= 20000) {
+            quake();
             lastAttack = currentTime;
         }
     }
@@ -269,6 +269,7 @@ public class Smiley extends Enemy implements Movable {
     private void quake() {
         fist.setQuake(true);
         quake = true;
+        logger.debug("quake started");
     }
 
     public void setQuake(boolean quake) {

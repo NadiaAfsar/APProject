@@ -28,7 +28,7 @@ public class Fist extends Enemy implements Movable {
         height = GameManager.configs.FIST_HEIGHT;
         frame = new Frame(width+30, height+30, center.getX()-width/2-15, center.getY()-height/2-15,
                 false, false, width+30, height+30);
-        velocityPower*= 20;
+        velocityPower*= 30;
         addVertexes();
         this.smiley = smiley;
         frame.getEnemies().add(this);
@@ -68,13 +68,17 @@ public class Fist extends Enemy implements Movable {
             double y = epsilonFrame.getY()+epsilonFrame.getHeight()*yDirection-this.frame.getHeight()/2;
             return new Direction(center, new Point(x,y));
         }
-        else if (quake){
+        else if (quake && quakeActivated == 0){
+            logger.debug(quakeActivated);
             return new Direction(center, new Point(center.getX(), Configs.FRAME_SIZE.height-frame.getHeight()/2-30));
         }
         else if (slap){
             return new Direction(center,GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
         }
-        return new Direction(new Point(0, 0), new Point(0, 0));
+        Direction direction = new Direction();
+        direction.setDy(0);
+        direction.setDy(0);
+        return direction;
     }
 
     public void setDirection(double x, double y) {
@@ -85,35 +89,44 @@ public class Fist extends Enemy implements Movable {
     @Override
     public void specialMove() {
         if (powerPunch){
-            Frame epsilonFrame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
-            double x = epsilonFrame.getX()+epsilonFrame.getWidth()*xDirection-this.frame.getWidth()/2;
-            double y = epsilonFrame.getY()+epsilonFrame.getHeight()*yDirection-this.frame.getHeight()/2;
-            if (Math.abs(center.getX()-x) <= 10 && Math.abs(center.getY()-y) <= 10){
-                powerPunch = false;
-                if (xDirection == 0 || xDirection == 1){
-                    epsilonFrame.setX(epsilonFrame.getX()+(xDirection*(-2)+1)*30);
-                    epsilonFrame.setWidth(epsilonFrame.getWidth()-30);
-                }
-                else {
-                    epsilonFrame.setY(epsilonFrame.getY()+(yDirection*(-2)+1)*30);
-                    epsilonFrame.setHeight(epsilonFrame.getHeight()-30);
-                }
-                smiley.setPowerPunch(false);
-            }
+            checkPowerPunch();
         }
         if (quake){
-            if (center.getY() >= Configs.FRAME_SIZE.height-frame.getHeight()/2-30) {
-                GameManager.getINSTANCE().setQuake(true);
-                long currentTime = System.currentTimeMillis();
-                if (quakeActivated == 0 || currentTime-quakeActivated < 2000){
-                    quakeActivated = currentTime;
-                }
-                else {
-                    quake = false;
-                    smiley.setQuake(false);
-                    quakeActivated = 0;
-                }
+            checkQuake();
+        }
+    }
+    private void checkPowerPunch() {
+        Frame epsilonFrame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
+        double x = epsilonFrame.getX()+epsilonFrame.getWidth()*xDirection-this.frame.getWidth()/2;
+        double y = epsilonFrame.getY()+epsilonFrame.getHeight()*yDirection-this.frame.getHeight()/2;
+        if (Math.abs(center.getX()-x) <= 10 && Math.abs(center.getY()-y) <= 10){
+            powerPunch = false;
+            if (xDirection == 0 || xDirection == 1){
+                epsilonFrame.setX(epsilonFrame.getX()+(xDirection*(-2)+1)*30);
+                epsilonFrame.setWidth(epsilonFrame.getWidth()-30);
             }
+            else {
+                epsilonFrame.setY(epsilonFrame.getY()+(yDirection*(-2)+1)*30);
+                epsilonFrame.setHeight(epsilonFrame.getHeight()-30);
+            }
+            smiley.setPowerPunch(false);
+        }
+    }
+    private void checkQuake(){
+        long currentTime = System.currentTimeMillis();
+        if (center.getY() >= Configs.FRAME_SIZE.height-frame.getHeight()/2-30) {
+            logger.debug(center.getY());
+            GameManager.getINSTANCE().setQuake(true);
+            quakeActivated = currentTime;
+            setCenter(new Point(center.getX(), center.getY()-100));
+            logger.debug("quake activated");
+        }
+        else if (currentTime - quakeActivated >= 8000 && quakeActivated != 0){
+            quake = false;
+            quakeActivated = 0;
+            smiley.setQuake(false);
+            GameManager.getINSTANCE().setQuake(false);
+            logger.debug("quake ended");
         }
     }
 
@@ -135,7 +148,7 @@ public class Fist extends Enemy implements Movable {
     }
     public void setCenter(Point center){
         this.center = center;
-        frame.setX(center.getX()-width/2-20);
-        frame.setY(center.getY()-height/2-20);
+        frame.setX(center.getX()-width/2-15);
+        frame.setY(center.getY()-height/2-15);
     }
 }
