@@ -104,7 +104,7 @@ public class Smiley extends Enemy implements Movable {
             if (projectile){
                 checkProjectile();
             }
-            if (powerPunch || quake){
+            if (powerPunch || quake || slap){
                 fist.move();
             }
             if (rapidFire){
@@ -192,7 +192,7 @@ public class Smiley extends Enemy implements Movable {
     private void secondPhaseAttack() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastAttack >= 20000) {
-            rapidFire();
+            slap();
             lastAttack = currentTime;
         }
     }
