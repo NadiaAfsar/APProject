@@ -15,6 +15,7 @@ import model.enemies.smiley.Hand;
 import model.enemies.smiley.Smiley;
 import model.interfaces.movement.RotatablePoint;
 import model.interfaces.movement.Point;
+import model.skills.defence.WritOfMelampus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -120,7 +121,9 @@ public interface Collidable {
             collisionPoint = checkCollisionWithVertex(epsilonModel.getCenter(), vertexes.get(i));
             if (collisionPoint != null) {
                 if (!(this instanceof Necropick) && !(this instanceof Wyrm) && !(this instanceof Barricados)) {
-                    epsilonModel.decreaseHP(((Enemy) this).getDamage());
+                    if (WritOfMelampus.damage()) {
+                        epsilonModel.decreaseHP(((Enemy) this).getDamage());
+                    }
                 }
                 return collisionPoint;
             }

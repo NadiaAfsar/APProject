@@ -116,7 +116,7 @@ public class Fist extends Enemy implements Movable {
         long currentTime = System.currentTimeMillis();
         if (center.getY() >= Configs.FRAME_SIZE.height-frame.getHeight()/2-30) {
             logger.debug(center.getY());
-            GameManager.getINSTANCE().setQuake(true);
+            GameManager.getINSTANCE().getGameModel().setQuake(true);
             quakeActivated = currentTime;
             setCenter(new Point(center.getX(), center.getY()-100));
             logger.debug("quake activated");
@@ -125,7 +125,7 @@ public class Fist extends Enemy implements Movable {
             quake = false;
             quakeActivated = 0;
             smiley.setQuake(false);
-            GameManager.getINSTANCE().setQuake(false);
+            GameManager.getINSTANCE().getGameModel().setQuake(false);
             logger.debug("quake ended");
         }
     }

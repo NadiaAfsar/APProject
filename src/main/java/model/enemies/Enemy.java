@@ -9,6 +9,7 @@ import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.Wyrm;
 import model.enemies.normal.archmire.Archmire;
 import model.frame.Frame;
+import model.game.GameModel;
 import model.interfaces.collision.Collidable;
 import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Direction;
@@ -102,13 +103,15 @@ public abstract class Enemy extends Thread implements Collidable{
 
     public void decreaseHP(int x) {
         HP -= x;
+        GameModel gameModel = GameManager.getINSTANCE().getGameModel();
+        gameModel.getEpsilon().setHP(gameModel.getEpsilon().getHP()+gameModel.getChiron());
         if (HP <= 0) {
             die();
         }
     }
     protected void die() {
         addCollective();
-        GameManager.getINSTANCE().getDiedEnemies().add(this);
+        GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
         Controller.removeEnemyView(this);
         AudioController.addEnemyDyingSound();
         died = true;

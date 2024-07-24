@@ -44,13 +44,13 @@ public class Wave {
     }
     private void waitBeforeNextWave() {
         if (waveNumber != 1) {
-            GameManager.getINSTANCE().setWait(true);
+            GameManager.getINSTANCE().getGameModel().setWait(true);
             AudioController.addWaveEndSound();
             Timer timer = new Timer(2000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     startWave();
-                    GameManager.getINSTANCE().setWait(false);
+                    GameManager.getINSTANCE().getGameModel().setWait(false);
                 }
             });
             timer.setRepeats(false);

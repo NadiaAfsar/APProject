@@ -31,9 +31,10 @@ public class EpsilonView{
         }
         vertexes = new ArrayList<>();
     }
-    public void update(int x, int y) {
+    public void update(int x, int y, int radius) {
         this.x  = x;
         this.y = y;
+        this.radius = radius;
     }
 
     public void addVertex(int x, int y) {
@@ -68,13 +69,6 @@ public class EpsilonView{
             }
         }
     }
-    public void increaseSize(int x, int y, int radius) {
-        Image image = this.image.getScaledInstance(2*radius,2*radius, Image.SCALE_DEFAULT);
-        this.radius = radius;
-        update(x,y);
-    }
-
-
     public int getX() {
         return x;
     }

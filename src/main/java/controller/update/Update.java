@@ -33,13 +33,13 @@ public class Update {
                 EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
                 GameView gameView = GameManager.getINSTANCE().getGameView();
                 EpsilonView epsilonView = GameManager.getINSTANCE().getGameView().getEpsilonView();
-                gameView.update(epsilon.getHP(), epsilon.getXP(), GameManager.getINSTANCE().getWave(),
-                        GameManager.getINSTANCE().getTimePlayed(), GameManager.getINSTANCE().getPickedSkill());
+                gameView.update(epsilon.getHP(), epsilon.getXP(), GameManager.getINSTANCE().getGameModel().getWave(),
+                        GameManager.getINSTANCE().getGameModel().getTimePlayed()/1000, GameManager.getINSTANCE().getPickedSkill());
                 gameView.updatePanels();
                 updateEnemies();
                 updateBullets();
                 updateEnemiesBullets();
-                epsilonView.update(epsilon.getX(), epsilon.getY());
+                epsilonView.update(epsilon.getX(), epsilon.getY(), epsilon.getRadius());
                 epsilonView.updateVertexes(epsilon.getVertexes());
                 epsilonView.updateCerberuses(epsilon.getCerberusList());
                 updatePanels();

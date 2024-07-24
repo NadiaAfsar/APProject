@@ -5,6 +5,7 @@ import controller.GameManager;
 import controller.audio.AudioController;
 import model.Collectible;
 import model.frame.Frame;
+import model.game.GameModel;
 import model.interfaces.collision.Collidable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
@@ -58,6 +59,8 @@ public class BlackOrbVertex implements Collidable {
     }
     public void decreaseHP(int x) {
         HP -= x;
+        GameModel gameModel = GameManager.getINSTANCE().getGameModel();
+        gameModel.getEpsilon().setHP(gameModel.getEpsilon().getHP()+gameModel.getChiron());
         if (HP <= 0) {
             die(blackOrb.getLasers());
         }

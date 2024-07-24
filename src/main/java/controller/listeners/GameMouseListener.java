@@ -16,7 +16,7 @@ public class GameMouseListener extends MouseAdapter{
             super.mouseClicked(e);
             int x = 0;
             int y = 0;
-            if (GameManager.getINSTANCE().isQuake()){
+            if (GameManager.getINSTANCE().getGameModel().isQuake()){
                 Frame frame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
                 x = (int)frame.getX()+(int)(Math.random()* frame.getWidth());
                 y = (int)frame.getY()+(int)(Math.random()* frame.getHeight());

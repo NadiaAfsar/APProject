@@ -79,6 +79,7 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        drawCerberus(g);
         drawLasers(g);
         drawAoEs(g);
         drawArchmires(g);
@@ -154,6 +155,14 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < vertices.size(); i++){
             Vertex vertex = vertices.get(i);
             g.drawImage(vertex.getImage(), vertex.getX()-x, vertex.getY()-y, vertex.getWidth(), vertex.getHeight(), null);
+        }
+    }
+    private void drawCerberus(Graphics g){
+        ArrayList<Vertex> cerberuses = GameManager.getINSTANCE().getGameView().getEpsilonView().getCerberuses();
+        for (int i = 0; i < cerberuses.size(); i++){
+            Vertex cerberus = cerberuses.get(i);
+            g.drawImage(cerberus.getImage(), cerberus.getX()-x, cerberus.getY()-y, cerberus.getWidth(),
+                    cerberus.getHeight(), null);
         }
     }
 

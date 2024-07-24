@@ -128,7 +128,7 @@ public class Shop extends JFrame {
     }
     private void resumeGame() {
         Controller.gameRunning = true;
-        GameManager.getINSTANCE().setLastSavedTime();
+        GameManager.getINSTANCE().getGameModel().setLastSavedTime(System.currentTimeMillis());
         dispose();
     }
     private void addMainMenu() {

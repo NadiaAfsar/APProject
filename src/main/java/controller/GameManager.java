@@ -9,7 +9,6 @@ import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.smiley.Fist;
-import model.enemies.smiley.Smiley;
 import model.interfaces.collision.Impactable;
 import controller.audio.AudioController;
 import model.BulletModel;
@@ -21,7 +20,7 @@ import model.game.GameModel;
 import model.game.HardGame;
 import model.game.MediumGame;
 import model.skills.Skill;
-import model.skills.WritOfAceso;
+import model.skills.defence.WritOfAceso;
 import model.interfaces.movement.Point;
 import view.menu.GameFrame;
 import view.game.GameView;
@@ -34,25 +33,11 @@ public class GameManager {
     private static int difficulty;
     private static int sensitivity;
     private Skill pickedSkill;
-    private boolean gameStarted;
-    private ArrayList<Enemy> diedEnemies;
-    private ArrayList<BulletModel> vanishedBullets;
-    private ArrayList<Collectible> takenCollectibles;
-    private boolean wait;
     private GameModel gameModel;
     private GameView gameView;
-    private boolean decreaseSize;
-    private int wave;
-    private long lastSavedTime;
-    private long timePlayed;
-    private Wave currentWave;
     private GameFrame gameFrame;
     public static Configs configs;
     public static ReaderWriter readerWriter;
-    private ArrayList<BulletModel> vanishedEnemiesBullets;
-    private boolean quake;
-    public Smiley smiley;
-    private int astarpe;
     private GameManager() {
         totalXP = 2000;
         sensitivity = 2;
@@ -64,8 +49,8 @@ public class GameManager {
         new ViewLoop().start();
     }
     public void startGame() {
-        decreaseSize = true;
-        wave = 1;
+        gameModel.setDecreaseSize(true);
+        gameModel.setWave(1);
         gameView = new GameView();
         if (difficulty == 1) {
             gameModel = new EasyGame();
@@ -76,25 +61,21 @@ public class GameManager {
         else {
             gameModel = new HardGame();
         }
-        diedEnemies = new ArrayList<>();
-        vanishedBullets = new ArrayList<>();
-        vanishedEnemiesBullets = new ArrayList<>();
-        lastSavedTime = System.currentTimeMillis();
     }
-    private void initialDecreaseSize() {
+    private void initialShrinkage() {
         gameModel.getEpsilon().getFrame().setWidth(gameModel.getEpsilon().getFrame().getWidth() - 4);
         gameModel.getEpsilon().getFrame().setHeight(gameModel.getEpsilon().getFrame().getHeight() - 4);
         gameModel.getEpsilon().getFrame().setX(Configs.FRAME_SIZE.width/2 - gameModel.getEpsilon().getFrame().getWidth()/2);
         gameModel.getEpsilon().getFrame().setY(Configs.FRAME_SIZE.height/2 - gameModel.getEpsilon().getFrame().getHeight()/2);
         gameModel.getEpsilon().setInCenter();
         if (gameModel.getEpsilon().getFrame().getWidth() == 500) {
-            gameStarted = true;
-            decreaseSize = false;
+            gameModel.setGameStarted(true);
+            gameModel.setDecreaseSize(false);
         }
     }
-    private void decreaseFramesSize() {
+    private void shrinkage() {
         for (int i = 0; i < gameModel.getFrames().size(); i++) {
-            gameModel.getFrames().get(i).decreaseSize();
+            gameModel.getFrames().get(i).shrinkage();
         }
         gameModel.getEpsilon().setInFrame();
     }
@@ -113,33 +94,33 @@ public class GameManager {
     private void checkEnemiesBulletsCollision() {
         for (int i = 0; i < gameModel.getEnemiesBullets().size(); i++) {
             BulletModel bullet = gameModel.getEnemiesBullets().get(i);
-            if (!checkBulletCollisionWithFrames(bullet, vanishedEnemiesBullets)) {
+            if (!checkBulletCollisionWithFrames(bullet, gameModel.getVanishedEnemiesBullets())) {
                 Point collisionPoint = bullet.getCollisionPoint(gameModel.getEpsilon());
                 if (collisionPoint != null) {
-                    bulletCollided(bullet, collisionPoint, vanishedEnemiesBullets);
+                    bulletCollided(bullet, collisionPoint, gameModel.getVanishedEnemiesBullets());
                     gameModel.getEpsilon().decreaseHP(bullet.getDamage());
                 }
             }
         }
-        gameModel.getEnemiesBullets().removeAll(vanishedEnemiesBullets);
-        vanishedEnemiesBullets = new ArrayList<>();
+        gameModel.getEnemiesBullets().removeAll(gameModel.getVanishedEnemiesBullets());
+        gameModel.setVanishedBullets(new ArrayList<>());
     }
     private void nextWave() {
-        if (currentWave != null) {
-            gameModel.setTotalPR(gameModel.getTotalPR() + currentWave.getProgressRate());
+        if (gameModel.getCurrentWave() != null) {
+            gameModel.setTotalPR(gameModel.getTotalPR() + gameModel.getCurrentWave().getProgressRate());
         }
-        currentWave = new Wave(wave, gameModel.getWaves().get(wave));
-        wave++;
+        gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getWaves().get(gameModel.getWave())));
+        gameModel.setWave(gameModel.getWave()+1);
     }
     private void checkBulletsCollision() {
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
             BulletModel bullet = gameModel.getBullets().get(i);
-            if (!checkBulletCollisionWithFrames(bullet, vanishedBullets)) {
+            if (!checkBulletCollisionWithFrames(bullet, gameModel.getVanishedBullets())) {
                 checkBulletCollisionWithEnemies(bullet);
             }
         }
-        gameModel.getBullets().removeAll(vanishedBullets);
-        vanishedBullets = new ArrayList<>();
+        gameModel.getBullets().removeAll(gameModel.getVanishedBullets());
+        gameModel.setVanishedBullets(new ArrayList<>());
     }
     private boolean checkBulletCollisionWithFrames(BulletModel bulletModel, ArrayList<BulletModel> vanishedBullets) {
         if (bulletModel.getFrame() != null) {
@@ -167,7 +148,7 @@ public class GameManager {
     private void checkCollisionWithEnemy(BulletModel bullet, Enemy enemy) {
             Point point = bullet.getCollisionPoint(enemy);
             if (point != null) {
-                bulletCollided(bullet, point, vanishedBullets);
+                bulletCollided(bullet, point, gameModel.getVanishedBullets());
                 if (!(enemy instanceof Barricados) && !(enemy instanceof Fist)) {
                     enemy.decreaseHP(bullet.getDamage());
                 }
@@ -178,7 +159,7 @@ public class GameManager {
         for (int i = 0; i < vertices.size(); i++) {
                 Point point = bullet.getCollisionPoint(vertices.get(i));
                 if (point != null) {
-                    bulletCollided(bullet, point, vanishedBullets);
+                    bulletCollided(bullet, point, gameModel.getVanishedBullets());
                     vertices.get(i).decreaseHP(bullet.getDamage());
                 }
         }
@@ -189,12 +170,12 @@ public class GameManager {
         Controller.removeBulletView(bullet);
     }
     private void checkCollectibles() {
-        takenCollectibles = new ArrayList<>();
+        gameModel.setTakenCollectibles(new ArrayList<>());
         for (int i = 0; i < gameModel.getCollectibles().size(); i++) {
             Collectible collectible = gameModel.getCollectibles().get(i);
             Point point = gameModel.getEpsilon().getCollisionPoint(gameModel.getCollectibles().get(i));
             if (point != null){
-                takenCollectibles.add(collectible);
+                gameModel.getTakenCollectibles().add(collectible);
                 gameModel.getEpsilon().setXP(gameModel.getEpsilon().getXP()+5+ gameModel.getEnemyXP());
                 Controller.removeCollectibleView(collectible);
                 AudioController.addXPCollectingSound();
@@ -202,30 +183,30 @@ public class GameManager {
             else {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime- collectible.getTime() >= 6000) {
-                    takenCollectibles.add(collectible);
+                    gameModel.getTakenCollectibles().add(collectible);
                     Controller.removeCollectibleView(collectible);
                 }
             }
         }
-        gameModel.getCollectibles().removeAll(takenCollectibles);
-        takenCollectibles = new ArrayList<>();
+        gameModel.getCollectibles().removeAll(gameModel.getTakenCollectibles());
+        gameModel.setTakenCollectibles(new ArrayList<>());
     }
     public void update() {
-        if (decreaseSize) {
-            initialDecreaseSize();
+        if (gameModel.isDecreaseSize()) {
+            initialShrinkage();
         }
         else {
-            decreaseFramesSize();
+            shrinkage();
         }
         moveBullets();
         gameModel.getEpsilon().nextMove();
         checkBulletsCollision();
         moveEnemiesBullets();
         checkEnemiesBulletsCollision();
-        gameModel.getEnemies().removeAll(diedEnemies);
-        diedEnemies = new ArrayList<>();
-        if (gameStarted && gameModel.getEnemies().size() == 0 && !wait) {
-            if (wave == 4) {
+        gameModel.getEnemies().removeAll(gameModel.getDiedEnemies());
+        gameModel.setDiedEnemies(new ArrayList<>());
+        if (gameModel.isGameStarted() && gameModel.getEnemies().size() == 0 && !gameModel.isWait()) {
+            if (gameModel.getWave() == 4) {
                 endGame();
             }
             else {
@@ -328,61 +309,13 @@ public class GameManager {
     public GameView getGameView() {
         return gameView;
     }
-
-    public int getWave() {
-        return wave;
-    }
-
-
-    public ArrayList<Enemy> getDiedEnemies() {
-            return diedEnemies;
-
-    }
-
     public GameFrame getGameFrame() {
         return gameFrame;
     }
-    public void setLastSavedTime() {
-        lastSavedTime = System.currentTimeMillis();
-    }
-
     private void setTimePlayed() {
         long newTime = System.currentTimeMillis();
-        long addedTime = newTime - lastSavedTime;
-        timePlayed += addedTime;
-        lastSavedTime = newTime;
-    }
-
-    public long getTimePlayed() {
-        return timePlayed/1000;
-    }
-
-
-    public void setWait(boolean wait) {
-        this.wait = wait;
-    }
-
-    public boolean isQuake() {
-        return quake;
-    }
-
-    public void setQuake(boolean quake) {
-        this.quake = quake;
-    }
-
-    public Smiley getSmiley() {
-        return smiley;
-    }
-
-    public void setSmiley(Smiley smiley) {
-        this.smiley = smiley;
-    }
-
-    public int getAstarpe() {
-        return astarpe;
-    }
-
-    public void setAstarpe(int astarpe) {
-        this.astarpe = astarpe;
+        long addedTime = newTime - gameModel.getLastSavedTime();
+        gameModel.setTimePlayed(gameModel.getTimePlayed()+addedTime);
+        gameModel.setLastSavedTime(newTime);
     }
 }

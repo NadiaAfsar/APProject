@@ -1,10 +1,11 @@
-package model.skills;
+package model.skills.defence;
 
 import controller.GameManager;
 import model.EpsilonModel;
 import model.game.GameModel;
+import model.skills.Skill;
 
-public class WritOfAceso extends Skill{
+public class WritOfAceso extends Skill {
     private long lastTimeAdded;
     private static boolean acesoUnlocked;
     private static boolean picked;

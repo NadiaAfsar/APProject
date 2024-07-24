@@ -94,7 +94,7 @@ public class Archmire extends Enemy implements Movable {
         addCollective();
         new MiniArchmire(new Point(center.getX()-width, center.getY()-height), velocityPower, initialHP/2,frame);
         new MiniArchmire(new Point(center.getX()+width, center.getY()+height), velocityPower, initialHP/2, frame);
-        GameManager.getINSTANCE().getDiedEnemies().add(this);
+        GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
         Controller.removeArchmireView(this);
         AudioController.addEnemyDyingSound();
         died = true;

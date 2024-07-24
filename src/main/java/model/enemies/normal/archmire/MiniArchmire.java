@@ -32,7 +32,7 @@ public class MiniArchmire extends Archmire{
     protected void die() {
         removeAll();
         addCollective();
-        GameManager.getINSTANCE().getDiedEnemies().add(this);
+        GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
         Controller.removeArchmireView(this);
         AudioController.addEnemyDyingSound();
         interrupt();

@@ -15,7 +15,7 @@ public class WritOfAstrape extends Skill {
         if (isTimeToActivate()) {
             EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
-                GameManager.getINSTANCE().setAstarpe(GameManager.getINSTANCE().getAstarpe()+2);
+                GameManager.getINSTANCE().getGameModel().setAstarpe(GameManager.getINSTANCE().getGameModel().getAstarpe()+2);
                 epsilon.setXP(epsilon.getXP()-100);
             }
         }

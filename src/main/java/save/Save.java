@@ -2,7 +2,7 @@ package save;
 
 import controller.GameManager;
 import model.skills.Skill;
-import model.skills.WritOfAceso;
+import model.skills.defence.WritOfAceso;
 import model.skills.attack.WritOfAres;
 import model.skills.WritOfProteus;
 

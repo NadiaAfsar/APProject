@@ -6,7 +6,6 @@ import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.Necropick;
 import model.enemies.normal.archmire.Archmire;
 import model.enemies.smiley.Fist;
-import model.enemies.smiley.Smiley;
 import model.frame.Frame;
 import model.interfaces.collision.Collidable;
 import model.interfaces.collision.Impactable;
@@ -45,6 +44,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private Logger logger;
     private Frame prevFrame;
     private ArrayList<RotatablePoint> cerberusList;
+    private long lastCerberusAttack;
 
     public EpsilonModel(Frame frame) {
         logger = Logger.getLogger(EpsilonModel.class);
@@ -99,7 +99,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     }
     private void addMoveTimers() {
         upTimer = new Timer(10, e -> {
-            if (GameManager.getINSTANCE().isQuake()){
+            if (GameManager.getINSTANCE().getGameModel().isQuake()){
                 moveRandom();
             }
             else {
@@ -108,7 +108,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                 setInFrame();
         });
         downTimer = new Timer(10, e -> {
-            if (GameManager.getINSTANCE().isQuake()){
+            if (GameManager.getINSTANCE().getGameModel().isQuake()){
                 moveRandom();
             }
             else {
@@ -117,7 +117,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                 setInFrame();
         });
         rightTimer = new Timer(10, e -> {
-            if (GameManager.getINSTANCE().isQuake()){
+            if (GameManager.getINSTANCE().getGameModel().isQuake()){
                 moveRandom();
             }
             else {
@@ -126,7 +126,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                 setInFrame();
         });
         leftTimer = new Timer(10, e -> {
-            if (GameManager.getINSTANCE().isQuake()){
+            if (GameManager.getINSTANCE().getGameModel().isQuake()){
                 moveRandom();
             }
             else {
@@ -294,12 +294,13 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         BulletModel bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
                 5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame);
         GameManager.getINSTANCE().getGameModel().getBullets().add(bulletModel);
-        if (GameManager.getINSTANCE().getWave() == 2){
-            GameManager.getINSTANCE().getSmiley().bulletShot(bulletModel);
+        if (GameManager.getINSTANCE().getGameModel().getWave() == 2){
+            GameManager.getINSTANCE().getGameModel().getSmiley().bulletShot(bulletModel);
         }
     }
     public void nextMove() {
             move();
+            cerberusAttack();
             checkCollisions();
             checkFrame();
             //EpsilonLogger.getInfo(logger, this);
@@ -336,10 +337,10 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                 ((Fist)collidable).slapped();
             }
             if (collidable instanceof Enemy){
-                ((Enemy)collidable).decreaseHP(GameManager.getINSTANCE().getAstarpe());
+                ((Enemy)collidable).decreaseHP(GameManager.getINSTANCE().getGameModel().getAstarpe());
             }
             else {
-                ((BlackOrbVertex)collidable).decreaseHP(GameManager.getINSTANCE().getAstarpe());
+                ((BlackOrbVertex)collidable).decreaseHP(GameManager.getINSTANCE().getGameModel().getAstarpe());
             }
             this.impact(collisionPoint, collidable);
         }
@@ -463,5 +464,36 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
 
     public void setCerberusList(ArrayList<RotatablePoint> cerberusList) {
         this.cerberusList = cerberusList;
+    }
+    private void cerberusAttack() {
+        ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
+        if (System.currentTimeMillis() - lastCerberusAttack >= 15000) {
+            for (int i = 0; i < cerberusList.size(); i++) {
+                if (System.currentTimeMillis() - lastCerberusAttack >= 15000) {
+                    for (int j = 0; j < enemies.size(); j++) {
+                        Enemy enemy = enemies.get(j);
+                        if (enemy instanceof BlackOrb) {
+                            ArrayList<BlackOrbVertex> vertices = ((BlackOrb) enemy).getBlackOrbVertices();
+                            for (int k = 0; k < vertices.size(); k++) {
+                                if (Calculations.getDistance(cerberusList.get(i).getRotatedX(), cerberusList.get(i).getRotatedY(),
+                                        vertices.get(k).getCenter().getX(), vertices.get(k).getCenter().getY()) <
+                                        vertices.get(k).getWidth() / 2 - 10) {
+                                    vertices.get(k).decreaseHP(10);
+                                    lastCerberusAttack = System.currentTimeMillis();
+                                    return;
+                                }
+                            }
+                        } else {
+                            if (Calculations.getDistance(cerberusList.get(i).getRotatedX(), cerberusList.get(i).getRotatedY(),
+                                    enemy.getCenter().getX(), enemy.getCenter().getY()) < enemy.getWidth() / 2 - 10) {
+                                enemy.decreaseHP(10);
+                                lastCerberusAttack = System.currentTimeMillis();
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

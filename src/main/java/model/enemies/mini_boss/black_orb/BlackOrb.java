@@ -75,7 +75,7 @@ public class BlackOrb extends Enemy {
             }
         }
         interrupt();
-        GameManager.getINSTANCE().getDiedEnemies().add(this);
+        GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
     }
 
     @Override

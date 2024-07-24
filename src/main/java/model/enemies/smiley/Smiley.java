@@ -51,6 +51,7 @@ public class Smiley extends Enemy implements Movable {
         frame.getEnemies().add(this);
         Controller.addEnemyView(this);
         GameManager.getINSTANCE().getGameModel().getFrames().add(frame);
+        GameManager.getINSTANCE().getGameModel().setSmiley(this);
         start();
     }
 
@@ -376,10 +377,10 @@ public class Smiley extends Enemy implements Movable {
     public void die() {
         AudioController.addEnemyDyingSound();
         for (int i = 0; i < hands.size(); i++){
-            GameManager.getINSTANCE().getDiedEnemies().add(hands.get(i));
+            GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(hands.get(i));
             Controller.removeEnemyView(hands.get(i));
         }
-        GameManager.getINSTANCE().getDiedEnemies().add(fist);
+        GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(fist);
         Controller.removeEnemyView(fist);
         Controller.smileyDied(this);
         width = GameManager.configs.DEAD_WIDTH;
@@ -390,7 +391,7 @@ public class Smiley extends Enemy implements Movable {
         width -= 0.5;
         height -= 0.5;
         if (width <= 4){
-            GameManager.getINSTANCE().getDiedEnemies().add(this);
+            GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
             Controller.removeEnemyView(this);
             died = true;
         }

@@ -3,10 +3,8 @@ package model.frame;
 import controller.Controller;
 import controller.GameManager;
 import controller.save.Configs;
-import controller.update.Update;
 import model.*;
 import model.enemies.Enemy;
-import model.enemies.mini_boss.black_orb.BlackOrbLaser;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.interfaces.movement.Point;
 import org.apache.log4j.Logger;
@@ -220,13 +218,13 @@ public class Frame {
         return ID;
     }
 
-    public void decreaseSize() {
+    public void shrinkage() {
         if (width > minWidth) {
-            width -= 0.1;
+            width -= 0.1*GameManager.getINSTANCE().getGameModel().getWritOfAthena();
             sides.get(2).separateAll();
         }
         if (height > minHeight) {
-            height -= 0.1;
+            height -= 0.1*GameManager.getINSTANCE().getGameModel().getWritOfAthena();
             sides.get(3).separateAll();
         }
     }
@@ -261,10 +259,6 @@ public class Frame {
             return false;
     }
 
-    public void setOverlaps(ArrayList<Map<String, double[]>> overlaps) {
-        this.overlaps = overlaps;
-    }
-
     public ArrayList<Map<String, double[]>> getOverlaps() {
         return overlaps;
     }
@@ -277,11 +271,4 @@ public class Frame {
         isRigid = rigid;
     }
 
-    public double getMinWidth() {
-        return minWidth;
-    }
-
-    public double getMinHeight() {
-        return minHeight;
-    }
 }
