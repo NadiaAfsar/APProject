@@ -53,6 +53,8 @@ public abstract class GameModel {
     private int melampus;
     private int chiron;
     private double writOfAthena;
+    private int HPtoIncrease;
+    private int cerberuses;
 
     public GameModel() {
         enemyLock = new Object();
@@ -83,11 +85,6 @@ public abstract class GameModel {
 
     public ArrayList<Collectible> getCollectibles() {
         return collectibles;
-    }
-
-
-    public int getEnemyPower() {
-        return enemyPower;
     }
 
     public int getEnemyXP() {
@@ -142,10 +139,6 @@ public abstract class GameModel {
         this.athenaActivationTime = athenaActivationTime;
     }
 
-    public boolean isFinished() {
-        return finished;
-    }
-
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
@@ -173,46 +166,6 @@ public abstract class GameModel {
 
     public Frame getInitialFrame() {
         return initialFrame;
-    }
-
-    public void setBullets(ArrayList<BulletModel> bullets) {
-        this.bullets = bullets;
-    }
-
-    public void setWaves(Map<Integer, Integer> waves) {
-        this.waves = waves;
-    }
-
-    public void setEnemyVelocity(double enemyVelocity) {
-        this.enemyVelocity = enemyVelocity;
-    }
-
-    public void setEnemyPower(int enemyPower) {
-        this.enemyPower = enemyPower;
-    }
-
-    public void setEnemyHP(int enemyHP) {
-        this.enemyHP = enemyHP;
-    }
-
-    public void setEnemyXP(int enemyXP) {
-        this.enemyXP = enemyXP;
-    }
-
-    public void setCollectibles(ArrayList<Collectible> collectibles) {
-        this.collectibles = collectibles;
-    }
-
-    public void setEnemiesBullets(ArrayList<BulletModel> enemiesBullets) {
-        this.enemiesBullets = enemiesBullets;
-    }
-
-    public void setFrames(ArrayList<Frame> frames) {
-        this.frames = frames;
-    }
-
-    public void setInitialFrame(Frame initialFrame) {
-        this.initialFrame = initialFrame;
     }
 
     public boolean isGameStarted() {
@@ -349,5 +302,21 @@ public abstract class GameModel {
 
     public void setWritOfAthena(double writOfAthena) {
         this.writOfAthena = writOfAthena;
+    }
+
+    public int getHPtoIncrease() {
+        return HPtoIncrease;
+    }
+
+    public void setHPtoIncrease(int HPtoIncrease) {
+        this.HPtoIncrease = HPtoIncrease;
+    }
+
+    public int getCerberuses() {
+        return cerberuses;
+    }
+
+    public void setCerberuses(int cerberuses) {
+        this.cerberuses = cerberuses;
     }
 }

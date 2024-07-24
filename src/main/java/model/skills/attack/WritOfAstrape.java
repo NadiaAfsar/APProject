@@ -17,6 +17,7 @@ public class WritOfAstrape extends Skill {
             if (epsilon.getXP() >= 100) {
                 GameManager.getINSTANCE().getGameModel().setAstarpe(GameManager.getINSTANCE().getGameModel().getAstarpe()+2);
                 epsilon.setXP(epsilon.getXP()-100);
+                activated = true;
             }
         }
     }
@@ -27,6 +28,9 @@ public class WritOfAstrape extends Skill {
 
     public static void setAstrapeUnlocked(boolean astrapeUnlocked) {
         WritOfAstrape.astrapeUnlocked = astrapeUnlocked;
+        if (astrapeUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAstrape());
+        }
     }
 
     public static boolean isPicked() {

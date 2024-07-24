@@ -11,8 +11,6 @@ import java.util.ArrayList;
 public class WritOfCerberus extends Skill {
     private static boolean cerberusUnlocked;
     private static boolean picked;
-    private long lastAttack;
-    private int cerberuses;
 
     public WritOfCerberus() {
         name = "Writ Of Cerberus";
@@ -26,6 +24,7 @@ public class WritOfCerberus extends Skill {
                 GameManager.getINSTANCE().getGameModel().setAstarpe(GameManager.getINSTANCE().getGameModel().getAstarpe() + 2);
                 epsilon.setXP(epsilon.getXP() - 100);
                 addCerberuses();
+                activated = true;
             }
         }
     }
@@ -33,9 +32,10 @@ public class WritOfCerberus extends Skill {
     private void addCerberuses() {
         EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
         ArrayList<RotatablePoint> cerberusList = new ArrayList<>();
-        cerberuses += 3;
-        double angle = 2 * Math.PI / cerberuses;
-        for (int i = 0; i < cerberuses; i++) {
+        int cerberus = GameManager.getINSTANCE().getGameModel().getCerberuses()+3;
+        GameManager.getINSTANCE().getGameModel().setCerberuses(cerberus);
+        double angle = 2 * Math.PI / cerberus;
+        for (int i = 0; i < cerberus; i++) {
             cerberusList.add(new RotatablePoint(epsilon.getCenter().getX(), epsilon.getCenter().getY(), angle * i - Math.PI / 2,
                     epsilon.getRadius() + 20));
         }
@@ -49,5 +49,16 @@ public class WritOfCerberus extends Skill {
 
     public static boolean isPicked() {
         return picked;
+    }
+
+    public static void setCerberusUnlocked(boolean cerberusUnlocked) {
+        WritOfCerberus.cerberusUnlocked = cerberusUnlocked;
+        if (cerberusUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfCerberus());
+        }
+    }
+
+    public static void setPicked(boolean picked) {
+        WritOfCerberus.picked = picked;
     }
 }

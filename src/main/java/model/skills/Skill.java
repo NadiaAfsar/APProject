@@ -1,6 +1,8 @@
 package model.skills;
 
 
+import java.util.ArrayList;
+
 public abstract class Skill {
     private long lastActivatedTime;
     protected String name;

@@ -1,9 +1,11 @@
-package model.skills;
+package model.skills.transform;
 
 import controller.GameManager;
 import model.EpsilonModel;
+import model.skills.Skill;
+import model.skills.attack.WritOfAres;
 
-public class WritOfProteus extends Skill{
+public class WritOfProteus extends Skill {
     private static boolean proteusUnlocked;
     private static boolean picked;
 
@@ -28,8 +30,8 @@ public class WritOfProteus extends Skill{
 
     public static void setProteusUnlocked(boolean u) {
         proteusUnlocked = u;
-        if (!u) {
-            System.out.println(3);
+        if (u){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfProteus());
         }
     }
     public static boolean isPicked() {
@@ -39,4 +41,5 @@ public class WritOfProteus extends Skill{
     public static void setPicked(boolean p) {
         picked = p;
     }
+
 }

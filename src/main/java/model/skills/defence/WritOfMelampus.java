@@ -3,6 +3,7 @@ package model.skills.defence;
 import controller.GameManager;
 import model.EpsilonModel;
 import model.skills.Skill;
+import model.skills.attack.WritOfAres;
 
 public class WritOfMelampus extends Skill {
     private static boolean melampusUnlocked;
@@ -17,6 +18,7 @@ public class WritOfMelampus extends Skill {
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP() - 100);
                 GameManager.getINSTANCE().getGameModel().setMelampus(GameManager.getINSTANCE().getGameModel().getMelampus()+5);
+                activated = true;
             }
         }
     }
@@ -31,5 +33,16 @@ public class WritOfMelampus extends Skill {
     public static boolean damage(){
         int damage = (int)(Math.random()*100);
         return (damage < 100-GameManager.getINSTANCE().getGameModel().getMelampus());
+    }
+
+    public static void setMelampusUnlocked(boolean melampusUnlocked) {
+        WritOfMelampus.melampusUnlocked = melampusUnlocked;
+        if (melampusUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfMelampus());
+        }
+    }
+
+    public static void setPicked(boolean picked) {
+        WritOfMelampus.picked = picked;
     }
 }

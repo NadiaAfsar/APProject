@@ -38,6 +38,7 @@ public class GameManager {
     private GameFrame gameFrame;
     public static Configs configs;
     public static ReaderWriter readerWriter;
+    private ArrayList<Skill> unlockedSkills;
     private GameManager() {
         totalXP = 2000;
         sensitivity = 2;
@@ -45,6 +46,7 @@ public class GameManager {
         readerWriter = new ReaderWriter();
         configs = readerWriter.getConfigs();
         gameFrame = new GameFrame();
+        unlockedSkills = new ArrayList<>();
         new ModelLoop().start();
         new ViewLoop().start();
     }
@@ -317,5 +319,9 @@ public class GameManager {
         long addedTime = newTime - gameModel.getLastSavedTime();
         gameModel.setTimePlayed(gameModel.getTimePlayed()+addedTime);
         gameModel.setLastSavedTime(newTime);
+    }
+
+    public ArrayList<Skill> getUnlockedSkills() {
+        return unlockedSkills;
     }
 }

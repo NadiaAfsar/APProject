@@ -496,4 +496,8 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             }
         }
     }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
 }

@@ -4,12 +4,12 @@ import controller.GameManager;
 import model.EpsilonModel;
 import model.game.GameModel;
 import model.skills.Skill;
+import model.skills.attack.WritOfAres;
 
 public class WritOfAceso extends Skill {
     private long lastTimeAdded;
     private static boolean acesoUnlocked;
     private static boolean picked;
-    private int HPtoIncrease;
     public WritOfAceso() {
         name = "Writ Of Aceso";
     }
@@ -20,7 +20,8 @@ public class WritOfAceso extends Skill {
             if (epsilon.getXP() >= 100) {
                 activated = true;
                 epsilon.setXP(epsilon.getXP() - 100);
-                HPtoIncrease++;
+                GameManager.getINSTANCE().getGameModel().setHPtoIncrease(GameManager.getINSTANCE().getGameModel().getHPtoIncrease()+1);
+                activated = true;
             }
         }
     }
@@ -29,7 +30,7 @@ public class WritOfAceso extends Skill {
             long currentTime = System.currentTimeMillis();
             if (currentTime-lastTimeAdded >= 1000) {
                 EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
-                epsilon.setHP(epsilon.getHP() + HPtoIncrease);
+                epsilon.setHP(epsilon.getHP() + GameManager.getINSTANCE().getGameModel().getHPtoIncrease());
                 lastTimeAdded = currentTime;
             }
         }
@@ -40,6 +41,9 @@ public class WritOfAceso extends Skill {
 
     public static void setAcesoUnlocked(boolean u) {
         acesoUnlocked = u;
+        if (u){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAceso());
+        }
     }
 
     public boolean isActivated() {

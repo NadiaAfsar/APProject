@@ -2,7 +2,7 @@ package controller;
 
 import model.skills.defence.WritOfAceso;
 import model.skills.attack.WritOfAres;
-import model.skills.WritOfProteus;
+import model.skills.transform.WritOfProteus;
 
 public class SkillsController {
     public static void setAres(boolean ares) {

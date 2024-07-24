@@ -31,6 +31,9 @@ public class WritOfAres extends Skill {
 
     public static void setAresUnlocked(boolean u) {
         aresUnlocked = u;
+        if (u){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAres());
+        }
     }
     public static boolean isPicked() {
         return picked;

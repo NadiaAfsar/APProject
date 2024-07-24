@@ -4,7 +4,7 @@ import controller.GameManager;
 import model.skills.Skill;
 import model.skills.defence.WritOfAceso;
 import model.skills.attack.WritOfAres;
-import model.skills.WritOfProteus;
+import model.skills.transform.WritOfProteus;
 
 import java.io.File;
 import java.io.FileWriter;
