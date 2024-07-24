@@ -4,10 +4,8 @@ import controller.Controller;
 import controller.GameManager;
 import controller.save.Configs;
 import model.interfaces.movement.RotatablePoint;
-import view.game.GamePanel;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,6 +18,7 @@ public class EpsilonView{
     private int radius;
     private ArrayList<Vertex> vertexes;
     private BufferedImage image;
+    private ArrayList<Vertex> cerberuses;
     public EpsilonView() {
         x = Configs.FRAME_SIZE.width/2;
         y = Configs.FRAME_SIZE.height/2;
@@ -38,8 +37,15 @@ public class EpsilonView{
     }
 
     public void addVertex(int x, int y) {
-        Vertex vertex = new Vertex(new Point(x,y));
+        Vertex vertex = new Vertex(new Point(x,y), 3);
         vertexes.add(vertex);
+    }
+    public void addCerberus(int x, int y){
+        Vertex cerberus = new Vertex(new Point(x,y),10);
+        cerberuses.add(cerberus);
+    }
+    public void removeCerbeuses(){
+        cerberuses = new ArrayList<>();
     }
     public void removeVertexes() {
         vertexes = new ArrayList<>();
@@ -50,6 +56,15 @@ public class EpsilonView{
                 RotatablePoint vertex = vertexes.get(i);
                 Vertex epsilonVertex = this.vertexes.get(i);
                 epsilonVertex.setCenter(new Point((int) vertex.getRotatedX(), (int) vertex.getRotatedY()));
+            }
+        }
+    }
+    public void updateCerberuses(ArrayList<RotatablePoint> cerberuces) {
+        synchronized (Controller.cerberusLock) {
+            for (int i = 0; i < vertexes.size(); i++) {
+                RotatablePoint vertex = cerberuces.get(i);
+                Vertex cerberus = this.vertexes.get(i);
+                cerberus.setCenter(new Point((int) vertex.getRotatedX(), (int) vertex.getRotatedY()));
             }
         }
     }
@@ -85,5 +100,9 @@ public class EpsilonView{
 
     public ArrayList<Vertex> getVertexes() {
         return vertexes;
+    }
+
+    public ArrayList<Vertex> getCerberuses() {
+        return cerberuses;
     }
 }

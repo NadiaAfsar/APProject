@@ -49,6 +49,7 @@ public class Controller {
     public static boolean gameFinished;
     public static Audio music;
     public static final Object epsilonLock = new Object();
+    public static final Object cerberusLock = new Object();
     public static void runGame() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GameManager.getINSTANCE();
         music = new Audio(GameManager.configs.THEME_SONG);
@@ -265,5 +266,14 @@ public class Controller {
     }
     public static void removeAnnouncement(String ID){
         GameManager.getINSTANCE().getGameView().removeNecropickAnnouncement(ID);
+    }
+    public static void addCerberusView(ArrayList<RotatablePoint> cerberus) {
+        synchronized (cerberusLock) {
+            EpsilonView epsilon = GameManager.getINSTANCE().getGameView().getEpsilonView();
+            epsilon.removeCerbeuses();
+            for (int i = 0; i < cerberus.size(); i++) {
+                epsilon.addCerberus((int)cerberus.get(i).getRotatedX(), (int)cerberus.get(i).getRotatedY());
+            }
+        }
     }
 }

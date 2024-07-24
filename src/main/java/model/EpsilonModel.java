@@ -44,6 +44,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private Frame frame;
     private Logger logger;
     private Frame prevFrame;
+    private ArrayList<RotatablePoint> cerberusList;
 
     public EpsilonModel(Frame frame) {
         logger = Logger.getLogger(EpsilonModel.class);
@@ -334,6 +335,12 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             if (collidable instanceof Fist){
                 ((Fist)collidable).slapped();
             }
+            if (collidable instanceof Enemy){
+                ((Enemy)collidable).decreaseHP(GameManager.getINSTANCE().getAstarpe());
+            }
+            else {
+                ((BlackOrbVertex)collidable).decreaseHP(GameManager.getINSTANCE().getAstarpe());
+            }
             this.impact(collisionPoint, collidable);
         }
     }
@@ -450,5 +457,11 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         this.frame = frame;
     }
 
+    public ArrayList<RotatablePoint> getCerberusList() {
+        return cerberusList;
+    }
 
+    public void setCerberusList(ArrayList<RotatablePoint> cerberusList) {
+        this.cerberusList = cerberusList;
+    }
 }

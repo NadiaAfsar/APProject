@@ -41,6 +41,7 @@ public class Update {
                 updateEnemiesBullets();
                 epsilonView.update(epsilon.getX(), epsilon.getY());
                 epsilonView.updateVertexes(epsilon.getVertexes());
+                epsilonView.updateCerberuses(epsilon.getCerberusList());
                 updatePanels();
             }
 

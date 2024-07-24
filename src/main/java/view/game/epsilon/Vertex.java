@@ -18,8 +18,8 @@ public class Vertex {
     private int height;
     private int radius;
     private BufferedImage image;
-    public Vertex(Point center){
-        radius = 3;
+    public Vertex(Point center, int radius){
+        this.radius = radius;
         x = (int)center.getX()-radius;
         y = (int)center.getY()-radius;
         width = 2*radius;
