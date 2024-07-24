@@ -163,16 +163,18 @@ public class Smiley extends Enemy implements Movable {
     }
     public void run() {
         while (!died) {
-            if (toDisappear) {
-                shrinkage();
-            } else {
-                move();
-                if (phase == 1 && !squeezing) {
-                    firstPhaseAttack();
-                } else if (phase == 2) {
-                    secondPhaseAttack();
+            if (!GameManager.getINSTANCE().isHypnos() && Controller.gameRunning) {
+                if (toDisappear) {
+                    shrinkage();
+                } else {
+                    move();
+                    if (phase == 1 && !squeezing) {
+                        firstPhaseAttack();
+                    } else if (phase == 2) {
+                        secondPhaseAttack();
+                    }
+                    checkAoEs();
                 }
-                checkAoEs();
             }
             try {
                 sleep((long) Configs.MODEL_UPDATE_TIME);

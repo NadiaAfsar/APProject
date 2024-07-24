@@ -119,7 +119,7 @@ public class InputListener {
         actionMap.put("showShop", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
+                if (Controller.gameRunning && !GameManager.getINSTANCE().isHypnos()) {
                     Controller.gameRunning = false;
                     new Shop();
                 }

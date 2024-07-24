@@ -200,36 +200,9 @@ public class Controller {
             }
         }
     }
-    public static boolean hephaestus() {
-        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
-        if (epsilon.getXP() >= 100) {
-            Impactable.impactOnOthers(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()));
-            epsilon.setXP(epsilon.getXP()-100);
-            return true;
-        }
-        return false;
-    }
     public static void addBulletView(BulletModel bulletModel) {
         GameManager.getINSTANCE().getGameView().addBulletView(new BulletView((int)bulletModel.getX1(),
                 (int)bulletModel.getY1(), bulletModel.getDirection(), bulletModel.getID()));
-    }
-    public static boolean athena() {
-        EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
-        if (epsilonModel.getXP() >= 75) {
-            GameManager.getINSTANCE().activateAthena();
-            epsilonModel.setXP(epsilonModel.getXP()-75);
-            return true;
-        }
-        return false;
-    }
-    public static boolean apollo() {
-        EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
-        if (epsilonModel.getXP() >= 50) {
-            epsilonModel.setHP(epsilonModel.getHP()+10);
-            epsilonModel.setXP(epsilonModel.getXP()-50);
-            return true;
-        }
-        return false;
     }
     public static void endGame() {
         GameMouseListener.setGameRunning(false);

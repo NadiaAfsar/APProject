@@ -1,23 +1,40 @@
 package model.interfaces.movement;
 
 
+import controller.GameManager;
 import controller.save.Configs;
+import model.Calculations;
+import model.EpsilonModel;
+import model.enemies.Enemy;
+import model.enemies.normal.archmire.Archmire;
 
 public interface Movable {
     default void move() {
-        calculateAccelerationRate();
-        setAcceleration(calculateAcceleration());
-        setVelocity(calculateVelocity());
-        specialMove();
-        Direction direction = getDirection();
-        double dx = direction.getDx()*getVelocityPower();
-        double dy = direction.getDy()*getVelocityPower();
-        setCenter(new Point(getCenter().getX()+getVelocity().getX()+dx, getCenter().getY()+getVelocity().getY()+dy));
-        setAngularAcceleration(calculateAngularAcceleration());
-        setAngularVelocity(calculateAngularVelocity());
-        setAngle(calculateAngle());
-        calculateAngularAccelerationRate();
-        moveVertexes();
+        boolean toMove = true;
+        if (GameManager.getINSTANCE().isDeimos()){
+            if (this instanceof Enemy &&!(this instanceof Archmire)){
+                EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+                if (Calculations.getDistance(epsilon.getCenter().getX(), epsilon.getCenter().getY(), getCenter().getX(),
+                        getCenter().getY()) <= 100){
+                    toMove = false;
+                }
+            }
+        }
+        if (toMove) {
+            calculateAccelerationRate();
+            setAcceleration(calculateAcceleration());
+            setVelocity(calculateVelocity());
+            specialMove();
+            Direction direction = getDirection();
+            double dx = direction.getDx() * getVelocityPower();
+            double dy = direction.getDy() * getVelocityPower();
+            setCenter(new Point(getCenter().getX() + getVelocity().getX() + dx, getCenter().getY() + getVelocity().getY() + dy));
+            setAngularAcceleration(calculateAngularAcceleration());
+            setAngularVelocity(calculateAngularVelocity());
+            setAngle(calculateAngle());
+            calculateAngularAccelerationRate();
+            moveVertexes();
+        }
     };
     default Point calculateAcceleration() {
         return new Point(getAcceleration().getX()+ getAccelerationRate().getX() / Configs.UPS,

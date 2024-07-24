@@ -5,6 +5,7 @@ import controller.save.Configs;
 import controller.save.ReaderWriter;
 import controller.update.ModelLoop;
 import controller.update.ViewLoop;
+import model.EpsilonModel;
 import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
@@ -40,6 +41,12 @@ public class GameManager {
     public static Configs configs;
     public static ReaderWriter readerWriter;
     private ArrayList<Skill> unlockedSkills;
+    private boolean deimos;
+    private long deimosActivated;
+    private boolean hypnos;
+    private long hypnosActivated;
+    private boolean phonoi;
+    private long phonoiUsed;
     private GameManager() {
         totalXP = 10000;
         sensitivity = 2;
@@ -207,7 +214,9 @@ public class GameManager {
         moveBullets();
         gameModel.getEpsilon().nextMove();
         checkBulletsCollision();
-        moveEnemiesBullets();
+        if (!hypnos) {
+            moveEnemiesBullets();
+        }
         checkEnemiesBulletsCollision();
         gameModel.getEnemies().removeAll(gameModel.getDiedEnemies());
         gameModel.setDiedEnemies(new ArrayList<>());
@@ -220,9 +229,18 @@ public class GameManager {
             }
         }
         checkCollectibles();
-        Skill skill = GameManager.getINSTANCE().getPickedSkill();
-        if (skill instanceof WritOfAceso) {
-            ((WritOfAceso)skill).increaseHP();
+        if (pickedSkill instanceof WritOfAceso) {
+            ((WritOfAceso)pickedSkill).increaseHP();
+        }
+        if (deimos){
+            if (System.currentTimeMillis()-deimosActivated >= 10000){
+                deimos = false;
+            }
+        }
+        if (hypnos){
+            if (System.currentTimeMillis()-hypnosActivated >= 10000){
+                hypnos = false;
+            }
         }
         setTimePlayed();
     }
@@ -327,5 +345,81 @@ public class GameManager {
 
     public ArrayList<Skill> getUnlockedSkills() {
         return unlockedSkills;
+    }
+    public boolean athena() {
+        EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        if (epsilonModel.getXP() >= 75) {
+            GameManager.getINSTANCE().activateAthena();
+            epsilonModel.setXP(epsilonModel.getXP()-75);
+            return true;
+        }
+        return false;
+    }
+    public boolean apollo() {
+        EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        if (epsilonModel.getXP() >= 50) {
+            epsilonModel.setHP(epsilonModel.getHP()+10);
+            epsilonModel.setXP(epsilonModel.getXP()-50);
+            return true;
+        }
+        return false;
+    }
+    public boolean hephaestus() {
+        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        if (epsilon.getXP() >= 100) {
+            Impactable.impactOnOthers(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()));
+            epsilon.setXP(epsilon.getXP()-100);
+            return true;
+        }
+        return false;
+    }
+    public boolean deimos(){
+        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        if (epsilon.getXP() >= 120) {
+            deimos = true;
+            deimosActivated = System.currentTimeMillis();
+            epsilon.setXP(epsilon.getXP()-120);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isDeimos() {
+        return deimos;
+    }
+    public boolean hypnos(){
+        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        if (epsilon.getXP() >= 150) {
+            hypnos = true;
+            hypnosActivated = System.currentTimeMillis();
+            epsilon.setXP(epsilon.getXP()-150);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isHypnos() {
+        return hypnos;
+    }
+
+    public boolean phonoi(){
+        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        if (epsilon.getXP() >= 200 && System.currentTimeMillis()-phonoiUsed >= 120000) {
+            phonoi = true;
+            epsilon.setXP(epsilon.getXP()-200);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isPhonoi() {
+        return phonoi;
+    }
+
+    public void setPhonoi(boolean phonoi) {
+        this.phonoi = phonoi;
+        if (!phonoi){
+            phonoiUsed = System.currentTimeMillis();
+        }
     }
 }

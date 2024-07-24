@@ -2,6 +2,7 @@ package model.enemies.normal;
 
 import controller.Controller;
 import controller.GameManager;
+import controller.save.Configs;
 import log.EnemyLogger;
 import model.BulletModel;
 import model.Collectible;
@@ -62,17 +63,26 @@ public class Necropick extends Enemy {
     }
     public void run() {
         while (!died) {
-            disappear();
-            sleepFor(3000);
-            announceAppearance();
-            sleepFor(1000);
-            appear();
-            sleepFor(1000);
-            shootBullets(4);
-            sleepFor(2000);
-            shootBullets(4);
-            sleepFor(1000);
-            EnemyLogger.getInfo(logger, this);
+            if (!GameManager.getINSTANCE().isHypnos() && Controller.gameRunning) {
+                disappear();
+                sleepFor(3000);
+                announceAppearance();
+                sleepFor(1000);
+                appear();
+                sleepFor(1000);
+                shootBullets(4);
+                sleepFor(2000);
+                shootBullets(4);
+                sleepFor(1000);
+                EnemyLogger.getInfo(logger, this);
+            }
+            else {
+                try {
+                    sleep((long) Configs.MODEL_UPDATE_TIME);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
         interrupt();
     }

@@ -297,8 +297,16 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         }
     }
     private void addBullet(int x, int y) {
-        BulletModel bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
-                5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame);
+        BulletModel bulletModel = null;
+        if (GameManager.getINSTANCE().isPhonoi()){
+            bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
+                    50 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame);
+            GameManager.getINSTANCE().setPhonoi(false);
+        }
+        else {
+            bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
+                    5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame);
+        }
         GameManager.getINSTANCE().getGameModel().getBullets().add(bulletModel);
         if (GameManager.getINSTANCE().getGameModel().getWave() == 6){
             GameManager.getINSTANCE().getGameModel().getSmiley().bulletShot(bulletModel);

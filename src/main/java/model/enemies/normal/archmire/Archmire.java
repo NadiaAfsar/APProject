@@ -56,36 +56,38 @@ public class Archmire extends Enemy implements Movable {
     }
     public void run() {
         while (!died) {
-            move();
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastAoEAdded > 500) {
-                aoeAttacks.add(new AoEAttack(this));
-                lastAoEAdded = currentTime;
-            }
-            if (currentTime - lastCheckedTime >= 1000) {
-                for (int i = 0; i < GameManager.getINSTANCE().getGameModel().getEnemies().size(); i++) {
-                    Enemy enemy = GameManager.getINSTANCE().getGameModel().getEnemies().get(i);
-                    if (!(enemy instanceof Archmire) && !(enemy instanceof Barricados)) {
-                        if (Interference.enemyIsInArchmire(vertexes, enemy)) {
-                            enemy.decreaseHP(10);
+            if (!GameManager.getINSTANCE().isHypnos() && Controller.gameRunning) {
+                move();
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastAoEAdded > 500) {
+                    aoeAttacks.add(new AoEAttack(this));
+                    lastAoEAdded = currentTime;
+                }
+                if (currentTime - lastCheckedTime >= 1000) {
+                    for (int i = 0; i < GameManager.getINSTANCE().getGameModel().getEnemies().size(); i++) {
+                        Enemy enemy = GameManager.getINSTANCE().getGameModel().getEnemies().get(i);
+                        if (!(enemy instanceof Archmire) && !(enemy instanceof Barricados)) {
+                            if (Interference.enemyIsInArchmire(vertexes, enemy)) {
+                                enemy.decreaseHP(10);
+                            }
                         }
                     }
-                }
-                if (Interference.epsilonIsInArchmire(vertexes, GameManager.getINSTANCE().getGameModel().getEpsilon())) {
-                    GameManager.getINSTANCE().getGameModel().getEpsilon().decreaseHP(10);
-                }
-                for (int i = 0; i < aoeAttacks.size(); i++) {
-                    if (!aoeAttacks.get(i).update()) {
-                        i--;
+                    if (Interference.epsilonIsInArchmire(vertexes, GameManager.getINSTANCE().getGameModel().getEpsilon())) {
+                        GameManager.getINSTANCE().getGameModel().getEpsilon().decreaseHP(10);
                     }
+                    for (int i = 0; i < aoeAttacks.size(); i++) {
+                        if (!aoeAttacks.get(i).update()) {
+                            i--;
+                        }
+                    }
+                    lastCheckedTime = currentTime;
                 }
-                lastCheckedTime = currentTime;
             }
-                try {
-                    sleep((long) Configs.MODEL_UPDATE_TIME);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+            try {
+                sleep((long) Configs.MODEL_UPDATE_TIME);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         interrupt();
     }

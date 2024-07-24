@@ -1,5 +1,6 @@
 package model.enemies.mini_boss.black_orb;
 
+import controller.Controller;
 import controller.GameManager;
 import controller.save.Configs;
 import model.enemies.Enemy;
@@ -60,13 +61,15 @@ public class BlackOrb extends Enemy {
     }
     public void run() {
         while (!died) {
-            if (!vertexesSet) {
-                setBlackOrbVertices();
-                setLasers();
-                vertexesSet = true;
-            }
-            for (int i = 0; i < lasers.size(); i++) {
-                lasers.get(i).attack();
+            if (!GameManager.getINSTANCE().isHypnos() && Controller.gameRunning) {
+                if (!vertexesSet) {
+                    setBlackOrbVertices();
+                    setLasers();
+                    vertexesSet = true;
+                }
+                for (int i = 0; i < lasers.size(); i++) {
+                    lasers.get(i).attack();
+                }
             }
             try {
                 sleep((long) Configs.MODEL_UPDATE_TIME);
