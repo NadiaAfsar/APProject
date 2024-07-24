@@ -103,11 +103,14 @@ public abstract class Enemy extends Thread implements Collidable{
 
     public void decreaseHP(int x) {
         HP -= x;
-        GameModel gameModel = GameManager.getINSTANCE().getGameModel();
-        gameModel.getEpsilon().setHP(gameModel.getEpsilon().getHP()+gameModel.getChiron());
+        if (x != 0) {
+            GameModel gameModel = GameManager.getINSTANCE().getGameModel();
+            gameModel.getEpsilon().setHP(gameModel.getEpsilon().getHP() + gameModel.getChiron());
+        }
         if (HP <= 0) {
             die();
         }
+        logger.debug(HP);
     }
     protected void die() {
         addCollective();

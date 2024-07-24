@@ -10,6 +10,7 @@ public class WritOfAceso extends Skill {
     private long lastTimeAdded;
     private static boolean acesoUnlocked;
     private static boolean picked;
+    private int price = 500;
     public WritOfAceso() {
         name = "Writ Of Aceso";
     }
@@ -35,11 +36,11 @@ public class WritOfAceso extends Skill {
             }
         }
     }
-    public static boolean isAcesoUnlocked() {
+    public boolean isUnlocked() {
         return acesoUnlocked;
     }
 
-    public static void setAcesoUnlocked(boolean u) {
+    public void setUnlocked(boolean u) {
         acesoUnlocked = u;
         if (u){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAceso());
@@ -49,11 +50,15 @@ public class WritOfAceso extends Skill {
     public boolean isActivated() {
         return activated;
     }
-    public static boolean isPicked() {
+    public boolean isPicked() {
         return picked;
     }
 
-    public static void setPicked(boolean p) {
+    public void setPicked(boolean p) {
         picked = p;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

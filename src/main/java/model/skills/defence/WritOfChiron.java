@@ -9,6 +9,7 @@ import model.skills.attack.WritOfCerberus;
 public class WritOfChiron extends Skill {
     private static boolean chironUnlocked;
     private static boolean picked;
+    private int price = 900;
     public WritOfChiron(){
         name = "Writ Of Chiron";
     }
@@ -24,22 +25,27 @@ public class WritOfChiron extends Skill {
         }
     }
 
-    public static boolean isChironUnlocked() {
+    public boolean isUnlocked() {
         return chironUnlocked;
     }
 
-    public static void setChironUnlocked(boolean chironUnlocked) {
+    public void setUnlocked(boolean chironUnlocked) {
         WritOfChiron.chironUnlocked = chironUnlocked;
         if (chironUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfChiron());
         }
     }
 
-    public static void setPicked(boolean picked) {
+    public void setPicked(boolean picked) {
         WritOfChiron.picked = picked;
     }
 
-    public static boolean isPicked() {
+    public boolean isPicked() {
         return picked;
+    }
+
+    @Override
+    public int getPrice() {
+        return price;
     }
 }

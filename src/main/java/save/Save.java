@@ -21,24 +21,24 @@ public class Save {
     }
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.append(GameManager.getINSTANCE().getTotalXP()+"\n");
-            if (WritOfAres.isAresUnlocked()) {
-                fileWriter.append("unlocked"+"\n");
-            }
-            else {
-               fileWriter.append("locked"+"\n");
-            }
-            if (WritOfAceso.isAcesoUnlocked()) {
-                fileWriter.append("unlocked"+"\n");
-            }
-            else {
-                fileWriter.append("locked"+"\n");
-            }
-            if (WritOfProteus.isProteusUnlocked()) {
-                fileWriter.append("unlocked"+"\n");
-            }
-            else {
-                fileWriter.append("locked"+"\n");
-            }
+//            if (WritOfAres.isUnlocked()) {
+//                fileWriter.append("unlocked"+"\n");
+//            }
+//            else {
+//               fileWriter.append("locked"+"\n");
+//            }
+//            if (WritOfAceso.isAcesoUnlocked()) {
+//                fileWriter.append("unlocked"+"\n");
+//            }
+//            else {
+//                fileWriter.append("locked"+"\n");
+//            }
+//            if (WritOfProteus.isProteusUnlocked()) {
+//                fileWriter.append("unlocked"+"\n");
+//            }
+//            else {
+//                fileWriter.append("locked"+"\n");
+//            }
             Skill skill = GameManager.getINSTANCE().getPickedSkill();
             if (skill != null) {
                 if (skill instanceof WritOfAres) {
@@ -71,37 +71,37 @@ public class Save {
             if (x == 0) {
                 GameManager.getINSTANCE().setTotalXP(Integer.parseInt(sc.next()));
             }
-            else if (x == 1) {
-                if (sc.next().equals("unlocked")) {
-                    WritOfAres.setAresUnlocked(true);
-                }
-            }
-            else if (x == 2) {
-                if (sc.next().equals("unlocked")) {
-                    WritOfAceso.setAcesoUnlocked(true);
-                }
-            }
-            else if (x == 3) {
-                if (sc.next().equals("unlocked")) {
-                    WritOfProteus.setProteusUnlocked(true);
-                }
-            }
-            else if (x == 4) {
-                int p = Integer.parseInt(sc.next());
-                if (p == 1) {
-                    GameManager.getINSTANCE().setPickedSkill(new WritOfAres());
-                    WritOfAres.setPicked(true);
-                }
-                else if (p == 2) {
-                    GameManager.getINSTANCE().setPickedSkill(new WritOfAceso());
-                    WritOfAceso.setPicked(true);
-                }
-                else if (p == 3) {
-                    GameManager.getINSTANCE().setPickedSkill(new WritOfProteus());
-                    WritOfProteus.setPicked(true);
-                }
+//            else if (x == 1) {
+//                if (sc.next().equals("unlocked")) {
+//                    WritOfAres.setAresUnlocked(true);
+//                }
+//            }
+//            else if (x == 2) {
+//                if (sc.next().equals("unlocked")) {
+//                    WritOfAceso.setAcesoUnlocked(true);
+//                }
+//            }
+//            else if (x == 3) {
+//                if (sc.next().equals("unlocked")) {
+//                    WritOfProteus.setProteusUnlocked(true);
+//                }
+//            }
+//            else if (x == 4) {
+//                int p = Integer.parseInt(sc.next());
+//                if (p == 1) {
+//                    GameManager.getINSTANCE().setPickedSkill(new WritOfAres());
+//                    WritOfAres.setPicked(true);
+//                }
+//                else if (p == 2) {
+//                    GameManager.getINSTANCE().setPickedSkill(new WritOfAceso());
+//                    WritOfAceso.setPicked(true);
+//                }
+//                else if (p == 3) {
+//                    GameManager.getINSTANCE().setPickedSkill(new WritOfProteus());
+//                    WritOfProteus.setPicked(true);
+//                }
             }
             x++;
         }
     }
-}
+

@@ -8,6 +8,7 @@ import model.skills.attack.WritOfAres;
 public class WritOfMelampus extends Skill {
     private static boolean melampusUnlocked;
     private static boolean picked;
+    private int price = 750;
     public WritOfMelampus(){
         name = "Writ Of Melampus";
     }
@@ -23,11 +24,11 @@ public class WritOfMelampus extends Skill {
         }
     }
 
-    public static boolean isMelampusUnlocked() {
+    public boolean isUnlocked() {
         return melampusUnlocked;
     }
 
-    public static boolean isPicked() {
+    public boolean isPicked() {
         return picked;
     }
     public static boolean damage(){
@@ -35,14 +36,19 @@ public class WritOfMelampus extends Skill {
         return (damage < 100-GameManager.getINSTANCE().getGameModel().getMelampus());
     }
 
-    public static void setMelampusUnlocked(boolean melampusUnlocked) {
+    public void setUnlocked(boolean melampusUnlocked) {
         WritOfMelampus.melampusUnlocked = melampusUnlocked;
         if (melampusUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfMelampus());
         }
     }
 
-    public static void setPicked(boolean picked) {
+    public void setPicked(boolean picked) {
         WritOfMelampus.picked = picked;
+    }
+
+    @Override
+    public int getPrice() {
+        return price;
     }
 }

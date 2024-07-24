@@ -8,6 +8,7 @@ import model.skills.attack.WritOfAres;
 public class WritOfEmpusa extends Skill {
     private static boolean empusaUnlocked;
     private static boolean picked;
+    private int price = 750;
 
     public WritOfEmpusa() {
         name = "Writ Of Empusa";
@@ -25,22 +26,27 @@ public class WritOfEmpusa extends Skill {
         }
     }
 
-    public static boolean isEmpusaUnlocked() {
+    public boolean isUnlocked() {
         return empusaUnlocked;
     }
 
-    public static void setEmpusaUnlocked(boolean empusaUnlocked) {
+    public void setUnlocked(boolean empusaUnlocked) {
         WritOfEmpusa.empusaUnlocked = empusaUnlocked;
         if (empusaUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfEmpusa());
         }
     }
 
-    public static void setPicked(boolean picked) {
+    public void setPicked(boolean picked) {
         WritOfEmpusa.picked = picked;
     }
 
-    public static boolean isPicked() {
+    public boolean isPicked() {
         return picked;
+    }
+
+    @Override
+    public int getPrice() {
+        return price;
     }
 }

@@ -8,6 +8,7 @@ import model.skills.attack.WritOfAres;
 public class WritOfProteus extends Skill {
     private static boolean proteusUnlocked;
     private static boolean picked;
+    private int price = 1000;
 
     public WritOfProteus() {
         name = "Writ Of Proteus";
@@ -24,22 +25,25 @@ public class WritOfProteus extends Skill {
             }
         }
     }
-    public static boolean isProteusUnlocked() {
+    public boolean isUnlocked() {
         return proteusUnlocked;
     }
 
-    public static void setProteusUnlocked(boolean u) {
+    public void setUnlocked(boolean u) {
         proteusUnlocked = u;
         if (u){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfProteus());
         }
     }
-    public static boolean isPicked() {
+    public boolean isPicked() {
         return picked;
     }
 
-    public static void setPicked(boolean p) {
+    public void setPicked(boolean p) {
         picked = p;
     }
 
+    public int getPrice() {
+        return price;
+    }
 }

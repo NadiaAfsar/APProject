@@ -47,15 +47,14 @@ public class GameManagerHelper {
     public static Enemy getNewEnemy(Point point, int hp, double velocity) {
         int x = (int)(Math.random()*2);
         //Enemy enemy = new Wyrm(new Point(440,300),velocity, hp);
-        //Enemy enemy = new SquarantineModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
+        Enemy enemy = new SquarantineModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Omenoct(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new TrigorathModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Necropick(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Archmire(point,velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
         //Enemy enemy = new Barricados(new Point(1000, 300), velocity, true);
         //Enemy enemy = new BlackOrb(new Point(600, 300),velocity);
-        Enemy enemy = new Smiley(new Point(700,100),velocity);
-        GameManager.getINSTANCE().getGameModel().setSmiley((Smiley) enemy);
+        //Enemy enemy = new Smiley(new Point(700,100),velocity);
         return enemy;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet) {

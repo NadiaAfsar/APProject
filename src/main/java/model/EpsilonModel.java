@@ -57,6 +57,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);
         vertexes = new ArrayList<>();
+        cerberusList = new ArrayList<>();
         this.frame = frame;
         this.sensitivity = GameManager.getSensitivity();
     }
@@ -241,6 +242,11 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             vertex.setX(center.getX());
             vertex.setY(center.getY());
         }
+        for (int i = 0; i < cerberusList.size(); i++){
+            RotatablePoint cerberus = cerberusList.get(i);
+            cerberus.setX(center.getX());
+            cerberus.setY(center.getY());
+        }
     }
     private double calculateAngle(Direction direction) {
         double angle = Math.atan(direction.getDy()/direction.getDx());
@@ -294,7 +300,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         BulletModel bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
                 5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame);
         GameManager.getINSTANCE().getGameModel().getBullets().add(bulletModel);
-        if (GameManager.getINSTANCE().getGameModel().getWave() == 2){
+        if (GameManager.getINSTANCE().getGameModel().getWave() == 6){
             GameManager.getINSTANCE().getGameModel().getSmiley().bulletShot(bulletModel);
         }
     }

@@ -11,6 +11,6 @@ public class MyProject implements Runnable{
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        Save.load();
+        //Save.load();
     }
 }

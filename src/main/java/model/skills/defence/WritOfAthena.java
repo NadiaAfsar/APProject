@@ -8,9 +8,10 @@ import model.skills.attack.WritOfAres;
 public class WritOfAthena extends Skill {
     private static boolean athenaUnlocked;
     private static boolean picked;
+    private int price = 1200;
 
     public WritOfAthena() {
-        name = "Writ Of Chiron";
+        name = "Writ Of Athena";
     }
 
     @Override
@@ -26,22 +27,27 @@ public class WritOfAthena extends Skill {
         }
     }
 
-    public static boolean isAthenaUnlocked() {
+    public boolean isUnlocked() {
         return athenaUnlocked;
     }
 
-    public static void setAthenaUnlocked(boolean athenaUnlocked) {
+    public void setUnlocked(boolean athenaUnlocked) {
         WritOfAthena.athenaUnlocked = athenaUnlocked;
         if (athenaUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAthena());
         }
     }
 
-    public static void setPicked(boolean picked) {
+    public void setPicked(boolean picked) {
         WritOfAthena.picked = picked;
     }
 
-    public static boolean isPicked() {
+    public boolean isPicked() {
         return picked;
+    }
+
+    @Override
+    public int getPrice() {
+        return price;
     }
 }

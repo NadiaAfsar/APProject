@@ -30,6 +30,7 @@ public class EpsilonView{
             throw new RuntimeException(ex);
         }
         vertexes = new ArrayList<>();
+        cerberuses = new ArrayList<>();
     }
     public void update(int x, int y, int radius) {
         this.x  = x;
@@ -62,9 +63,9 @@ public class EpsilonView{
     }
     public void updateCerberuses(ArrayList<RotatablePoint> cerberuces) {
         synchronized (Controller.cerberusLock) {
-            for (int i = 0; i < vertexes.size(); i++) {
+            for (int i = 0; i < cerberuses.size(); i++) {
                 RotatablePoint vertex = cerberuces.get(i);
-                Vertex cerberus = this.vertexes.get(i);
+                Vertex cerberus = this.cerberuses.get(i);
                 cerberus.setCenter(new Point((int) vertex.getRotatedX(), (int) vertex.getRotatedY()));
             }
         }

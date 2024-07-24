@@ -22,6 +22,7 @@ import model.game.MediumGame;
 import model.skills.Skill;
 import model.skills.defence.WritOfAceso;
 import model.interfaces.movement.Point;
+import model.skills.transform.WritOfDolus;
 import view.menu.GameFrame;
 import view.game.GameView;
 
@@ -40,7 +41,7 @@ public class GameManager {
     public static ReaderWriter readerWriter;
     private ArrayList<Skill> unlockedSkills;
     private GameManager() {
-        totalXP = 2000;
+        totalXP = 10000;
         sensitivity = 2;
         difficulty = 1;
         readerWriter = new ReaderWriter();
@@ -51,8 +52,6 @@ public class GameManager {
         new ViewLoop().start();
     }
     public void startGame() {
-        gameModel.setDecreaseSize(true);
-        gameModel.setWave(1);
         gameView = new GameView();
         if (difficulty == 1) {
             gameModel = new EasyGame();
@@ -62,6 +61,11 @@ public class GameManager {
         }
         else {
             gameModel = new HardGame();
+        }
+        gameModel.setDecreaseSize(true);
+        gameModel.setWave(1);
+        if (pickedSkill instanceof WritOfDolus){
+            ((WritOfDolus) pickedSkill).pickSkills();
         }
     }
     private void initialShrinkage() {

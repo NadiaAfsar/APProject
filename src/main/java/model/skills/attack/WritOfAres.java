@@ -8,6 +8,7 @@ import model.skills.Skill;
 public class WritOfAres extends Skill {
     private static boolean aresUnlocked;
     private static boolean picked;
+    private int price = 750;
 
     public WritOfAres() {
         name = "Writ Of Ares";
@@ -25,21 +26,25 @@ public class WritOfAres extends Skill {
             }
         }
     }
-    public static boolean isAresUnlocked() {
+    public boolean isUnlocked() {
         return aresUnlocked;
     }
 
-    public static void setAresUnlocked(boolean u) {
+    public void setUnlocked(boolean u) {
         aresUnlocked = u;
         if (u){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAres());
         }
     }
-    public static boolean isPicked() {
+    public boolean isPicked() {
         return picked;
     }
 
-    public static void setPicked(boolean p) {
+    public void setPicked(boolean p) {
         picked = p;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

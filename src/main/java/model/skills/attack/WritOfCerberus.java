@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class WritOfCerberus extends Skill {
     private static boolean cerberusUnlocked;
     private static boolean picked;
+    private int price = 1500;
 
     public WritOfCerberus() {
         name = "Writ Of Cerberus";
@@ -43,22 +44,27 @@ public class WritOfCerberus extends Skill {
         Controller.addCerberusView(cerberusList);
     }
 
-    public static boolean isCerberusUnlocked() {
+    public boolean isUnlocked() {
         return cerberusUnlocked;
     }
 
-    public static boolean isPicked() {
+    public boolean isPicked() {
         return picked;
     }
 
-    public static void setCerberusUnlocked(boolean cerberusUnlocked) {
+    public void setUnlocked(boolean cerberusUnlocked) {
         WritOfCerberus.cerberusUnlocked = cerberusUnlocked;
         if (cerberusUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfCerberus());
         }
     }
 
-    public static void setPicked(boolean picked) {
+    public void setPicked(boolean picked) {
         WritOfCerberus.picked = picked;
+    }
+
+    @Override
+    public int getPrice() {
+        return price;
     }
 }

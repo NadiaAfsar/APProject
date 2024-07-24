@@ -7,6 +7,8 @@ import model.skills.Skill;
 public class WritOfAstrape extends Skill {
     private static boolean astrapeUnlocked;
     private static boolean picked;
+    private int price = 1000;
+
     public WritOfAstrape() {
         name = "Writ Of Astrape";
     }
@@ -22,22 +24,27 @@ public class WritOfAstrape extends Skill {
         }
     }
 
-    public static boolean isAstrapeUnlocked() {
+    @Override
+    public int getPrice() {
+        return price;
+    }
+
+    public boolean isUnlocked() {
         return astrapeUnlocked;
     }
 
-    public static void setAstrapeUnlocked(boolean astrapeUnlocked) {
+    public void setUnlocked(boolean astrapeUnlocked) {
         WritOfAstrape.astrapeUnlocked = astrapeUnlocked;
         if (astrapeUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAstrape());
         }
     }
 
-    public static boolean isPicked() {
+    public boolean isPicked() {
         return picked;
     }
 
-    public static void setPicked(boolean picked) {
+    public void setPicked(boolean picked) {
         WritOfAstrape.picked = picked;
     }
 }

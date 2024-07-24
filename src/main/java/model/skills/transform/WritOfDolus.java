@@ -11,11 +11,15 @@ import java.util.ArrayList;
 public class WritOfDolus extends Skill {
     private static boolean dolusUnlocked;
     private static boolean picked;
+    private int price = 1500;
     private ArrayList<Skill> skills;
     private int chosenSkill;
 
     public WritOfDolus() {
         name = "Writ Of Dolus";
+    }
+    public void pickSkills(){
+        skills = new ArrayList<>();
         for (int i = 0; i < 2; i++){
             skills.add(chooseSkill());
         }
@@ -43,12 +47,24 @@ public class WritOfDolus extends Skill {
         return chooseSkill();
     }
 
-    public static boolean isDolusUnlocked() {
+    public boolean isUnlocked() {
         return dolusUnlocked;
     }
 
-    public static boolean isPicked() {
+    public void setUnlocked(boolean dolusUnlocked) {
+        WritOfDolus.dolusUnlocked = dolusUnlocked;
+    }
+
+    public void setPicked(boolean picked) {
+        WritOfDolus.picked = picked;
+    }
+
+    public boolean isPicked() {
         return picked;
     }
 
+    @Override
+    public int getPrice() {
+        return price;
+    }
 }

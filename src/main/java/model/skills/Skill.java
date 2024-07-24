@@ -35,4 +35,9 @@ public abstract class Skill {
         }
         return "off";
     }
+    public abstract int getPrice();
+    public abstract boolean isUnlocked();
+    public abstract boolean isPicked();
+    public abstract void setUnlocked(boolean b);
+    public abstract void setPicked(boolean b);
 }

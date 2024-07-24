@@ -220,11 +220,11 @@ public class Frame {
 
     public void shrinkage() {
         if (width > minWidth) {
-            width -= 0.1*GameManager.getINSTANCE().getGameModel().getWritOfAthena();
+            width -= 0.1*GameManager.getINSTANCE().getGameModel().getWritOfAthena()/100;
             sides.get(2).separateAll();
         }
         if (height > minHeight) {
-            height -= 0.1*GameManager.getINSTANCE().getGameModel().getWritOfAthena();
+            height -= 0.1*GameManager.getINSTANCE().getGameModel().getWritOfAthena()/100;
             sides.get(3).separateAll();
         }
     }

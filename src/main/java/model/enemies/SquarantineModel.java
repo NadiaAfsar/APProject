@@ -97,7 +97,7 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
         while (!died) {
             move();
             checkCollision();
-            EnemyLogger.getInfo(logger, this);
+            //EnemyLogger.getInfo(logger, this);
             try {
                 sleep((long) Configs.MODEL_UPDATE_TIME);
             } catch (InterruptedException e) {
