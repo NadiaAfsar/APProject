@@ -51,6 +51,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         radius = GameManager.configs.EPSILON_RADIUS;
         addMoveTimers();
         HP = 100;
+        XP = 1000;
         velocity = new Point(0,0);
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);

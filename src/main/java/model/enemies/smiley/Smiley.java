@@ -2,6 +2,7 @@ package model.enemies.smiley;
 
 import controller.Controller;
 import controller.GameManager;
+import controller.audio.AudioController;
 import controller.save.Configs;
 import model.BulletModel;
 import model.Calculations;
@@ -32,6 +33,7 @@ public class Smiley extends Enemy implements Movable {
     private long lastAttack;
     private long lasShot;
     private boolean bulletShot;
+    private boolean toDisappear;
     public Smiley(Point center, double velocity) {
         super(center, velocity);
         logger = Logger.getLogger(Smiley.class.getName());
@@ -159,21 +161,25 @@ public class Smiley extends Enemy implements Movable {
         }
     }
     public void run() {
-        while (true){
-            move();
-            if (phase == 1  && !squeezing){
-                firstPhaseAttack();
+        while (!died) {
+            if (toDisappear) {
+                shrinkage();
+            } else {
+                move();
+                if (phase == 1 && !squeezing) {
+                    firstPhaseAttack();
+                } else if (phase == 2) {
+                    secondPhaseAttack();
+                }
+                checkAoEs();
             }
-            else if (phase == 2){
-                secondPhaseAttack();
-            }
-            checkAoEs();
             try {
-                sleep((long)Configs.MODEL_UPDATE_TIME);
+                sleep((long) Configs.MODEL_UPDATE_TIME);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
+        interrupt();
     }
     private void checkAoEs() {
         for (int i = 0; i < smileyAoEAttacks.size(); i++){
@@ -366,5 +372,27 @@ public class Smiley extends Enemy implements Movable {
             startPhase2();
         }
         logger.debug("HP:"+HP);
+    }
+    public void die() {
+        AudioController.addEnemyDyingSound();
+        for (int i = 0; i < hands.size(); i++){
+            GameManager.getINSTANCE().getDiedEnemies().add(hands.get(i));
+            Controller.removeEnemyView(hands.get(i));
+        }
+        GameManager.getINSTANCE().getDiedEnemies().add(fist);
+        Controller.removeEnemyView(fist);
+        Controller.smileyDied(this);
+        width = GameManager.configs.DEAD_WIDTH;
+        height = GameManager.configs.DEAD_HEIGHT;
+        toDisappear = true;
+    }
+    public void shrinkage(){
+        width -= 0.5;
+        height -= 0.5;
+        if (width <= 4){
+            GameManager.getINSTANCE().getDiedEnemies().add(this);
+            Controller.removeEnemyView(this);
+            died = true;
+        }
     }
 }

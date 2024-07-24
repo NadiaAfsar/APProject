@@ -1,7 +1,7 @@
 package controller;
 
 import model.skills.WritOfAceso;
-import model.skills.WritOfAres;
+import model.skills.attack.WritOfAres;
 import model.skills.WritOfProteus;
 
 public class SkillsController {

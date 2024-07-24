@@ -1,6 +1,7 @@
 package view.game.enemies.smiley;
 
 import controller.GameManager;
+import model.interfaces.movement.Point;
 import view.game.enemies.EnemyView;
 
 import javax.imageio.ImageIO;
@@ -19,5 +20,18 @@ public class SmileyView extends EnemyView {
         }
         rotatedImage = image;
 
+    }
+    public void update(int width, int height, Point center, double angle){
+        this.setWidth(width);
+        this.setHeight(height);
+        super.update(center, angle);
+    }
+    public void die(){
+        try {
+            image = ImageIO.read(new File(GameManager.configs.DEAD));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        rotatedImage = image;
     }
 }

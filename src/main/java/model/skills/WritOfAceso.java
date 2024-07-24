@@ -5,11 +5,11 @@ import model.EpsilonModel;
 import model.game.GameModel;
 
 public class WritOfAceso extends Skill{
-    private final long startTime;
+    private long lastTimeAdded;
     private static boolean acesoUnlocked;
     private static boolean picked;
+    private int HPtoIncrease;
     public WritOfAceso() {
-        startTime = System.currentTimeMillis();
         name = "Writ Of Aceso";
     }
     @Override
@@ -19,21 +19,17 @@ public class WritOfAceso extends Skill{
             if (epsilon.getXP() >= 100) {
                 activated = true;
                 epsilon.setXP(epsilon.getXP() - 100);
+                HPtoIncrease++;
             }
         }
     }
     public void increaseHP() {
         if (activated) {
             long currentTime = System.currentTimeMillis();
-            long spentTime = currentTime - startTime;
-            if (spentTime <= 180000) {
-                double x = spentTime%1000;
-                if (x <= 10) {
-                    EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
-                    epsilon.setHP(epsilon.getHP() + 1);
-                }
-            } else {
-                activated = false;
+            if (currentTime-lastTimeAdded >= 1000) {
+                EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+                epsilon.setHP(epsilon.getHP() + HPtoIncrease);
+                lastTimeAdded = currentTime;
             }
         }
     }
@@ -43,9 +39,6 @@ public class WritOfAceso extends Skill{
 
     public static void setAcesoUnlocked(boolean u) {
         acesoUnlocked = u;
-        if (!u) {
-            System.out.println(1);
-        }
     }
 
     public boolean isActivated() {

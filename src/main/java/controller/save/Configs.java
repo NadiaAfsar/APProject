@@ -73,4 +73,5 @@ public class Configs {
     public String AoE3;
     public String AoE4;
     public String AoE5;
+    public String CIRCLE;
 }

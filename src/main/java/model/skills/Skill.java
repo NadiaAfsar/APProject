@@ -11,14 +11,15 @@ public abstract class Skill {
 
 
     protected boolean isTimeToActivate() {
-        if (lastActivatedTime != 0) {
-            long currentTime = System.currentTimeMillis();
-            return (currentTime - lastActivatedTime >= 300000);
-        }
-        else {
-            lastActivatedTime = System.currentTimeMillis();
-            return true;
-        }
+//        if (lastActivatedTime != 0) {
+//            long currentTime = System.currentTimeMillis();
+//            return (currentTime - lastActivatedTime >= 300000);
+//        }
+//        else {
+//            lastActivatedTime = System.currentTimeMillis();
+//            return true;
+//        }
+        return true;
     }
     public abstract void activate();
 

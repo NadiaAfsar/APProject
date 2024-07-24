@@ -5,10 +5,11 @@ import controller.listeners.GameMouseListener;
 import controller.listeners.GameMouseMotionListener;
 import controller.listeners.InputListener;
 import view.game.enemies.EnemyView;
-import view.game.enemies.archmire.AoEView;
 import view.game.enemies.archmire.ArchmireView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
 import view.game.enemies.necropick.NecropickAnnouncement;
+import view.game.epsilon.EpsilonView;
+import view.game.epsilon.Vertex;
 
 import javax.swing.*;
 import java.awt.*;
@@ -85,6 +86,7 @@ public class GamePanel extends JPanel {
         drawEnemies(g);
         drawCollectibles(g);
         drawEpsilon(g);
+        drawVertexes(g);
         drawBullets(g);
     }
     private void drawEpsilon(Graphics g) {
@@ -145,6 +147,13 @@ public class GamePanel extends JPanel {
             NecropickAnnouncement necropick = neropicks.get(i);
             g.drawImage(necropick.getImage(), necropick.getX()-x, necropick.getY()-y, necropick.getWidth(),
                     necropick.getWidth(), null);
+        }
+    }
+    private void drawVertexes(Graphics g){
+        ArrayList<Vertex> vertices = GameManager.getINSTANCE().getGameView().getEpsilonView().getVertexes();
+        for (int i = 0; i < vertices.size(); i++){
+            Vertex vertex = vertices.get(i);
+            g.drawImage(vertex.getImage(), vertex.getX()-x, vertex.getY()-y, vertex.getWidth(), vertex.getHeight(), null);
         }
     }
 

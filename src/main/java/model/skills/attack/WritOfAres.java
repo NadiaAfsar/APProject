@@ -1,10 +1,11 @@
-package model.skills;
+package model.skills.attack;
 
 import controller.GameManager;
 import model.EpsilonModel;
 import model.game.GameModel;
+import model.skills.Skill;
 
-public class WritOfAres extends Skill{
+public class WritOfAres extends Skill {
     private static boolean aresUnlocked;
     private static boolean picked;
 

@@ -52,6 +52,7 @@ public class GameManager {
     private ArrayList<BulletModel> vanishedEnemiesBullets;
     private boolean quake;
     public Smiley smiley;
+    private int astarpe;
     private GameManager() {
         totalXP = 2000;
         sensitivity = 2;
@@ -78,7 +79,6 @@ public class GameManager {
         diedEnemies = new ArrayList<>();
         vanishedBullets = new ArrayList<>();
         vanishedEnemiesBullets = new ArrayList<>();
-        gameView.getEpsilonView().setPanel(gameView.getGamePanelMap().get(gameModel.getEpsilon().getFrame().getID()));
         lastSavedTime = System.currentTimeMillis();
     }
     private void initialDecreaseSize() {
@@ -376,5 +376,13 @@ public class GameManager {
 
     public void setSmiley(Smiley smiley) {
         this.smiley = smiley;
+    }
+
+    public int getAstarpe() {
+        return astarpe;
+    }
+
+    public void setAstarpe(int astarpe) {
+        this.astarpe = astarpe;
     }
 }

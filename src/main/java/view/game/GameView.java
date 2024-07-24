@@ -1,12 +1,11 @@
 package view.game;
 
-import controller.GameManager;
 import model.skills.Skill;
 import view.game.enemies.EnemyView;
-import view.game.enemies.archmire.AoEView;
 import view.game.enemies.archmire.ArchmireView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
 import view.game.enemies.necropick.NecropickAnnouncement;
+import view.game.epsilon.EpsilonView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

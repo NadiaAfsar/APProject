@@ -3,7 +3,7 @@ package save;
 import controller.GameManager;
 import model.skills.Skill;
 import model.skills.WritOfAceso;
-import model.skills.WritOfAres;
+import model.skills.attack.WritOfAres;
 import model.skills.WritOfProteus;
 
 import java.io.File;

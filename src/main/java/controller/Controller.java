@@ -31,6 +31,7 @@ import view.game.enemies.black_orb.BlackOrbVertexView;
 import view.game.enemies.necropick.NecropickAnnouncement;
 import view.game.enemies.necropick.NecropickView;
 import view.game.enemies.smiley.*;
+import view.game.epsilon.EpsilonView;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -47,6 +48,7 @@ public class Controller {
     public static boolean gameRunning;
     public static boolean gameFinished;
     public static Audio music;
+    public static final Object epsilonLock = new Object();
     public static void runGame() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GameManager.getINSTANCE();
         music = new Audio(GameManager.configs.THEME_SONG);
@@ -173,6 +175,9 @@ public class Controller {
         endGame();
         new GameOver(xp);
     }
+    public static void smileyDied(Smiley smiley){
+        ((SmileyView)GameManager.getINSTANCE().getGameView().getEnemiesMap().get(smiley.getID())).die();
+    }
     public static void smileyPhase2(Smiley smiley) {
         ((SmileyView)GameManager.getINSTANCE().getGameView().getEnemiesMap().get(smiley.getID())).phase2();
     }
@@ -184,12 +189,14 @@ public class Controller {
         return GameManager.getINSTANCE().getTotalXP();
     }
     public static void addVertexesToEpsilon() {
-        EpsilonView epsilonView = GameManager.getINSTANCE().getGameView().getEpsilonView();
-        epsilonView.removeVertexes();
-        ArrayList<RotatablePoint> vertexes = GameManager.getINSTANCE().getGameModel().getEpsilon().getVertexes();
-        for (int i = 0; i < vertexes.size(); i++) {
-            RotatablePoint vertex = vertexes.get(i);
-            epsilonView.addVertex((int)vertex.getRotatedX(), (int)vertex.getRotatedY());
+        synchronized (epsilonLock) {
+            EpsilonView epsilonView = GameManager.getINSTANCE().getGameView().getEpsilonView();
+            epsilonView.removeVertexes();
+            ArrayList<RotatablePoint> vertexes = GameManager.getINSTANCE().getGameModel().getEpsilon().getVertexes();
+            for (int i = 0; i < vertexes.size(); i++) {
+                RotatablePoint vertex = vertexes.get(i);
+                epsilonView.addVertex((int) vertex.getRotatedX(), (int) vertex.getRotatedY());
+            }
         }
     }
     public static boolean hephaestus() {

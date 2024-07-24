@@ -61,5 +61,6 @@
   "AoE2": "src/main/resources/pictures/smiley-aoe2.png",
   "AoE3": "src/main/resources/pictures/smiley-aoe3.png",
   "AoE4": "src/main/resources/pictures/smiley-aoe4.png",
-  "AoE5": "src/main/resources/pictures/smiley-aoe5.png"
+  "AoE5": "src/main/resources/pictures/smiley-aoe5.png",
+  "CIRCLE": "src/main/resources/pictures/circle.png"
 }

@@ -1,8 +1,10 @@
-package view.game;
+package view.game.epsilon;
 
+import controller.Controller;
 import controller.GameManager;
 import controller.save.Configs;
 import model.interfaces.movement.RotatablePoint;
+import view.game.GamePanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,9 +18,8 @@ public class EpsilonView{
     private int x;
     private int y;
     private int radius;
-    private ArrayList<JLabel> vertexes;
+    private ArrayList<Vertex> vertexes;
     private BufferedImage image;
-    private GamePanel panel;
     public EpsilonView() {
         x = Configs.FRAME_SIZE.width/2;
         y = Configs.FRAME_SIZE.height/2;
@@ -37,24 +38,19 @@ public class EpsilonView{
     }
 
     public void addVertex(int x, int y) {
-        JLabel vertex = new JLabel("●");
-        vertex.setFont(new Font("Serif", Font.PLAIN, 10));
-        vertex.setForeground(Color.WHITE);
-        vertex.setBounds(x-5,y-50,100,100);
+        Vertex vertex = new Vertex(new Point(x,y));
         vertexes.add(vertex);
-        panel.add(vertex);
     }
     public void removeVertexes() {
-        for (int i = 0; i < vertexes.size(); i++) {
-            panel.remove(vertexes.get(i));
-        }
         vertexes = new ArrayList<>();
     }
     public void updateVertexes(ArrayList<RotatablePoint> vertexes) {
-        for (int i = 0; i < vertexes.size(); i++) {
-            RotatablePoint vertex = vertexes.get(i);
-            JLabel vertexJLabel = this.vertexes.get(i);
-            vertexJLabel.setBounds((int)vertex.getRotatedX()-5, (int)vertex.getRotatedY()-50, 100, 100);
+        synchronized (Controller.epsilonLock) {
+            for (int i = 0; i < vertexes.size(); i++) {
+                RotatablePoint vertex = vertexes.get(i);
+                Vertex epsilonVertex = this.vertexes.get(i);
+                epsilonVertex.setCenter(new Point((int) vertex.getRotatedX(), (int) vertex.getRotatedY()));
+            }
         }
     }
     public void increaseSize(int x, int y, int radius) {
@@ -63,9 +59,6 @@ public class EpsilonView{
         update(x,y);
     }
 
-    public void setPanel(GamePanel panel) {
-        this.panel = panel;
-    }
 
     public int getX() {
         return x;
@@ -88,5 +81,9 @@ public class EpsilonView{
     }
     public int getRadius() {
         return radius;
+    }
+
+    public ArrayList<Vertex> getVertexes() {
+        return vertexes;
     }
 }

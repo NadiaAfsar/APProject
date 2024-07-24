@@ -14,13 +14,14 @@ import model.enemies.smiley.Smiley;
 import model.enemies.smiley.SmileyAoEAttack;
 import model.frame.Frame;
 import view.game.BulletView;
-import view.game.EpsilonView;
+import view.game.epsilon.EpsilonView;
 import view.game.GamePanel;
 import view.game.GameView;
 import view.game.enemies.EnemyView;
 import view.game.enemies.archmire.AoEView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
 import view.game.enemies.smiley.SmileyAoEView;
+import view.game.enemies.smiley.SmileyView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -73,12 +74,14 @@ public class Update {
                 updateBlackOrbLasers((BlackOrb) enemy);
             }
             else if (enemiesView.get(enemy.getID()) != null) {
+                if (enemy instanceof Smiley){
+                    updateSmileyAoEs((Smiley) enemy);
+                    ((SmileyView)enemiesView.get(enemy.getID())).update((int)enemy.getWidth(), (int)enemy.getHeight(),
+                            enemy.getCenter(), enemy.getAngle());
+                }
                 enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
                 if (enemy instanceof Archmire){
                     updateAoEs((Archmire) enemy);
-                }
-                else if (enemy instanceof Smiley){
-                    updateSmileyAoEs((Smiley) enemy);
                 }
             }
         }
