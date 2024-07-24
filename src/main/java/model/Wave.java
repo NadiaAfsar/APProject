@@ -4,6 +4,7 @@ import controller.GameManager;
 import controller.GameManagerHelper;
 import controller.audio.AudioController;
 import model.enemies.Enemy;
+import model.enemies.smiley.Smiley;
 import model.frame.Frame;
 import model.game.GameModel;
 import model.interfaces.movement.Point;
@@ -18,35 +19,49 @@ public class Wave {
     private final int waveNumber;
     private final int enemies;
     private final long startTime;
+    private long lastSpawning;
+    private int diedEnemies;
     private final GameModel gameModel;
+    private boolean spawn;
 
     public Wave(int waveNumber, int enemies) {
         this.waveNumber = waveNumber;
         this.enemies = enemies;
         gameModel = GameManager.getINSTANCE().getGameModel();
-        startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis()/1000;
         waitBeforeNextWave();
+        spawn = true;
     }
     private void addEnemy() {
-        Frame frame = gameModel.getEpsilon().getFrame();
-        Point position = GameManagerHelper.getRandomPosition(addedEnemies, frame.getWidth(), frame.getHeight());
+        int enemyNumber = 0;
+        if (waveNumber > 2){
+            enemyNumber = (int)(Math.random()*8);
+        }
+        else {
+            enemyNumber = (int)(Math.random()*6);
+        }
+        Frame frame = gameModel.getInitialFrame();
+        Point position = GameManagerHelper.getRandomPosition(frame.getWidth(), frame.getHeight());
         Enemy enemy = GameManagerHelper.getNewEnemy(new Point(frame.getX()+ position.getX(),
-                frame.getY()+ position.getY()), gameModel.getEnemyHP(), gameModel.getEnemyVelocity());
+                frame.getY()+ position.getY()), gameModel.getEnemyHP(), gameModel.getEnemyVelocity(), enemyNumber);
         gameModel.getEnemies().add(enemy);
     }
     private void startWave() {
-        AudioController.addEnemyEnteringSound();
         addedEnemies = new boolean[4][6];
         gameModel.setEnemies(new ArrayList<>());
-        for (int i = 0; i < 1; i++) {
-            addEnemy();
+        if (waveNumber != 6) {
+            addEnemies(2);
+        }
+        else {
+            Smiley smiley = new Smiley(new Point(200, 200), gameModel.getEnemyVelocity());
+            gameModel.getEnemies().add(smiley);
         }
     }
     private void waitBeforeNextWave() {
         if (waveNumber != 1) {
             GameManager.getINSTANCE().getGameModel().setWait(true);
             AudioController.addWaveEndSound();
-            Timer timer = new Timer(2000, new ActionListener() {
+            Timer timer = new Timer(6000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     startWave();
@@ -68,5 +83,35 @@ public class Wave {
     }
     private int getElapsedTime() {
         return (int) (System.currentTimeMillis()/1000-startTime);
+    }
+    public void newEnemyDied(){
+        diedEnemies++;
+    }
+    public void checkWave(){
+        if (waveNumber != 6) {
+            if (diedEnemies >= enemies) {
+                if (GameManager.getINSTANCE().getGameModel().getEnemies().size() == 0) {
+                    GameManager.getINSTANCE().nextWave();
+                } else {
+                    spawn = false;
+                }
+            }
+            else if (getElapsedTime() != 0) {
+                if (System.currentTimeMillis() - lastSpawning > 10000 / Math.pow(getElapsedTime(), 1d/3) && spawn && !gameModel.isWait()) {
+                    addEnemies(3);
+                }
+            }
+        }
+    }
+    private void addEnemies(int n){
+        AudioController.addEnemyEnteringSound();
+        for (int i = 0; i < n; i++) {
+            addEnemy();
+        }
+        lastSpawning = System.currentTimeMillis();
+    }
+
+    public int getDiedEnemies() {
+        return diedEnemies;
     }
 }

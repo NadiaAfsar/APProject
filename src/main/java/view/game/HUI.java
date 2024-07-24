@@ -145,12 +145,14 @@ public class HUI extends JFrame {
         this.xp.setText("xp: "+xp);
     }
     public void updateWave(int wave) {
-        this.wave.setText(wave+"/3");
+        this.wave.setText(wave+"/6");
     }
     public void updateTime(long time1) {
         time.setText(getElapsedTime(time1));
     }
     public void updateSkill(Skill skill1) {
-        skill.setText(skill1.getName()+": "+skill1.getStatus());
+        if (skill1 != null) {
+            skill.setText(skill1.getName() + ": " + skill1.getStatus());
+        }
     }
 }

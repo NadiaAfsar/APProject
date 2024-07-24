@@ -14,7 +14,7 @@ import java.util.Map;
 public class Interference {
     public static boolean enemyIsInArchmire(ArrayList<RotatablePoint> vertexes, Enemy enemy) {
         for (int i = 0; i < enemy.getVertexes().size(); i++) {
-            for (int j = 0; j < vertexes.size(); i++) {
+            for (int j = 0; j < vertexes.size(); j++) {
                 double x = enemy.getVertexes().get(i).getRotatedX();
                 double y = enemy.getVertexes().get(i).getRotatedY();
                 double x1 = vertexes.get(j).getRotatedX();
@@ -59,9 +59,9 @@ public class Interference {
     }
     public static boolean isInFrame(double x, double y, double width, double height, Frame frame) {
         double[] a = new double[]{x, x+width, y, y+height};
-        double[] b = new double[]{frame.getX()-15, frame.getX()-15, frame.getY()-10, frame.getY()-10};
-        double[] c = new double[]{frame.getX()+ frame.getWidth()+15, frame.getX()+ frame.getWidth()+15,
-                frame.getY()+ frame.getHeight()+15, frame.getY()+ frame.getHeight()+15};
+        double[] b = new double[]{frame.getX()-20, frame.getX()-20, frame.getY()-20, frame.getY()-20};
+        double[] c = new double[]{frame.getX()+ frame.getWidth()+20, frame.getX()+ frame.getWidth()+20,
+                frame.getY()+ frame.getHeight()+20, frame.getY()+ frame.getHeight()+20};
         for (int i = 0; i < 4; i++){
             if (!Calculations.isInDomain(a[i], b[i], c[i])){
                 return false;

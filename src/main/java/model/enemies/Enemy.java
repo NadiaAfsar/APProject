@@ -4,6 +4,7 @@ import controller.Controller;
 import controller.GameManager;
 import controller.audio.AudioController;
 import log.EnemyLogger;
+import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.normal.Wyrm;
@@ -107,7 +108,7 @@ public abstract class Enemy extends Thread implements Collidable{
             GameModel gameModel = GameManager.getINSTANCE().getGameModel();
             gameModel.getEpsilon().setHP(gameModel.getEpsilon().getHP() + gameModel.getChiron());
         }
-        if (HP <= 0) {
+        if (HP <= 0 && !(this instanceof Barricados)) {
             die();
         }
         logger.debug(HP);
@@ -117,6 +118,7 @@ public abstract class Enemy extends Thread implements Collidable{
         GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
         Controller.removeEnemyView(this);
         AudioController.addEnemyDyingSound();
+        GameManager.getINSTANCE().getGameModel().getCurrentWave().newEnemyDied();
         died = true;
     }
     protected void checkCollision() {

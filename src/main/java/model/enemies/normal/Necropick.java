@@ -74,7 +74,7 @@ public class Necropick extends Enemy {
                 sleepFor(2000);
                 shootBullets(4);
                 sleepFor(1000);
-                EnemyLogger.getInfo(logger, this);
+                //EnemyLogger.getInfo(logger, this);
             }
             else {
                 try {

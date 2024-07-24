@@ -1,5 +1,6 @@
 package view.game;
 
+import model.interfaces.movement.Point;
 import model.skills.Skill;
 import view.game.enemies.EnemyView;
 import view.game.enemies.archmire.ArchmireView;
@@ -7,6 +8,8 @@ import view.game.enemies.black_orb.BlackOrbLaserView;
 import view.game.enemies.necropick.NecropickAnnouncement;
 import view.game.epsilon.EpsilonView;
 
+import javax.swing.*;
+import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +32,7 @@ public class GameView {
     private ArrayList<NecropickAnnouncement> necropickAnnouncements;
     private Map<String, NecropickAnnouncement> necropickAnnouncementMap;
     private HUI hui;
+    private CheckPointView portal;
     public GameView() {
         enemiesMap = new HashMap<>();
         bulletsMap = new HashMap<>();
@@ -53,7 +57,7 @@ public class GameView {
         if (hui.isVisible()) {
             hui.updateHP(HP);
             hui.updateXP(XP);
-            hui.updateWave(wave-1);
+            hui.updateWave(wave);
             hui.updateTime(time);
             hui.updateSkill(skill);
         }
@@ -192,5 +196,20 @@ public class GameView {
     public void removeNecropickAnnouncement(String ID){
         necropickAnnouncements.remove(necropickAnnouncementMap.get(ID));
         necropickAnnouncementMap.put(ID, null);
+    }
+    public void removeFrames(){
+        for (int i = 0; i < gamePanels.size(); i++){
+            gamePanels.get(i).getFrame().dispose();
+        }
+    }
+    public void addPortal(Point point){
+        portal = new CheckPointView(point);
+    }
+    public void removePortal(){
+        portal = null;
+    }
+
+    public CheckPointView getPortal() {
+        return portal;
     }
 }

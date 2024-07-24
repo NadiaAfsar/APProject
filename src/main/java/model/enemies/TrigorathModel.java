@@ -77,7 +77,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
             if (!GameManager.getINSTANCE().isHypnos() && Controller.gameRunning) {
                 move();
                 checkCollision();
-                EnemyLogger.getInfo(logger, this);
+                //EnemyLogger.getInfo(logger, this);
             }
             try {
                 sleep((long) Configs.MODEL_UPDATE_TIME);

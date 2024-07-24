@@ -5,6 +5,7 @@ import model.EpsilonModel;
 import model.skills.Skill;
 import model.skills.attack.WritOfAres;
 import model.skills.attack.WritOfCerberus;
+import model.skills.transform.WritOfProteus;
 
 public class WritOfChiron extends Skill {
     private static boolean chironUnlocked;
@@ -34,10 +35,12 @@ public class WritOfChiron extends Skill {
         if (chironUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfChiron());
         }
+        GameManager.configs.WritOfChironUnlocked = chironUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfChiron.picked = picked;
+        GameManager.configs.WritOfChironPicked = picked;
     }
 
     public boolean isPicked() {
@@ -47,5 +50,12 @@ public class WritOfChiron extends Skill {
     @Override
     public int getPrice() {
         return price;
+    }
+    public static void setBooleans(){
+        chironUnlocked = GameManager.configs.WritOfChironUnlocked;
+        if (chironUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfChiron());
+        }
+        picked = GameManager.configs.WritOfChironPicked;
     }
 }

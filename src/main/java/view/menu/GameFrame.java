@@ -74,4 +74,13 @@ public class GameFrame extends JFrame {
     public void setSettings(Settings settings) {
         this.settings = settings;
     }
+    public boolean option(String string){
+        String[] options = new String[]{"Yes", "No"};
+        int pick = JOptionPane.showOptionDialog(null, string,
+                null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        if (pick == 0){
+            return true;
+        }
+        return false;
+    }
 }

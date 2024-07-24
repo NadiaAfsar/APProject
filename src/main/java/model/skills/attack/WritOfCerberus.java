@@ -5,6 +5,7 @@ import controller.GameManager;
 import model.EpsilonModel;
 import model.interfaces.movement.RotatablePoint;
 import model.skills.Skill;
+import model.skills.transform.WritOfProteus;
 
 import java.util.ArrayList;
 
@@ -57,14 +58,23 @@ public class WritOfCerberus extends Skill {
         if (cerberusUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfCerberus());
         }
+        GameManager.configs.WritOfCerberusUnlocked = cerberusUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfCerberus.picked = picked;
+        GameManager.configs.WritOfCerberusPicked = picked;
     }
 
     @Override
     public int getPrice() {
         return price;
+    }
+    public static void setBooleans(){
+        cerberusUnlocked = GameManager.configs.WritOfCerberusUnlocked;
+        if (cerberusUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfCerberus());
+        }
+        picked = GameManager.configs.WritOfCerberusPicked;
     }
 }

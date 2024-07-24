@@ -53,10 +53,12 @@ public class WritOfDolus extends Skill {
 
     public void setUnlocked(boolean dolusUnlocked) {
         WritOfDolus.dolusUnlocked = dolusUnlocked;
+        GameManager.configs.WritOfDolusUnlocked = dolusUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfDolus.picked = picked;
+        GameManager.configs.WritOfDolusPicked = picked;
     }
 
     public boolean isPicked() {
@@ -66,5 +68,9 @@ public class WritOfDolus extends Skill {
     @Override
     public int getPrice() {
         return price;
+    }
+    public static void setBooleans(){
+        dolusUnlocked = GameManager.configs.WritOfDolusUnlocked;
+        picked = GameManager.configs.WritOfDolusPicked;
     }
 }

@@ -59,7 +59,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         vertexes = new ArrayList<>();
         cerberusList = new ArrayList<>();
         this.frame = frame;
-        this.sensitivity = GameManager.getSensitivity();
+        this.sensitivity = GameManager.getINSTANCE().getSensitivity();
     }
 
 
@@ -166,8 +166,16 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     public void decreaseHP(int hp) {
         HP -= hp;
         if (HP <= 0) {
-            AudioController.addGameOverSound();
-            Controller.gameOver(XP);
+            if( GameManager.getINSTANCE().isSaved()){
+                HP = 10;
+                GameManager.getINSTANCE().setSaved(false);
+            }
+            else {
+                AudioController.addGameOverSound();
+                GameModel gameModel = GameManager.getINSTANCE().getGameModel();
+                Controller.gameOver(XP, gameModel.getTimePlayed(), gameModel.getTotalBullets(), gameModel.getSuccessfulBullets(),
+                        gameModel.getSuccessfulBullets());
+            }
         }
     }
 
@@ -307,6 +315,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
                     5 + GameManager.getINSTANCE().getGameModel().getAres(), false, frame);
         }
+        GameManager.getINSTANCE().getGameModel().addBullet();
         GameManager.getINSTANCE().getGameModel().getBullets().add(bulletModel);
         if (GameManager.getINSTANCE().getGameModel().getWave() == 6){
             GameManager.getINSTANCE().getGameModel().getSmiley().bulletShot(bulletModel);

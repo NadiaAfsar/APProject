@@ -34,6 +34,7 @@ public class WritOfProteus extends Skill {
         if (u){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfProteus());
         }
+        GameManager.configs.WritOfEmpusaUnlocked = u;
     }
     public boolean isPicked() {
         return picked;
@@ -41,9 +42,17 @@ public class WritOfProteus extends Skill {
 
     public void setPicked(boolean p) {
         picked = p;
+        GameManager.configs.WritOfEmpusaPicked = p;
     }
 
     public int getPrice() {
         return price;
+    }
+    public static void setBooleans(){
+        proteusUnlocked = GameManager.configs.WritOfProteusUnlocked;
+        if (proteusUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfProteus());
+        }
+        picked = GameManager.configs.WritOfProteusPicked;
     }
 }

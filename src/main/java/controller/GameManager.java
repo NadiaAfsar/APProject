@@ -5,25 +5,30 @@ import controller.save.Configs;
 import controller.save.ReaderWriter;
 import controller.update.ModelLoop;
 import controller.update.ViewLoop;
-import model.EpsilonModel;
+import model.*;
 import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrb;
 import model.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.enemies.smiley.Fist;
 import model.interfaces.collision.Impactable;
 import controller.audio.AudioController;
-import model.BulletModel;
-import model.Collectible;
-import model.Wave;
 import model.enemies.Enemy;
 import model.game.EasyGame;
 import model.game.GameModel;
 import model.game.HardGame;
 import model.game.MediumGame;
 import model.skills.Skill;
+import model.skills.attack.WritOfAres;
+import model.skills.attack.WritOfAstrape;
+import model.skills.attack.WritOfCerberus;
 import model.skills.defence.WritOfAceso;
 import model.interfaces.movement.Point;
+import model.skills.defence.WritOfAthena;
+import model.skills.defence.WritOfChiron;
+import model.skills.defence.WritOfMelampus;
 import model.skills.transform.WritOfDolus;
+import model.skills.transform.WritOfEmpusa;
+import model.skills.transform.WritOfProteus;
 import view.menu.GameFrame;
 import view.game.GameView;
 
@@ -32,12 +37,12 @@ import java.util.ArrayList;
 public class GameManager {
     private int totalXP;
     private static GameManager INSTANCE;
-    private static int difficulty;
-    private static int sensitivity;
+    private int difficulty;
+    private int sensitivity;
     private Skill pickedSkill;
-    private GameModel gameModel;
-    private GameView gameView;
-    private GameFrame gameFrame;
+    private static GameModel gameModel;
+    private static GameView gameView;
+    private static GameFrame gameFrame;
     public static Configs configs;
     public static ReaderWriter readerWriter;
     private ArrayList<Skill> unlockedSkills;
@@ -47,33 +52,47 @@ public class GameManager {
     private long hypnosActivated;
     private boolean phonoi;
     private long phonoiUsed;
+    private boolean saved;
     private GameManager() {
         totalXP = 10000;
         sensitivity = 2;
         difficulty = 1;
-        readerWriter = new ReaderWriter();
         configs = readerWriter.getConfigs();
-        gameFrame = new GameFrame();
         unlockedSkills = new ArrayList<>();
+        setSkills();
+        gameFrame = new GameFrame();
         new ModelLoop().start();
         new ViewLoop().start();
     }
+    private void setSkills(){
+        WritOfAres.setBooleans();
+        WritOfAstrape.setBooleans();
+        WritOfCerberus.setBooleans();
+        WritOfAceso.setBooleans();
+        WritOfAthena.setBooleans();
+        WritOfMelampus.setBooleans();
+        WritOfChiron.setBooleans();
+        WritOfProteus.setBooleans();
+        WritOfDolus.setBooleans();
+        WritOfEmpusa.setBooleans();
+    }
     public void startGame() {
         gameView = new GameView();
-        if (difficulty == 1) {
-            gameModel = new EasyGame();
-        }
-        else if (difficulty == 2) {
-            gameModel = new MediumGame();
-        }
-        else {
-            gameModel = new HardGame();
-        }
-        gameModel.setDecreaseSize(true);
-        gameModel.setWave(1);
-        if (pickedSkill instanceof WritOfDolus){
-            ((WritOfDolus) pickedSkill).pickSkills();
-        }
+        setGameModel();
+    }
+    private void setGameModel(){
+            if (difficulty == 1) {
+                gameModel = new EasyGame();
+            } else if (difficulty == 2) {
+                gameModel = new MediumGame();
+            } else {
+                gameModel = new HardGame();
+            }
+            if (pickedSkill != null) {
+                if (pickedSkill instanceof WritOfDolus) {
+                    ((WritOfDolus) pickedSkill).pickSkills();
+                }
+            }
     }
     private void initialShrinkage() {
         gameModel.getEpsilon().getFrame().setWidth(gameModel.getEpsilon().getFrame().getWidth() - 4);
@@ -118,12 +137,14 @@ public class GameManager {
         gameModel.getEnemiesBullets().removeAll(gameModel.getVanishedEnemiesBullets());
         gameModel.setVanishedBullets(new ArrayList<>());
     }
-    private void nextWave() {
-        if (gameModel.getCurrentWave() != null) {
-            gameModel.setTotalPR(gameModel.getTotalPR() + gameModel.getCurrentWave().getProgressRate());
-        }
-        gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getWaves().get(gameModel.getWave())));
+    public void nextWave() {
         gameModel.setWave(gameModel.getWave()+1);
+        if (gameModel.getCurrentWave() != null) {
+            new CheckPoint();
+            gameModel.setTotalPR(gameModel.getTotalPR() + gameModel.getCurrentWave().getProgressRate());
+            gameModel.setKilledEnemies(gameModel.getKilledEnemies()+gameModel.getCurrentWave().getDiedEnemies());
+        }
+        gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getEnemiesToKill().get(gameModel.getWave())));
     }
     private void checkBulletsCollision() {
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
@@ -164,6 +185,7 @@ public class GameManager {
                 bulletCollided(bullet, point, gameModel.getVanishedBullets());
                 if (!(enemy instanceof Barricados) && !(enemy instanceof Fist)) {
                     enemy.decreaseHP(bullet.getDamage());
+                    gameModel.addSuccessfulBullet();
                 }
             }
     }
@@ -174,6 +196,7 @@ public class GameManager {
                 if (point != null) {
                     bulletCollided(bullet, point, gameModel.getVanishedBullets());
                     vertices.get(i).decreaseHP(bullet.getDamage());
+                    gameModel.addSuccessfulBullet();
                 }
         }
     }
@@ -220,17 +243,17 @@ public class GameManager {
         checkEnemiesBulletsCollision();
         gameModel.getEnemies().removeAll(gameModel.getDiedEnemies());
         gameModel.setDiedEnemies(new ArrayList<>());
-        if (gameModel.isGameStarted() && gameModel.getEnemies().size() == 0 && !gameModel.isWait()) {
-            if (gameModel.getWave() == 4) {
-                endGame();
-            }
-            else {
-                nextWave();
-            }
+        if (getGameModel().getCurrentWave() != null) {
+            gameModel.getCurrentWave().checkWave();
+        }
+        else {
+            nextWave();
         }
         checkCollectibles();
-        if (pickedSkill instanceof WritOfAceso) {
-            ((WritOfAceso)pickedSkill).increaseHP();
+        if (pickedSkill != null) {
+            if (pickedSkill instanceof WritOfAceso) {
+                ((WritOfAceso) pickedSkill).increaseHP();
+            }
         }
         if (deimos){
             if (System.currentTimeMillis()-deimosActivated >= 10000){
@@ -254,7 +277,8 @@ public class GameManager {
             gameModel.setAthena(false);
         }
     }
-    private void endGame() {
+    public void endGame() {
+        saved = false;
         Controller.endGame();
         AudioController.addWinningSound();
         Controller.removeEpsilonVertexes();
@@ -267,27 +291,33 @@ public class GameManager {
         for (int i = 0; i < gameModel.getEnemies().size(); i++) {
             Controller.removeEnemyView(gameModel.getEnemies().get(i));
         }
+        Controller.gameRunning = true;
         Controller.gameFinished = true;
-        GameManager game = GameManager.getINSTANCE();
-        game.setTotalXP(game.getTotalXP()+gameModel.getEpsilon().getXP());
+        INSTANCE.setTotalXP(totalXP+gameModel.getEpsilon().getXP());
     }
-//    public void destroyFrame() {
-//        if (gameModel.isFinished()) {
-//            if (gameModel.getWidth() >= 2) {
-//                gameModel.setWidth(gameModel.getWidth()-5);
-//            }
-//            if (gameModel.getHeight() >= 2) {
-//                gameModel.setHeight(gameModel.getHeight()-5);
-//            }
-//            if (gameModel.getWidth() <= 2 && gameModel.getHeight() <= 2) {
-//                gameModel.setFinished(false);
-//                Controller.gameOver(gameModel.getEpsilon().getXP());
-//            }
-//        }
-//    }
+    public void destroyFrame() {
+        if (gameModel.isFinished()) {
+            if (gameModel.getInitialFrame().getWidth() >= 2) {
+                gameModel.getInitialFrame().setWidth(gameModel.getInitialFrame().getWidth()-5);
+            }
+            if (gameModel.getInitialFrame().getHeight() >= 2) {
+                gameModel.getInitialFrame().setHeight(gameModel.getInitialFrame().getHeight()-5);
+            }
+            if (gameModel.getInitialFrame().getWidth() <= 2 && gameModel.getInitialFrame().getHeight() <= 2) {
+                gameModel.setFinished(false);
+                Controller.gameOver(gameModel.getEpsilon().getXP(), gameModel.getTimePlayed(), gameModel.getTotalBullets(),
+                        gameModel.getSuccessfulBullets(), gameModel.getKilledEnemies());
+            }
+        }
+    }
 
     public static GameManager getINSTANCE() {
         if (INSTANCE == null) {
+            readerWriter = new ReaderWriter();
+            GameManager gameManager = readerWriter.getGameManager();
+            if (gameManager != null){
+                return gameManager;
+            }
             INSTANCE = new GameManager();
         }
         return INSTANCE;
@@ -310,20 +340,20 @@ public class GameManager {
         this.pickedSkill = pickedSkill;
     }
 
-    public static int getDifficulty() {
+    public int getDifficulty() {
         return difficulty;
     }
 
-    public static void setDifficulty(int difficulty) {
-        GameManager.difficulty = difficulty;
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
-    public static int getSensitivity() {
+    public int getSensitivity() {
         return sensitivity;
     }
 
-    public static void setSensitivity(int sensitivity) {
-        GameManager.sensitivity = sensitivity;
+    public void setSensitivity(int sensitivity) {
+        this.sensitivity = sensitivity;
     }
 
     public GameModel getGameModel() {
@@ -421,5 +451,16 @@ public class GameManager {
         if (!phonoi){
             phonoiUsed = System.currentTimeMillis();
         }
+    }
+    public void save(){
+        saved = true;
+    }
+
+    public boolean isSaved() {
+        return saved;
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved = saved;
     }
 }

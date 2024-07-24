@@ -28,6 +28,7 @@ public class BlackOrbLaser {
         ID = UUID.randomUUID().toString();
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
+        points = new ArrayList<>();
         Controller.addLaserView(this);
     }
     private void setPoints() {
@@ -35,7 +36,7 @@ public class BlackOrbLaser {
         point2 = new Point(vertex2.getCenter().getX()-15, vertex2.getCenter().getY()-15);
         point3 = new Point(vertex2.getCenter().getX()+15, vertex2.getCenter().getY()+15);
         point4 = new Point(vertex1.getCenter().getX()+15, vertex1.getCenter().getY()+15);
-        ArrayList<Point> points = new ArrayList<Point>() {{ add(point1); add(point2); add(point3); add(point4);}};
+        points = new ArrayList<Point>() {{ add(point1); add(point2); add(point3); add(point4);}};
     }
     public void attack() {
         long currentTime = System.currentTimeMillis();

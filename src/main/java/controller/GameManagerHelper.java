@@ -1,11 +1,15 @@
 package controller;
 
+import controller.save.Configs;
 import model.BulletModel;
 import model.enemies.SquarantineModel;
+import model.enemies.TrigorathModel;
 import model.enemies.mini_boss.Barricados;
 import model.enemies.mini_boss.black_orb.BlackOrb;
+import model.enemies.normal.Necropick;
 import model.enemies.normal.Omenoct;
 import model.enemies.normal.Wyrm;
+import model.enemies.normal.archmire.Archmire;
 import model.enemies.smiley.Smiley;
 import model.frame.Frame;
 import model.enemies.Enemy;
@@ -19,13 +23,11 @@ public class GameManagerHelper {
 //            list1.remove(list2.get(i));
 //        }
 //    }
-    public static Point getRandomPosition(boolean[][] addedEnemies, double width, double height) {
+    public static Point getRandomPosition(double width, double height) {
         double x = 0;
         double y = 0;
         int random1 = (int)(Math.random()*4);
         int random2 = (int)(Math.random()*6);
-        if (!addedEnemies[random1][random2]) {
-            addedEnemies[random1][random2] = true;
             if (random1 == 0) {
                 y = -10;
                 x = random2 * ( width / 6) + 10;
@@ -41,21 +43,40 @@ public class GameManagerHelper {
                 y = random2 * ( height/ 6) + 10;
             }
             return new Point(x,y);
-        }
-        return getRandomPosition(addedEnemies, width, height);
     }
-    public static Enemy getNewEnemy(Point point, int hp, double velocity) {
-        int x = (int)(Math.random()*2);
-        //Enemy enemy = new Wyrm(new Point(440,300),velocity, hp);
-        Enemy enemy = new SquarantineModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
-        //Enemy enemy = new Omenoct(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
-        //Enemy enemy = new TrigorathModel(point, hp, velocity, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
-        //Enemy enemy = new Necropick(point, velocity, hp, GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
-        //Enemy enemy = new Archmire(point,velocity,hp,GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame());
-        //Enemy enemy = new Barricados(new Point(1000, 300), velocity, true);
-        //Enemy enemy = new BlackOrb(new Point(600, 300),velocity);
-        //Enemy enemy = new Smiley(new Point(700,100),velocity);
-        return enemy;
+    public static Enemy getNewEnemy(Point point, int hp, double velocity, int enemy) {
+        Frame frame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
+        if (enemy == 0){
+            return new TrigorathModel(point, hp, velocity, frame);
+        }
+        else if (enemy == 1){
+            return new SquarantineModel(point, hp, velocity, frame);
+        }
+        else if (enemy == 2){
+            return new Wyrm(new Point((point.getX()- frame.getX())/ frame.getWidth()* (Configs.FRAME_SIZE.width-200)+100, (point.getY()- frame.getY())/
+                    frame.getHeight()*(Configs.FRAME_SIZE.height-200)+100), velocity, hp);
+        }
+        else if (enemy == 3){
+            return new Omenoct(point, velocity, hp, frame);
+        }
+        else if (enemy == 4){
+            return new Necropick(point, velocity, hp, frame);
+        }
+        else if (enemy == 5){
+            return new Archmire(point, velocity, hp, frame);
+        }
+        else if (enemy == 6){
+            int x = 100 + (int)(Math.random()*(Configs.FRAME_SIZE.width-500));
+            int y = 100 + (int)(Math.random()*(Configs.FRAME_SIZE.height-300));
+            int isRigid = (int) (Math.random()*2);
+            if (isRigid == 0) {
+                return new Barricados(new Point(x, y), velocity, false);
+            }
+            return new Barricados(new Point(x, y), velocity, true);
+        }
+        int x = 100 + (int)(Math.random()*(Configs.FRAME_SIZE.width-400));
+        int y = 100 + (int)(Math.random()*(Configs.FRAME_SIZE.height-350));
+        return new BlackOrb(new Point(x,y),velocity);
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet) {
         Frame frame = bullet.getFrame();

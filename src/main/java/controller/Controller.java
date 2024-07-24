@@ -21,7 +21,6 @@ import model.enemies.Enemy;
 import model.enemies.SquarantineModel;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
-import save.Save;
 import view.game.*;
 import view.game.enemies.*;
 import view.game.enemies.archmire.AoEView;
@@ -78,6 +77,9 @@ public class Controller {
         });
         timer.setRepeats(false);
         timer.start();
+    }
+    public static boolean playSavedGame(){
+        return GameManager.getINSTANCE().getGameFrame().option("Do you want to play your saved game?");
     }
     public static void addLaserView(BlackOrbLaser laser) {
         GameManager.getINSTANCE().getGameView().addLaser(new BlackOrbLaserView(laser.getX1(), laser.getY1(),
@@ -172,9 +174,12 @@ public class Controller {
     public static void removeCollectibleView(Collectible collectible) {
         GameManager.getINSTANCE().getGameView().removeCollectibleView(collectible.getID());
     }
-    public static void gameOver(int xp) {
+    public static void gameOver(int xp, long time, int bullets, int successfulBullets, int killedEnemies) {
         endGame();
-        new GameOver(xp);
+        GameManager.getINSTANCE().getGameView().removeFrames();
+        GameManager.readerWriter.saveGameManger();
+        GameManager.readerWriter.deleteSavedGames();
+        new GameOver(xp, time, bullets, successfulBullets, killedEnemies);
     }
     public static void smileyDied(Smiley smiley){
         ((SmileyView)GameManager.getINSTANCE().getGameView().getEnemiesMap().get(smiley.getID())).die();
@@ -209,19 +214,19 @@ public class Controller {
         GameMouseMotionListener.getINSTANCE().setEpsilonModel(null);
         gameRunning = false;
         gameFinished = false;
-        Save.save();
+        GameManager.getINSTANCE().getGameView().removeFrames();
     }
     public static int getDifficulty() {
-        return GameManager.getDifficulty();
+        return GameManager.getINSTANCE().getDifficulty();
     }
     public static void setDifficulty(int d) {
-        GameManager.setDifficulty(d);
+        GameManager.getINSTANCE().setDifficulty(d);
     }
     public static int getSensitivity() {
-        return GameManager.getSensitivity();
+        return GameManager.getINSTANCE().getSensitivity();
     }
     public static void setSensitivity(int s) {
-        GameManager.setSensitivity(s);
+        GameManager.getINSTANCE().setSensitivity(s);
     }
 
     public static Audio getMusic() {
@@ -248,5 +253,15 @@ public class Controller {
                 epsilon.addCerberus((int)cerberus.get(i).getRotatedX(), (int)cerberus.get(i).getRotatedY());
             }
         }
+    }
+    public static void addPortal(Point point){
+        GameManager.getINSTANCE().getGameView().addPortal(point);
+    }
+    public static void removePortal(){
+        GameManager.getINSTANCE().getGameView().removePortal();
+    }
+    public static boolean saveGame(){
+        int PR = (int)GameManager.getINSTANCE().getGameModel().getCurrentWave().getProgressRisk();
+        return GameManager.getINSTANCE().getGameFrame().option("Do you pay "+PR+" XPs to save the game?");
     }
 }

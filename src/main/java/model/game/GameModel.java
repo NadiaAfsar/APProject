@@ -1,8 +1,5 @@
 package model.game;
 
-import controller.GameManager;
-import controller.save.Configs;
-import controller.save.ReaderWriter;
 import model.BulletModel;
 import model.EpsilonModel;
 import model.Collectible;
@@ -10,9 +7,6 @@ import model.Wave;
 import model.enemies.smiley.Smiley;
 import model.frame.Frame;
 import model.enemies.Enemy;
-import model.skills.Skill;
-import view.game.GameView;
-import view.menu.GameFrame;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -20,7 +14,7 @@ import java.util.Map;
 public abstract class GameModel {
     private ArrayList<Enemy> enemies;
     private ArrayList<BulletModel> bullets;
-    protected Map<Integer, Integer> waves;
+    protected Map<Integer, Integer> enemiesToKill;
     protected double enemyVelocity;
     protected int enemyPower;
     protected int enemyHP;
@@ -55,6 +49,9 @@ public abstract class GameModel {
     private double writOfAthena;
     private int HPtoIncrease;
     private int cerberuses;
+    private int totalBullets;
+    private int successfulBullets;
+    private int killedEnemies;
 
     public GameModel() {
         enemyLock = new Object();
@@ -63,15 +60,16 @@ public abstract class GameModel {
         collectibles = new ArrayList<>();
         enemiesBullets = new ArrayList<>();
         frames = new ArrayList<>();
-        epsilon = new EpsilonModel(new Frame(700, 700,0,0,false,false, 400,
-                400));
+        initialFrame = new Frame(700, 700,0,0,false,false, 400,
+                400);
+        epsilon = new EpsilonModel(initialFrame);
         frames.add(epsilon.getFrame());
-        initialFrame = epsilon.getFrame();
         diedEnemies = new ArrayList<>();
         vanishedBullets = new ArrayList<>();
         vanishedEnemiesBullets = new ArrayList<>();
         lastSavedTime = System.currentTimeMillis();
         writOfAthena = 100;
+        decreaseSize = true;
     }
 
     public ArrayList<Enemy> getEnemies() {
@@ -111,8 +109,8 @@ public abstract class GameModel {
             this.enemies = enemies;
     }
 
-    public Map<Integer, Integer> getWaves() {
-        return waves;
+    public Map<Integer, Integer> getEnemiesToKill() {
+        return enemiesToKill;
     }
 
     public int getAres() {
@@ -318,5 +316,33 @@ public abstract class GameModel {
 
     public void setCerberuses(int cerberuses) {
         this.cerberuses = cerberuses;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public int getTotalBullets() {
+        return totalBullets;
+    }
+
+    public void addBullet() {
+        totalBullets++;
+    }
+
+    public int getSuccessfulBullets() {
+        return successfulBullets;
+    }
+
+    public void addSuccessfulBullet() {
+        successfulBullets++;
+    }
+
+    public int getKilledEnemies() {
+        return killedEnemies;
+    }
+
+    public void setKilledEnemies(int killedEnemies) {
+        this.killedEnemies = killedEnemies;
     }
 }

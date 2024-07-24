@@ -182,6 +182,7 @@ public class Smiley extends Enemy implements Movable {
                 throw new RuntimeException(e);
             }
         }
+        GameManager.getINSTANCE().endGame();
         interrupt();
     }
     private void checkAoEs() {
@@ -383,6 +384,8 @@ public class Smiley extends Enemy implements Movable {
             Controller.removeEnemyView(hands.get(i));
         }
         GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(fist);
+        GameManager.getINSTANCE().getGameModel().getEpsilon().setXP(GameManager.getINSTANCE().getGameModel().
+                getEpsilon().getXP()+250);
         Controller.removeEnemyView(fist);
         Controller.smileyDied(this);
         width = GameManager.configs.DEAD_WIDTH;

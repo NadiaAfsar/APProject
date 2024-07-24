@@ -3,6 +3,7 @@ package model.skills.attack;
 import controller.GameManager;
 import model.EpsilonModel;
 import model.skills.Skill;
+import model.skills.transform.WritOfProteus;
 
 public class WritOfAstrape extends Skill {
     private static boolean astrapeUnlocked;
@@ -38,6 +39,7 @@ public class WritOfAstrape extends Skill {
         if (astrapeUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAstrape());
         }
+        GameManager.configs.WritOfAstrapeUnlocked = astrapeUnlocked;
     }
 
     public boolean isPicked() {
@@ -46,5 +48,13 @@ public class WritOfAstrape extends Skill {
 
     public void setPicked(boolean picked) {
         WritOfAstrape.picked = picked;
+        GameManager.configs.WritOfAstrapePicked = picked;
+    }
+    public static void setBooleans(){
+        astrapeUnlocked = GameManager.configs.WritOfAstrapeUnlocked;
+        if (astrapeUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAstrape());
+        }
+        picked = GameManager.configs.WritOfAstrapePicked;
     }
 }

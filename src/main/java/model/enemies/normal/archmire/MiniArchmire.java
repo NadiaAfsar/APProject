@@ -35,6 +35,7 @@ public class MiniArchmire extends Archmire{
         GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
         Controller.removeArchmireView(this);
         AudioController.addEnemyDyingSound();
-        interrupt();
+        GameManager.getINSTANCE().getGameModel().getCurrentWave().newEnemyDied();
+        died = true;
     }
 }

@@ -1,6 +1,5 @@
 
 import controller.Controller;
-import save.Save;
 
 public class MyProject implements Runnable{
 
@@ -11,6 +10,5 @@ public class MyProject implements Runnable{
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        //Save.load();
     }
 }

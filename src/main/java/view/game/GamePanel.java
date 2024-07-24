@@ -13,6 +13,8 @@ import view.game.epsilon.Vertex;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
@@ -42,6 +44,12 @@ public class GamePanel extends JPanel {
         frame.setResizable(false);
         frame.setVisible(true);
         frame.setLayout(null);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
     }
     private void addPanel() {
         setBounds(x, y, width, height);
@@ -86,6 +94,7 @@ public class GamePanel extends JPanel {
         drawNecropickAnnouncements(g);
         drawEnemies(g);
         drawCollectibles(g);
+        drawPortal(g);
         drawEpsilon(g);
         drawVertexes(g);
         drawBullets(g);
@@ -163,6 +172,12 @@ public class GamePanel extends JPanel {
             Vertex cerberus = cerberuses.get(i);
             g.drawImage(cerberus.getImage(), cerberus.getX()-x, cerberus.getY()-y, cerberus.getWidth(),
                     cerberus.getHeight(), null);
+        }
+    }
+    private void drawPortal(Graphics g){
+        CheckPointView portal = GameManager.getINSTANCE().getGameView().getPortal();
+        if (portal != null){
+            g.drawImage(portal.getImage(), portal.getX()-x, portal.getY()-y, portal.getWidth(), portal.getHeight(), null);
         }
     }
 

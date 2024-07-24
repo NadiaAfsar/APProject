@@ -13,8 +13,6 @@ import model.skills.defence.WritOfMelampus;
 import model.skills.transform.WritOfDolus;
 import model.skills.transform.WritOfEmpusa;
 import model.skills.transform.WritOfProteus;
-import save.Save;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -183,7 +181,8 @@ public class SkillTree {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         if (pick == 0) {
             pickSkill(skill);
-            Save.save();
+            GameManager.readerWriter.saveConfigs();
+            GameManager.readerWriter.saveGameManger();
         }
     }
     private void showUnlockOption(int price, int skill, String title) {
@@ -218,7 +217,8 @@ public class SkillTree {
                     pickSkill(skill);
                     skillsMap.get(skills.get(skill)).setUnlocked(true);
                     totalXP.setText("XPs: " + Controller.getTotalXP());
-                    Save.save();
+                    GameManager.readerWriter.saveConfigs();
+                    GameManager.readerWriter.saveGameManger();
                 } else {
                     String[] options = new String[]{"OK"};
                     JOptionPane.showOptionDialog(null, "Not enough XPs!", null, JOptionPane.DEFAULT_OPTION,

@@ -162,7 +162,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
                 if (stuck) {
                     shoot();
                 }
-                EnemyLogger.getInfo(logger, this);
+                //EnemyLogger.getInfo(logger, this);
             }
             try {
                 sleep((long) Configs.MODEL_UPDATE_TIME);

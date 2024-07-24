@@ -35,10 +35,12 @@ public class WritOfEmpusa extends Skill {
         if (empusaUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfEmpusa());
         }
+        GameManager.configs.WritOfEmpusaUnlocked = empusaUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfEmpusa.picked = picked;
+        GameManager.configs.WritOfEmpusaPicked = picked;
     }
 
     public boolean isPicked() {
@@ -48,5 +50,12 @@ public class WritOfEmpusa extends Skill {
     @Override
     public int getPrice() {
         return price;
+    }
+    public static void setBooleans(){
+        empusaUnlocked = GameManager.configs.WritOfEmpusaUnlocked;
+        if (empusaUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfEmpusa());
+        }
+        picked = GameManager.configs.WritOfEmpusaPicked;
     }
 }

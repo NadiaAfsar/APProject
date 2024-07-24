@@ -4,6 +4,7 @@ import controller.GameManager;
 import model.EpsilonModel;
 import model.skills.Skill;
 import model.skills.attack.WritOfAres;
+import model.skills.transform.WritOfProteus;
 
 public class WritOfAthena extends Skill {
     private static boolean athenaUnlocked;
@@ -36,10 +37,12 @@ public class WritOfAthena extends Skill {
         if (athenaUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAthena());
         }
+        GameManager.configs.WritOfAthenaUnlocked = athenaUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfAthena.picked = picked;
+        GameManager.configs.WritOfAthenaPicked = picked;
     }
 
     public boolean isPicked() {
@@ -49,5 +52,12 @@ public class WritOfAthena extends Skill {
     @Override
     public int getPrice() {
         return price;
+    }
+    public static void setBooleans(){
+        athenaUnlocked = GameManager.configs.WritOfAthenaUnlocked;
+        if (athenaUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAthena());
+        }
+        picked = GameManager.configs.WritOfAthenaPicked;
     }
 }

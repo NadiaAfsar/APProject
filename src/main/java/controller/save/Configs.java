@@ -74,4 +74,25 @@ public class Configs {
     public String AoE4;
     public String AoE5;
     public String CIRCLE;
+    public boolean WritOfAresUnlocked;
+    public boolean WritOfAresPicked;
+    public boolean WritOfAstrapeUnlocked;
+    public boolean WritOfAstrapePicked;
+    public boolean WritOfCerberusUnlocked;
+    public boolean WritOfCerberusPicked;
+    public boolean WritOfAcesoUnlocked;
+    public boolean WritOfAcesoPicked;
+    public boolean WritOfAthenaUnlocked;
+    public boolean WritOfAthenaPicked;
+    public boolean WritOfChironUnlocked;
+    public boolean WritOfChironPicked;
+    public boolean WritOfMelampusUnlocked;
+    public boolean WritOfMelampusPicked;
+    public boolean WritOfDolusUnlocked;
+    public boolean WritOfDolusPicked;
+    public boolean WritOfEmpusaUnlocked;
+    public boolean WritOfEmpusaPicked;
+    public boolean WritOfProteusUnlocked;
+    public boolean WritOfProteusPicked;
+    public String PORTAL;
 }

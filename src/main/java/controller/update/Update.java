@@ -13,6 +13,7 @@ import model.enemies.normal.archmire.Archmire;
 import model.enemies.smiley.Smiley;
 import model.enemies.smiley.SmileyAoEAttack;
 import model.frame.Frame;
+import model.game.GameModel;
 import view.game.BulletView;
 import view.game.epsilon.EpsilonView;
 import view.game.GamePanel;
@@ -44,26 +45,19 @@ public class Update {
                 epsilonView.updateCerberuses(epsilon.getCerberusList());
                 updatePanels();
             }
-
         }
-//        else if (Controller.gameFinished) {
-//            EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
-//            GameManager.getINSTANCE().getGameView().getEpsilonView().increaseSize(epsilonModel.getX(), epsilonModel.getY(), epsilonModel.getRadius());
-//            GameModel game = GameManager.getINSTANCE().getGameModel();
-//            GameManager.getINSTANCE().getGameView().destroy((int)game.getWidth(), (int)game.getHeight());
-//        }
     }
     public static void updateModel() {
-        if (Controller.gameRunning) {
+        if (Controller.gameFinished) {
+            GameManager.getINSTANCE().getGameModel().getEpsilon().increaseSize();
+            GameManager.getINSTANCE().destroyFrame();
+        }
+        else if (Controller.gameRunning) {
             if (GameManager.getINSTANCE().getGameModel() != null) {
                 GameManager.getINSTANCE().update();
                 updateFrames();
             }
         }
-//        else if (Controller.gameFinished) {
-//            GameManager.getINSTANCE().getGameModel().getEpsilon().increaseSize();
-//            GameManager.getINSTANCE().destroyFrame();
-//        }
     }
     private static void updateEnemies() {
         Map<String, EnemyView> enemiesView = GameManager.getINSTANCE().getGameView().getEnemiesMap();

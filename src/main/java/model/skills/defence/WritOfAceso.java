@@ -5,6 +5,7 @@ import model.EpsilonModel;
 import model.game.GameModel;
 import model.skills.Skill;
 import model.skills.attack.WritOfAres;
+import model.skills.transform.WritOfProteus;
 
 public class WritOfAceso extends Skill {
     private long lastTimeAdded;
@@ -45,6 +46,7 @@ public class WritOfAceso extends Skill {
         if (u){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAceso());
         }
+        GameManager.configs.WritOfAcesoUnlocked = u;
     }
 
     public boolean isActivated() {
@@ -56,9 +58,17 @@ public class WritOfAceso extends Skill {
 
     public void setPicked(boolean p) {
         picked = p;
+        GameManager.configs.WritOfAcesoPicked = p;
     }
 
     public int getPrice() {
         return price;
+    }
+    public static void setBooleans(){
+        acesoUnlocked = GameManager.configs.WritOfAcesoUnlocked;
+        if (acesoUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAceso());
+        }
+        picked = GameManager.configs.WritOfAcesoPicked;
     }
 }

@@ -99,6 +99,7 @@ public class Archmire extends Enemy implements Movable {
         GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
         Controller.removeArchmireView(this);
         AudioController.addEnemyDyingSound();
+        GameManager.getINSTANCE().getGameModel().getCurrentWave().newEnemyDied();
         died = true;
     }
     protected void removeAll(){

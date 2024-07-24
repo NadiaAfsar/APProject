@@ -4,6 +4,7 @@ import controller.GameManager;
 import model.EpsilonModel;
 import model.skills.Skill;
 import model.skills.attack.WritOfAres;
+import model.skills.transform.WritOfProteus;
 
 public class WritOfMelampus extends Skill {
     private static boolean melampusUnlocked;
@@ -41,14 +42,23 @@ public class WritOfMelampus extends Skill {
         if (melampusUnlocked){
             GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfMelampus());
         }
+        GameManager.configs.WritOfMelampusUnlocked = melampusUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfMelampus.picked = picked;
+        GameManager.configs.WritOfMelampusPicked = picked;
     }
 
     @Override
     public int getPrice() {
         return price;
+    }
+    public static void setBooleans(){
+        melampusUnlocked = GameManager.configs.WritOfMelampusUnlocked;
+        if (melampusUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfMelampus());
+        }
+        picked = GameManager.configs.WritOfMelampusPicked;
     }
 }
