@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="da174824-7e96-47da-9bae-ee6ba6170363" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../APclass/APclass.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Faze1/Faze1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Faze1/out/production/Faze1/main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Faze1/out/production/Faze1/out/production/main/main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Faze1/src/main/java/main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Faze1/src/main/java/out/production/main/main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ICPC-1/src/main/java/Soal2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ICPC-1/src/main/java/Soal3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ICPC-1/src/main/java/Soal6.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ICPC-1/src/main/java/Soal7.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../IdeaProjects/untitled/untitled.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../code cup/code cup.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../file/file.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../physics lab/physics lab.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../practice/practice.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../strat-attach/out/production/strat-attach/strat-attach.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../strat-attach/strat-attach.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled/untitled.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled2/.idea/libraries/ch_qos_logback_contrib_json_classic.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled2/.idea/libraries/log4j.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled2/.idea/libraries/log4j1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled2/src/main/java/log4j.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled2/src/main/java/log4j.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled2/src/main/java/org/example/Fr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/eclipsesource_jaxrs_provider_gson.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/github_java_json_tools_patch.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/google_code_gson.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/log4j.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/error_prone_annotations-2.27.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gson-2.11.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gson-2.3.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/jersey-all-2.18.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/log4j-1.2.17.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/provider-gson-2.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MyProject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameManagerHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/audio/Audio.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/audio/AudioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/listeners/GameMouseListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/listeners/GameMouseMotionListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/listeners/InputListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/save/Configs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/save/ReaderWriter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/update/ModelLoop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/update/Update.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/update/ViewLoop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/log/EnemyLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/log/EpsilonLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/BulletModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Calculations.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/CheckPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Collectible.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/EpsilonModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Interference.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Wave.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/Enemy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/SquarantineModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/TrigorathModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/mini_boss/Barricados.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/mini_boss/black_orb/BlackOrb.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/mini_boss/black_orb/BlackOrbLaser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/mini_boss/black_orb/BlackOrbVertex.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/normal/Necropick.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/normal/Omenoct.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/normal/Wyrm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/normal/archmire/AoEAttack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/normal/archmire/Archmire.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/normal/archmire/MiniArchmire.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/smiley/Fist.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/smiley/Hand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/smiley/LeftHand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/smiley/RightHand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/smiley/Smiley.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/enemies/smiley/SmileyAoEAttack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/frame/Frame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/frame/Side.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/EasyGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/GameModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/HardGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/MediumGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/interfaces/collision/Collidable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/interfaces/collision/Impactable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/interfaces/movement/Direction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/interfaces/movement/Movable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/interfaces/movement/Point.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/interfaces/movement/RotatablePoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/Skill.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/attack/WritOfAres.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/attack/WritOfAstrape.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/attack/WritOfCerberus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/defence/WritOfAceso.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/defence/WritOfAthena.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/defence/WritOfChiron.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/defence/WritOfMelampus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/transform/WritOfDolus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/transform/WritOfEmpusa.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/skills/transform/WritOfProteus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/MyProject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/collision/Collidable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/Constants.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/Controller$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/GameMouseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/InputListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/Update$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/Update$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/controller/Update.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/BulletModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/EpsilonModel$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/EpsilonModel$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/EpsilonModel$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/EpsilonModel$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/EpsilonModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/GameManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/GameModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/XP.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/enemies/Enemy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/enemies/SquarantineModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/enemies/TrigorathModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/skills/Skill.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/skills/WritOfAceso.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/skills/WritOfAres.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/model/skills/WritOfProteus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/movement/Direction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/movement/Movable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/movement/Point.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/movement/RotatablePoint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/org/example/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/Background.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/BulletView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/EpsilonView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/GameFrame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/GameOver$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/GameOver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/GameView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/MainMenu$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/MainMenu$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/MainMenu$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/MainMenu$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/MainMenu$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/MainMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/Rotation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/SkillTree$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/SkillTree$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/SkillTree$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/SkillTree$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/SkillTree.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/XPView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/enemies/EnemyView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/enemies/SquarantineView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/out/production/main/view/enemies/TrigorathView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Rotation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/BulletView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/CheckPointView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/CollectibleView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/GameOver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/GamePanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/GameView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/HUI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/BarricadosView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/EnemyView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/OmenoctView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/SquarantineView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/TrigorathView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/WyrmView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/archmire/AoEView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/archmire/ArchmireView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/black_orb/BlackOrbLaserView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/black_orb/BlackOrbVertexView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/necropick/NecropickAnnouncement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/necropick/NecropickView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/smiley/FistView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/smiley/LeftHandView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/smiley/RightHandView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/smiley/SmileyAoEView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/enemies/smiley/SmileyView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/epsilon/EpsilonView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/game/epsilon/Vertex.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/menu/Background.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/menu/GameFrame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/menu/MainMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/menu/Settings.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/menu/Shop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/menu/SkillTree.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/menu/Tutorial.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/audios/15 - Bad n Crazy - Kim Woo Kun (320).wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/audios/collectXP.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/audios/collision.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/audios/enemyDying.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/audios/enemyEntering.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/audios/gameOver.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/audios/shot.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/audios/waveEnd.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/audios/win.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/game.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/aboutGame.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/aoe1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/aoe2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/aoe3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/aoe4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/aoe5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/archmire.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/background.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/barricodes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/black-orb-vertex.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/circle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/collective.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/dead.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/epsilon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/fist.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/left-hand.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/necropick-announcement.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/necropick.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/omenoct.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/portal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/right-hand.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/shop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/skills.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/smiley-aoe1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/smiley-aoe2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/smiley-aoe3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/smiley-aoe4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/smiley-aoe5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/smiley1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/smiley2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/square.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/triangle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pictures/wyrm.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MyProject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/audios/15 - Bad n Crazy - Kim Woo Kun (320).wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/audios/collectXP.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/audios/collision.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/audios/enemyDying.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/audios/enemyEntering.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/audios/gameOver.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/audios/shot.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/audios/waveEnd.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/audios/win.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/Controller$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameManagerHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/audio/Audio.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/audio/AudioController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/GameMouseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/GameMouseMotionListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$11.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/listeners/InputListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/save/Configs.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/save/ReaderWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/update/ModelLoop.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/update/Update.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/update/ViewLoop.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/log/EnemyLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/log/EpsilonLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/log4j.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/log4j.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/BulletModel$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/BulletModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Calculations.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/CheckPoint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Collectible.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/EpsilonModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Interference$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Interference.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Wave$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Wave.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/Enemy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/SquarantineModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/TrigorathModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/mini_boss/Barricados.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/mini_boss/black_orb/BlackOrb.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/mini_boss/black_orb/BlackOrbLaser$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/mini_boss/black_orb/BlackOrbLaser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/mini_boss/black_orb/BlackOrbVertex.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/normal/Necropick.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/normal/Omenoct.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/normal/Wyrm.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/normal/archmire/AoEAttack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/normal/archmire/Archmire.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/normal/archmire/MiniArchmire.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/smiley/Fist.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/smiley/Hand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/smiley/LeftHand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/smiley/RightHand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/smiley/Smiley$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/smiley/Smiley.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/enemies/smiley/SmileyAoEAttack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/frame/Frame$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/frame/Frame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/frame/Side.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/game/EasyGame$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/game/EasyGame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/game/GameModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/game/HardGame$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/game/HardGame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/game/MediumGame$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/game/MediumGame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/interfaces/collision/Collidable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/interfaces/collision/Impactable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/interfaces/movement/Direction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/interfaces/movement/Movable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/interfaces/movement/Point.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/interfaces/movement/RotatablePoint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/Skill.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/attack/WritOfAres.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/attack/WritOfAstrape.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/attack/WritOfCerberus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/defence/WritOfAceso.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/defence/WritOfAthena.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/defence/WritOfChiron.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/defence/WritOfMelampus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/transform/WritOfDolus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/transform/WritOfEmpusa.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/skills/transform/WritOfProteus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/aboutGame.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/aoe1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/aoe2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/aoe3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/aoe4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/aoe5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/archmire.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/background.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/barricodes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/black-orb-vertex.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/circle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/collective.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/dead.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/epsilon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/fist.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/left-hand.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/necropick-announcement.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/necropick.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/omenoct.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/portal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/right-hand.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/shop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/skills.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/smiley-aoe1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/smiley-aoe2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/smiley-aoe3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/smiley-aoe4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/smiley-aoe5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/smiley1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/smiley2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/square.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/triangle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pictures/wyrm.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/Rotation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/BulletView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/CheckPointView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/CollectibleView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/GameOver$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/GameOver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/GamePanel$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/GamePanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/GameView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/HUI$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/HUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/BarricadosView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/EnemyView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/OmenoctView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/SquarantineView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/TrigorathView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/WyrmView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/archmire/AoEView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/archmire/ArchmireView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/black_orb/BlackOrbLaserView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/black_orb/BlackOrbVertexView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/necropick/NecropickAnnouncement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/necropick/NecropickView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/smiley/FistView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/smiley/LeftHandView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/smiley/RightHandView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/smiley/SmileyAoEView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/enemies/smiley/SmileyView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/epsilon/EpsilonView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/game/epsilon/Vertex.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Background.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/GameFrame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/MainMenu$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/MainMenu$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/MainMenu$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/MainMenu$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/MainMenu$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/MainMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Settings$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Settings$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Settings$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Settings$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Settings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Shop$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Shop$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Shop$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Shop$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Shop$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Shop$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Shop$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Shop$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Shop.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/SkillTree$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/SkillTree$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/SkillTree.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Tutorial$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Tutorial$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Tutorial$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Tutorial$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Tutorial$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/menu/Tutorial.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/Game/Board.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/Game/Cell.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/Game/GameEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/Game/GameManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/Game/Piece.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/Glinski Chess.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/Glinski-Chess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/Glinski-Chess.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/Frame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/listeners/DummyEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/listeners/EventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/listeners/SystemOutEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/models/Hexagon.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/models/HexagonCell.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/models/HexagonHint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/models/Paintable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/models/StringColor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/panel/BoardPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/panel/MainPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/panel/RemovedPiecesPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/util/Config.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/util/HintUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/graphics/util/Loop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/repo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski-Chess/util/PieceName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/Game/Board.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/Game/Cell.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/Game/GameEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/Game/GameManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/Game/Piece.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/Glinski Chess.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/Frame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/listeners/DummyEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/listeners/EventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/listeners/SystemOutEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/models/Hexagon.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/models/HexagonCell.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/models/HexagonHint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/models/Paintable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/models/StringColor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/panel/BoardPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/panel/MainPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/panel/RemovedPiecesPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/util/Config.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/util/HintUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/graphics/util/Loop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Glinski/util/PieceName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Chess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Game/Board.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Game/Cell.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Game/GameEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Game/GameManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Game/Piece.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Gliniski Chess.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Glinski Chess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Glinski Chess.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Glinski Chess.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/chess.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/game1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/Frame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/listeners/DummyEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/listeners/EventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/listeners/SystemOutEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/models/Hexagon.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/models/HexagonCell.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/models/HexagonHint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/models/Paintable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/models/StringColor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/panel/BoardPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/panel/MainPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/panel/RemovedPiecesPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/util/Config.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/util/HintUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/graphics/util/Loop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Chess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Game/Board.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Game/Cell.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Game/GameEventListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Game/GameManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Game/Piece.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Gliniski Chess.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Gliniski Chess.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Glinski Chess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/chess.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/game1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/Application.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/Frame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/listeners/DummyEventListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/listeners/EventListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/listeners/SystemOutEventListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/models/Hexagon.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/models/HexagonCell.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/models/HexagonHint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/models/Paintable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/models/StringColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/panel/BoardPanel$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/panel/BoardPanel$BoardMouseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/panel/BoardPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/panel/MainPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/panel/RemovedPiecesPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/util/Config.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/util/HintUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/graphics/util/Loop.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/util/PieceName.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/~$iniski Chess.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/out/production/chess/~WRL3969.tmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chess/src/util/PieceName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowsay/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowsay/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowsay/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowsay/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowsay/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowsay/cowsay.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowsay/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowsay/src/cowsay.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tamrin1" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectId" id="2ijyTtaAI0utXqC4hk3BWKC40ne" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/NoteBook/APProject/Server",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="APProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="da174824-7e96-47da-9bae-ee6ba6170363" name="Changes" comment="" />
+      <created>1720018293234</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1720018293234</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
+          <line>4</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

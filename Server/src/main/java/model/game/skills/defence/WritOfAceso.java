@@ -1,0 +1,71 @@
+package model.game.skills.defence;
+
+import controller.GameManager;
+import model.game.EpsilonModel;
+import model.game.skills.Skill;
+
+public class WritOfAceso extends Skill {
+    private long lastTimeAdded;
+    private static boolean acesoUnlocked;
+    private static boolean picked;
+    private int price = 500;
+    public WritOfAceso() {
+        name = "Writ Of Aceso";
+    }
+    @Override
+    public void activate() {
+        if (isTimeToActivate()) {
+            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            if (epsilon.getXP() >= 100) {
+                activated = true;
+                epsilon.setXP(epsilon.getXP() - 100);
+                GameManager.getINSTANCE().getGameModel().setHPtoIncrease(GameManager.getINSTANCE().getGameModel().getHPtoIncrease()+1);
+                activated = true;
+            }
+        }
+    }
+    public void increaseHP() {
+        if (activated) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime-lastTimeAdded >= 1000) {
+                EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+                epsilon.setHP(epsilon.getHP() + GameManager.getINSTANCE().getGameModel().getHPtoIncrease());
+                lastTimeAdded = currentTime;
+            }
+        }
+    }
+    public boolean isUnlocked() {
+        return acesoUnlocked;
+    }
+
+    public void setUnlocked(boolean u) {
+        acesoUnlocked = u;
+        if (u){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAceso());
+        }
+        GameManager.configs.WritOfAcesoUnlocked = u;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+    public boolean isPicked() {
+        return picked;
+    }
+
+    public void setPicked(boolean p) {
+        picked = p;
+        GameManager.configs.WritOfAcesoPicked = p;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+    public static void setBooleans(){
+        acesoUnlocked = GameManager.configs.WritOfAcesoUnlocked;
+        if (acesoUnlocked){
+            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAceso());
+        }
+        picked = GameManager.configs.WritOfAcesoPicked;
+    }
+}

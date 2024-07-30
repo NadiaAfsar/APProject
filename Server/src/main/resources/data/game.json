@@ -1,0 +1,26 @@
+{
+  "totalXP": 9250,
+  "difficulty": 1,
+  "sensitivity": 2,
+  "pickedSkill": {
+    "price": 750,
+    "lastActivatedTime": 0,
+    "name": "Writ Of Ares",
+    "activated": false
+  },
+  "unlockedSkills": [
+    {
+      "price": 750,
+      "lastActivatedTime": 0,
+      "name": "Writ Of Ares",
+      "activated": false
+    }
+  ],
+  "deimos": false,
+  "deimosActivated": 0,
+  "hypnos": false,
+  "hypnosActivated": 0,
+  "phonoi": false,
+  "phonoiUsed": 0,
+  "saved": false
+}
