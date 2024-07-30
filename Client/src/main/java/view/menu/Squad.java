@@ -33,6 +33,9 @@ public class Squad {
             addNewSquad();
             addBack();
         }
+        else {
+            new MySquad(gameFrame);
+        }
         gameFrame.update();
     }
 
@@ -88,6 +91,8 @@ public class Squad {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameFrame.getGameManager().getClientHandler().createNewSquad(textField.getText());
+                empty();
+                new MySquad(gameFrame);
             }
         });
     }

@@ -61,7 +61,7 @@ public class MySquad {
         membersScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         membersScroller.setBounds(Configs.FRAME_SIZE.width/2-300,100,600,500);
         panel.add(membersScroller);
-        //addData();
+        addData();
     }
     private void addData() {
         ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
@@ -74,7 +74,7 @@ public class MySquad {
     private void addClientPanel(String name, String xp, boolean owner) {
         JPanel memberPanel = new JPanel();
         memberPanel.setName(name);
-        JLabel label = new JLabel(name+"  "+xp);
+        JLabel label = new JLabel(name+"       "+xp+"XPs");
         label.setFont(new Font("Serif", Font.PLAIN,25));
         label.setForeground(Color.BLACK);
         memberPanel.add(label);

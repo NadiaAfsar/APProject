@@ -14,8 +14,10 @@ public class Squad {
         ID = UUID.randomUUID().toString();
         this.name = name;
         ownerName = owner.getID();
+        members = new ArrayList<>();
         Map<String, String> ownerMap = new HashMap<String, String>(){{put("xp", owner.getXP()+"");
         put("name", owner.getUsername());}};
+        members.add(ownerMap);
     }
 
     public ArrayList<Map<String, String>> getMembers() {
