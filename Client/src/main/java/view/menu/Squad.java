@@ -1,7 +1,6 @@
 package view.menu;
 
 import controller.save.Configs;
-import model.Client;
 import network.ClientHandler;
 import network.UDP.Receiver;
 
@@ -85,6 +84,12 @@ public class Squad {
     private void addNext(){
         next = new JButton("Next");
         addButton(next, Configs.FRAME_SIZE.width-250, Configs.FRAME_SIZE.height-200, 150, 50);
+        next.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameFrame.getGameManager().getClientHandler().createNewSquad(textField.getText());
+            }
+        });
     }
     private void addSquadsButton(){
         squads = new JButton("Squads");
@@ -132,10 +137,10 @@ public class Squad {
         int requests = Integer.parseInt(receiver.getString());
         for (int i = 0; i < requests; i++) {
             String name = receiver.getString();
-            addRequestPanel(name);
+            addSquadPanel(name);
         }
     }
-    private void addRequestPanel(String name) {
+    private void addSquadPanel(String name) {
         JPanel requestPanel = new JPanel();
         requestPanel.setName(name);
         JLabel label = new JLabel(name);

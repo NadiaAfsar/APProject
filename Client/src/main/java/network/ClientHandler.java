@@ -1,6 +1,7 @@
 package network;
 
 import application.MyApplication;
+import model.Squad;
 import network.TCP.TCPClient;
 import network.UDP.UDPClient;
 import model.Client;
@@ -48,4 +49,15 @@ public class ClientHandler {
     public Client getClient() {
         return client;
     }
+    public void createNewSquad(String name){
+        tcpClient.getListener().sendMessage("create squad");
+        client.setSquad(new Squad(client, name));
+        File squadFile = MyApplication.readerWriter.convertToFile(client.getSquad());
+        udpClient.getSender().sendFile(squadFile);
+    }
+    public void deleteMember(String name){
+        tcpClient.getListener().sendMessage("delete member");
+        tcpClient.getListener().sendMessage(name);
+    }
+
 }

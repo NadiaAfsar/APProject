@@ -41,11 +41,22 @@ public class ReaderWriter {
 
         return gson.fromJson(reader,tClass);
     }
+    public <T> File convertToFile(T object){
+        File file = new File("src/main/resources/data/config.json/file");
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
+            BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
+            gson.toJson(object, object.getClass(), bufferedWriter);
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
+    }
     private <T> void save(String address, T configs) {
         File file = new File(address);
         try {
-            System.out.println(file.createNewFile());
-            System.out.println(file.exists());
             FileOutputStream outputStream = new FileOutputStream(file);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);

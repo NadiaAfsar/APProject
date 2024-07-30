@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class FileHandler {
-    public ArrayList<byte[]> extractData(File file) {
+    public static ArrayList<byte[]> extractData(File file) {
         ArrayList<byte[]> data = new ArrayList<>();
         try {
             long size = getSize(file);

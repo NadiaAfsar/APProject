@@ -9,6 +9,7 @@ public class UDPClient {
     private Integer port;
     private DatagramSocket datagramSocket;
     private ClientHandler clientHandler;
+    private Sender sender;
     private Receiver receiver;
     public UDPClient(Integer port, ClientHandler clientHandler) {
         this.port = port;
@@ -19,6 +20,7 @@ public class UDPClient {
         try {
             datagramSocket = new DatagramSocket(port);
             receiver = new Receiver(datagramSocket);
+            sender = new Sender(datagramSocket);
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
@@ -30,5 +32,9 @@ public class UDPClient {
 
     public Integer getPort() {
         return port;
+    }
+
+    public Sender getSender() {
+        return sender;
     }
 }
