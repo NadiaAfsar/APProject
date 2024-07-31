@@ -1,7 +1,7 @@
 package model.game.enemies.smiley;
 
+import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.Interference;
 import model.interfaces.movement.Point;
@@ -18,22 +18,22 @@ public class SmileyAoEAttack {
     public SmileyAoEAttack(Smiley smiley, Point center){
         ID = UUID.randomUUID().toString();
         this.smiley = smiley;
-        radius = GameManager.configs.EPSILON_RADIUS+15;
+        radius = MyApplication.configs.EPSILON_RADIUS+15;
         this.center = center;
         clarity = 6;
-        Controller.addSmileyAoE(this);
+        Controller.addSmileyAoE(this, smiley.getGameManager());
     }
     public boolean update() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastCheck >= 1000) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = smiley.getGameManager().getGameModel().getEpsilon();
             if (Interference.circleIsInCircle(epsilon.getCenter(), epsilon.getRadius(), center, radius)) {
                 epsilon.decreaseHP(2);
             }
             clarity--;
             if (clarity == 0) {
                 smiley.getAoEAttacks().remove(this);
-                Controller.removeAoEAttackView(ID);
+                Controller.removeAoEAttackView(ID, smiley.getGameManager());
                 return true;
             }
             lastCheck = currentTime;

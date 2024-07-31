@@ -21,6 +21,7 @@ public class ClientHandler {
         if (tcpClient.isConnected()) {
             udpClient = new UDPClient(TCPClient.getNumber()+8090, this);
             udpClient.initialize();
+            tcpClient.getListener().sendMessage(udpClient.getPort()+"");
         }
     }
     public void sendName(String name){
@@ -57,6 +58,7 @@ public class ClientHandler {
     }
     public void deleteMember(String name){
         tcpClient.getListener().sendMessage("delete member");
+        tcpClient.getListener().sendMessage(client.getSquad().getName());
         tcpClient.getListener().sendMessage(name);
     }
 

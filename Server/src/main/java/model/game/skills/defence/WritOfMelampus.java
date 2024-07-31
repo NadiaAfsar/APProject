@@ -1,5 +1,6 @@
 package model.game.skills.defence;
 
+import application.MyApplication;
 import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
@@ -12,12 +13,12 @@ public class WritOfMelampus extends Skill {
         name = "Writ Of Melampus";
     }
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP() - 100);
-                GameManager.getINSTANCE().getGameModel().setMelampus(GameManager.getINSTANCE().getGameModel().getMelampus()+5);
+                gameManager.getGameModel().setMelampus(gameManager.getGameModel().getMelampus()+5);
                 activated = true;
             }
         }
@@ -30,22 +31,22 @@ public class WritOfMelampus extends Skill {
     public boolean isPicked() {
         return picked;
     }
-    public static boolean damage(){
+    public static boolean damage(GameManager gameManager){
         int damage = (int)(Math.random()*100);
-        return (damage < 100-GameManager.getINSTANCE().getGameModel().getMelampus());
+        return (damage < 100-gameManager.getGameModel().getMelampus());
     }
 
-    public void setUnlocked(boolean melampusUnlocked) {
+    public void setUnlocked(boolean melampusUnlocked, GameManager gameManager) {
         WritOfMelampus.melampusUnlocked = melampusUnlocked;
         if (melampusUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfMelampus());
+            gameManager.getUnlockedSkills().add(new WritOfMelampus());
         }
-        GameManager.configs.WritOfMelampusUnlocked = melampusUnlocked;
+        MyApplication.configs.WritOfMelampusUnlocked = melampusUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfMelampus.picked = picked;
-        GameManager.configs.WritOfMelampusPicked = picked;
+        MyApplication.configs.WritOfMelampusPicked = picked;
     }
 
     @Override
@@ -53,10 +54,7 @@ public class WritOfMelampus extends Skill {
         return price;
     }
     public static void setBooleans(){
-        melampusUnlocked = GameManager.configs.WritOfMelampusUnlocked;
-        if (melampusUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfMelampus());
-        }
-        picked = GameManager.configs.WritOfMelampusPicked;
+        melampusUnlocked = MyApplication.configs.WritOfMelampusUnlocked;
+        picked = MyApplication.configs.WritOfMelampusPicked;
     }
 }

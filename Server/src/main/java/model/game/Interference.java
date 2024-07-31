@@ -1,6 +1,5 @@
 package model.game;
 
-import controller.GameManager;
 import model.Calculations;
 import model.game.enemies.Enemy;
 import model.game.frame.MyFrame;
@@ -51,7 +50,7 @@ public class Interference {
             if (!Calculations.isUnderLine(x, y, x1, y1, x2, y2)) {
                 return false;
             }
-            else if (Calculations.getDistance(x, y, x1, y1) < GameManager.getINSTANCE().getGameModel().getEpsilon().getRadius()) {
+            else if (Calculations.getDistance(x, y, x1, y1) < epsilonModel.getRadius()) {
                 return false;
             }
         }

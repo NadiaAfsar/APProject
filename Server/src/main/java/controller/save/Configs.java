@@ -95,4 +95,6 @@ public class Configs {
     public boolean WritOfProteusUnlocked;
     public boolean WritOfProteusPicked;
     public String PORTAL;
+    public String SERVER_IP_ADDRESS;
+    public Integer SERVER_PORT;
 }

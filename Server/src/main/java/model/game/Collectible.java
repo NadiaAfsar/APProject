@@ -1,5 +1,6 @@
 package model.game;
 
+import controller.GameManager;
 import model.interfaces.collision.Collidable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
@@ -32,6 +33,11 @@ public class Collectible implements Collidable {
     @Override
     public Point getCenter() {
         return center;
+    }
+
+    @Override
+    public GameManager getGameManager() {
+        return null;
     }
 
     public String getID() {

@@ -1,15 +1,12 @@
 package view.game.epsilon;
 
-import controller.GameManager;
-import view.game.GamePanel;
+import application.MyApplication;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Vertex {
     private int x;
@@ -25,7 +22,7 @@ public class Vertex {
         width = 2*radius;
         height = 2*radius;
         try {
-            image = ImageIO.read(new File(GameManager.configs.CIRCLE));
+            image = ImageIO.read(new File(MyApplication.configs.CIRCLE));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

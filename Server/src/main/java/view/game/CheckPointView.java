@@ -1,7 +1,7 @@
 package view.game;
 
 
-import controller.GameManager;
+import application.MyApplication;
 import model.interfaces.movement.Point;
 
 import javax.imageio.ImageIO;
@@ -22,7 +22,7 @@ public class CheckPointView {
         width = 72;
         height = 100;
         try {
-            image = ImageIO.read(new File(GameManager.configs.PORTAL));
+            image = ImageIO.read(new File(MyApplication.configs.PORTAL));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

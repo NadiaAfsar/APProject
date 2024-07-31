@@ -1,5 +1,6 @@
 package model.game.skills.defence;
 
+import application.MyApplication;
 import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
@@ -13,23 +14,23 @@ public class WritOfAceso extends Skill {
         name = "Writ Of Aceso";
     }
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
                 activated = true;
                 epsilon.setXP(epsilon.getXP() - 100);
-                GameManager.getINSTANCE().getGameModel().setHPtoIncrease(GameManager.getINSTANCE().getGameModel().getHPtoIncrease()+1);
+                gameManager.getGameModel().setHPtoIncrease(gameManager.getGameModel().getHPtoIncrease()+1);
                 activated = true;
             }
         }
     }
-    public void increaseHP() {
+    public void increaseHP(GameManager gameManager) {
         if (activated) {
             long currentTime = System.currentTimeMillis();
             if (currentTime-lastTimeAdded >= 1000) {
-                EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
-                epsilon.setHP(epsilon.getHP() + GameManager.getINSTANCE().getGameModel().getHPtoIncrease());
+                EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+                epsilon.setHP(epsilon.getHP() + gameManager.getGameModel().getHPtoIncrease());
                 lastTimeAdded = currentTime;
             }
         }
@@ -38,12 +39,12 @@ public class WritOfAceso extends Skill {
         return acesoUnlocked;
     }
 
-    public void setUnlocked(boolean u) {
+    public void setUnlocked(boolean u, GameManager gameManager) {
         acesoUnlocked = u;
         if (u){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAceso());
+            gameManager.getUnlockedSkills().add(new WritOfAceso());
         }
-        GameManager.configs.WritOfAcesoUnlocked = u;
+        MyApplication.configs.WritOfAcesoUnlocked = u;
     }
 
     public boolean isActivated() {
@@ -55,17 +56,14 @@ public class WritOfAceso extends Skill {
 
     public void setPicked(boolean p) {
         picked = p;
-        GameManager.configs.WritOfAcesoPicked = p;
+        MyApplication.configs.WritOfAcesoPicked = p;
     }
 
     public int getPrice() {
         return price;
     }
     public static void setBooleans(){
-        acesoUnlocked = GameManager.configs.WritOfAcesoUnlocked;
-        if (acesoUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAceso());
-        }
-        picked = GameManager.configs.WritOfAcesoPicked;
+        acesoUnlocked = MyApplication.configs.WritOfAcesoUnlocked;
+        picked = MyApplication.configs.WritOfAcesoPicked;
     }
 }

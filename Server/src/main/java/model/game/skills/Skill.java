@@ -1,6 +1,8 @@
 package model.game.skills;
 
 
+import controller.GameManager;
+
 public abstract class Skill {
     private long lastActivatedTime;
     protected String name;
@@ -11,17 +13,14 @@ public abstract class Skill {
 
 
     protected boolean isTimeToActivate() {
-//        if (lastActivatedTime != 0) {
-//            long currentTime = System.currentTimeMillis();
-//            return (currentTime - lastActivatedTime >= 300000);
-//        }
-//        else {
-//            lastActivatedTime = System.currentTimeMillis();
-//            return true;
-//        }
+        if (lastActivatedTime != 0) {
+            long currentTime = System.currentTimeMillis();
+            return (currentTime - lastActivatedTime >= 300000);
+        }
+        lastActivatedTime = System.currentTimeMillis();
         return true;
     }
-    public abstract void activate();
+    public abstract void activate(GameManager gameManager);
 
     public String getName() {
         return name;
@@ -36,6 +35,6 @@ public abstract class Skill {
     public abstract int getPrice();
     public abstract boolean isUnlocked();
     public abstract boolean isPicked();
-    public abstract void setUnlocked(boolean b);
+    public abstract void setUnlocked(boolean b, GameManager gameManager);
     public abstract void setPicked(boolean b);
 }

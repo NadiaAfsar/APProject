@@ -34,7 +34,7 @@ public interface Impactable {
             }
             impactable.setSpecialImpact();
         }
-        impactOnOthers(collisionPoint);
+        impactOnOthers(collisionPoint, collidable.getGameManager());
         setSpecialImpact();
 
     }
@@ -42,8 +42,8 @@ public interface Impactable {
     void setAngularVelocity(double velocity);
     void setAngularAcceleration(double acceleration);
     void setAngularAccelerationRate(double accelerationRate);
-    static void impactOnOthers(Point collisionPoint) {
-        ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
+    static void impactOnOthers(Point collisionPoint, GameManager gameManager) {
+        ArrayList<Enemy> enemies = gameManager.getGameModel().getEnemies();
         for (int i = 0; i < enemies.size(); i++) {
             if (enemies.get(i) instanceof Impactable && !(enemies.get(i) instanceof Wyrm)) {
                 Impactable enemy = (Impactable) enemies.get(i);
@@ -54,7 +54,7 @@ public interface Impactable {
                 }
             }
         }
-        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
         if (Math.abs(epsilon.getX() - collisionPoint.getX()) <= 100 && Math.abs(epsilon.getY() - collisionPoint.getY()) <= 100) {
             double x = Math.sqrt(Math.pow(epsilon.getX() - collisionPoint.getX(),2) + Math.pow(epsilon.getY() - collisionPoint.getY(),2));
             Direction direction = new Direction(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()), new Point(collisionPoint.getX(), collisionPoint.getY()));

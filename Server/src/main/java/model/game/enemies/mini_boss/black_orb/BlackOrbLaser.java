@@ -1,7 +1,6 @@
 package model.game.enemies.mini_boss.black_orb;
 
 import controller.Controller;
-import controller.GameManager;
 import model.Calculations;
 import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
@@ -27,7 +26,7 @@ public class BlackOrbLaser {
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
         points = new ArrayList<>();
-        Controller.addLaserView(this);
+        Controller.addLaserView(this, vertex1.getBlackOrb().getGameManager());
     }
     private void setPoints() {
         point1 = new Point(vertex1.getCenter().getX()-15, vertex1.getCenter().getY()-15);
@@ -40,7 +39,7 @@ public class BlackOrbLaser {
         long currentTime = System.currentTimeMillis();
         if (currentTime-lastAttack >= 1000) {
             setPoints();
-            ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
+            ArrayList<Enemy> enemies = vertex1.getBlackOrb().getGameManager().getGameModel().getEnemies();
             for (int i = 0; i < enemies.size(); i++) {
                 if (!(enemies.get(i) instanceof BlackOrb)) {
                     if (enemyCollidesLaser(enemies.get(i), points)) {
@@ -48,7 +47,7 @@ public class BlackOrbLaser {
                     }
                 }
             }
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = vertex1.getBlackOrb().getGameManager().getGameModel().getEpsilon();
             if (Calculations.isUnderLine(epsilon.getCenter().getX(), epsilon.getCenter().getY(), point1.getX(), point1.getY(), point2.getX(), point2.getY())
                     && Calculations.isUnderLine(epsilon.getCenter().getX(), epsilon.getCenter().getY(), point3.getX(), point3.getY(), point4.getX(), point4.getY())) {
                 epsilon.decreaseHP(12);

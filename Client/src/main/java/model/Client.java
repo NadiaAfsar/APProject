@@ -11,8 +11,10 @@ public class Client {
     private int XP;
     private String ID;
     private ArrayList<Skill> unlockedSkills;
+    private ArrayList<String> requests;
     public Client(){
         ID = UUID.randomUUID().toString();
+        requests = new ArrayList<>();
     }
 
     public String getUsername() {

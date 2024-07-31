@@ -1,8 +1,9 @@
-package TCP;
+package network.TCP;
 
-import model.Server;
+import network.TCP.ServerListener;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -25,6 +26,8 @@ public class TCPServer extends Thread {
             try {
                 Socket socket = serverSocket.accept();
                 ServerListener listener = new ServerListener(socket);
+                Integer port = Integer.parseInt(listener.getMessage());
+                listener.setSocketAddress(new InetSocketAddress("localHost", port));
                 listener.start();
             } catch (IOException e) {
                 throw new RuntimeException(e);

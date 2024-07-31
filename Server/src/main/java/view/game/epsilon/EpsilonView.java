@@ -1,7 +1,7 @@
 package view.game.epsilon;
 
+import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
 import controller.save.Configs;
 import model.interfaces.movement.RotatablePoint;
 
@@ -24,7 +24,7 @@ public class EpsilonView{
         y = Configs.FRAME_SIZE.height/2;
         radius = 12;
         try {
-            image = ImageIO.read(new File(GameManager.configs.EPSILON));
+            image = ImageIO.read(new File(MyApplication.configs.EPSILON));
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);

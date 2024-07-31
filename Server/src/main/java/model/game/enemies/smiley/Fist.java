@@ -1,5 +1,6 @@
 package model.game.enemies.smiley;
 
+import application.MyApplication;
 import controller.Controller;
 import controller.GameManager;
 import controller.save.Configs;
@@ -21,20 +22,20 @@ public class Fist extends Enemy implements Movable {
     private long quakeActivated;
     private boolean slap;
     private Smiley smiley;
-    public Fist(Point center, double velocity, Smiley smiley) {
-        super(center, velocity);
+    public Fist(Point center, double velocity, Smiley smiley, GameManager gameManager) {
+        super(center, velocity, gameManager);
         logger = Logger.getLogger(Fist.class.getName());
-        width = GameManager.configs.FIST_WIDTH;
-        height = GameManager.configs.FIST_HEIGHT;
+        width = MyApplication.configs.FIST_WIDTH;
+        height = MyApplication.configs.FIST_HEIGHT;
         myFrame = new MyFrame(width+30, height+30, center.getX()-width/2-15, center.getY()-height/2-15,
-                false, false, width+30, height+30);
+                false, false, width+30, height+30, gameManager);
         velocityPower*= 30;
         addVertexes();
         this.smiley = smiley;
         myFrame.getEnemies().add(this);
-        Controller.addEnemyView(this);
-        GameManager.getINSTANCE().getGameModel().getFrames().add(myFrame);
-        GameManager.getINSTANCE().getGameModel().getEnemies().add(this);
+        Controller.addEnemyView(this, gameManager);
+        gameManager.getGameModel().getFrames().add(myFrame);
+        gameManager.getGameModel().getEnemies().add(this);
     }
 
     @Override
@@ -63,7 +64,7 @@ public class Fist extends Enemy implements Movable {
     @Override
     public Direction getDirection() {
         if (powerPunch) {
-            MyFrame epsilonMyFrame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
+            MyFrame epsilonMyFrame = gameManager.getGameModel().getInitialFrame();
             double x = epsilonMyFrame.getX()+ epsilonMyFrame.getWidth()*xDirection-this.myFrame.getWidth()/2;
             double y = epsilonMyFrame.getY()+ epsilonMyFrame.getHeight()*yDirection-this.myFrame.getHeight()/2;
             return new Direction(center, new Point(x,y));
@@ -73,7 +74,7 @@ public class Fist extends Enemy implements Movable {
             return new Direction(center, new Point(center.getX(), Configs.FRAME_SIZE.height- myFrame.getHeight()/2-30));
         }
         else if (slap){
-            return new Direction(center,GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
+            return new Direction(center,gameManager.getGameModel().getEpsilon().getCenter());
         }
         Direction direction = new Direction();
         direction.setDy(0);
@@ -96,7 +97,7 @@ public class Fist extends Enemy implements Movable {
         }
     }
     private void checkPowerPunch() {
-        MyFrame epsilonMyFrame = GameManager.getINSTANCE().getGameModel().getInitialFrame();
+        MyFrame epsilonMyFrame = gameManager.getGameModel().getInitialFrame();
         double x = epsilonMyFrame.getX()+ epsilonMyFrame.getWidth()*xDirection-this.myFrame.getWidth()/2;
         double y = epsilonMyFrame.getY()+ epsilonMyFrame.getHeight()*yDirection-this.myFrame.getHeight()/2;
         if (Math.abs(center.getX()-x) <= 10 && Math.abs(center.getY()-y) <= 10){
@@ -116,7 +117,7 @@ public class Fist extends Enemy implements Movable {
         long currentTime = System.currentTimeMillis();
         if (center.getY() >= Configs.FRAME_SIZE.height- myFrame.getHeight()/2-30) {
             logger.debug(center.getY());
-            GameManager.getINSTANCE().getGameModel().setQuake(true);
+            gameManager.getGameModel().setQuake(true);
             quakeActivated = currentTime;
             setCenter(new Point(center.getX(), center.getY()-100));
             logger.debug("quake activated");
@@ -125,7 +126,7 @@ public class Fist extends Enemy implements Movable {
             quake = false;
             quakeActivated = 0;
             smiley.setQuake(false);
-            GameManager.getINSTANCE().getGameModel().setQuake(false);
+            gameManager.getGameModel().setQuake(false);
             logger.debug("quake ended");
         }
     }

@@ -1,5 +1,6 @@
 package model.game.skills.transform;
 
+import application.MyApplication;
 import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
@@ -14,9 +15,9 @@ public class WritOfEmpusa extends Skill {
     }
 
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP()-100);
                 epsilon.setRadius((int)(epsilon.getRadius()*0.9));
@@ -29,17 +30,17 @@ public class WritOfEmpusa extends Skill {
         return empusaUnlocked;
     }
 
-    public void setUnlocked(boolean empusaUnlocked) {
+    public void setUnlocked(boolean empusaUnlocked, GameManager gameManager) {
         WritOfEmpusa.empusaUnlocked = empusaUnlocked;
         if (empusaUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfEmpusa());
+            gameManager.getUnlockedSkills().add(new WritOfEmpusa());
         }
-        GameManager.configs.WritOfEmpusaUnlocked = empusaUnlocked;
+        MyApplication.configs.WritOfEmpusaUnlocked = empusaUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfEmpusa.picked = picked;
-        GameManager.configs.WritOfEmpusaPicked = picked;
+        MyApplication.configs.WritOfEmpusaPicked = picked;
     }
 
     public boolean isPicked() {
@@ -51,10 +52,7 @@ public class WritOfEmpusa extends Skill {
         return price;
     }
     public static void setBooleans(){
-        empusaUnlocked = GameManager.configs.WritOfEmpusaUnlocked;
-        if (empusaUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfEmpusa());
-        }
-        picked = GameManager.configs.WritOfEmpusaPicked;
+        empusaUnlocked = MyApplication.configs.WritOfEmpusaUnlocked;
+        picked = MyApplication.configs.WritOfEmpusaPicked;
     }
 }

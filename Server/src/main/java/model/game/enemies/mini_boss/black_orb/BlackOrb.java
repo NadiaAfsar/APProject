@@ -15,8 +15,8 @@ public class BlackOrb extends Enemy {
     private ArrayList<BlackOrbLaser> lasers;
     private boolean vertexesSet;
     private static int number;
-    public BlackOrb(Point center, double velocity) {
-        super(center, velocity);
+    public BlackOrb(Point center, double velocity, GameManager gameManager) {
+        super(center, velocity, gameManager);
         number++;
         logger = Logger.getLogger(BlackOrb.class.getName()+number);
         blackOrbVertices = new ArrayList<>();
@@ -59,7 +59,7 @@ public class BlackOrb extends Enemy {
     }
     public void run() {
         while (!died) {
-            if (!GameManager.getINSTANCE().isHypnos() && Controller.gameRunning) {
+            if (!gameManager.isHypnos() && Controller.gameRunning) {
                 if (!vertexesSet) {
                     setBlackOrbVertices();
                     setLasers();
@@ -76,7 +76,7 @@ public class BlackOrb extends Enemy {
             }
         }
         interrupt();
-        GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
+        gameManager.getGameModel().getDiedEnemies().add(this);
     }
 
     @Override

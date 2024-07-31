@@ -1,9 +1,10 @@
 package model.game.enemies.mini_boss;
 
+import application.MyApplication;
 import controller.Controller;
 import controller.GameManager;
-import model.game.frame.MyFrame;
 import model.game.enemies.Enemy;
+import model.game.frame.MyFrame;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
@@ -14,18 +15,18 @@ import java.util.ArrayList;
 public class Barricados extends Enemy {
     private MyFrame myFrame;
     private static int number;
-    public Barricados(Point center, double velocity, boolean isRigid) {
-        super(center, velocity);
+    public Barricados(Point center, double velocity, boolean isRigid, GameManager gameManager) {
+        super(center, velocity, gameManager);
         number++;
         logger = Logger.getLogger(Barricados.class.getName()+number);
-        width = GameManager.configs.BARRICODES_WIDTH;
-        height = GameManager.configs.BARRICODES_HEIGHT;
+        width = MyApplication.configs.BARRICODES_WIDTH;
+        height = MyApplication.configs.BARRICODES_HEIGHT;
         addVertexes();
         myFrame = new MyFrame(width+50, height+50, center.getX()-width/2-25, center.getY()-height/2-25,
-                true, isRigid, width+50, height+50);
+                true, isRigid, width+50, height+50, gameManager);
         myFrame.getEnemies().add(this);
-        Controller.addEnemyView(this);
-        GameManager.getINSTANCE().getGameModel().getFrames().add(myFrame);
+        Controller.addEnemyView(this, gameManager);
+        gameManager.getGameModel().getFrames().add(myFrame);
         start();
     }
 

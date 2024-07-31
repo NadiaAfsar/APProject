@@ -1,13 +1,14 @@
 package model.game.enemies.normal;
 
-import controller.save.Configs;
-import model.game.frame.MyFrame;
-import model.interfaces.collision.Impactable;
+import application.MyApplication;
 import controller.Controller;
 import controller.GameManager;
+import controller.save.Configs;
 import model.game.BulletModel;
 import model.game.Collectible;
 import model.game.enemies.Enemy;
+import model.game.frame.MyFrame;
+import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
 import model.interfaces.movement.Point;
@@ -22,18 +23,18 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     private int side;
     private long lastShoot;
     private static int number;
-    public Omenoct(Point center, double velocity, int hp, MyFrame myFrame) {
-        super(center, velocity);
+    public Omenoct(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager) {
+        super(center, velocity, gameManager);
         number++;
         logger = Logger.getLogger(Omenoct.class.getName()+number);
-        width = GameManager.configs.OMENOCT_WIDTH;
-        height = GameManager.configs.OMENOCT_HEIGHT;
+        width = MyApplication.configs.OMENOCT_WIDTH;
+        height = MyApplication.configs.OMENOCT_HEIGHT;
         addVertexes();
         this.HP = 20 + hp;
         damage = 8;
         this.myFrame = myFrame;
         this.myFrame.getEnemies().add(this);
-        Controller.addEnemyView(this);
+        Controller.addEnemyView(this, gameManager);
         start();
     }
 
@@ -46,7 +47,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
         double x = 0;
         double y = 0;
         if (chosenSide.getY() == 0) {
-            y = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter().getY();
+            y = gameManager.getGameModel().getEpsilon().getCenter().getY();
             if (stuck) {
                 Direction direction = new Direction();
                 direction.setDy(0.5*Math.abs(y-center.getY())/(y-center.getY()));
@@ -54,7 +55,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
             }
             x = chosenSide.getX();
         } else {
-            x = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter().getX();
+            x = gameManager.getGameModel().getEpsilon().getCenter().getX();
             if (stuck) {
                 Direction direction = new Direction();
                 direction.setDx(0.5*Math.abs(x-center.getX())/(x-center.getX()));
@@ -96,14 +97,14 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     public void addCollective() {
         for (int i = 0; i < 8; i++) {
             Collectible collectible = new Collectible((int)vertexes.get(i).getRotatedX(), (int)vertexes.get(i).getRotatedY(),4);
-            GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
-            Controller.addCollectibleView(collectible);
+            gameManager.getGameModel().getCollectibles().add(collectible);
+            Controller.addCollectibleView(collectible, gameManager);
         }
     }
 
     @Override
     public void specialMove() {
-        myFrame = GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame();
+        myFrame = gameManager.getGameModel().getEpsilon().getFrame();
         Point chosenSide = getChosenSide();
         if ((chosenSide.getY() == 0 && Math.abs(center.getX()-chosenSide.getX()) < 10) ||
                 (chosenSide.getX() == 0 && Math.abs(center.getY()-chosenSide.getY()) < 10) && !stuck) {
@@ -144,19 +145,19 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     private void shoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime-lastShoot >= 1500) {
-            BulletModel bulletModel = new BulletModel(center, GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter(),
-                    width/2, 4, true, myFrame);
-            GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
+            BulletModel bulletModel = new BulletModel(center, gameManager.getGameModel().getEpsilon().getCenter(),
+                    width/2, 4, true, myFrame, gameManager);
+            gameManager.getGameModel().getEnemiesBullets().add(bulletModel);
             lastShoot = currentTime;
             logger.debug("shot");
         }
     }
     public void run() {
         while (!died) {
-            if (!GameManager.getINSTANCE().isHypnos() && Controller.gameRunning) {
+            if (!gameManager.isHypnos() && Controller.gameRunning) {
                 move();
                 checkCollision();
-                myFrame = GameManager.getINSTANCE().getGameModel().getEpsilon().getFrame();
+                myFrame = gameManager.getGameModel().getEpsilon().getFrame();
                 if (stuck) {
                     shoot();
                 }

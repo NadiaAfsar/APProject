@@ -1,8 +1,6 @@
 package view.game;
 
 import controller.GameManager;
-import controller.listeners.GameMouseListener;
-import controller.listeners.GameMouseMotionListener;
 import controller.listeners.InputListener;
 import view.game.enemies.EnemyView;
 import view.game.enemies.archmire.ArchmireView;
@@ -24,18 +22,20 @@ public class GamePanel extends JPanel {
     private int y;
     private JFrame frame;
     private String ID;
+    private GameManager gameManager;
 
-    public GamePanel(int x, int y, int width, int height, String ID) {
+    public GamePanel(int x, int y, int width, int height, String ID, GameManager gameManager) {
         this.x = x;
         this.y = y;
         this.width = width+10;
         this.height = height+30;
         this.ID = ID;
+        this.gameManager = gameManager;
         addFrame();
         addPanel();
-        new InputListener(this);
-        addMouseListener(GameMouseListener.getINSTANCE());
-        addMouseMotionListener(GameMouseMotionListener.getINSTANCE());
+        new InputListener(gameManager, this);
+        addMouseListener(gameManager.getGameMouseListener());
+        addMouseMotionListener(gameManager.getGameMouseMotionListener());
     }
     private void addFrame() {
         frame = new JFrame();
@@ -100,12 +100,12 @@ public class GamePanel extends JPanel {
         drawBullets(g);
     }
     private void drawEpsilon(Graphics g) {
-        EpsilonView epsilon = GameManager.getINSTANCE().getGameView().getEpsilonView();
+        EpsilonView epsilon = gameManager.getGameView().getEpsilonView();
         g.drawImage(epsilon.getImage(), epsilon.getX()-x, epsilon.getY()-y, epsilon.getRadius()*2,
                 epsilon.getRadius()*2, null);
     }
     private void drawAoEs(Graphics g) {
-        ArrayList<EnemyView> aoEViews = GameManager.getINSTANCE().getGameView().getAoEViews();
+        ArrayList<EnemyView> aoEViews = gameManager.getGameView().getAoEViews();
         for (int i = 0; i < aoEViews.size(); i++) {
             EnemyView aoEView = aoEViews.get(i);
             g.drawImage(aoEView.getImage(), aoEView.getX()-x, aoEView.getY()-y,
@@ -113,7 +113,7 @@ public class GamePanel extends JPanel {
         }
     }
     private void drawArchmires(Graphics g) {
-        ArrayList<ArchmireView> archmires = GameManager.getINSTANCE().getGameView().getArchmires();
+        ArrayList<ArchmireView> archmires = gameManager.getGameView().getArchmires();
         for (int i = 0; i < archmires.size(); i++) {
             ArchmireView archmireView = archmires.get(i);
             g.drawImage(archmireView.getRotatedImage(), archmireView.getX()-x, archmireView.getY()-y,
@@ -121,7 +121,7 @@ public class GamePanel extends JPanel {
         }
     }
     private void drawEnemies(Graphics g) {
-        ArrayList<EnemyView> enemyViews = GameManager.getINSTANCE().getGameView().getEnemies();
+        ArrayList<EnemyView> enemyViews = gameManager.getGameView().getEnemies();
         for (int i = 0; i < enemyViews.size(); i++) {
             EnemyView enemyView = enemyViews.get(i);
             g.drawImage(enemyView.getRotatedImage(), enemyView.getX()-x, enemyView.getY()-y,
@@ -129,7 +129,7 @@ public class GamePanel extends JPanel {
         }
     }
     private void drawBullets(Graphics g) {
-        ArrayList<BulletView> bulletViews = GameManager.getINSTANCE().getGameView().getBullets();
+        ArrayList<BulletView> bulletViews = gameManager.getGameView().getBullets();
         for (int i = 0; i < bulletViews.size(); i++) {
             BulletView bulletView = bulletViews.get(i);
             g.drawImage(bulletView.getImage(), bulletView.getX()-x, bulletView.getY()-y,
@@ -137,14 +137,14 @@ public class GamePanel extends JPanel {
         }
     }
     private void drawLasers(Graphics g) {
-        ArrayList<BlackOrbLaserView> lasers = GameManager.getINSTANCE().getGameView().getLaserViews();
+        ArrayList<BlackOrbLaserView> lasers = gameManager.getGameView().getLaserViews();
         for (int i = 0; i < lasers.size(); i++) {
             BlackOrbLaserView laser = lasers.get(i);
             BlackOrbLaserView.draw(laser.getX1()-x, laser.getY1()-y, laser.getX2()-x, laser.getY2()-y, g);
         }
     }
     private void drawCollectibles(Graphics g) {
-        ArrayList<CollectibleView> collectibleViews = GameManager.getINSTANCE().getGameView().getCollectiveViews();
+        ArrayList<CollectibleView> collectibleViews = gameManager.getGameView().getCollectiveViews();
         for (int i = 0; i < collectibleViews.size(); i++) {
             CollectibleView collective = collectibleViews.get(i);
             g.drawImage(collective.getImage(), collective.getX()-x, collective.getY()-y, collective.getWidth(),
@@ -152,7 +152,7 @@ public class GamePanel extends JPanel {
         }
     }
     private void drawNecropickAnnouncements(Graphics g){
-        ArrayList<NecropickAnnouncement> neropicks = GameManager.getINSTANCE().getGameView().getNecropickAnnouncements();
+        ArrayList<NecropickAnnouncement> neropicks = gameManager.getGameView().getNecropickAnnouncements();
         for (int i = 0; i < neropicks.size(); i++){
             NecropickAnnouncement necropick = neropicks.get(i);
             g.drawImage(necropick.getImage(), necropick.getX()-x, necropick.getY()-y, necropick.getWidth(),
@@ -160,14 +160,14 @@ public class GamePanel extends JPanel {
         }
     }
     private void drawVertexes(Graphics g){
-        ArrayList<Vertex> vertices = GameManager.getINSTANCE().getGameView().getEpsilonView().getVertexes();
+        ArrayList<Vertex> vertices = gameManager.getGameView().getEpsilonView().getVertexes();
         for (int i = 0; i < vertices.size(); i++){
             Vertex vertex = vertices.get(i);
             g.drawImage(vertex.getImage(), vertex.getX()-x, vertex.getY()-y, vertex.getWidth(), vertex.getHeight(), null);
         }
     }
     private void drawCerberus(Graphics g){
-        ArrayList<Vertex> cerberuses = GameManager.getINSTANCE().getGameView().getEpsilonView().getCerberuses();
+        ArrayList<Vertex> cerberuses = gameManager.getGameView().getEpsilonView().getCerberuses();
         for (int i = 0; i < cerberuses.size(); i++){
             Vertex cerberus = cerberuses.get(i);
             g.drawImage(cerberus.getImage(), cerberus.getX()-x, cerberus.getY()-y, cerberus.getWidth(),
@@ -175,7 +175,7 @@ public class GamePanel extends JPanel {
         }
     }
     private void drawPortal(Graphics g){
-        CheckPointView portal = GameManager.getINSTANCE().getGameView().getPortal();
+        CheckPointView portal = gameManager.getGameView().getPortal();
         if (portal != null){
             g.drawImage(portal.getImage(), portal.getX()-x, portal.getY()-y, portal.getWidth(), portal.getHeight(), null);
         }

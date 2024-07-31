@@ -1,9 +1,21 @@
 package model;
 
+import model.game.skills.Skill;
+
+import java.util.ArrayList;
+import java.util.UUID;
+
 public class Client {
     private String username;
     private Squad squad;
     private int XP;
+    private String ID;
+    private ArrayList<String> requests;
+    public Client(String username){
+        this.username = username;
+        ID = UUID.randomUUID().toString();
+        requests = new ArrayList<>();
+    }
 
     public String getUsername() {
         return username;
@@ -27,5 +39,13 @@ public class Client {
 
     public void setXP(int XP) {
         this.XP = XP;
+    }
+
+    public ArrayList<String> getRequests() {
+        return requests;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

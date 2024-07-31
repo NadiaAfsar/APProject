@@ -1,8 +1,6 @@
 package view.game.enemies.necropick;
 
-import controller.GameManager;
-import model.interfaces.movement.Point;
-import view.Rotation;
+import application.MyApplication;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -18,12 +16,12 @@ public class NecropickAnnouncement {
 
 
         public NecropickAnnouncement(int x, int y, String ID) {
-            width = GameManager.configs.NECROPICK_ANNOUNCEMENT_WIDTH;
+            width = MyApplication.configs.NECROPICK_ANNOUNCEMENT_WIDTH;
             this.x = x-width/2;
             this.y = y-width/2;
             this.ID = ID;
             try {
-                image = ImageIO.read(new File(GameManager.configs.NECROPICK_ANNOUNCEMENT));
+                image = ImageIO.read(new File(MyApplication.configs.NECROPICK_ANNOUNCEMENT));
             }
             catch (IOException ex) {
                 throw new RuntimeException(ex);

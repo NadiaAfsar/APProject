@@ -1,5 +1,6 @@
 package model.game.skills.defence;
 
+import application.MyApplication;
 import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
@@ -12,12 +13,12 @@ public class WritOfChiron extends Skill {
         name = "Writ Of Chiron";
     }
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP() - 100);
-                GameManager.getINSTANCE().getGameModel().setChiron(GameManager.getINSTANCE().getGameModel().getChiron()+3);
+                gameManager.getGameModel().setChiron(gameManager.getGameModel().getChiron()+3);
                 activated = true;
             }
         }
@@ -27,17 +28,17 @@ public class WritOfChiron extends Skill {
         return chironUnlocked;
     }
 
-    public void setUnlocked(boolean chironUnlocked) {
+    public void setUnlocked(boolean chironUnlocked, GameManager gameManager) {
         WritOfChiron.chironUnlocked = chironUnlocked;
         if (chironUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfChiron());
+            gameManager.getUnlockedSkills().add(new WritOfChiron());
         }
-        GameManager.configs.WritOfChironUnlocked = chironUnlocked;
+        MyApplication.configs.WritOfChironUnlocked = chironUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfChiron.picked = picked;
-        GameManager.configs.WritOfChironPicked = picked;
+        MyApplication.configs.WritOfChironPicked = picked;
     }
 
     public boolean isPicked() {
@@ -49,10 +50,7 @@ public class WritOfChiron extends Skill {
         return price;
     }
     public static void setBooleans(){
-        chironUnlocked = GameManager.configs.WritOfChironUnlocked;
-        if (chironUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfChiron());
-        }
-        picked = GameManager.configs.WritOfChironPicked;
+        chironUnlocked = MyApplication.configs.WritOfChironUnlocked;
+        picked = MyApplication.configs.WritOfChironPicked;
     }
 }

@@ -3,13 +3,13 @@ package model.game.enemies;
 import controller.Controller;
 import controller.GameManager;
 import controller.audio.AudioController;
+import model.game.GameModel;
 import model.game.enemies.mini_boss.Barricados;
 import model.game.enemies.mini_boss.black_orb.BlackOrb;
 import model.game.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.game.enemies.normal.Wyrm;
 import model.game.enemies.normal.archmire.Archmire;
 import model.game.frame.MyFrame;
-import model.game.GameModel;
 import model.interfaces.collision.Collidable;
 import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Direction;
@@ -41,8 +41,10 @@ public abstract class Enemy extends Thread implements Collidable{
     protected MyFrame myFrame;
     protected Logger logger;
     protected  boolean died;
-    public Enemy(Point center, double velocity) {
+    protected GameManager gameManager;
+    public Enemy(Point center, double velocity, GameManager gameManager) {
         ID = UUID.randomUUID().toString();
+        this.gameManager = gameManager;
         this.center = center;
         this.velocity = new Point(0,0);
         acceleration = new Point(0,0);
@@ -104,7 +106,7 @@ public abstract class Enemy extends Thread implements Collidable{
     public void decreaseHP(int x) {
         HP -= x;
         if (x != 0) {
-            GameModel gameModel = GameManager.getINSTANCE().getGameModel();
+            GameModel gameModel = gameManager.getGameModel();
             gameModel.getEpsilon().setHP(gameModel.getEpsilon().getHP() + gameModel.getChiron());
         }
         if (HP <= 0 && !(this instanceof Barricados)) {
@@ -114,15 +116,15 @@ public abstract class Enemy extends Thread implements Collidable{
     }
     protected void die() {
         addCollective();
-        GameManager.getINSTANCE().getGameModel().getDiedEnemies().add(this);
-        Controller.removeEnemyView(this);
+        gameManager.getGameModel().getDiedEnemies().add(this);
+        Controller.removeEnemyView(this, gameManager);
         AudioController.addEnemyDyingSound();
-        GameManager.getINSTANCE().getGameModel().getCurrentWave().newEnemyDied();
+        gameManager.getGameModel().getCurrentWave().newEnemyDied();
         died = true;
     }
     protected void checkCollision() {
-        synchronized (GameManager.getINSTANCE().getGameModel().getEnemyLock()) {
-            ArrayList<Enemy> enemies = GameManager.getINSTANCE().getGameModel().getEnemies();
+        synchronized (gameManager.getGameModel().getEnemyLock()) {
+            ArrayList<Enemy> enemies = gameManager.getGameModel().getEnemies();
             for (int i = 0; i < enemies.size(); i++) {
                 if (!enemies.get(i).equals(this)) {
                     if (!(enemies.get(i) instanceof Wyrm) && !(enemies.get(i) instanceof Archmire)) {
@@ -236,5 +238,9 @@ public abstract class Enemy extends Thread implements Collidable{
 
     public void setDied(boolean died) {
         this.died = died;
+    }
+
+    public GameManager getGameManager() {
+        return gameManager;
     }
 }

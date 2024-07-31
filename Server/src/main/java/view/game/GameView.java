@@ -1,7 +1,8 @@
 package view.game;
 
-import model.interfaces.movement.Point;
+import controller.GameManager;
 import model.game.skills.Skill;
+import model.interfaces.movement.Point;
 import view.game.enemies.EnemyView;
 import view.game.enemies.archmire.ArchmireView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
@@ -31,7 +32,9 @@ public class GameView {
     private Map<String, NecropickAnnouncement> necropickAnnouncementMap;
     private HUI hui;
     private CheckPointView portal;
-    public GameView() {
+    private GameManager gameManager;
+    public GameView(GameManager gameManager) {
+        this.gameManager = gameManager;
         enemiesMap = new HashMap<>();
         bulletsMap = new HashMap<>();
         collectibleMap = new HashMap<>();
@@ -48,7 +51,7 @@ public class GameView {
         laserViewMap = new HashMap<>();
         necropickAnnouncements = new ArrayList<>();
         necropickAnnouncementMap = new HashMap<>();
-        hui = new HUI();
+        hui = new HUI(gameManager);
     }
 
     public void update(int HP, int XP, int wave, long time, Skill skill) {
@@ -153,7 +156,7 @@ public class GameView {
         aoEViewMap.put(ID, null);
     }
     public void addPanel(int x, int y, int width, int height, String ID) {
-        GamePanel gamePanel = new GamePanel(x, y, width, height, ID);
+        GamePanel gamePanel = new GamePanel(x, y, width, height, ID, gameManager);
         gamePanels.add(gamePanel);
         gamePanelMap.put(ID, gamePanel);
     }

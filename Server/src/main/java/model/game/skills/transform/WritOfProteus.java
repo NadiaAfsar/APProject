@@ -1,5 +1,6 @@
 package model.game.skills.transform;
 
+import application.MyApplication;
 import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
@@ -14,9 +15,9 @@ public class WritOfProteus extends Skill {
     }
 
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.addVertex();
                 epsilon.setXP(epsilon.getXP()-100);
@@ -28,12 +29,12 @@ public class WritOfProteus extends Skill {
         return proteusUnlocked;
     }
 
-    public void setUnlocked(boolean u) {
+    public void setUnlocked(boolean u, GameManager gameManager) {
         proteusUnlocked = u;
         if (u){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfProteus());
+            gameManager.getUnlockedSkills().add(new WritOfProteus());
         }
-        GameManager.configs.WritOfEmpusaUnlocked = u;
+        MyApplication.configs.WritOfEmpusaUnlocked = u;
     }
     public boolean isPicked() {
         return picked;
@@ -41,17 +42,14 @@ public class WritOfProteus extends Skill {
 
     public void setPicked(boolean p) {
         picked = p;
-        GameManager.configs.WritOfEmpusaPicked = p;
+        MyApplication.configs.WritOfEmpusaPicked = p;
     }
 
     public int getPrice() {
         return price;
     }
     public static void setBooleans(){
-        proteusUnlocked = GameManager.configs.WritOfProteusUnlocked;
-        if (proteusUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfProteus());
-        }
-        picked = GameManager.configs.WritOfProteusPicked;
+        proteusUnlocked = MyApplication.configs.WritOfProteusUnlocked;
+        picked = MyApplication.configs.WritOfProteusPicked;
     }
 }

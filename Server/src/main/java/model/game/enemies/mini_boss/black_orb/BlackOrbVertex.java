@@ -1,11 +1,12 @@
 package model.game.enemies.mini_boss.black_orb;
 
+import application.MyApplication;
 import controller.Controller;
 import controller.GameManager;
 import controller.audio.AudioController;
 import model.game.Collectible;
-import model.game.frame.MyFrame;
 import model.game.GameModel;
+import model.game.frame.MyFrame;
 import model.interfaces.collision.Collidable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
@@ -29,24 +30,24 @@ public class BlackOrbVertex implements Collidable {
         ID = UUID.randomUUID().toString();
         this.center = center;
         this.blackOrb = blackOrb;
-        width = GameManager.configs.BLACKORBVERTEX_RADIUS*2;
-        height = GameManager.configs.BLACKORBVERTEX_RADIUS*2;
+        width = MyApplication.configs.BLACKORBVERTEX_RADIUS*2;
+        height = MyApplication.configs.BLACKORBVERTEX_RADIUS*2;
         myFrame = new MyFrame(width+50, height+50, center.getX()-width/2-25, center.getY()-height/2-25,
-                true, false, width+50, height+50);
+                true, false, width+50, height+50, blackOrb.getGameManager());
         lasers = new ArrayList<>();
         myFrame.getBlackOrbVertices().add(this);
-        GameManager.getINSTANCE().getGameModel().getFrames().add(myFrame);
+        blackOrb.getGameManager().getGameModel().getFrames().add(myFrame);
         HP = 30;
-        Controller.addBlackOrbVertexView(this);
+        Controller.addBlackOrbVertexView(this, blackOrb.getGameManager());
     }
     private void die(ArrayList<BlackOrbLaser> allLasers) {
         for (int i = 0; i < lasers.size(); i++) {
             allLasers.remove(lasers.get(i));
-            Controller.removeLaserView(lasers.get(i));
+            Controller.removeLaserView(lasers.get(i), blackOrb.getGameManager());
         }
         addCollective();
         blackOrb.getBlackOrbVertices().remove(this);
-        Controller.removeBlackOrbVertexView(this);
+        Controller.removeBlackOrbVertexView(this, blackOrb.getGameManager());
         AudioController.addEnemyDyingSound();
         if (blackOrb.getBlackOrbVertices().size() == 0){
             blackOrb.setDied(true);
@@ -54,12 +55,12 @@ public class BlackOrbVertex implements Collidable {
     }
     private void addCollective() {
         Collectible collectible = new Collectible((int)center.getX(), (int)center.getY(),30);
-        GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
-        Controller.addCollectibleView(collectible);
+        blackOrb.getGameManager().getGameModel().getCollectibles().add(collectible);
+        Controller.addCollectibleView(collectible, blackOrb.getGameManager());
     }
     public void decreaseHP(int x) {
         HP -= x;
-        GameModel gameModel = GameManager.getINSTANCE().getGameModel();
+        GameModel gameModel = blackOrb.getGameManager().getGameModel();
         gameModel.getEpsilon().setHP(gameModel.getEpsilon().getHP()+gameModel.getChiron());
         if (HP <= 0) {
             die(blackOrb.getLasers());
@@ -91,6 +92,11 @@ public class BlackOrbVertex implements Collidable {
         return center;
     }
 
+    @Override
+    public GameManager getGameManager() {
+        return blackOrb.getGameManager();
+    }
+
     public ArrayList<BlackOrbLaser> getLasers() {
         return lasers;
     }
@@ -109,5 +115,9 @@ public class BlackOrbVertex implements Collidable {
 
     public void setCenter(Point center) {
         this.center = center;
+    }
+
+    public BlackOrb getBlackOrb() {
+        return blackOrb;
     }
 }

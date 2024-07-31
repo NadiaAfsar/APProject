@@ -11,9 +11,9 @@ import model.game.enemies.normal.archmire.Archmire;
 public interface Movable {
     default void move() {
         boolean toMove = true;
-        if (GameManager.getINSTANCE().isDeimos()){
+        if (getGameManager().isDeimos()){
             if (this instanceof Enemy &&!(this instanceof Archmire)){
-                EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+                EpsilonModel epsilon = getGameManager().getGameModel().getEpsilon();
                 if (Calculations.getDistance(epsilon.getCenter().getX(), epsilon.getCenter().getY(), getCenter().getX(),
                         getCenter().getY()) <= 100){
                     toMove = false;
@@ -93,6 +93,7 @@ public interface Movable {
         }
     }
     void specialMove();
+    public GameManager getGameManager();
 
 
 }

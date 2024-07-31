@@ -1,10 +1,12 @@
 package model.game;
 
+import controller.GameManager;
+
 import java.util.HashMap;
 
 public class HardGame extends GameModel {
-    public HardGame() {
-        super();
+    public HardGame(GameManager gameManager) {
+        super(gameManager);
         enemiesToKill = new HashMap<Integer, Integer>() {{
             put(1, 3);
             put(2, 5);

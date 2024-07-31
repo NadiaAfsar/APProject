@@ -1,6 +1,6 @@
 package view.game;
 
-import controller.GameManager;
+import application.MyApplication;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,7 +21,7 @@ public class CollectibleView {
         this.y = y-height/2;
         this.ID = ID;
         try {
-            image = ImageIO.read(new File(GameManager.configs.COLLECTIBLE));
+            image = ImageIO.read(new File(MyApplication.configs.COLLECTIBLE));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

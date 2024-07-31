@@ -1,11 +1,9 @@
 package view.game.enemies;
 
-import controller.GameManager;
-import model.interfaces.movement.Point;
-import view.Rotation;
+import application.MyApplication;
 
 public class SquarantineView extends EnemyView{
     public SquarantineView(int x, int y, int width, int height, String ID) {
-        super(x, y, width, height, GameManager.configs.SQUARANTINE, ID);
+        super(x, y, width, height, MyApplication.configs.SQUARANTINE, ID);
     }
 }

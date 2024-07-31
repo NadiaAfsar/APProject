@@ -1,9 +1,8 @@
-package view.menu;
+package view.game;
 
 import controller.Controller;
 import controller.GameManager;
 import controller.save.Configs;
-import view.game.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,9 +24,11 @@ public class Shop extends JFrame {
     private JPanel panel;
     private int x;
     private int y;
-    public Shop() {
+    private GameManager gameManager;
+    public Shop(GameManager gameManager) {
         width = 700;
         height = 600;
+        this.gameManager = gameManager;
         x = (int) Configs.FRAME_SIZE.getWidth()/2-width/2;
         y = (int) Configs.FRAME_SIZE.getHeight()/2-height/2;
         addFrame();
@@ -66,11 +67,11 @@ public class Shop extends JFrame {
         deimos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!GameManager.getINSTANCE().deimos()) {
+                if (!gameManager.deimos()) {
                     showNotEnoughXP();
                 }
                 else {
-                    GameManager.getINSTANCE().getGameView().getHui().setAbility("O' Deimos, Dismay");
+                    gameManager.getGameView().getHui().setAbility("O' Deimos, Dismay");
                     resumeGame();
                 }
             }
@@ -82,11 +83,11 @@ public class Shop extends JFrame {
         athena.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!GameManager.getINSTANCE().athena()) {
+                if (!gameManager.athena()) {
                     showNotEnoughXP();
                 }
                 else {
-                    GameManager.getINSTANCE().getGameView().getHui().setAbility("O, Athena, Empower");
+                    gameManager.getGameView().getHui().setAbility("O, Athena, Empower");
                     resumeGame();
                 }
             }
@@ -98,11 +99,11 @@ public class Shop extends JFrame {
         apollo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!GameManager.getINSTANCE().apollo()) {
+                if (!gameManager.apollo()) {
                     showNotEnoughXP();
                 }
                 else {
-                    GameManager.getINSTANCE().getGameView().getHui().setAbility("O' Apollo Heal");
+                    gameManager.getGameView().getHui().setAbility("O' Apollo Heal");
                     resumeGame();
                 }
             }
@@ -114,11 +115,11 @@ public class Shop extends JFrame {
         hypnos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!GameManager.getINSTANCE().hypnos()) {
+                if (!gameManager.hypnos()) {
                     showNotEnoughXP();
                 }
                 else {
-                    GameManager.getINSTANCE().getGameView().getHui().setAbility("O' Hypnos, Slumber");
+                    gameManager.getGameView().getHui().setAbility("O' Hypnos, Slumber");
                     resumeGame();
                 }
             }
@@ -130,11 +131,11 @@ public class Shop extends JFrame {
         hephaestus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!GameManager.getINSTANCE().hephaestus()) {
+                if (!gameManager.hephaestus()) {
                     showNotEnoughXP();
                 }
                 else {
-                    GameManager.getINSTANCE().getGameView().getHui().setAbility("O' Hephaestus, Banish");
+                    gameManager.getGameView().getHui().setAbility("O' Hephaestus, Banish");
                     resumeGame();
                 }
             }
@@ -146,11 +147,11 @@ public class Shop extends JFrame {
         phonoi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!GameManager.getINSTANCE().phonoi()) {
+                if (!gameManager.phonoi()) {
                     showNotEnoughXP();
                 }
                 else {
-                    GameManager.getINSTANCE().getGameView().getHui().setAbility("O' Phonoi, Slaughter");
+                    gameManager.getGameView().getHui().setAbility("O' Phonoi, Slaughter");
                     resumeGame();
                 }
             }
@@ -184,7 +185,7 @@ public class Shop extends JFrame {
     }
     private void resumeGame() {
         Controller.gameRunning = true;
-        GameManager.getINSTANCE().getGameModel().setLastSavedTime(System.currentTimeMillis());
+        gameManager.getGameModel().setLastSavedTime(System.currentTimeMillis());
         dispose();
     }
     private void addMainMenu() {
@@ -196,12 +197,12 @@ public class Shop extends JFrame {
         mainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameManager.getINSTANCE().stopGame();
-                ArrayList<GamePanel> gamePanels = GameManager.getINSTANCE().getGameView().getGamePanels();
+                gameManager.stopGame();
+                ArrayList<GamePanel> gamePanels = gameManager.getGameView().getGamePanels();
                 for (int i = 0; i < gamePanels.size(); i++){
                     gamePanels.get(i).getFrame().dispose();
                 }
-                GameManager.getINSTANCE().getGameFrame().setVisible(true);
+                gameManager.getGameFrame().setVisible(true);
                 dispose();
             }
         });

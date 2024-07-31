@@ -1,5 +1,6 @@
 package model.game.enemies.smiley;
 
+import application.MyApplication;
 import controller.Controller;
 import controller.GameManager;
 import model.game.BulletModel;
@@ -10,18 +11,18 @@ import model.interfaces.movement.Point;
 public abstract class Hand extends Enemy {
     private boolean susceptible;
     private long lastShotTime;
-    public Hand(Point center, double velocity) {
-        super(center, velocity);
-        width = GameManager.configs.HAND_WIDTH;
-        height = GameManager.configs.HAND_HEIGHT;
+    public Hand(Point center, double velocity, GameManager gameManager) {
+        super(center, velocity, gameManager);
+        width = MyApplication.configs.HAND_WIDTH;
+        height = MyApplication.configs.HAND_HEIGHT;
         myFrame = new MyFrame(width+80, height+80, center.getX()-width/2-40, center.getY()-height/2-40,
-                false, false, width+80, height+80);
+                false, false, width+80, height+80, gameManager);
         HP = 100;
         addVertexes();
         myFrame.getEnemies().add(this);
-        Controller.addEnemyView(this);
-        GameManager.getINSTANCE().getGameModel().getFrames().add(myFrame);
-        GameManager.getINSTANCE().getGameModel().getEnemies().add(this);
+        Controller.addEnemyView(this, gameManager);
+        gameManager.getGameModel().getFrames().add(myFrame);
+        gameManager.getGameModel().getEnemies().add(this);
     }
     public void setCenter(Point center){
         this.center = center;
@@ -44,9 +45,9 @@ public abstract class Hand extends Enemy {
     public void shoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= 2000) {
-            BulletModel bulletModel = new BulletModel(center, GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter(),
-                    height/2, 3, false, myFrame);
-            GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
+            BulletModel bulletModel = new BulletModel(center, gameManager.getGameModel().getEpsilon().getCenter(),
+                    height/2, 3, false, myFrame, gameManager);
+            gameManager.getGameModel().getEnemiesBullets().add(bulletModel);
             lastShotTime = currentTime;
         }
     }

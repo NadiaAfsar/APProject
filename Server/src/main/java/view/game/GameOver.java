@@ -3,13 +3,10 @@ package view.game;
 import controller.GameManager;
 import controller.save.Configs;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
 public class GameOver extends JFrame {
     private JLabel collectedXP;
@@ -25,10 +22,12 @@ public class GameOver extends JFrame {
     private int x;
     private int y;
     private int xp;
-    public GameOver(int xp, long time, int bullets, int successfulBullets, int enemies) {
+    private GameManager gameManager;
+    public GameOver(int xp, long time, int bullets, int successfulBullets, int enemies, GameManager gameManager) {
         this.xp = xp;
         width = 700;
         height = 600;
+        this.gameManager = gameManager;
         x = (int) Configs.FRAME_SIZE.getWidth()/2-350;
         y = (int)Configs.FRAME_SIZE.getHeight()/2-250;
         addFrame();
@@ -50,28 +49,28 @@ public class GameOver extends JFrame {
         setVisible(true);
     }
     private void addBullets(int bullets) {
-        collectedXP = new JLabel("Bullets: "+bullets);
-        collectedXP.setFont(new Font("Elephant", Font.BOLD, 20));
-        collectedXP.setBounds(100,200,500,200);
-        panel.add(collectedXP);
+        this.bullets = new JLabel("Bullets: "+bullets);
+        this.bullets.setFont(new Font("Elephant", Font.BOLD, 20));
+        this.bullets.setBounds(100,200,500,200);
+        panel.add(this.bullets);
     }
     private void addSBullets(int bullets) {
-        collectedXP = new JLabel("Successful Bullets: "+bullets);
-        collectedXP.setFont(new Font("Elephant", Font.BOLD, 20));
-        collectedXP.setBounds(400,200,500,200);
-        panel.add(collectedXP);
+        this.successfulBullets = new JLabel("Successful Bullets: "+bullets);
+        this.successfulBullets.setFont(new Font("Elephant", Font.BOLD, 20));
+        this.successfulBullets.setBounds(400,200,500,200);
+        panel.add(this.successfulBullets);
     }
     private void addEnemies(int enemies) {
-        collectedXP = new JLabel("Killed Enemies: "+enemies);
-        collectedXP.setFont(new Font("Elephant", Font.BOLD, 20));
-        collectedXP.setBounds(180,300,500,200);
-        panel.add(collectedXP);
+        this.enemies = new JLabel("Killed Enemies: "+enemies);
+        this.enemies.setFont(new Font("Elephant", Font.BOLD, 20));
+        this.enemies.setBounds(180,300,500,200);
+        panel.add(this.enemies);
     }
     private void addTime(long time) {
-        collectedXP = new JLabel("Time: "+getElapsedTime(time));
-        collectedXP.setFont(new Font("Elephant", Font.BOLD, 20));
-        collectedXP.setBounds(100,100,500,200);
-        panel.add(collectedXP);
+        this.time = new JLabel("Time: "+getElapsedTime(time));
+        this.time.setFont(new Font("Elephant", Font.BOLD, 20));
+        this.time.setBounds(100,100,500,200);
+        panel.add(this.time);
     }
     private String getElapsedTime(long time1) {
         int hour = (int)time1 / 3600;
@@ -127,8 +126,7 @@ public class GameOver extends JFrame {
         mainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //GameManager.getINSTANCE().getGameView().dispose();
-                GameManager.getINSTANCE().getGameFrame().setVisible(true);
+                gameManager.getGameFrame().setVisible(true);
                 dispose();
             }
         });

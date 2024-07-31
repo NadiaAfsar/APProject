@@ -3,7 +3,7 @@ package controller.listeners;
 import controller.Controller;
 import controller.GameManager;
 import model.game.skills.Skill;
-import view.menu.Shop;
+import view.game.Shop;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,9 +13,11 @@ public class InputListener {
     private static InputMap inputMap;
     private ActionMap actionMap;
     private JPanel panel;
+    private GameManager gameManager;
 
-    public InputListener(JPanel panel) {
+    public InputListener(GameManager gameManager, JPanel panel) {
         this.panel = panel;
+        this.gameManager = gameManager;
         createKeyBindings();
         createKeyActions();
     }
@@ -44,7 +46,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveUp(true);
+                    gameManager.getGameModel().getEpsilon().moveUp(true);
                 }
             }
         });
@@ -52,7 +54,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveDown(true);
+                    gameManager.getGameModel().getEpsilon().moveDown(true);
                 }
             }
         });
@@ -60,7 +62,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveRight(true);
+                    gameManager.getGameModel().getEpsilon().moveRight(true);
                 }
             }
         });
@@ -68,7 +70,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveLeft(true);
+                    gameManager.getGameModel().getEpsilon().moveLeft(true);
                 }
             }
         });
@@ -76,7 +78,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveUp(false);
+                    gameManager.getGameModel().getEpsilon().moveUp(false);
                 }
             }
         });
@@ -84,7 +86,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveDown(false);
+                    gameManager.getGameModel().getEpsilon().moveDown(false);
                 }
             }
         });
@@ -92,7 +94,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveRight(false);
+                    gameManager.getGameModel().getEpsilon().moveRight(false);
                 }
             }
         });
@@ -100,25 +102,25 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    GameManager.getINSTANCE().getGameModel().getEpsilon().moveLeft(false);
+                    gameManager.getGameModel().getEpsilon().moveLeft(false);
                 }
             }
         });
         actionMap.put("activateSkill", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Skill skill = GameManager.getINSTANCE().getPickedSkill();
+                Skill skill = gameManager.getPickedSkill();
                 if (skill != null) {
-                    skill.activate();
+                    skill.activate(gameManager);
                 }
             }
         });
         actionMap.put("showShop", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning && !GameManager.getINSTANCE().isHypnos()) {
+                if (Controller.gameRunning && !gameManager.isHypnos()) {
                     Controller.gameRunning = false;
-                    new Shop();
+                    new Shop(gameManager);
                 }
             }
         });
@@ -126,7 +128,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.gameRunning) {
-                    GameManager.getINSTANCE().getGameView().getHui().showHUI();
+                    gameManager.getGameView().getHui().showHUI();
                 }
             }
         });

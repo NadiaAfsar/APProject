@@ -1,5 +1,6 @@
 package model.game.skills.attack;
 
+import application.MyApplication;
 import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
@@ -14,11 +15,10 @@ public class WritOfAres extends Skill {
     }
 
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
-                GameManager gameManager = GameManager.getINSTANCE();
                 gameManager.getGameModel().setAres(gameManager.getGameModel().getAres() + 2);
                 epsilon.setXP(epsilon.getXP()-100);
                 activated = true;
@@ -29,12 +29,12 @@ public class WritOfAres extends Skill {
         return aresUnlocked;
     }
 
-    public void setUnlocked(boolean u) {
+    public void setUnlocked(boolean u, GameManager gameManager) {
         aresUnlocked = u;
         if (u){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAres());
+            gameManager.getUnlockedSkills().add(new WritOfAres());
         }
-        GameManager.configs.WritOfAresUnlocked = u;
+        MyApplication.configs.WritOfAresUnlocked = u;
     }
     public boolean isPicked() {
         return picked;
@@ -42,17 +42,14 @@ public class WritOfAres extends Skill {
 
     public void setPicked(boolean p) {
         picked = p;
-        GameManager.configs.WritOfAresPicked = p;
+        MyApplication.configs.WritOfAresPicked = p;
     }
 
     public int getPrice() {
         return price;
     }
     public static void setBooleans(){
-        aresUnlocked = GameManager.configs.WritOfAresUnlocked;
-        if (aresUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAres());
-        }
-        picked = GameManager.configs.WritOfAresPicked;
+        aresUnlocked = MyApplication.configs.WritOfAresUnlocked;
+        picked = MyApplication.configs.WritOfAresPicked;
     }
 }

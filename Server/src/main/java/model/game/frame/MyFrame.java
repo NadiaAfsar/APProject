@@ -3,7 +3,7 @@ package model.game.frame;
 import controller.Controller;
 import controller.GameManager;
 import controller.save.Configs;
-import model.*;
+import model.Calculations;
 import model.game.BulletModel;
 import model.game.Interference;
 import model.game.enemies.Enemy;
@@ -34,13 +34,15 @@ public class MyFrame {
     private Logger logger;
     private static int number;
     private boolean stopMoving;
+    private GameManager gameManager;
 
     public MyFrame(double width, double height, double x, double y, boolean isIsometric, boolean isRigid, double minWidth,
-                   double minHeight) {
+                   double minHeight, GameManager gameManager) {
         ID = UUID.randomUUID().toString();
         number++;
         logger = Logger.getLogger(MyFrame.class.getName()+number);
         this.width = width;
+        this.gameManager = gameManager;
         this.height = height;
         this.minWidth = minWidth;
         this.minHeight = minHeight;
@@ -58,7 +60,7 @@ public class MyFrame {
             put(3, new Side());
             put(4, new Side());
         }};
-        Controller.addFrameView(this);
+        Controller.addFrameView(this, gameManager);
     }
     public Map<Integer, Side> getSides() {
         return sides;
@@ -165,7 +167,7 @@ public class MyFrame {
         return false;
     }
     private boolean checkRigidFramesX(int x) {
-        ArrayList<MyFrame> myFrames = GameManager.getINSTANCE().getGameModel().getFrames();
+        ArrayList<MyFrame> myFrames = gameManager.getGameModel().getFrames();
         for (int i = 0; i < myFrames.size(); i++){
             if (myFrames.get(i).isRigid && !myFrames.get(i).equals(this)){
                 MyFrame myFrame = myFrames.get(i);
@@ -188,7 +190,7 @@ public class MyFrame {
         return false;
     }
     private boolean checkRigidFramesY(int y) {
-        ArrayList<MyFrame> myFrames = GameManager.getINSTANCE().getGameModel().getFrames();
+        ArrayList<MyFrame> myFrames = gameManager.getGameModel().getFrames();
         for (int i = 0; i < myFrames.size(); i++) {
             if (myFrames.get(i).isRigid && !myFrames.get(i).equals(this)) {
                 MyFrame myFrame = myFrames.get(i);
@@ -222,11 +224,11 @@ public class MyFrame {
 
     public void shrinkage() {
         if (width > minWidth) {
-            width -= 0.1*GameManager.getINSTANCE().getGameModel().getWritOfAthena()/100;
+            width -= 0.1*gameManager.getGameModel().getWritOfAthena()/100;
             sides.get(2).separateAll();
         }
         if (height > minHeight) {
-            height -= 0.1*GameManager.getINSTANCE().getGameModel().getWritOfAthena()/100;
+            height -= 0.1*gameManager.getGameModel().getWritOfAthena()/100;
             sides.get(3).separateAll();
         }
     }
@@ -241,7 +243,7 @@ public class MyFrame {
     }
     public void update(){
             overlaps = new ArrayList<>();
-            ArrayList<MyFrame> myFrames = GameManager.getINSTANCE().getGameModel().getFrames();
+            ArrayList<MyFrame> myFrames = gameManager.getGameModel().getFrames();
             for (int i = 0; i < myFrames.size(); i++) {
                 if (!myFrames.get(i).equals(this)) {
                         Interference.getOverlaps(this, myFrames.get(i));

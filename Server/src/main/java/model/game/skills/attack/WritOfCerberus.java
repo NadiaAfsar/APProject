@@ -1,10 +1,11 @@
 package model.game.skills.attack;
 
+import application.MyApplication;
 import controller.Controller;
 import controller.GameManager;
 import model.game.EpsilonModel;
-import model.interfaces.movement.RotatablePoint;
 import model.game.skills.Skill;
+import model.interfaces.movement.RotatablePoint;
 
 import java.util.ArrayList;
 
@@ -18,30 +19,30 @@ public class WritOfCerberus extends Skill {
     }
 
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
-                GameManager.getINSTANCE().getGameModel().setAstarpe(GameManager.getINSTANCE().getGameModel().getAstarpe() + 2);
+                gameManager.getGameModel().setAstarpe(gameManager.getGameModel().getAstarpe() + 2);
                 epsilon.setXP(epsilon.getXP() - 100);
-                addCerberuses();
+                addCerberuses(gameManager);
                 activated = true;
             }
         }
     }
 
-    private void addCerberuses() {
-        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+    private void addCerberuses(GameManager gameManager) {
+        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
         ArrayList<RotatablePoint> cerberusList = new ArrayList<>();
-        int cerberus = GameManager.getINSTANCE().getGameModel().getCerberuses()+3;
-        GameManager.getINSTANCE().getGameModel().setCerberuses(cerberus);
+        int cerberus = gameManager.getGameModel().getCerberuses()+3;
+        gameManager.getGameModel().setCerberuses(cerberus);
         double angle = 2 * Math.PI / cerberus;
         for (int i = 0; i < cerberus; i++) {
             cerberusList.add(new RotatablePoint(epsilon.getCenter().getX(), epsilon.getCenter().getY(), angle * i - Math.PI / 2,
                     epsilon.getRadius() + 20));
         }
         epsilon.setCerberusList(cerberusList);
-        Controller.addCerberusView(cerberusList);
+        Controller.addCerberusView(cerberusList, gameManager);
     }
 
     public boolean isUnlocked() {
@@ -52,17 +53,17 @@ public class WritOfCerberus extends Skill {
         return picked;
     }
 
-    public void setUnlocked(boolean cerberusUnlocked) {
+    public void setUnlocked(boolean cerberusUnlocked, GameManager gameManager) {
         WritOfCerberus.cerberusUnlocked = cerberusUnlocked;
         if (cerberusUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfCerberus());
+            gameManager.getUnlockedSkills().add(new WritOfCerberus());
         }
-        GameManager.configs.WritOfCerberusUnlocked = cerberusUnlocked;
+        MyApplication.configs.WritOfCerberusUnlocked = cerberusUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfCerberus.picked = picked;
-        GameManager.configs.WritOfCerberusPicked = picked;
+        MyApplication.configs.WritOfCerberusPicked = picked;
     }
 
     @Override
@@ -70,10 +71,7 @@ public class WritOfCerberus extends Skill {
         return price;
     }
     public static void setBooleans(){
-        cerberusUnlocked = GameManager.configs.WritOfCerberusUnlocked;
-        if (cerberusUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfCerberus());
-        }
-        picked = GameManager.configs.WritOfCerberusPicked;
+        cerberusUnlocked = MyApplication.configs.WritOfCerberusUnlocked;
+        picked = MyApplication.configs.WritOfCerberusPicked;
     }
 }

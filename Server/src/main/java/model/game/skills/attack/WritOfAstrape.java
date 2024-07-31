@@ -1,5 +1,6 @@
 package model.game.skills.attack;
 
+import application.MyApplication;
 import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
@@ -13,11 +14,11 @@ public class WritOfAstrape extends Skill {
         name = "Writ Of Astrape";
     }
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
-                GameManager.getINSTANCE().getGameModel().setAstarpe(GameManager.getINSTANCE().getGameModel().getAstarpe()+2);
+                gameManager.getGameModel().setAstarpe(gameManager.getGameModel().getAstarpe()+2);
                 epsilon.setXP(epsilon.getXP()-100);
                 activated = true;
             }
@@ -33,12 +34,12 @@ public class WritOfAstrape extends Skill {
         return astrapeUnlocked;
     }
 
-    public void setUnlocked(boolean astrapeUnlocked) {
+    public void setUnlocked(boolean astrapeUnlocked, GameManager gameManager) {
         WritOfAstrape.astrapeUnlocked = astrapeUnlocked;
         if (astrapeUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAstrape());
+            gameManager.getUnlockedSkills().add(new WritOfAstrape());
         }
-        GameManager.configs.WritOfAstrapeUnlocked = astrapeUnlocked;
+        MyApplication.configs.WritOfAstrapeUnlocked = astrapeUnlocked;
     }
 
     public boolean isPicked() {
@@ -47,13 +48,10 @@ public class WritOfAstrape extends Skill {
 
     public void setPicked(boolean picked) {
         WritOfAstrape.picked = picked;
-        GameManager.configs.WritOfAstrapePicked = picked;
+        MyApplication.configs.WritOfAstrapePicked = picked;
     }
     public static void setBooleans(){
-        astrapeUnlocked = GameManager.configs.WritOfAstrapeUnlocked;
-        if (astrapeUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAstrape());
-        }
-        picked = GameManager.configs.WritOfAstrapePicked;
+        astrapeUnlocked = MyApplication.configs.WritOfAstrapeUnlocked;
+        picked = MyApplication.configs.WritOfAstrapePicked;
     }
 }

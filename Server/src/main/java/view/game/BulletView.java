@@ -1,6 +1,6 @@
 package view.game;
 
-import controller.GameManager;
+import application.MyApplication;
 import model.interfaces.movement.Direction;
 import view.Rotation;
 
@@ -37,7 +37,7 @@ public class BulletView {
     }
     private void setIcon() {
         try {
-            image = ImageIO.read(new File(GameManager.configs.BULLET));
+            image = ImageIO.read(new File(MyApplication.configs.BULLET));
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);

@@ -1,5 +1,6 @@
 package controller.save;
 
+import application.MyApplication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
@@ -28,11 +29,34 @@ public class ReaderWriter {
 
         return gson.fromJson(reader,tClass);
     }
+    public <T> T getObject(Class<T> tClass, File file){
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        InputStreamReader iSReader = new InputStreamReader(fileInputStream);
+        JsonReader reader = new JsonReader(iSReader);
+
+        return gson.fromJson(reader,tClass);
+    }
+    public <T> File convertToFile(T object){
+        File file = new File("src/main/resources/data/file");
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
+            BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
+            gson.toJson(object, object.getClass(), bufferedWriter);
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
+    }
     private <T> void save(String address, T configs) {
         File file = new File(address);
         try {
-            System.out.println(file.createNewFile());
-            System.out.println(file.exists());
             FileOutputStream outputStream = new FileOutputStream(file);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
@@ -46,7 +70,7 @@ public class ReaderWriter {
         return load(Configs.class, "src/main/resources/data/config.json");
     }
     public void saveConfigs() {
-        save("src/main/resources/data/config.json", GameManager.configs);
+        save("src/main/resources/data/config.json", MyApplication.configs);
     }
     public GameManager getGameManager(){
         GameManager gameManager = null;
@@ -58,11 +82,11 @@ public class ReaderWriter {
         }
         return gameManager;
     }
-    public void saveGameManger() {
-        save("src/main/resources/data/game.json", GameManager.getINSTANCE());
+    public void saveGameManger(GameManager gameManager) {
+        save("src/main/resources/data/game.json", gameManager);
     }
-    public void realTimeProgressSave(){
-        save("src/main/resources/data/progress.json", GameManager.getINSTANCE().getGameModel());
+    public void realTimeProgressSave(GameManager gameManager){
+        save("src/main/resources/data/progress.json", gameManager.getGameModel());
     }
     public GameModel getRealTimeProgress(){
         GameModel gameModel = null;
@@ -74,8 +98,8 @@ public class ReaderWriter {
         }
         return gameModel;
     }
-    public void gameSave(){
-        save("src/main/resources/data/game-model.json", GameManager.getINSTANCE().getGameModel());
+    public void gameSave(GameManager gameManager){
+        save("src/main/resources/data/game-model.json", gameManager.getGameModel());
     }
     public GameModel getGameModel(){
         GameModel gameModel = null;

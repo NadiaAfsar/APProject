@@ -1,5 +1,6 @@
 package model.game.enemies.normal;
 
+import application.MyApplication;
 import controller.Controller;
 import controller.GameManager;
 import controller.save.Configs;
@@ -21,17 +22,17 @@ public class Necropick extends Enemy {
     private boolean disappeared;
     private boolean announced;
     private Point appearancePoint;
-    public Necropick(Point center, double velocity, int hp, MyFrame myFrame) {
-        super(center, velocity);
+    public Necropick(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager) {
+        super(center, velocity, gameManager);
         number++;
         logger = Logger.getLogger(Necropick.class.getName()+number);
-        height = GameManager.configs.NECROPICK_HEIGHT;
-        width = GameManager.configs.NECROPICK_WIDTH;
+        height = MyApplication.configs.NECROPICK_HEIGHT;
+        width = MyApplication.configs.NECROPICK_WIDTH;
         addVertexes();
         this.myFrame = myFrame;
         this.HP = 10 + hp;
         this.myFrame.getEnemies().add(this);
-        Controller.addEnemyView(this);
+        Controller.addEnemyView(this, gameManager);
         appeared = true;
         start();
     }
@@ -42,8 +43,8 @@ public class Necropick extends Enemy {
         int[] y = new int[]{-10, -10, 10, 10};
         for (int i = 0; i < 4; i++) {
             Collectible collectible = new Collectible((int)center.getX()+x[i], (int)center.getY()+y[i], 2);
-            GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
-            Controller.addCollectibleView(collectible);
+            gameManager.getGameModel().getCollectibles().add(collectible);
+            Controller.addCollectibleView(collectible, gameManager);
         }
     }
     protected void addVertexes() {
@@ -62,7 +63,7 @@ public class Necropick extends Enemy {
     }
     public void run() {
         while (!died) {
-            if (!GameManager.getINSTANCE().isHypnos() && Controller.gameRunning) {
+            if (!gameManager.isHypnos() && Controller.gameRunning) {
                 disappear();
                 sleepFor(3000);
                 announceAppearance();
@@ -106,29 +107,29 @@ public class Necropick extends Enemy {
 
     private void disappear() {
         disappeared = true;
-        Controller.removeEnemyView(this);
+        Controller.removeEnemyView(this, gameManager);
         appeared = false;
         announced = false;
         logger.debug("disappeared");
     }
     private void announceAppearance(){
         appearancePoint = getRandomPosition();
-        Controller.announceAppearance(appearancePoint, ID);
+        Controller.announceAppearance(appearancePoint, ID, gameManager);
         announced = true;
         logger.debug("announced");
     }
 
     private void appear() {
-        Controller.removeAnnouncement(ID);
+        Controller.removeAnnouncement(ID, gameManager);
         center = appearancePoint;
         moveVertexes();
-        Controller.addEnemyView(this);
+        Controller.addEnemyView(this, gameManager);
         appeared = true;
         disappeared = false;
         logger.debug("appeared");
     }
     private Point getRandomPosition() {
-        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
         int randomX = (int)(Math.random()*1000);
         int randomY = (int)(Math.random()*1000);
         double angle = Math.atan2(randomY -epsilon.getCenter().getY(), randomX -epsilon.getCenter().getX());
@@ -156,8 +157,8 @@ public class Necropick extends Enemy {
         int x = (int)(Math.random()*1000);
         int y = (int)(Math.random()*1000);
         logger.debug("shot: "+new Point(x,y));
-        BulletModel bulletModel = new BulletModel(center, new Point(x, y), (int)(2*height/21), 4, false, myFrame);
-        GameManager.getINSTANCE().getGameModel().getEnemiesBullets().add(bulletModel);
+        BulletModel bulletModel = new BulletModel(center, new Point(x, y), (int)(2*height/21), 4, false, myFrame, gameManager);
+        gameManager.getGameModel().getEnemiesBullets().add(bulletModel);
     }
 
     public boolean isAppeared() {

@@ -1,8 +1,9 @@
 package model.interfaces.collision;
 
 
+import application.MyApplication;
 import controller.GameManager;
-import model.*;
+import model.Calculations;
 import model.game.BulletModel;
 import model.game.Collectible;
 import model.game.EpsilonModel;
@@ -15,9 +16,9 @@ import model.game.enemies.normal.Wyrm;
 import model.game.enemies.smiley.Fist;
 import model.game.enemies.smiley.Hand;
 import model.game.enemies.smiley.Smiley;
-import model.interfaces.movement.RotatablePoint;
-import model.interfaces.movement.Point;
 import model.game.skills.defence.WritOfMelampus;
+import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 
 import java.util.ArrayList;
 
@@ -63,7 +64,7 @@ public interface Collidable {
             } else if (collidable instanceof EpsilonModel) {
                 return getCollisionWithEpsilon((EpsilonModel) collidable, getVertexes());
             } else if (collidable instanceof Collectible) {
-                return getCollisionWithCollective((Collectible) collidable, getCenter());
+                return getCollisionWithCollective((Collectible) collidable, getCenter(), ((EpsilonModel)this).getRadius());
             }
         }
         return null;
@@ -83,11 +84,11 @@ public interface Collidable {
     default Point getBlackOrbCollisionWithEnemy(Enemy enemy) {
         ArrayList<RotatablePoint> vertexes = enemy.getVertexes();
         for (int i = 0; i < vertexes.size(); i++) {
-            Point collisionPoint = getCollisionWithSide(getCenter(), vertexes, i, GameManager.configs.BLACKORBVERTEX_RADIUS);
+            Point collisionPoint = getCollisionWithSide(getCenter(), vertexes, i, MyApplication.configs.BLACKORBVERTEX_RADIUS);
             if (collisionPoint != null) {
                 return collisionPoint;
             }
-            collisionPoint = checkCollisionWithVertex(getCenter(), vertexes.get(i));
+            collisionPoint = checkCollisionWithVertex(getCenter(), vertexes.get(i), MyApplication.configs.BLACKORBVERTEX_RADIUS);
             if (collisionPoint != null) {
                 return collisionPoint;
             }
@@ -109,7 +110,7 @@ public interface Collidable {
                 if (!(this instanceof Wyrm) && !(this instanceof Barricados) && !(this instanceof Smiley) &&
                         !(this instanceof Hand) && !(this instanceof Fist)) {
                     Enemy enemy = (Enemy) this;
-                    enemy.decreaseHP(5 + GameManager.getINSTANCE().getGameModel().getAres());
+                    enemy.decreaseHP(5 + epsilonModel.getGameManager().getGameModel().getAres());
                 }
                 return collisionPoint;
             }
@@ -119,10 +120,10 @@ public interface Collidable {
             if (collisionPoint != null) {
                 return collisionPoint;
             }
-            collisionPoint = checkCollisionWithVertex(epsilonModel.getCenter(), vertexes.get(i));
+            collisionPoint = checkCollisionWithVertex(epsilonModel.getCenter(), vertexes.get(i), epsilonModel.getRadius());
             if (collisionPoint != null) {
                 if (!(this instanceof Necropick) && !(this instanceof Wyrm) && !(this instanceof Barricados)) {
-                    if (WritOfMelampus.damage()) {
+                    if (WritOfMelampus.damage(epsilonModel.getGameManager())) {
                         epsilonModel.decreaseHP(((Enemy) this).getDamage());
                     }
                 }
@@ -147,21 +148,21 @@ public interface Collidable {
         return null;
     }
 
-    default Point checkCollisionWithVertex(Point center, RotatablePoint point) {
+    default Point checkCollisionWithVertex(Point center, RotatablePoint point, double radius) {
         double x1 = point.getRotatedX();
         double y1 = point.getRotatedY();
         double x2 = center.getX();
         double y2 = center.getY();
         double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        if (distance <= GameManager.getINSTANCE().getGameModel().getEpsilon().getRadius()+5) {
+        if (distance <= radius+5) {
             return new Point(point.getRotatedX(), point.getRotatedY());
         }
         return null;
     }
 
-    default Point getCollisionWithCollective(Collectible collectible, Point point) {
+    default Point getCollisionWithCollective(Collectible collectible, Point point, double radius) {
         double distance = Calculations.getDistance(collectible.getX(), collectible.getY(), point.getX(), point.getY());
-        if (distance <= GameManager.getINSTANCE().getGameModel().getEpsilon().getRadius() + 5) {
+        if (distance <= radius + 5) {
             return new Point(collectible.getX(), collectible.getY());
         }
         return null;
@@ -190,5 +191,6 @@ public interface Collidable {
         }
         return null;
     }
+    public GameManager getGameManager();
 
 }

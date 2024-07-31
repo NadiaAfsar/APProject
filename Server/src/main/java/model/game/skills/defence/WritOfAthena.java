@@ -1,5 +1,6 @@
 package model.game.skills.defence;
 
+import application.MyApplication;
 import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
@@ -14,12 +15,12 @@ public class WritOfAthena extends Skill {
     }
 
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP() - 100);
-                GameManager.getINSTANCE().getGameModel().setWritOfAthena(GameManager.getINSTANCE().getGameModel().
+                gameManager.getGameModel().setWritOfAthena(gameManager.getGameModel().
                         getWritOfAthena()*0.8);
                 activated = true;
             }
@@ -30,17 +31,17 @@ public class WritOfAthena extends Skill {
         return athenaUnlocked;
     }
 
-    public void setUnlocked(boolean athenaUnlocked) {
+    public void setUnlocked(boolean athenaUnlocked, GameManager gameManager) {
         WritOfAthena.athenaUnlocked = athenaUnlocked;
         if (athenaUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAthena());
+            gameManager.getUnlockedSkills().add(new WritOfAthena());
         }
-        GameManager.configs.WritOfAthenaUnlocked = athenaUnlocked;
+        MyApplication.configs.WritOfAthenaUnlocked = athenaUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfAthena.picked = picked;
-        GameManager.configs.WritOfAthenaPicked = picked;
+        MyApplication.configs.WritOfAthenaPicked = picked;
     }
 
     public boolean isPicked() {
@@ -52,10 +53,7 @@ public class WritOfAthena extends Skill {
         return price;
     }
     public static void setBooleans(){
-        athenaUnlocked = GameManager.configs.WritOfAthenaUnlocked;
-        if (athenaUnlocked){
-            GameManager.getINSTANCE().getUnlockedSkills().add(new WritOfAthena());
-        }
-        picked = GameManager.configs.WritOfAthenaPicked;
+        athenaUnlocked = MyApplication.configs.WritOfAthenaUnlocked;
+        picked = MyApplication.configs.WritOfAthenaPicked;
     }
 }

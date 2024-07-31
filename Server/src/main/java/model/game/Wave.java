@@ -21,12 +21,14 @@ public class Wave {
     private long lastSpawning;
     private int diedEnemies;
     private final GameModel gameModel;
+    GameManager gameManager;
     private boolean spawn;
 
-    public Wave(int waveNumber, int enemies) {
+    public Wave(int waveNumber, int enemies, GameManager gameManager) {
         this.waveNumber = waveNumber;
         this.enemies = enemies;
-        gameModel = GameManager.getINSTANCE().getGameModel();
+        this.gameManager = gameManager;
+        gameModel = gameManager.getGameModel();
         startTime = System.currentTimeMillis()/1000;
         waitBeforeNextWave();
         spawn = true;
@@ -42,7 +44,8 @@ public class Wave {
         MyFrame myFrame = gameModel.getInitialFrame();
         Point position = GameManagerHelper.getRandomPosition(myFrame.getWidth(), myFrame.getHeight());
         Enemy enemy = GameManagerHelper.getNewEnemy(new Point(myFrame.getX()+ position.getX(),
-                myFrame.getY()+ position.getY()), gameModel.getEnemyHP(), gameModel.getEnemyVelocity(), enemyNumber);
+                myFrame.getY()+ position.getY()), gameModel.getEnemyHP(), gameModel.getEnemyVelocity(), enemyNumber,
+                myFrame, gameManager);
         gameModel.getEnemies().add(enemy);
     }
     private void startWave() {
@@ -52,19 +55,19 @@ public class Wave {
             addEnemies(2);
         }
         else {
-            Smiley smiley = new Smiley(new Point(200, 200), gameModel.getEnemyVelocity());
+            Smiley smiley = new Smiley(new Point(200, 200), gameModel.getEnemyVelocity(), gameManager);
             gameModel.getEnemies().add(smiley);
         }
     }
     private void waitBeforeNextWave() {
         if (waveNumber != 1) {
-            GameManager.getINSTANCE().getGameModel().setWait(true);
+            gameManager.getGameModel().setWait(true);
             AudioController.addWaveEndSound();
             Timer timer = new Timer(6000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     startWave();
-                    GameManager.getINSTANCE().getGameModel().setWait(false);
+                    gameManager.getGameModel().setWait(false);
                 }
             });
             timer.setRepeats(false);
@@ -89,8 +92,8 @@ public class Wave {
     public void checkWave(){
         if (waveNumber != 6) {
             if (diedEnemies >= enemies) {
-                if (GameManager.getINSTANCE().getGameModel().getEnemies().size() == 0) {
-                    GameManager.getINSTANCE().nextWave();
+                if (gameManager.getGameModel().getEnemies().size() == 0) {
+                    gameManager.nextWave();
                 } else {
                     spawn = false;
                 }

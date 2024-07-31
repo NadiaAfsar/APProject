@@ -1,5 +1,6 @@
 package controller.listeners;
 
+import controller.GameManager;
 import model.game.EpsilonModel;
 
 import java.awt.*;
@@ -7,7 +8,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 public class GameMouseMotionListener implements MouseMotionListener {
-    public static GameMouseMotionListener INSTANCE;
+    private GameManager gameManager;
+    public GameMouseMotionListener(GameManager gameManager){
+        this.gameManager = gameManager;
+    }
     private EpsilonModel epsilonModel;
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -24,12 +28,6 @@ public class GameMouseMotionListener implements MouseMotionListener {
 
             }
         }
-    }
-    public static GameMouseMotionListener getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new GameMouseMotionListener();
-        }
-        return INSTANCE;
     }
 
     public void setEpsilonModel(EpsilonModel epsilonModel) {

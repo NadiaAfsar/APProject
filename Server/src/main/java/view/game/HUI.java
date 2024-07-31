@@ -26,7 +26,9 @@ public class HUI extends JFrame {
     private int height;
     private JPanel panel;
     private Timer timer;
-    public HUI() {
+    private GameManager gameManager;
+    public HUI(GameManager gameManager) {
+        this.gameManager = gameManager;
         x = Configs.FRAME_SIZE.width-200;
         y = 10;
         width = 150;
@@ -36,7 +38,7 @@ public class HUI extends JFrame {
         setHUI();
         setTimer();
         timer.start();
-        new InputListener(panel);
+        new InputListener(gameManager, panel);
     }
     private void addFrame() {
         setBounds(x,y,width,height);
@@ -116,7 +118,7 @@ public class HUI extends JFrame {
         panel.add(time);
     }
     private void setSkill() {
-        Skill pickedSkill = GameManager.getINSTANCE().getPickedSkill();
+        Skill pickedSkill = gameManager.getPickedSkill();
         if (pickedSkill != null) {
             skill = new JLabel(pickedSkill.getName() + ": " + pickedSkill.getStatus());
             skill.setBounds(5, 85, 150, 10);

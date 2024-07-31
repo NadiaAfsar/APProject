@@ -1,7 +1,6 @@
 package model.game.enemies.normal.archmire;
 
 import controller.Controller;
-import controller.GameManager;
 import model.game.Interference;
 import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.Barricados;
@@ -27,7 +26,7 @@ public class AoEAttack {
         this.center = archmire.getCenter();
         this.archmire = archmire;
         addVertexes();
-        Controller.addAoEView(this);
+        Controller.addAoEView(this, archmire.getGameManager());
         clarity = 5;
     }
     protected void addVertexes(){
@@ -43,21 +42,21 @@ public class AoEAttack {
         position = new RotatablePoint(center.getX(), center.getY(), 1.2*Math.PI, 14.2);
     }
     public boolean update() {
-        for (int i = 0; i < GameManager.getINSTANCE().getGameModel().getEnemies().size(); i++) {
-            Enemy enemy = GameManager.getINSTANCE().getGameModel().getEnemies().get(i);
+        for (int i = 0; i < archmire.getGameManager().getGameModel().getEnemies().size(); i++) {
+            Enemy enemy = archmire.getGameManager().getGameModel().getEnemies().get(i);
             if (!(enemy instanceof Archmire) && !(enemy instanceof Barricados)) {
                 if (Interference.enemyIsInArchmire(vertexes, enemy)) {
                     enemy.decreaseHP(2);
                 }
             }
         }
-        if (Interference.epsilonIsInArchmire(vertexes, GameManager.getINSTANCE().getGameModel().getEpsilon())) {
-            GameManager.getINSTANCE().getGameModel().getEpsilon().decreaseHP(2);
+        if (Interference.epsilonIsInArchmire(vertexes, archmire.getGameManager().getGameModel().getEpsilon())) {
+            archmire.getGameManager().getGameModel().getEpsilon().decreaseHP(2);
         }
         clarity--;
         if (clarity == 0) {
             archmire.getAoeAttacks().remove(this);
-            Controller.removeAoEAttackView(ID);
+            Controller.removeAoEAttackView(ID, archmire.getGameManager());
             return false;
         }
         return true;

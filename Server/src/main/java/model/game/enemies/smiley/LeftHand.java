@@ -1,5 +1,6 @@
 package model.game.enemies.smiley;
 
+import controller.GameManager;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
@@ -7,8 +8,8 @@ import model.interfaces.movement.RotatablePoint;
 import java.util.ArrayList;
 
 public class LeftHand extends Hand {
-    public LeftHand(Point center, double velocity) {
-        super(center, velocity);
+    public LeftHand(Point center, double velocity, GameManager gameManager) {
+        super(center, velocity, gameManager);
     }
 
     @Override

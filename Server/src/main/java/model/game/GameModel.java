@@ -1,8 +1,9 @@
 package model.game;
 
+import controller.GameManager;
+import model.game.enemies.Enemy;
 import model.game.enemies.smiley.Smiley;
 import model.game.frame.MyFrame;
-import model.game.enemies.Enemy;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -48,8 +49,10 @@ public abstract class GameModel {
     private int totalBullets;
     private int successfulBullets;
     private int killedEnemies;
+    private GameManager gameManager;
 
-    public GameModel() {
+    public GameModel(GameManager gameManager) {
+        this.gameManager = gameManager;
         enemyLock = new Object();
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
@@ -57,8 +60,8 @@ public abstract class GameModel {
         enemiesBullets = new ArrayList<>();
         myFrames = new ArrayList<>();
         initialMyFrame = new MyFrame(700, 700,0,0,false,false, 400,
-                400);
-        epsilon = new EpsilonModel(initialMyFrame);
+                400, gameManager);
+        epsilon = new EpsilonModel(initialMyFrame, gameManager);
         myFrames.add(epsilon.getFrame());
         diedEnemies = new ArrayList<>();
         vanishedBullets = new ArrayList<>();

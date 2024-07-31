@@ -1,5 +1,6 @@
 package model.game.skills.transform;
 
+import application.MyApplication;
 import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
@@ -17,47 +18,47 @@ public class WritOfDolus extends Skill {
     public WritOfDolus() {
         name = "Writ Of Dolus";
     }
-    public void pickSkills(){
+    public void pickSkills(GameManager gameManager){
         skills = new ArrayList<>();
         for (int i = 0; i < 2; i++){
-            skills.add(chooseSkill());
+            skills.add(chooseSkill(gameManager));
         }
     }
 
     @Override
-    public void activate() {
+    public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP()-100);
                 for (int i = 0; i < 2; i++){
-                    skills.get(i).activate();
+                    skills.get(i).activate(gameManager);
                 }
                 activated = true;
             }
         }
     }
-    private Skill chooseSkill() {
-        int skill = (int)(Math.random()*GameManager.getINSTANCE().getUnlockedSkills().size())+1;
+    private Skill chooseSkill(GameManager gameManager) {
+        int skill = (int)(Math.random()*gameManager.getUnlockedSkills().size())+1;
         if (skill != chosenSkill){
             chosenSkill = skill;
-            return GameManager.getINSTANCE().getUnlockedSkills().get(skill-1);
+            return gameManager.getUnlockedSkills().get(skill-1);
         }
-        return chooseSkill();
+        return chooseSkill(gameManager);
     }
 
     public boolean isUnlocked() {
         return dolusUnlocked;
     }
 
-    public void setUnlocked(boolean dolusUnlocked) {
+    public void setUnlocked(boolean dolusUnlocked, GameManager gameManager) {
         WritOfDolus.dolusUnlocked = dolusUnlocked;
-        GameManager.configs.WritOfDolusUnlocked = dolusUnlocked;
+        MyApplication.configs.WritOfDolusUnlocked = dolusUnlocked;
     }
 
     public void setPicked(boolean picked) {
         WritOfDolus.picked = picked;
-        GameManager.configs.WritOfDolusPicked = picked;
+        MyApplication.configs.WritOfDolusPicked = picked;
     }
 
     public boolean isPicked() {
@@ -69,7 +70,7 @@ public class WritOfDolus extends Skill {
         return price;
     }
     public static void setBooleans(){
-        dolusUnlocked = GameManager.configs.WritOfDolusUnlocked;
-        picked = GameManager.configs.WritOfDolusPicked;
+        dolusUnlocked = MyApplication.configs.WritOfDolusUnlocked;
+        picked = MyApplication.configs.WritOfDolusPicked;
     }
 }

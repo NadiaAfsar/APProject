@@ -1,8 +1,5 @@
 package view.game.enemies.black_orb;
 
-import controller.GameManager;
-import model.interfaces.movement.Point;
-
 import java.awt.*;
 
 public class BlackOrbLaserView {

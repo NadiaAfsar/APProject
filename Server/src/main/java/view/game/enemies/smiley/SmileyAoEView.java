@@ -1,6 +1,6 @@
 package view.game.enemies.smiley;
 
-import controller.GameManager;
+import application.MyApplication;
 import view.game.enemies.EnemyView;
 
 import javax.imageio.ImageIO;
@@ -10,7 +10,7 @@ import java.io.IOException;
 public class SmileyAoEView extends EnemyView {
     private int clarity;
     public SmileyAoEView(int x, int y, int width, int height, String ID) {
-        super(x, y, width, height, GameManager.configs.AoE1, ID);
+        super(x, y, width, height, MyApplication.configs.AoE1, ID);
         clarity = 6;
     }
     public void update(int clarity){
@@ -18,19 +18,19 @@ public class SmileyAoEView extends EnemyView {
             this.clarity = clarity;
             String path = null;
             if (clarity == 5){
-                path = GameManager.configs.AoE1;
+                path = MyApplication.configs.AoE1;
             }
             else if (clarity == 4){
-                path = GameManager.configs.AoE2;
+                path = MyApplication.configs.AoE2;
             }
             else if (clarity == 3){
-                path = GameManager.configs.AoE3;
+                path = MyApplication.configs.AoE3;
             }
             else if (clarity == 2){
-                path = GameManager.configs.AoE4;
+                path = MyApplication.configs.AoE4;
             }
             else {
-                path = GameManager.configs.AoE5;
+                path = MyApplication.configs.AoE5;
             }
             try {
                 image = ImageIO.read(new File(path));

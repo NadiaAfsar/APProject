@@ -1,45 +1,46 @@
 package controller;
 
 
+import controller.audio.AudioController;
+import controller.listeners.GameMouseListener;
+import controller.listeners.GameMouseMotionListener;
 import controller.save.Configs;
 import controller.save.ReaderWriter;
 import controller.update.ModelLoop;
 import controller.update.ViewLoop;
 import model.game.*;
+import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.Barricados;
 import model.game.enemies.mini_boss.black_orb.BlackOrb;
 import model.game.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.game.enemies.smiley.Fist;
-import model.interfaces.collision.Impactable;
-import controller.audio.AudioController;
-import model.game.enemies.Enemy;
 import model.game.skills.Skill;
 import model.game.skills.attack.WritOfAres;
 import model.game.skills.attack.WritOfAstrape;
 import model.game.skills.attack.WritOfCerberus;
 import model.game.skills.defence.WritOfAceso;
-import model.interfaces.movement.Point;
 import model.game.skills.defence.WritOfAthena;
 import model.game.skills.defence.WritOfChiron;
 import model.game.skills.defence.WritOfMelampus;
 import model.game.skills.transform.WritOfDolus;
 import model.game.skills.transform.WritOfEmpusa;
 import model.game.skills.transform.WritOfProteus;
-import view.menu.GameFrame;
+import model.interfaces.collision.Impactable;
+import model.interfaces.movement.Point;
+import network.ClientHandler;
 import view.game.GameView;
 
 import java.util.ArrayList;
 
 public class GameManager {
     private int totalXP;
-    private static GameManager INSTANCE;
     private int difficulty;
     private int sensitivity;
     private Skill pickedSkill;
+    private boolean running;
     private static GameModel gameModel;
     private static GameView gameView;
     private static GameFrame gameFrame;
-    public static Configs configs;
     public static ReaderWriter readerWriter;
     private ArrayList<Skill> unlockedSkills;
     private boolean deimos;
@@ -49,18 +50,25 @@ public class GameManager {
     private boolean phonoi;
     private long phonoiUsed;
     private boolean saved;
-    private GameManager() {
+    private ClientHandler clientHandler;
+    private GameMouseListener gameMouseListener;
+    private GameMouseMotionListener gameMouseMotionListener;
+    private boolean online;
+    public GameManager(ClientHandler clientHandler, boolean online) {
+        this.clientHandler = clientHandler;
+        this.online = online;
+        gameMouseListener = new GameMouseListener(this);
+        gameMouseMotionListener = new GameMouseMotionListener(this);
     }
     public void initialize(){
         totalXP = 10000;
         sensitivity = 2;
         difficulty = 1;
-        configs = readerWriter.getConfigs();
         unlockedSkills = new ArrayList<>();
         setSkills();
-        gameFrame = new GameFrame();
-        new ModelLoop().start();
-        new ViewLoop().start();
+        gameFrame = new GameFrame(this, online);
+        new ModelLoop(this).start();
+        new ViewLoop(this).start();
     }
     private void setSkills(){
         WritOfAres.setBooleans();
@@ -75,20 +83,20 @@ public class GameManager {
         WritOfEmpusa.setBooleans();
     }
     public void startGame() {
-        gameView = new GameView();
+        gameView = new GameView(this);
         setGameModel();
     }
     private void setGameModel(){
             if (difficulty == 1) {
-                gameModel = new EasyGame();
+                gameModel = new EasyGame(this);
             } else if (difficulty == 2) {
-                gameModel = new MediumGame();
+                gameModel = new MediumGame(this);
             } else {
-                gameModel = new HardGame();
+                gameModel = new HardGame(this);
             }
             if (pickedSkill != null) {
                 if (pickedSkill instanceof WritOfDolus) {
-                    ((WritOfDolus) pickedSkill).pickSkills();
+                    ((WritOfDolus) pickedSkill).pickSkills(this);
                 }
             }
     }
@@ -138,11 +146,11 @@ public class GameManager {
     public void nextWave() {
         gameModel.setWave(gameModel.getWave()+1);
         if (gameModel.getCurrentWave() != null) {
-            new CheckPoint();
+            new CheckPoint(this);
             gameModel.setTotalPR(gameModel.getTotalPR() + gameModel.getCurrentWave().getProgressRate());
             gameModel.setKilledEnemies(gameModel.getKilledEnemies()+gameModel.getCurrentWave().getDiedEnemies());
         }
-        gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getEnemiesToKill().get(gameModel.getWave())));
+        gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getEnemiesToKill().get(gameModel.getWave()), this));
     }
     private void checkBulletsCollision() {
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
@@ -159,7 +167,7 @@ public class GameManager {
             if (!bulletModel.getFrame().isInOverLap(bulletModel.getX2(), bulletModel.getY2())) {
                 if (GameManagerHelper.checkFrameCollisionWithBullet(bulletModel)) {
                     vanishedBullets.add(bulletModel);
-                    Controller.removeBulletView(bulletModel);
+                    Controller.removeBulletView(bulletModel, this);
                     return true;
                 }
             }
@@ -199,9 +207,9 @@ public class GameManager {
         }
     }
     private void bulletCollided(BulletModel bullet, Point point, ArrayList<BulletModel> vanishedBullets) {
-        Impactable.impactOnOthers(point);
+        Impactable.impactOnOthers(point, this);
         vanishedBullets.add(bullet);
-        Controller.removeBulletView(bullet);
+        Controller.removeBulletView(bullet, this);
     }
     private void checkCollectibles() {
         gameModel.setTakenCollectibles(new ArrayList<>());
@@ -211,14 +219,14 @@ public class GameManager {
             if (point != null){
                 gameModel.getTakenCollectibles().add(collectible);
                 gameModel.getEpsilon().setXP(gameModel.getEpsilon().getXP()+5+ gameModel.getEnemyXP());
-                Controller.removeCollectibleView(collectible);
+                Controller.removeCollectibleView(collectible, this);
                 AudioController.addXPCollectingSound();
             }
             else {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime- collectible.getTime() >= 6000) {
                     gameModel.getTakenCollectibles().add(collectible);
-                    Controller.removeCollectibleView(collectible);
+                    Controller.removeCollectibleView(collectible, this);
                 }
             }
         }
@@ -250,7 +258,7 @@ public class GameManager {
         checkCollectibles();
         if (pickedSkill != null) {
             if (pickedSkill instanceof WritOfAceso) {
-                ((WritOfAceso) pickedSkill).increaseHP();
+                ((WritOfAceso) pickedSkill).increaseHP(this);
             }
         }
         if (deimos){
@@ -277,21 +285,21 @@ public class GameManager {
     }
     public void endGame() {
         saved = false;
-        Controller.endGame();
+        Controller.endGame(this);
         AudioController.addWinningSound();
-        Controller.removeEpsilonVertexes();
+        Controller.removeEpsilonVertexes(this);
         for (int i = 0; i < gameModel.getCollectibles().size(); i++) {
-            Controller.removeCollectibleView(gameModel.getCollectibles().get(i));
+            Controller.removeCollectibleView(gameModel.getCollectibles().get(i), this);
         }
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
-            Controller.removeBulletView(gameModel.getBullets().get(i));
+            Controller.removeBulletView(gameModel.getBullets().get(i), this);
         }
         for (int i = 0; i < gameModel.getEnemies().size(); i++) {
-            Controller.removeEnemyView(gameModel.getEnemies().get(i));
+            Controller.removeEnemyView(gameModel.getEnemies().get(i), this);
         }
         Controller.gameRunning = true;
         Controller.gameFinished = true;
-        INSTANCE.setTotalXP(totalXP+gameModel.getEpsilon().getXP());
+        setTotalXP(totalXP+gameModel.getEpsilon().getXP());
     }
     public void destroyFrame() {
         if (gameModel.isFinished()) {
@@ -304,22 +312,11 @@ public class GameManager {
             if (gameModel.getInitialFrame().getWidth() <= 2 && gameModel.getInitialFrame().getHeight() <= 2) {
                 gameModel.setFinished(false);
                 Controller.gameOver(gameModel.getEpsilon().getXP(), gameModel.getTimePlayed(), gameModel.getTotalBullets(),
-                        gameModel.getSuccessfulBullets(), gameModel.getKilledEnemies());
+                        gameModel.getSuccessfulBullets(), gameModel.getKilledEnemies(), this);
             }
         }
     }
 
-    public static GameManager getINSTANCE() {
-        if (INSTANCE == null) {
-            readerWriter = new ReaderWriter();
-            GameManager gameManager = readerWriter.getGameManager();
-            if (gameManager != null){
-                return gameManager;
-            }
-            INSTANCE = new GameManager();
-        }
-        return INSTANCE;
-    }
 
     public int getTotalXP() {
         return totalXP;
@@ -375,16 +372,16 @@ public class GameManager {
         return unlockedSkills;
     }
     public boolean athena() {
-        EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        EpsilonModel epsilonModel = gameModel.getEpsilon();
         if (epsilonModel.getXP() >= 75) {
-            GameManager.getINSTANCE().activateAthena();
+            activateAthena();
             epsilonModel.setXP(epsilonModel.getXP()-75);
             return true;
         }
         return false;
     }
     public boolean apollo() {
-        EpsilonModel epsilonModel = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        EpsilonModel epsilonModel = gameModel.getEpsilon();
         if (epsilonModel.getXP() >= 50) {
             epsilonModel.setHP(epsilonModel.getHP()+10);
             epsilonModel.setXP(epsilonModel.getXP()-50);
@@ -393,16 +390,16 @@ public class GameManager {
         return false;
     }
     public boolean hephaestus() {
-        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameModel.getEpsilon();
         if (epsilon.getXP() >= 100) {
-            Impactable.impactOnOthers(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()));
+            Impactable.impactOnOthers(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()), this);
             epsilon.setXP(epsilon.getXP()-100);
             return true;
         }
         return false;
     }
     public boolean deimos(){
-        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameModel.getEpsilon();
         if (epsilon.getXP() >= 120) {
             deimos = true;
             deimosActivated = System.currentTimeMillis();
@@ -416,7 +413,7 @@ public class GameManager {
         return deimos;
     }
     public boolean hypnos(){
-        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameModel.getEpsilon();
         if (epsilon.getXP() >= 150) {
             hypnos = true;
             hypnosActivated = System.currentTimeMillis();
@@ -431,7 +428,7 @@ public class GameManager {
     }
 
     public boolean phonoi(){
-        EpsilonModel epsilon = GameManager.getINSTANCE().getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameModel.getEpsilon();
         if (epsilon.getXP() >= 200 && System.currentTimeMillis()-phonoiUsed >= 120000) {
             phonoi = true;
             epsilon.setXP(epsilon.getXP()-200);
@@ -465,5 +462,29 @@ public class GameManager {
         for (int i = 0; i < gameModel.getEnemies().size(); i++){
             gameModel.getEnemies().get(i).setDied(true);
         }
+    }
+
+    public ClientHandler getClientHandler() {
+        return clientHandler;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public GameMouseListener getGameMouseListener() {
+        return gameMouseListener;
+    }
+
+    public GameMouseMotionListener getGameMouseMotionListener() {
+        return gameMouseMotionListener;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 }

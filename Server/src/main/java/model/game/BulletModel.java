@@ -2,9 +2,9 @@ package model.game;
 
 import controller.Controller;
 import controller.GameManager;
+import controller.audio.AudioController;
 import model.game.frame.MyFrame;
 import model.interfaces.collision.Collidable;
-import controller.audio.AudioController;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
@@ -28,7 +28,8 @@ public class BulletModel implements Collidable {
     private MyFrame myFrame;
     private static int number;
     private Logger logger;
-    public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable, MyFrame myFrame) {
+    private GameManager gameManager;
+    public BulletModel(Point point1, Point point2, double radius, int damage, boolean stable, MyFrame myFrame, GameManager gameManager) {
         this.stable = stable;
         number++;
         logger = Logger.getLogger(BulletModel.class.getName()+number);
@@ -41,7 +42,7 @@ public class BulletModel implements Collidable {
         setX1(point1, radius);
         setY1(point1, radius);
         setEnd();
-        Controller.addBulletView(this);
+        Controller.addBulletView(this, gameManager);
         this.myFrame = myFrame;
     }
     private void setAngle() {
@@ -120,6 +121,11 @@ public class BulletModel implements Collidable {
         return new Point(end.getRotatedX(), end.getRotatedY());
     }
 
+    @Override
+    public GameManager getGameManager() {
+        return gameManager;
+    }
+
     public String getID() {
         return ID;
     }
@@ -139,7 +145,7 @@ public class BulletModel implements Collidable {
             }
         }
         if (myFrame == null){
-            ArrayList<MyFrame> myFrames = GameManager.getINSTANCE().getGameModel().getFrames();
+            ArrayList<MyFrame> myFrames = gameManager.getGameModel().getFrames();
             for (int i = 0; i < myFrames.size(); i++){
                 if (Interference.isInFrame(x1, y1, end.getRotatedX()-x1, end.getRotatedY()-y1, myFrames.get(i))){
                     myFrame = myFrames.get(i);

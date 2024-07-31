@@ -1,15 +1,16 @@
 package model.game.enemies;
 
-import controller.save.Configs;
-import model.game.frame.MyFrame;
-import model.interfaces.collision.Impactable;
+import application.MyApplication;
 import controller.Controller;
 import controller.GameManager;
+import controller.save.Configs;
 import model.game.Collectible;
+import model.game.frame.MyFrame;
+import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
-import model.interfaces.movement.RotatablePoint;
 import model.interfaces.movement.Point;
+import model.interfaces.movement.RotatablePoint;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -20,12 +21,12 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     private boolean decreasedVelocity;
     private boolean increasedVelocity;
     private static int number;
-    public TrigorathModel(Point center, int hp, double velocity, MyFrame myFrame) {
-        super(center, velocity);
+    public TrigorathModel(Point center, int hp, double velocity, MyFrame myFrame, GameManager gameManager) {
+        super(center, velocity, gameManager);
         number++;
         logger = Logger.getLogger(TrigorathModel.class.getName()+number);
-        width = GameManager.configs.TRIGORATH_WIDTH;
-        height = GameManager.configs.TRIGORATH_HEIGHT;
+        width = MyApplication.configs.TRIGORATH_WIDTH;
+        height = MyApplication.configs.TRIGORATH_HEIGHT;
         this.myFrame = myFrame;
         increasedVelocity = true;
         decreasedVelocity = false;
@@ -33,7 +34,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
         damage = 10;
         addVertexes();
         this.myFrame.getEnemies().add(this);
-        Controller.addEnemyView(this);
+        Controller.addEnemyView(this, gameManager);
         start();
     }
     protected void addVertexes() {
@@ -49,8 +50,8 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     private double distanceFromEpsilon() {
         double x1 = center.getX();
         double y1 = center.getY();
-        double x2 = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter().getX();
-        double y2 = GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter().getX();
+        double x2 = gameManager.getGameModel().getEpsilon().getCenter().getX();
+        double y2 = gameManager.getGameModel().getEpsilon().getCenter().getX();
         return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
     }
     @Override
@@ -73,7 +74,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     }
     public void run() {
         while (!died) {
-            if (!GameManager.getINSTANCE().isHypnos() && Controller.gameRunning) {
+            if (!gameManager.isHypnos() && Controller.gameRunning) {
                 move();
                 checkCollision();
                 //EnemyLogger.getInfo(logger, this);
@@ -97,12 +98,12 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     public void addCollective() {
         for (int i = -1; i < 2; i += 2) {
             Collectible collectible = new Collectible((int) center.getX()+i*13, (int) center.getY()+i*13, 5);
-            GameManager.getINSTANCE().getGameModel().getCollectibles().add(collectible);
-            Controller.addCollectibleView(collectible);
+            gameManager.getGameModel().getCollectibles().add(collectible);
+            Controller.addCollectibleView(collectible, gameManager);
         }
     }
     public Direction getDirection() {
-        return new Direction(getCenter(), GameManager.getINSTANCE().getGameModel().getEpsilon().getCenter());
+        return new Direction(getCenter(), gameManager.getGameModel().getEpsilon().getCenter());
     }
 
 
