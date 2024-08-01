@@ -1,6 +1,7 @@
 package view.menu;
 
 import controller.save.Configs;
+import model.Requests;
 import network.ClientHandler;
 import network.UDP.Receiver;
 
@@ -137,7 +138,7 @@ public class Squad {
     }
     private void addData() {
         ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
-        clientHandler.getTcpClient().getListener().sendMessage("squads");
+        clientHandler.getTcpClient().getListener().sendMessage(Requests.SQUADS);
         Receiver receiver = clientHandler.getUdpClient().getReceiver();
         int requests = Integer.parseInt(receiver.getString());
         for (int i = 0; i < requests; i++) {

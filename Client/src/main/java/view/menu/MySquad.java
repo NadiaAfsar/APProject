@@ -65,6 +65,7 @@ public class MySquad {
     }
     private void addData() {
         ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
+        clientHandler.updateSquad();
         ArrayList<Map<String, String>> maps = clientHandler.getClient().getSquad().getMembers();
         boolean owner = clientHandler.getClient().getID().equals(clientHandler.getClient().getSquad().getOwner());
         for (int i = 0; i < maps.size(); i++) {
@@ -125,6 +126,20 @@ public class MySquad {
     private void addBattle(){
         battle = new JButton("Battle");
         addButton(battle, Configs.FRAME_SIZE.width/2-200, 200, 400, 100);
+        battle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameFrame.getGameManager().getClientHandler().updateSquad();
+                if (gameFrame.getGameManager().getClientHandler().getClient().getSquad().isInBattle()){
+
+                }
+                else {
+                    String[] options = new String[]{"Ok"};
+                    JOptionPane.showOptionDialog(null, "No battles yet!",
+                            null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+                }
+            }
+        });
     }
     private void addLeave(){
         leave = new JButton("Leave");

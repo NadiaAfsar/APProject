@@ -10,6 +10,7 @@ public class Squad {
     private ArrayList<Map<String, String>> members;
     private String ownerName;
     private String ID;
+    private boolean inBattle;
     public Squad(Client owner, String name){
         ID = UUID.randomUUID().toString();
         this.name = name;
@@ -38,5 +39,21 @@ public class Squad {
 
     public String getName() {
         return name;
+    }
+    public void removeMember(String name){
+        for (int i = 0; i < members.size(); i++){
+            if (members.get(i).get("name").equals(name)){
+                members.remove(members.get(i));
+                return;
+            }
+        }
+    }
+
+    public boolean isInBattle() {
+        return inBattle;
+    }
+
+    public void setInBattle(boolean inBattle) {
+        this.inBattle = inBattle;
     }
 }

@@ -10,6 +10,7 @@ public class Squad {
     private ArrayList<Map<String, String>> members;
     private String ownerName;
     private String ID;
+    private boolean inBattle;
     public Squad(Client owner, String name){
         ID = UUID.randomUUID().toString();
         this.name = name;
@@ -38,5 +39,9 @@ public class Squad {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isInBattle() {
+        return inBattle;
     }
 }

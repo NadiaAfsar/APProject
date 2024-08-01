@@ -8,6 +8,7 @@ public class Server {
     //private ArrayList<Client> clients;
     private Map<String, Squad> squads;
     private Map<String, Client> clients;
+    private ArrayList<String> squadsName;
     public Server(){
         squads = new HashMap<>();
         clients = new HashMap<>();
@@ -27,5 +28,13 @@ public class Server {
 
     public void setClients(Map<String, Client> clients) {
         this.clients = clients;
+    }
+
+    public ArrayList<String> getSquadsName() {
+        return squadsName;
+    }
+
+    public void setSquadsName(ArrayList<String> squadsName) {
+        this.squadsName = squadsName;
     }
 }
