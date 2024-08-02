@@ -33,6 +33,8 @@ public class Receiver {
     }
     public void receiveFile() {
         synchronized (lock) {
+            String name = getString();
+            //logger.debug("receiving "+name);
             String packetsString = getString();
             int packets = Integer.parseInt(packetsString);
             String lastPacketString = getString();
@@ -51,9 +53,9 @@ public class Receiver {
                             }
                             dataArray.add(data);
                             if (dataArray.size() == packets) {
-                                file = FileHandler.getFile("file", "src/main/resources/data", dataArray);
+                                file = FileHandler.getFile(name, "src/main/resources/data", dataArray);
                             }
-                            logger.debug("received");
+                            //logger.debug("received");
                     }
                 }).start();
             }
@@ -65,7 +67,7 @@ public class Receiver {
         while (file == null){
             logger.debug("file null");
         }
-        logger.debug("file received");
+        //logger.debug("file received");
         return file;
     }
     public String getString() {

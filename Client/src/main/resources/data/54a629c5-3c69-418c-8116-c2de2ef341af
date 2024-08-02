@@ -1,0 +1,19 @@
+{
+  "username": "reh",
+  "squad": {
+    "name": "trht",
+    "members": [
+      "reh"
+    ],
+    "ownerName": "reh",
+    "ID": "200b86c4-02fa-42d5-8b5a-e3fc2918cb0a",
+    "inBattle": false
+  },
+  "XP": 0,
+  "ID": "54a629c5-3c69-418c-8116-c2de2ef341af",
+  "status": "ONLINE",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

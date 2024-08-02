@@ -63,4 +63,8 @@ public class Squad {
     public void setCompetitorSquad(String competitorSquad) {
         this.competitorSquad = competitorSquad;
     }
+
+    public String getID() {
+        return ID;
+    }
 }

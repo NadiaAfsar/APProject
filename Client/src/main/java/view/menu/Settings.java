@@ -101,21 +101,12 @@ public class Settings{
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                panel.removeAll();
                 new MainMenu(gameFrame);
                 update();
             }
         });
         panel.add(back);
-    }
-    private void empty() {
-        panel.remove(music);
-        panel.remove(soundSlider);
-        panel.remove(difficulty);
-        panel.remove(difficultySlider);
-        panel.remove(sensitivity);
-        panel.remove(sensitivitySlider);
-        panel.remove(back);
     }
     private void update() {
         panel.revalidate();

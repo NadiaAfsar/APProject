@@ -12,6 +12,8 @@ public enum Requests {
     MESSAGE,
     ACCEPTED,
     DECLINED,
-    CLIENT
+    CLIENT,
+    RECEIVED,
+    SENT
 
 }

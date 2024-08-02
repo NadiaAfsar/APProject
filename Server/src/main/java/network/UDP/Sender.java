@@ -35,6 +35,7 @@ public class Sender extends Thread{
     }
     public void sendFile(File file, InetSocketAddress inetSocketAddress) {
         synchronized (lock) {
+            sendString(file.getName(), inetSocketAddress);
             ArrayList<byte[]> data = FileHandler.extractData(file);
             sendString(data.size()+"", inetSocketAddress);
             sendString(data.get(data.size() - 1).length + "", inetSocketAddress);
@@ -44,7 +45,6 @@ public class Sender extends Thread{
                         @Override
                         public void run() {
                                 sendData(data.get(finalI), inetSocketAddress);
-                            System.out.println("file sent");
                         }
                     }).start();
                 try {

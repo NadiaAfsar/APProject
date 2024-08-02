@@ -1,6 +1,7 @@
 package view.menu;
 
 import controller.save.Configs;
+import model.Client;
 import model.Squad;
 import model.Status;
 import network.ClientHandler;
@@ -34,9 +35,10 @@ public class Battle {
     private void addData() {
         ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
         Squad squad = clientHandler.getCompetitor();
-        ArrayList<Map<String, String>> maps = squad.getMembers();
-        for (int i = 0; i < maps.size(); i++) {
-            addClientPanel(maps.get(i).get("name"), maps.get(i).get("xp"), maps.get(i).get("status"));
+        ArrayList<String> members = squad.getMembers();
+        for (int i = 0; i < members.size(); i++) {
+            Client client = clientHandler.getClient(members.get(i));
+            addClientPanel(client.getUsername(), client.getXP()+"", client.getStatus().toString());
         }
     }
     private void addClientPanel(String name, String xp, String status) {

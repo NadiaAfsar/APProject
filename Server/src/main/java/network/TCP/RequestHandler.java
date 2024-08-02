@@ -6,7 +6,6 @@ import network.ServerHandler;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RequestHandler {
     public static void checkRequest(String request, ServerListener listener){
@@ -34,7 +33,36 @@ public class RequestHandler {
         else if (request.equals(Requests.ACCEPTED.toString())){
             requestAccepted(listener);
         }
-    } 
+        else if (request.equals(Requests.CLIENT.toString())){
+            client(listener);
+        }
+        else if (request.equals(Requests.RECEIVED.toString())){
+            received(listener);
+        }
+        else if (request.equals(Requests.SENT.toString())){
+            sent(listener);
+        }
+        else if (request.equals(Requests.DECLINED.toString())){
+            requestDeclined(listener);
+        }
+    }
+    private static void received(ServerListener listener){
+        String ID = listener.getMessage();
+        Request request = ServerHandler.getInstance().getServer().getRequests().get(ID);
+        listener.getClient().getReceivedRequests().remove(request);
+    }
+    private static void sent(ServerListener listener){
+        String ID = listener.getMessage();
+        Request request = ServerHandler.getInstance().getServer().getRequests().get(ID);
+        listener.getClient().getSentRequests().remove(request);
+    }
+    private static void client(ServerListener listener){
+        String name = listener.getMessage();
+        Client client = ServerHandler.getInstance().getServer().getClients().get(name);
+        File file = MyApplication.readerWriter.convertToFile(client, client.getID());
+        ServerHandler.getInstance().getUdpServer().getSender().sendFile(file, listener.getSocketAddress());
+        file.delete();
+    }
     private static void sendClient(ServerListener listener){
         String name = listener.getMessage();
         Client client = ServerHandler.getInstance().getServer().getClients().get(name);
@@ -42,14 +70,16 @@ public class RequestHandler {
             client = new Client(name);
             ServerHandler.getInstance().getServer().getClients().put(name, client);
         }
-        File file = MyApplication.readerWriter.convertToFile(client);
+        client.setStatus(Status.ONLINE);
+        File file = MyApplication.readerWriter.convertToFile(client, client.getID());
         ServerHandler.getInstance().getUdpServer().getSender().sendFile(file, listener.getSocketAddress());
         listener.setClient(client);
+        file.delete();
     }
     private static void joinRequest(ServerListener listener){
         String squadName = listener.getMessage();
         Server server = ServerHandler.getInstance().getServer();
-        String requestName = "Join";
+        String requestName = "join";
         String sender = listener.getClient().getUsername();
         String receiver = server.getSquads().get(squadName).getOwner();
         Request request = new Request(requestName, sender, receiver);
@@ -67,8 +97,12 @@ public class RequestHandler {
            listener.sendMessage(Requests.ACCEPTED.toString());
            String name = listener.getMessage();
            Squad squad = new Squad(server.getClients().get(name), squadName);
-           File squadFile = MyApplication.readerWriter.convertToFile(squad);
+           server.getClients().get(name).setSquad(squad);
+           server.getSquads().put(squad.getName(), squad);
+           server.getSquadsName().add(squadName);
+           File squadFile = MyApplication.readerWriter.convertToFile(squad, squad.getID());
            ServerHandler.getInstance().getUdpServer().getSender().sendFile(squadFile, listener.getSocketAddress());
+           squadFile.delete();
        }
     }
     private static void removeMember(ServerListener listener){
@@ -87,9 +121,9 @@ public class RequestHandler {
     private static void sendSquad(ServerListener listener){
         String name = listener.getMessage();
         Squad squad = ServerHandler.getInstance().getServer().getSquads().get(name);
-        File file = MyApplication.readerWriter.convertToFile(squad);
+        File file = MyApplication.readerWriter.convertToFile(squad, squad.getID());
         ServerHandler.getInstance().getUdpServer().getSender().sendFile(file, listener.getSocketAddress());
-        System.out.println("sent");
+        file.delete();
     }
     private static void battleRequest(ServerListener listener){
         String sender = listener.getMessage();
@@ -133,6 +167,10 @@ public class RequestHandler {
             listener.getClient().getSquad().getMembers().add(client.getUsername());
             client.setSquad(listener.getClient().getSquad());
         }
-        server.getRequests().put(requestID, null);
+    }
+    private static void requestDeclined(ServerListener listener){
+        String requestID = listener.getMessage();
+        Server server = ServerHandler.getInstance().getServer();
+        server.getRequests().get(requestID).setDeclined(true);
     }
 }

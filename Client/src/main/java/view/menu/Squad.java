@@ -50,15 +50,15 @@ public class Squad {
         action1 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
-                panel.remove(back);
+                panel.removeAll();
                 new MainMenu(gameFrame);
             }
         };
         action2 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                panel.removeAll();
+                panel.add(back);
                 addSquadsButton();
                 addNewSquad();
                 back.removeActionListener(action2);
@@ -92,8 +92,7 @@ public class Squad {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameFrame.getGameManager().getClientHandler().createNewSquad(textField.getText())) {
-                    empty();
-                    panel.remove(back);
+                    panel.removeAll();
                     new MySquad(gameFrame);
                 }
                 else {
@@ -108,7 +107,8 @@ public class Squad {
         squads.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                panel.removeAll();
+                panel.add(back);
                 addScroller();
                 back.removeActionListener(action1);
                 back.addActionListener(action2);
@@ -122,7 +122,8 @@ public class Squad {
         newSquad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                panel.removeAll();
+                panel.add(back);
                 addNameLabel();
                 addTextField();
                 addNext();
@@ -178,25 +179,5 @@ public class Squad {
             return true;
         }
         return false;
-    }
-    private void empty(){
-        if (squadsScroller != null){
-            panel.remove(squadsScroller);
-        }
-        if (squads != null){
-            panel.remove(squads);
-        }
-        if (newSquad != null){
-            panel.remove(newSquad);
-        }
-        if (nameLabel != null){
-            panel.remove(nameLabel);
-        }
-        if(textField != null){
-            panel.remove(textField);
-        }
-        if (next != null){
-            panel.remove(next);
-        }
     }
 }

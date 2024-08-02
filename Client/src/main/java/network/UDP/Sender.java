@@ -39,6 +39,7 @@ public class Sender extends Thread{
     }
     public void sendFile(File file) {
         synchronized (lock) {
+            sendString(file.getName());
             ArrayList<byte[]> data = FileHandler.extractData(file);
             sendString(data.size() + "");
             sendString(data.get(data.size() - 1).length + "");

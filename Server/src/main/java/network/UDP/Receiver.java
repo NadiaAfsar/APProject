@@ -29,6 +29,7 @@ public class Receiver extends Thread{
     }
     public void receiveFile() {
         synchronized (lock) {
+            String name = getString();
             String packetsString = getString();
             int packets = Integer.parseInt(packetsString);
             String lastPacketString = getString();
@@ -47,7 +48,7 @@ public class Receiver extends Thread{
                         }
                         dataArray.add(data);
                         if (dataArray.size() == packets) {
-                            file = FileHandler.getFile("file", "src/main/resources/data", dataArray);
+                            file = FileHandler.getFile(name, "src/main/resources/data", dataArray);
                         }
                     }
                 }).start();

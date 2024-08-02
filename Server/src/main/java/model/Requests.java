@@ -11,6 +11,9 @@ public enum Requests {
     BATTLE_REQUEST,
     MESSAGE,
     ACCEPTED,
-    DECLINED
+    DECLINED,
+    CLIENT,
+    RECEIVED,
+    SENT
 
 }

@@ -55,7 +55,7 @@ public class MainMenu {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                gamePanel.removeAll();
                 new Settings(gameFrame, Controller.getSensitivity(gameFrame.getGameManager()), Controller.getDifficulty(gameFrame.getGameManager()),
                         (int)((Audio.getSoundValue()+80)/0.86));
                 gameFrame.update();
@@ -68,7 +68,7 @@ public class MainMenu {
         tutorialButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                gamePanel.removeAll();
                 new Tutorial(gameFrame);
             }
         });
@@ -79,7 +79,7 @@ public class MainMenu {
         skillTreeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                gamePanel.removeAll();
                 new SkillTree(gameFrame);
                 gameFrame.update();
             }
@@ -91,7 +91,7 @@ public class MainMenu {
         squad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                gamePanel.removeAll();
                 new Squad(gameFrame);
             }
         });
@@ -109,15 +109,5 @@ public class MainMenu {
             }
         });
         gamePanel.add(exitButton);
-    }
-    private void empty() {
-        gamePanel.remove(startButton);
-        gamePanel.remove(settingsButton);
-        gamePanel.remove(tutorialButton);
-        gamePanel.remove(skillTreeButton);
-        gamePanel.remove(exitButton);
-        if (squad != null){
-            gamePanel.remove(squad);
-        }
     }
 }

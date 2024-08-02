@@ -151,23 +151,12 @@ public class SkillTree {
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                panel.removeAll();
                 new MainMenu(gameFrame);
                 update();
             }
         });
         panel.add(back);
-    }
-    private void empty() {
-        panel.remove(skillTree);
-        panel.remove(defence);
-        panel.remove(attack);
-        panel.remove(transform);
-        for (int i = 1; i <= 10; i++){
-            panel.remove(skills.get(i));
-        }
-        panel.remove(back);
-        panel.remove(totalXP);
     }
     private void pickSkill(int x) {
         if (picked != null){

@@ -62,7 +62,7 @@ public class ConnectionFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    //Controller.runGame(new GameManager());
+                    new GameManager(new ClientHandler(), false).initialize();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

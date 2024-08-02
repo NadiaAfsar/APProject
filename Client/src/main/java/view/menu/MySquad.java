@@ -39,15 +39,15 @@ public class MySquad {
         action1 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
-                panel.remove(back);
+                panel.removeAll();
                 new MainMenu(gameFrame);
             }
         };
         action2 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                panel.removeAll();
+                panel.add(back);
                 addBattle();
                 addMembers();
                 addLeave();
@@ -67,11 +67,13 @@ public class MySquad {
         addData();
     }
     private void addData() {
+        membersPanel.removeAll();
         ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
         ArrayList<String> members = clientHandler.getClient().getSquad().getMembers();
         boolean owner = clientHandler.getClient().getUsername().equals(clientHandler.getClient().getSquad().getOwner());
         for (int i = 0; i < members.size(); i++) {
-            Client client =
+            Client client = clientHandler.getClient(members.get(i));
+            addClientPanel(client.getUsername(), client.getXP()+"", owner, client.getStatus().toString());
         }
     }
     private void addClientPanel(String name, String xp, boolean owner, String status) {
@@ -117,7 +119,8 @@ public class MySquad {
         members.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                empty();
+                panel.removeAll();
+                panel.add(back);
                 addScroller();
                 back.addActionListener(action2);
                 back.removeActionListener(action1);
@@ -131,7 +134,6 @@ public class MySquad {
         battle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameFrame.getGameManager().getClientHandler().updateSquad();
                 if (gameFrame.getGameManager().getClientHandler().getClient().getSquad().isInBattle()){
                     new Battle(gameFrame);
                 }
@@ -160,19 +162,5 @@ public class MySquad {
         back = new JButton("Back");
         addButton(back, 100, Configs.FRAME_SIZE.height-200, 150, 50);
         back.addActionListener(action1);
-    }
-    private void empty(){
-        if (members != null){
-            panel.remove(members);
-        }
-        if (membersScroller != null){
-            panel.remove(membersScroller);
-        }
-        if (leave != null){
-            panel.remove(leave);
-        }
-        if (battle != null){
-            panel.remove(battle);
-        }
     }
 }

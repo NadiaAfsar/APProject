@@ -24,7 +24,7 @@ public class ClientHandler extends Thread{
     }
     public void run(){
         while (true){
-            sendName(client.getUsername());
+            client = getClient(client.getUsername());
             for (int i = 0; i < client.getReceivedRequests().size(); i++){
                 Request request = client.getReceivedRequests().get(i);
                 if (GameFrame.receiveRequest(request.getSender(), request.getRequestName())){
@@ -35,8 +35,33 @@ public class ClientHandler extends Thread{
                     tcpClient.getListener().sendMessage(Requests.DECLINED.toString());
                     tcpClient.getListener().sendMessage(request.getID());
                 }
+                received(request.getID());
+            }
+            for (int i = 0; i < client.getSentRequests().size(); i++){
+                Request request = client.getSentRequests().get(i);
+                if (request.isAccepted()){
+                    GameFrame.showMessage(request.getReceiver()+" accepted your "+request.getRequestName()+" request.");
+                    sent(request.getID());
+                }
+                else if (request.isDeclined()){
+                    GameFrame.showMessage(request.getReceiver()+" declined your "+request.getRequestName()+" request.");
+                    sent(request.getID());
+                }
+            }
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
+    }
+    private void received(String ID){
+        tcpClient.getListener().sendMessage(Requests.RECEIVED.toString());
+        tcpClient.getListener().sendMessage(ID);
+    }
+    private void sent(String ID){
+        tcpClient.getListener().sendMessage(Requests.SENT.toString());
+        tcpClient.getListener().sendMessage(ID);
     }
     public void initialize(){
         tcpClient = new TCPClient(MyApplication.configs.SERVER_IP_ADDRESS, MyApplication.configs.SERVER_PORT, this);
@@ -59,6 +84,8 @@ public class ClientHandler extends Thread{
     private void setClient(){
         File file = udpClient.getReceiver().getFile();
         client = MyApplication.readerWriter.getObject(Client.class, file);
+        file.delete();
+        start();
     }
 
     public TCPClient getTcpClient() {
@@ -81,9 +108,12 @@ public class ClientHandler extends Thread{
         tcpClient.getListener().sendMessage(name);
         String response = tcpClient.getListener().getMessage();
         if (response.equals(Requests.ACCEPTED.toString())) {
+            logger.debug("accepted");
+            tcpClient.getListener().sendMessage(client.getUsername());
             File squadFile = udpClient.getReceiver().getFile();
             Squad squad = MyApplication.readerWriter.getObject(Squad.class, squadFile);
             client.setSquad(squad);
+            squadFile.delete();
             return true;
         }
         return false;
@@ -93,19 +123,13 @@ public class ClientHandler extends Thread{
         tcpClient.getListener().sendMessage(client.getSquad().getName());
         tcpClient.getListener().sendMessage(name);
     }
-    public void updateSquad(){
-        tcpClient.getListener().sendMessage(Requests.SQUAD.toString());
-        tcpClient.getListener().sendMessage(client.getSquad().getName());
-        System.out.println("request sent");
-        File squadFile = udpClient.getReceiver().getFile();
-        System.out.println("file recieved");
-        client.setSquad(MyApplication.readerWriter.getObject(Squad.class, squadFile));
-    }
     public Squad getCompetitor(){
         tcpClient.getListener().sendMessage(Requests.SQUAD.toString());
         tcpClient.getListener().sendMessage(client.getSquad().getCompetitorSquad());
         File file = udpClient.getReceiver().getFile();
-        return MyApplication.readerWriter.getObject(Squad.class, file);
+        Squad squad = MyApplication.readerWriter.getObject(Squad.class, file);
+        file.delete();
+        return squad;
     }
     public void sendBattleRequest(String name, int battle){
         tcpClient.getListener().sendMessage(Requests.BATTLE_REQUEST.toString());
@@ -117,7 +141,9 @@ public class ClientHandler extends Thread{
         tcpClient.getListener().sendMessage(Requests.CLIENT.toString());
         tcpClient.getListener().sendMessage(name);
         File clientFile = udpClient.getReceiver().getFile();
-
+        Client client1 = MyApplication.readerWriter.getObject(Client.class, clientFile);
+        clientFile.delete();
+        return client1;
     }
 
 }

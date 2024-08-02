@@ -6,6 +6,7 @@ import java.util.UUID;
 public class Request {
     private String requestName;
     private boolean accepted;
+    private boolean declined;
     private String sender;
     private String receiver;
     private final String ID;
@@ -41,4 +42,11 @@ public class Request {
         return ID;
     }
 
+    public boolean isDeclined() {
+        return declined;
+    }
+
+    public void setDeclined(boolean declined) {
+        this.declined = declined;
+    }
 }
