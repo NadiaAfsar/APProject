@@ -14,6 +14,7 @@ public enum Requests {
     DECLINED,
     CLIENT,
     RECEIVED,
-    SENT
+    SENT,
+    CLIENT_DATA
 
 }

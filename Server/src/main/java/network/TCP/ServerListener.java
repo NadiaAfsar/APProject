@@ -3,8 +3,6 @@ package network.TCP;
 import model.Client;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -16,9 +14,11 @@ public class ServerListener extends Thread{
     private PrintWriter printWriter;
     private InetSocketAddress socketAddress;
     private Client client;
+    private final Object lock;
 
     public ServerListener(Socket socket) throws IOException {
         this.socket = socket;
+        lock = new Object();
         setStreams();
     }
     public void run(){
@@ -54,5 +54,9 @@ public class ServerListener extends Thread{
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Object getLock() {
+        return lock;
     }
 }

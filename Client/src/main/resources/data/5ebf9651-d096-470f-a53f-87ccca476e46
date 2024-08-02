@@ -1,0 +1,20 @@
+{
+  "username": "fws",
+  "squad": {
+    "name": "gsd",
+    "members": [
+      "fws"
+    ],
+    "ownerName": "fws",
+    "ID": "136204fa-8a84-4cff-86bd-a733b5448c3e",
+    "inBattle": true,
+    "competitorSquad": "dgd"
+  },
+  "XP": 0,
+  "ID": "5ebf9651-d096-470f-a53f-87ccca476e46",
+  "status": "ONLINE",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

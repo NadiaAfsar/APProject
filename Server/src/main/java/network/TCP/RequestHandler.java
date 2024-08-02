@@ -9,41 +9,35 @@ import java.util.ArrayList;
 
 public class RequestHandler {
     public static void checkRequest(String request, ServerListener listener){
-        if (request.equals(Requests.NAME.toString())){
-            sendClient(listener);
-        }
-        else if (request.equals(Requests.JOIN.toString())){
-            joinRequest(listener);
-        }
-        else if (request.equals(Requests.CREATE_SQUAD.toString())){
-            createSquad(listener);
-        }
-        else if (request.equals(Requests.DELETE_MEMBER.toString())){
-            removeMember(listener);
-        }
-        else if (request.equals(Requests.SQUADS.toString())){
-            sendSquads(listener);
-        }
-        else if (request.equals(Requests.SQUAD.toString())){
-            sendSquad(listener);
-        }
-        else if (request.equals(Requests.BATTLE_REQUEST.toString())) {
-            battleRequest(listener);
-        }
-        else if (request.equals(Requests.ACCEPTED.toString())){
-            requestAccepted(listener);
-        }
-        else if (request.equals(Requests.CLIENT.toString())){
-            client(listener);
-        }
-        else if (request.equals(Requests.RECEIVED.toString())){
-            received(listener);
-        }
-        else if (request.equals(Requests.SENT.toString())){
-            sent(listener);
-        }
-        else if (request.equals(Requests.DECLINED.toString())){
-            requestDeclined(listener);
+        synchronized (listener.getLock()) {
+            if (request.equals(Requests.NAME.toString())) {
+                sendClient(listener);
+            } else if (request.equals(Requests.JOIN.toString())) {
+                joinRequest(listener);
+            } else if (request.equals(Requests.CREATE_SQUAD.toString())) {
+                createSquad(listener);
+            } else if (request.equals(Requests.DELETE_MEMBER.toString())) {
+                removeMember(listener);
+            } else if (request.equals(Requests.SQUADS.toString())) {
+                sendSquads(listener);
+            } else if (request.equals(Requests.SQUAD.toString())) {
+                sendSquad(listener);
+            } else if (request.equals(Requests.BATTLE_REQUEST.toString())) {
+                battleRequest(listener);
+            } else if (request.equals(Requests.ACCEPTED.toString())) {
+                requestAccepted(listener);
+            } else if (request.equals(Requests.CLIENT.toString())) {
+                client(listener);
+            } else if (request.equals(Requests.RECEIVED.toString())) {
+                received(listener);
+            } else if (request.equals(Requests.SENT.toString())) {
+                sent(listener);
+            } else if (request.equals(Requests.DECLINED.toString())) {
+                requestDeclined(listener);
+            }
+            else if (request.equals(Requests.CLIENT_DATA.toString())){
+                clientData(listener);
+            }
         }
     }
     private static void received(ServerListener listener){
@@ -104,6 +98,9 @@ public class RequestHandler {
            ServerHandler.getInstance().getUdpServer().getSender().sendFile(squadFile, listener.getSocketAddress());
            squadFile.delete();
        }
+        if (ServerHandler.getInstance().getServer().getSquadsName().size()>=2){
+            ServerHandler.getInstance().initiateSquadBattle();
+        }
     }
     private static void removeMember(ServerListener listener){
         String squadName = listener.getMessage();
@@ -172,5 +169,13 @@ public class RequestHandler {
         String requestID = listener.getMessage();
         Server server = ServerHandler.getInstance().getServer();
         server.getRequests().get(requestID).setDeclined(true);
+    }
+    private static void clientData(ServerListener listener){
+        String name = listener.getMessage();
+        Server server = ServerHandler.getInstance().getServer();
+        ServerHandler.getInstance().getUdpServer().getSender().sendString(server.getClients().get(name).getXP()+"",
+                listener.getSocketAddress());
+        ServerHandler.getInstance().getUdpServer().getSender().sendString(server.getClients().get(name).getStatus().toString(),
+                listener.getSocketAddress());
     }
 }

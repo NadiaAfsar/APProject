@@ -1,17 +1,18 @@
 package view.menu;
 
 import controller.save.Configs;
-import model.Client;
+import model.Requests;
 import model.Squad;
 import model.Status;
 import network.ClientHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Battle {
     private GameFrame gameFrame;
@@ -22,6 +23,9 @@ public class Battle {
     public Battle(GameFrame gameFrame){
         this.gameFrame = gameFrame;
         panel = gameFrame.getGamePanel();
+        addScroller();
+        addBack();
+        gameFrame.update();
     }
     private void addScroller() {
         scrollerPanel = new JPanel();
@@ -37,8 +41,11 @@ public class Battle {
         Squad squad = clientHandler.getCompetitor();
         ArrayList<String> members = squad.getMembers();
         for (int i = 0; i < members.size(); i++) {
-            Client client = clientHandler.getClient(members.get(i));
-            addClientPanel(client.getUsername(), client.getXP()+"", client.getStatus().toString());
+            clientHandler.getTcpClient().getListener().sendMessage(Requests.CLIENT_DATA.toString());
+            clientHandler.getTcpClient().getListener().sendMessage(members.get(i));
+            String xp = clientHandler.getUdpClient().getReceiver().getString();
+            String status = clientHandler.getUdpClient().getReceiver().getString();
+            addClientPanel(members.get(i), xp, status);
         }
     }
     private void addClientPanel(String name, String xp, String status) {
@@ -66,5 +73,19 @@ public class Battle {
         int pick = JOptionPane.showOptionDialog(null, "Which battle do you request for?",
                 null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         return pick;
+    }
+    private void addBack(){
+        back = new JButton("Back");
+        back.setBounds(100, Configs.FRAME_SIZE.height-200, 150, 50);
+        back.setFont(new Font("Elephant", Font.BOLD, 25));
+        back.setBackground(Color.WHITE);
+        panel.add(back);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.removeAll();
+                new MySquad(gameFrame);
+            }
+        });
     }
 }

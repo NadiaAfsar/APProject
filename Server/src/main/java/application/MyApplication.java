@@ -10,6 +10,6 @@ public class MyApplication implements Runnable{
     @Override
     public void run() {
         readerWriter = new ReaderWriter();
-        ServerHandler.getInstance();
+        ServerHandler.getInstance().initiate();
     }
 }

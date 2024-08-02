@@ -1,5 +1,7 @@
 package model;
 
+import network.ServerHandler;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +64,11 @@ public class Squad {
 
     public void setCompetitorSquad(String competitorSquad) {
         this.competitorSquad = competitorSquad;
+        for (int i = 0; i < members.size(); i++){
+            Client client = ServerHandler.getInstance().getServer().getClients().get(members.get(i));
+            client.setColosseum(false);
+            client.setMonomachia(false);
+        }
     }
 
     public String getID() {

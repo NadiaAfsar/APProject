@@ -2,6 +2,7 @@ package view.menu;
 
 import controller.save.Configs;
 import model.Client;
+import model.Requests;
 import network.ClientHandler;
 import network.UDP.Receiver;
 
@@ -72,8 +73,11 @@ public class MySquad {
         ArrayList<String> members = clientHandler.getClient().getSquad().getMembers();
         boolean owner = clientHandler.getClient().getUsername().equals(clientHandler.getClient().getSquad().getOwner());
         for (int i = 0; i < members.size(); i++) {
-            Client client = clientHandler.getClient(members.get(i));
-            addClientPanel(client.getUsername(), client.getXP()+"", owner, client.getStatus().toString());
+            clientHandler.getTcpClient().getListener().sendMessage(Requests.CLIENT_DATA.toString());
+            clientHandler.getTcpClient().getListener().sendMessage(members.get(i));
+            String xp = clientHandler.getUdpClient().getReceiver().getString();
+            String status = clientHandler.getUdpClient().getReceiver().getString();
+            addClientPanel(members.get(i), xp, owner, status);
         }
     }
     private void addClientPanel(String name, String xp, boolean owner, String status) {
@@ -135,6 +139,7 @@ public class MySquad {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameFrame.getGameManager().getClientHandler().getClient().getSquad().isInBattle()){
+                    panel.removeAll();
                     new Battle(gameFrame);
                 }
                 else {

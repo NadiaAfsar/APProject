@@ -1,18 +1,24 @@
 package network;
 
 import model.Server;
+import model.Squad;
 import network.TCP.TCPServer;
 import network.UDP.UDPServer;
+
+import java.util.ArrayList;
 
 public class ServerHandler {
     private Server server;
     private TCPServer tcpServer;
     private UDPServer udpServer;
     private static ServerHandler instance;
+    private static ArrayList<String> unmatchedSquads;
     private ServerHandler(){
         server = new Server();
         tcpServer = new TCPServer(8090);
         udpServer = new UDPServer();
+    }
+    public void initiate(){
         tcpServer.start();
         udpServer.run();
     }
@@ -34,5 +40,24 @@ public class ServerHandler {
 
     public UDPServer getUdpServer() {
         return udpServer;
+    }
+    public void initiateSquadBattle(){
+        unmatchedSquads = new ArrayList<>();
+        unmatchedSquads.addAll(server.getSquadsName());
+        for (int i = 0; i < server.getSquadsName().size(); i++){
+            System.out.println(i);
+            if (!server.getSquads().get(server.getSquadsName().get(i)).isInBattle() && unmatchedSquads.size()>1){
+                unmatchedSquads.remove(server.getSquadsName().get(i));
+                int random = (int)(Math.random()*unmatchedSquads.size()-1);
+                String squad = unmatchedSquads.get(random);
+                Squad squad1 = server.getSquads().get(server.getSquadsName().get(i));
+                Squad squad2 = server.getSquads().get(squad);
+                squad1.setInBattle(true);
+                squad1.setCompetitorSquad(squad2.getName());
+                squad2.setInBattle(true);
+                squad2.setCompetitorSquad(squad1.getName());
+                unmatchedSquads.remove(random);
+            }
+        }
     }
 }

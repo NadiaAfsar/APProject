@@ -77,4 +77,11 @@ public class Client {
         return colosseum;
     }
 
+    public void setMonomachia(boolean monomachia) {
+        this.monomachia = monomachia;
+    }
+
+    public void setColosseum(boolean colosseum) {
+        this.colosseum = colosseum;
+    }
 }

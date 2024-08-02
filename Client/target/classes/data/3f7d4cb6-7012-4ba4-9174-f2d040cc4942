@@ -1,0 +1,19 @@
+{
+  "username": "na",
+  "squad": {
+    "name": "na",
+    "members": [
+      "na"
+    ],
+    "ownerName": "na",
+    "ID": "1438a905-1ab5-4927-86ae-bc7e32d0c296",
+    "inBattle": false
+  },
+  "XP": 0,
+  "ID": "3f7d4cb6-7012-4ba4-9174-f2d040cc4942",
+  "status": "ONLINE",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}
