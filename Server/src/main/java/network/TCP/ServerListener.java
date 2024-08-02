@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 public class ServerListener extends Thread{
     private final Socket socket;
-    private ObjectInputStream objectInputStream;
-    private ObjectOutputStream objectOutputStream;
+    private Scanner scanner;
+    private PrintWriter printWriter;
     private InetSocketAddress socketAddress;
     private Client client;
 
@@ -23,28 +23,21 @@ public class ServerListener extends Thread{
     }
     public void run(){
         while (!socket.isClosed()){
-            Object message = getMessage();
+            String message = getMessage();
+            RequestHandler.checkRequest(message, this);
         }
     }
     private void setStreams() throws IOException {
-        objectInputStream = new ObjectInputStream(socket.getInputStream());
-        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        scanner = new Scanner(socket.getInputStream());
+        printWriter = new PrintWriter(socket.getOutputStream());
     }
-    public void sendMessage(Object object) {
-        try {
-            objectOutputStream.writeObject(object);
-            objectOutputStream.flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void sendMessage(String message) {
+            printWriter.println(message);
+            printWriter.flush();
 
     }
-    public Object getMessage() {
-        try {
-            return objectInputStream.readObject();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public String getMessage() {
+            return scanner.nextLine();
     }
 
     public InetSocketAddress getSocketAddress() {

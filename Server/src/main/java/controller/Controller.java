@@ -78,9 +78,9 @@ public class Controller {
         timer.setRepeats(false);
         timer.start();
     }
-    public static boolean playSavedGame(GameManager gameManager){
-        return gameManager.getGameFrame().option("Do you want to play your saved game?");
-    }
+//    public static boolean playSavedGame(GameManager gameManager){
+//        return gameManager.getGameFrame().option("Do you want to play your saved game?");
+//    }
     public static void addLaserView(BlackOrbLaser laser, GameManager gameManager) {
         gameManager.getGameView().addLaser(new BlackOrbLaserView(laser.getX1(), laser.getY1(),
                 laser.getX2(), laser.getY2(), laser.getID()));
@@ -262,9 +262,10 @@ public class Controller {
     }
     public static boolean saveGame(GameManager gameManager){
         int PR = (int)gameManager.getGameModel().getCurrentWave().getProgressRisk();
-        return gameManager.getGameFrame().option("Do you pay "+PR+" XPs to save the game?");
+        //return gameManager.getGameFrame().option("Do you pay "+PR+" XPs to save the game?");
+        return false;
     }
-    public static boolean connectionError(){
-        return ConnectionFrame.showConnectionError();
-    }
+//    public static boolean connectionError(){
+//        return ConnectionFrame.showConnectionError();
+//    }
 }

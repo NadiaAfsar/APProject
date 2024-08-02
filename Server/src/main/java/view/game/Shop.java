@@ -202,7 +202,7 @@ public class Shop extends JFrame {
                 for (int i = 0; i < gamePanels.size(); i++){
                     gamePanels.get(i).getFrame().dispose();
                 }
-                gameManager.getGameFrame().setVisible(true);
+                //gameManager.getGameFrame().setVisible(true);
                 dispose();
             }
         });

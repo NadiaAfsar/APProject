@@ -94,4 +94,18 @@ public class GameFrame extends JFrame {
     public GameManager getGameManager() {
         return gameManager;
     }
+    public static boolean receiveRequest(String name, String request){
+        String[] options = new String[]{"Accept", "Decline"};
+        int pick = JOptionPane.showOptionDialog(null, name+" sent "+request+" request.",
+                null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        if (pick == 0){
+            return true;
+        }
+        return false;
+    }
+    public static void showMessage(String message){
+        String[] options = new String[]{"Ok"};
+        int pick = JOptionPane.showOptionDialog(null, message,
+                null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+    }
 }

@@ -20,6 +20,7 @@ public class UDPServer implements Runnable{
         try {
             datagramSocket = new DatagramSocket(port);
             sender = new Sender(datagramSocket);
+            receiver = new Receiver(datagramSocket);
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }

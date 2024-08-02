@@ -1,6 +1,7 @@
 package network.TCP;
 
 import network.TCP.ServerListener;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,9 +11,11 @@ import java.net.Socket;
 public class TCPServer extends Thread {
     private ServerSocket serverSocket;
     private Integer serverPort;
+    private Logger logger;
 
     public TCPServer(Integer serverPort) {
         this.serverPort = serverPort;
+        logger = Logger.getLogger(TCPServer.class.getName());
         try {
             serverSocket = new ServerSocket(serverPort);
         } catch (IOException e) {
@@ -25,8 +28,9 @@ public class TCPServer extends Thread {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
+                logger.debug("connected");
                 ServerListener listener = new ServerListener(socket);
-                Integer port = Integer.parseInt(listener.getMessage());
+                Integer port = Integer.valueOf(listener.getMessage());
                 listener.setSocketAddress(new InetSocketAddress("localHost", port));
                 listener.start();
             } catch (IOException e) {

@@ -91,9 +91,14 @@ public class Squad {
         next.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameFrame.getGameManager().getClientHandler().createNewSquad(textField.getText());
-                empty();
-                new MySquad(gameFrame);
+                if (gameFrame.getGameManager().getClientHandler().createNewSquad(textField.getText())) {
+                    empty();
+                    panel.remove(back);
+                    new MySquad(gameFrame);
+                }
+                else {
+                    GameFrame.showMessage("This name is not available.");
+                }
             }
         });
     }
@@ -134,11 +139,11 @@ public class Squad {
         squadsScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         squadsScroller.setBounds(Configs.FRAME_SIZE.width/2-300,100,600,500);
         panel.add(squadsScroller);
-        //addData();
+        addData();
     }
     private void addData() {
         ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
-        clientHandler.getTcpClient().getListener().sendMessage(Requests.SQUADS);
+        clientHandler.getTcpClient().getListener().sendMessage(Requests.SQUADS.toString());
         Receiver receiver = clientHandler.getUdpClient().getReceiver();
         int requests = Integer.parseInt(receiver.getString());
         for (int i = 0; i < requests; i++) {

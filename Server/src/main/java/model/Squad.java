@@ -7,25 +7,24 @@ import java.util.UUID;
 
 public class Squad {
     private String name;
-    private ArrayList<Map<String, String>> members;
+    private ArrayList<String> members;
     private String ownerName;
     private String ID;
     private boolean inBattle;
+    private String competitorSquad;
     public Squad(Client owner, String name){
         ID = UUID.randomUUID().toString();
         this.name = name;
-        ownerName = owner.getID();
+        ownerName = owner.getUsername();
         members = new ArrayList<>();
-        Map<String, String> ownerMap = new HashMap<String, String>(){{put("xp", owner.getXP()+"");
-        put("name", owner.getUsername());}};
-        members.add(ownerMap);
+        members.add(owner.getUsername());
     }
 
-    public ArrayList<Map<String, String>> getMembers() {
+    public ArrayList<String> getMembers() {
         return members;
     }
 
-    public void setMembers(ArrayList<Map<String, String>> members) {
+    public void setMembers(ArrayList<String> members) {
         this.members = members;
     }
 
@@ -42,7 +41,7 @@ public class Squad {
     }
     public void removeMember(String name){
         for (int i = 0; i < members.size(); i++){
-            if (members.get(i).get("name").equals(name)){
+            if (members.get(i).equals(name)){
                 members.remove(members.get(i));
                 return;
             }
@@ -55,5 +54,13 @@ public class Squad {
 
     public void setInBattle(boolean inBattle) {
         this.inBattle = inBattle;
+    }
+
+    public String getCompetitorSquad() {
+        return competitorSquad;
+    }
+
+    public void setCompetitorSquad(String competitorSquad) {
+        this.competitorSquad = competitorSquad;
     }
 }

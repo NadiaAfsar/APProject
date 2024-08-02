@@ -1,6 +1,7 @@
 package view.menu;
 
 import controller.save.Configs;
+import model.Client;
 import network.ClientHandler;
 import network.UDP.Receiver;
 
@@ -27,10 +28,11 @@ public class MySquad {
     public MySquad(GameFrame gameFrame){
         this.gameFrame = gameFrame;
         panel = gameFrame.getGamePanel();
+        setActions();
+        addBack();
         addBattle();
         addLeave();
         addMembers();
-        addBack();
         gameFrame.update();
     }
     private void setActions(){
@@ -38,6 +40,7 @@ public class MySquad {
             @Override
             public void actionPerformed(ActionEvent e) {
                 empty();
+                panel.remove(back);
                 new MainMenu(gameFrame);
             }
         };
@@ -48,8 +51,8 @@ public class MySquad {
                 addBattle();
                 addMembers();
                 addLeave();
-                back.removeActionListener(action2);
                 back.addActionListener(action1);
+                back.removeActionListener(action2);
                 gameFrame.update();
             }
         };
@@ -65,17 +68,16 @@ public class MySquad {
     }
     private void addData() {
         ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
-        clientHandler.updateSquad();
-        ArrayList<Map<String, String>> maps = clientHandler.getClient().getSquad().getMembers();
-        boolean owner = clientHandler.getClient().getID().equals(clientHandler.getClient().getSquad().getOwner());
-        for (int i = 0; i < maps.size(); i++) {
-            addClientPanel(maps.get(i).get("name"), maps.get(i).get("xp"), owner);
+        ArrayList<String> members = clientHandler.getClient().getSquad().getMembers();
+        boolean owner = clientHandler.getClient().getUsername().equals(clientHandler.getClient().getSquad().getOwner());
+        for (int i = 0; i < members.size(); i++) {
+            Client client =
         }
     }
-    private void addClientPanel(String name, String xp, boolean owner) {
+    private void addClientPanel(String name, String xp, boolean owner, String status) {
         JPanel memberPanel = new JPanel();
         memberPanel.setName(name);
-        JLabel label = new JLabel(name+"       "+xp+"XPs");
+        JLabel label = new JLabel(name+"       "+xp+"XPs         "+status);
         label.setFont(new Font("Serif", Font.PLAIN,25));
         label.setForeground(Color.BLACK);
         memberPanel.add(label);
@@ -85,8 +87,8 @@ public class MySquad {
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
                     JPanel p = (JPanel) e.getSource();
-                    if (deleteMember(name)){
-                        gameFrame.getGameManager().getClientHandler().deleteMember(name);
+                    if (deleteMember(p.getName())){
+                        gameFrame.getGameManager().getClientHandler().deleteMember(p.getName());
                         membersPanel.remove(memberPanel);
                     }
                 }
@@ -117,8 +119,8 @@ public class MySquad {
             public void actionPerformed(ActionEvent e) {
                 empty();
                 addScroller();
-                back.removeActionListener(action1);
                 back.addActionListener(action2);
+                back.removeActionListener(action1);
                 gameFrame.update();
             }
         });
@@ -131,7 +133,7 @@ public class MySquad {
             public void actionPerformed(ActionEvent e) {
                 gameFrame.getGameManager().getClientHandler().updateSquad();
                 if (gameFrame.getGameManager().getClientHandler().getClient().getSquad().isInBattle()){
-
+                    new Battle(gameFrame);
                 }
                 else {
                     String[] options = new String[]{"Ok"};

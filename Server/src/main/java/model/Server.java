@@ -9,9 +9,12 @@ public class Server {
     private Map<String, Squad> squads;
     private Map<String, Client> clients;
     private ArrayList<String> squadsName;
+    private Map<String, Request> requests;
     public Server(){
         squads = new HashMap<>();
         clients = new HashMap<>();
+        squadsName = new ArrayList<>();
+        requests = new HashMap<>();
     }
 
     public Map<String, Squad> getSquads() {
@@ -36,5 +39,9 @@ public class Server {
 
     public void setSquadsName(ArrayList<String> squadsName) {
         this.squadsName = squadsName;
+    }
+
+    public Map<String, Request> getRequests() {
+        return requests;
     }
 }

@@ -10,8 +10,11 @@ public class ServerHandler {
     private UDPServer udpServer;
     private static ServerHandler instance;
     private ServerHandler(){
+        server = new Server();
         tcpServer = new TCPServer(8090);
         udpServer = new UDPServer();
+        tcpServer.start();
+        udpServer.run();
     }
 
     public static ServerHandler getInstance() {

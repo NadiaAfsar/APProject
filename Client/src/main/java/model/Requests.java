@@ -7,6 +7,11 @@ public enum Requests {
     DELETE_MEMBER,
     BATTLE,
     SQUADS,
-    MEMBERS
+    SQUAD,
+    BATTLE_REQUEST,
+    MESSAGE,
+    ACCEPTED,
+    DECLINED,
+    CLIENT
 
 }

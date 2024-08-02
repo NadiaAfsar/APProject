@@ -2,6 +2,7 @@ package application;
 
 import controller.save.Configs;
 import controller.save.ReaderWriter;
+import network.ServerHandler;
 
 public class MyApplication implements Runnable{
     public static Configs configs;
@@ -9,5 +10,6 @@ public class MyApplication implements Runnable{
     @Override
     public void run() {
         readerWriter = new ReaderWriter();
+        ServerHandler.getInstance();
     }
 }

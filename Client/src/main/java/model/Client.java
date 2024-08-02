@@ -11,10 +11,14 @@ public class Client {
     private int XP;
     private String ID;
     private ArrayList<Skill> unlockedSkills;
-    private ArrayList<String> requests;
+    private Status status;
+    private ArrayList<Request> sentRequests;
+    private ArrayList<Request> receivedRequests;
     public Client(){
         ID = UUID.randomUUID().toString();
-        requests = new ArrayList<>();
+        sentRequests = new ArrayList<>();
+        receivedRequests = new ArrayList<>();
+        status = Status.ONLINE;
     }
 
     public String getUsername() {
@@ -50,5 +54,21 @@ public class Client {
 
     public String getID() {
         return ID;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public ArrayList<Request> getSentRequests() {
+        return sentRequests;
+    }
+
+    public ArrayList<Request> getReceivedRequests() {
+        return receivedRequests;
     }
 }

@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class ClientListener {
     private Socket socket;
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
+    private Scanner scanner;
+    private PrintWriter printWriter;
 
     public ClientListener(Socket socket) {
         this.socket = socket;
@@ -18,25 +18,17 @@ public class ClientListener {
     }
     private void setStreams() {
         try {
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
-            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            scanner = new Scanner(socket.getInputStream());
+            printWriter = new PrintWriter(socket.getOutputStream());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public void sendMessage(Object object) {
-        try {
-            objectOutputStream.writeObject(object);
-            objectOutputStream.flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void sendMessage(String message) {
+            printWriter.println(message);
+            printWriter.flush();
     }
-    public Object getMessage() {
-        try {
-            return objectInputStream.readObject();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public String getMessage() {
+            return scanner.nextLine();
     }
 }

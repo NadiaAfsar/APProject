@@ -1,5 +1,7 @@
 package network.UDP;
 
+import org.apache.log4j.Logger;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -12,9 +14,11 @@ public class Receiver {
     private DatagramSocket datagramSocket;
     private Object lock;
     private File file;
+    private Logger logger;
     public Receiver(DatagramSocket datagramSocket) {
         this.datagramSocket = datagramSocket;
         lock = new Object();
+        logger = Logger.getLogger(Receiver.class.getName());
     }
 
     private byte[] receiveData(int size) {
@@ -49,6 +53,7 @@ public class Receiver {
                             if (dataArray.size() == packets) {
                                 file = FileHandler.getFile("file", "src/main/resources/data", dataArray);
                             }
+                            logger.debug("received");
                     }
                 }).start();
             }
@@ -58,8 +63,9 @@ public class Receiver {
         file = null;
         receiveFile();
         while (file == null){
-
+            logger.debug("file null");
         }
+        logger.debug("file received");
         return file;
     }
     public String getString() {

@@ -10,11 +10,17 @@ public class Client {
     private Squad squad;
     private int XP;
     private String ID;
-    private ArrayList<String> requests;
+    private Status status;
+    private ArrayList<Request> sentRequests;
+    private ArrayList<Request> receivedRequests;
+    private boolean monomachia;
+    private boolean colosseum;
     public Client(String username){
         this.username = username;
         ID = UUID.randomUUID().toString();
-        requests = new ArrayList<>();
+        status = Status.ONLINE;
+        sentRequests = new ArrayList<>();
+        receivedRequests = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -31,6 +37,8 @@ public class Client {
 
     public void setSquad(Squad squad) {
         this.squad = squad;
+        monomachia = false;
+        colosseum = false;
     }
 
     public int getXP() {
@@ -41,11 +49,32 @@ public class Client {
         this.XP = XP;
     }
 
-    public ArrayList<String> getRequests() {
-        return requests;
+    public ArrayList<Request> getSentRequests() {
+        return sentRequests;
+    }
+
+    public ArrayList<Request> getReceivedRequests() {
+        return receivedRequests;
     }
 
     public String getID() {
         return ID;
     }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public boolean isMonomachia() {
+        return monomachia;
+    }
+
+    public boolean isColosseum() {
+        return colosseum;
+    }
+
 }

@@ -27,7 +27,6 @@ import model.game.skills.transform.WritOfEmpusa;
 import model.game.skills.transform.WritOfProteus;
 import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Point;
-import network.ClientHandler;
 import view.game.GameView;
 
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ public class GameManager {
     private boolean running;
     private static GameModel gameModel;
     private static GameView gameView;
-    private static GameFrame gameFrame;
     public static ReaderWriter readerWriter;
     private ArrayList<Skill> unlockedSkills;
     private boolean deimos;
@@ -50,12 +48,10 @@ public class GameManager {
     private boolean phonoi;
     private long phonoiUsed;
     private boolean saved;
-    private ClientHandler clientHandler;
     private GameMouseListener gameMouseListener;
     private GameMouseMotionListener gameMouseMotionListener;
     private boolean online;
-    public GameManager(ClientHandler clientHandler, boolean online) {
-        this.clientHandler = clientHandler;
+    public GameManager(boolean online) {
         this.online = online;
         gameMouseListener = new GameMouseListener(this);
         gameMouseMotionListener = new GameMouseMotionListener(this);
@@ -66,7 +62,6 @@ public class GameManager {
         difficulty = 1;
         unlockedSkills = new ArrayList<>();
         setSkills();
-        gameFrame = new GameFrame(this, online);
         new ModelLoop(this).start();
         new ViewLoop(this).start();
     }
@@ -358,9 +353,6 @@ public class GameManager {
     public GameView getGameView() {
         return gameView;
     }
-    public GameFrame getGameFrame() {
-        return gameFrame;
-    }
     private void setTimePlayed() {
         long newTime = System.currentTimeMillis();
         long addedTime = newTime - gameModel.getLastSavedTime();
@@ -462,10 +454,6 @@ public class GameManager {
         for (int i = 0; i < gameModel.getEnemies().size(); i++){
             gameModel.getEnemies().get(i).setDied(true);
         }
-    }
-
-    public ClientHandler getClientHandler() {
-        return clientHandler;
     }
 
     public boolean isOnline() {
