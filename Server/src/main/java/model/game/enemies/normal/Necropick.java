@@ -2,7 +2,7 @@ package model.game.enemies.normal;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
 import model.game.BulletModel;
 import model.game.Collectible;
@@ -22,8 +22,8 @@ public class Necropick extends Enemy {
     private boolean disappeared;
     private boolean announced;
     private Point appearancePoint;
-    public Necropick(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public Necropick(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Necropick.class.getName()+number);
         height = MyApplication.configs.NECROPICK_HEIGHT;
@@ -129,7 +129,6 @@ public class Necropick extends Enemy {
         logger.debug("appeared");
     }
     private Point getRandomPosition() {
-        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
         int randomX = (int)(Math.random()*1000);
         int randomY = (int)(Math.random()*1000);
         double angle = Math.atan2(randomY -epsilon.getCenter().getY(), randomX -epsilon.getCenter().getX());

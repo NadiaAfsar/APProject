@@ -1,7 +1,7 @@
 package model.game.skills;
 
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 
 public abstract class Skill {
     private long lastActivatedTime;

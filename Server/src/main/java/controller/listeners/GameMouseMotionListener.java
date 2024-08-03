@@ -1,6 +1,6 @@
 package controller.listeners;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 
 import java.awt.*;

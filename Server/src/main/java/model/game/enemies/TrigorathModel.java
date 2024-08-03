@@ -2,9 +2,10 @@ package model.game.enemies;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
 import model.game.Collectible;
+import model.game.EpsilonModel;
 import model.game.frame.MyFrame;
 import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Direction;
@@ -21,8 +22,8 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     private boolean decreasedVelocity;
     private boolean increasedVelocity;
     private static int number;
-    public TrigorathModel(Point center, int hp, double velocity, MyFrame myFrame, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public TrigorathModel(Point center, int hp, double velocity, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(TrigorathModel.class.getName()+number);
         width = MyApplication.configs.TRIGORATH_WIDTH;
@@ -50,8 +51,8 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     private double distanceFromEpsilon() {
         double x1 = center.getX();
         double y1 = center.getY();
-        double x2 = gameManager.getGameModel().getEpsilon().getCenter().getX();
-        double y2 = gameManager.getGameModel().getEpsilon().getCenter().getX();
+        double x2 = epsilon.getCenter().getX();
+        double y2 = epsilon.getCenter().getX();
         return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
     }
     @Override
@@ -103,7 +104,7 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
         }
     }
     public Direction getDirection() {
-        return new Direction(getCenter(), gameManager.getGameModel().getEpsilon().getCenter());
+        return new Direction(getCenter(), epsilon.getCenter());
     }
 
 

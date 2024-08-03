@@ -1,6 +1,6 @@
 package model.game;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.interfaces.collision.Collidable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;

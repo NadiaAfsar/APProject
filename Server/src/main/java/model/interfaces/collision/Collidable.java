@@ -2,7 +2,7 @@ package model.interfaces.collision;
 
 
 import application.MyApplication;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.Calculations;
 import model.game.BulletModel;
 import model.game.Collectible;

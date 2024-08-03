@@ -1,7 +1,7 @@
 package model.game;
 
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.audio.AudioController;
 import model.game.frame.MyFrame;
 import model.interfaces.collision.Collidable;

@@ -1,6 +1,6 @@
 package model.interfaces.collision;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
 import model.game.enemies.normal.Wyrm;

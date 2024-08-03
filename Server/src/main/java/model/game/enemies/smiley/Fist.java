@@ -2,8 +2,9 @@ package model.game.enemies.smiley;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
+import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
 import model.game.frame.MyFrame;
 import model.interfaces.movement.Direction;
@@ -22,8 +23,10 @@ public class Fist extends Enemy implements Movable {
     private long quakeActivated;
     private boolean slap;
     private Smiley smiley;
-    public Fist(Point center, double velocity, Smiley smiley, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    private EpsilonModel punchingEpsilon;
+    private EpsilonModel slappingEpsilon;
+    public Fist(Point center, double velocity, Smiley smiley, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         logger = Logger.getLogger(Fist.class.getName());
         width = MyApplication.configs.FIST_WIDTH;
         height = MyApplication.configs.FIST_HEIGHT;
@@ -64,7 +67,7 @@ public class Fist extends Enemy implements Movable {
     @Override
     public Direction getDirection() {
         if (powerPunch) {
-            MyFrame epsilonMyFrame = gameManager.getGameModel().getInitialFrame();
+            MyFrame epsilonMyFrame = punchingEpsilon.getInitialMyFrame();
             double x = epsilonMyFrame.getX()+ epsilonMyFrame.getWidth()*xDirection-this.myFrame.getWidth()/2;
             double y = epsilonMyFrame.getY()+ epsilonMyFrame.getHeight()*yDirection-this.myFrame.getHeight()/2;
             return new Direction(center, new Point(x,y));
@@ -74,7 +77,7 @@ public class Fist extends Enemy implements Movable {
             return new Direction(center, new Point(center.getX(), Configs.FRAME_SIZE.height- myFrame.getHeight()/2-30));
         }
         else if (slap){
-            return new Direction(center,gameManager.getGameModel().getEpsilon().getCenter());
+            return new Direction(center,slappingEpsilon.getCenter());
         }
         Direction direction = new Direction();
         direction.setDy(0);
@@ -97,7 +100,7 @@ public class Fist extends Enemy implements Movable {
         }
     }
     private void checkPowerPunch() {
-        MyFrame epsilonMyFrame = gameManager.getGameModel().getInitialFrame();
+        MyFrame epsilonMyFrame = punchingEpsilon.getInitialMyFrame();
         double x = epsilonMyFrame.getX()+ epsilonMyFrame.getWidth()*xDirection-this.myFrame.getWidth()/2;
         double y = epsilonMyFrame.getY()+ epsilonMyFrame.getHeight()*yDirection-this.myFrame.getHeight()/2;
         if (Math.abs(center.getX()-x) <= 10 && Math.abs(center.getY()-y) <= 10){
@@ -133,12 +136,18 @@ public class Fist extends Enemy implements Movable {
 
     public void setPowerPunch(boolean powerPunch) {
         this.powerPunch = powerPunch;
+        if (powerPunch){
+            int random = (int)Math.round(Math.random()*(smiley.getEpsilons().size()-1));
+            punchingEpsilon = smiley.getEpsilons().get(random);
+        }
     }
 
     public void setQuake(boolean quake) {
         this.quake = quake;
     }
     public void activateSlap() {
+        int random = (int)Math.round(Math.random()*(smiley.getEpsilons().size()-1));
+        slappingEpsilon = smiley.getEpsilons().get(random);
         slap = true;
         damage = 5;
     }

@@ -1,7 +1,7 @@
 package model.interfaces.movement;
 
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
 import model.Calculations;
 import model.game.EpsilonModel;

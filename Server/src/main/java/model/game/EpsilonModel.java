@@ -2,9 +2,10 @@ package model.game;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.audio.AudioController;
 import model.Calculations;
+import model.Client;
 import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.black_orb.BlackOrb;
 import model.game.enemies.mini_boss.black_orb.BlackOrbVertex;
@@ -48,9 +49,15 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private ArrayList<RotatablePoint> cerberusList;
     private long lastCerberusAttack;
     private GameManager gameManager;
+    private int totalBullets;
+    private int successfulBullets;
+    private int killedEnemies;
+    private Client client;
+    private MyFrame initialMyFrame;
 
-    public EpsilonModel(MyFrame myFrame, GameManager gameManager) {
+    public EpsilonModel(MyFrame myFrame, GameManager gameManager, Client client) {
         this.gameManager = gameManager;
+        this.client = client;
         logger = Logger.getLogger(EpsilonModel.class);
         setCenter((int)(myFrame.getX()+ myFrame.getWidth()/2), (int)(myFrame.getY()+ myFrame.getHeight()/2));
         radius = MyApplication.configs.EPSILON_RADIUS;
@@ -63,6 +70,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         vertexes = new ArrayList<>();
         cerberusList = new ArrayList<>();
         this.myFrame = myFrame;
+        initialMyFrame = myFrame;
         this.sensitivity = gameManager.getSensitivity();
     }
 
@@ -177,8 +185,8 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             else {
                 AudioController.addGameOverSound();
                 GameModel gameModel = gameManager.getGameModel();
-                Controller.gameOver(XP, gameModel.getTimePlayed(), gameModel.getTotalBullets(), gameModel.getSuccessfulBullets(),
-                        gameModel.getSuccessfulBullets(), gameManager);
+                Controller.gameOver(XP, gameModel.getTimePlayed(), totalBullets, successfulBullets,
+                        killedEnemies, gameManager);
             }
         }
     }
@@ -319,10 +327,10 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             bulletModel = new BulletModel(getCenter(), new Point(x, y), radius,
                     5 + gameManager.getGameModel().getAres(), false, myFrame, gameManager);
         }
-        gameManager.getGameModel().addBullet();
+        successfulBullets++;
         gameManager.getGameModel().getBullets().add(bulletModel);
         if (gameManager.getGameModel().getWave() == 6){
-            gameManager.getGameModel().getSmiley().bulletShot(bulletModel);
+            gameManager.getGameModel().getSmiley().bulletShot(bulletModel, this);
         }
     }
     public void nextMove() {
@@ -546,5 +554,33 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
 
     public GameManager getGameManager() {
         return gameManager;
+    }
+
+    public int getTotalBullets() {
+        return totalBullets;
+    }
+
+    public void setTotalBullets(int totalBullets) {
+        this.totalBullets = totalBullets;
+    }
+
+    public int getSuccessfulBullets() {
+        return successfulBullets;
+    }
+
+    public void setSuccessfulBullets(int successfulBullets) {
+        this.successfulBullets = successfulBullets;
+    }
+
+    public int getKilledEnemies() {
+        return killedEnemies;
+    }
+
+    public void setKilledEnemies(int killedEnemies) {
+        this.killedEnemies = killedEnemies;
+    }
+
+    public MyFrame getInitialMyFrame() {
+        return initialMyFrame;
     }
 }

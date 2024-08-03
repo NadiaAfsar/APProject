@@ -2,11 +2,12 @@ package model.game.enemies.normal;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
 import model.Calculations;
 import model.game.BulletModel;
 import model.game.Collectible;
+import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.black_orb.BlackOrb;
 import model.game.enemies.mini_boss.black_orb.BlackOrbVertex;
@@ -26,8 +27,8 @@ public class Wyrm extends Enemy implements Movable, Impactable {
     private int direction;
     private long lastShotTime;
     private static int number;
-    public Wyrm(Point center, double velocity, int hp, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public Wyrm(Point center, double velocity, int hp, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Wyrm.class.getName()+number);
         this.HP = 12 + hp;
@@ -74,7 +75,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
     private void shoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= 1500 && isNearEpsilon()) {
-            BulletModel bulletModel = new BulletModel(center, gameManager.getGameModel().getEpsilon().getCenter(),
+            BulletModel bulletModel = new BulletModel(center, epsilon.getCenter(),
                     height/2, 8, false, myFrame, gameManager);
             gameManager.getGameModel().getEnemiesBullets().add(bulletModel);
             lastShotTime = currentTime;
@@ -83,7 +84,7 @@ public class Wyrm extends Enemy implements Movable, Impactable {
 
     @Override
     public Direction getDirection() {
-        Point epsilonCenter = gameManager.getGameModel().getEpsilon().getCenter();
+        Point epsilonCenter = epsilon.getCenter();
         Direction direction = new Direction(center, epsilonCenter);
         if (isTooNearEpsilon()) {
             Direction direction1 = new Direction();
@@ -100,11 +101,11 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         return direction1;
     }
     private boolean isNearEpsilon() {
-        Point epsilonCenter = gameManager.getGameModel().getEpsilon().getCenter();
+        Point epsilonCenter = epsilon.getCenter();
         return Calculations.getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) <= 150;
     }
     private boolean isTooNearEpsilon() {
-        Point epsilonCenter = gameManager.getGameModel().getEpsilon().getCenter();
+        Point epsilonCenter = epsilon.getCenter();
         return Calculations.getDistance(center.getX(), center.getY(), epsilonCenter.getX(), epsilonCenter.getY()) < 140;
     }
 

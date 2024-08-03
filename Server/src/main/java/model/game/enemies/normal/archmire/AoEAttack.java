@@ -50,8 +50,8 @@ public class AoEAttack {
                 }
             }
         }
-        if (Interference.epsilonIsInArchmire(vertexes, archmire.getGameManager().getGameModel().getEpsilon())) {
-            archmire.getGameManager().getGameModel().getEpsilon().decreaseHP(2);
+        if (Interference.epsilonIsInArchmire(vertexes, archmire.getEpsilon())) {
+            archmire.getEpsilon().decreaseHP(2);
         }
         clarity--;
         if (clarity == 0) {

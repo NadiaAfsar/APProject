@@ -4,7 +4,7 @@ import application.MyApplication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.GameModel;
 
 import java.io.*;

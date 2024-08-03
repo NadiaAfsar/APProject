@@ -1,7 +1,7 @@
 package model.game;
 
-import controller.GameManager;
-import controller.GameManagerHelper;
+import controller.game_manager.GameManager;
+import controller.game_manager.GameManagerHelper;
 import controller.audio.AudioController;
 import model.game.enemies.Enemy;
 import model.game.enemies.smiley.Smiley;
@@ -24,40 +24,19 @@ public class Wave {
     GameManager gameManager;
     private boolean spawn;
 
-    public Wave(int waveNumber, int enemies, GameManager gameManager) {
+    public Wave(int waveNumber, GameManager gameManager) {
         this.waveNumber = waveNumber;
-        this.enemies = enemies;
+        this.enemies = waveNumber*2;
         this.gameManager = gameManager;
         gameModel = gameManager.getGameModel();
         startTime = System.currentTimeMillis()/1000;
         waitBeforeNextWave();
         spawn = true;
     }
-    private void addEnemy() {
-        int enemyNumber = 0;
-        if (waveNumber > 2){
-            enemyNumber = (int)(Math.random()*8);
-        }
-        else {
-            enemyNumber = (int)(Math.random()*6);
-        }
-        MyFrame myFrame = gameModel.getInitialFrame();
-        Point position = GameManagerHelper.getRandomPosition(myFrame.getWidth(), myFrame.getHeight());
-        Enemy enemy = GameManagerHelper.getNewEnemy(new Point(myFrame.getX()+ position.getX(),
-                myFrame.getY()+ position.getY()), gameModel.getEnemyHP(), gameModel.getEnemyVelocity(), enemyNumber,
-                myFrame, gameManager);
-        gameModel.getEnemies().add(enemy);
-    }
     private void startWave() {
         addedEnemies = new boolean[4][6];
         gameModel.setEnemies(new ArrayList<>());
-        if (waveNumber != 6) {
-            addEnemies(2);
-        }
-        else {
-            Smiley smiley = new Smiley(new Point(200, 200), gameModel.getEnemyVelocity(), gameManager);
-            gameModel.getEnemies().add(smiley);
-        }
+        addEnemies(2);
     }
     private void waitBeforeNextWave() {
         if (waveNumber != 1) {
@@ -80,9 +59,6 @@ public class Wave {
     public int getProgressRate() {
         return waveNumber * getElapsedTime();
     }
-    public double getProgressRisk() {
-        return 10 * gameModel.getEpsilon().getXP() * (gameModel.getTotalPR()+getProgressRate()) / gameModel.getEpsilon().getHP();
-    }
     private int getElapsedTime() {
         return (int) (System.currentTimeMillis()/1000-startTime);
     }
@@ -90,7 +66,6 @@ public class Wave {
         diedEnemies++;
     }
     public void checkWave(){
-        if (waveNumber != 6) {
             if (diedEnemies >= enemies) {
                 if (gameManager.getGameModel().getEnemies().size() == 0) {
                     gameManager.nextWave();
@@ -103,12 +78,11 @@ public class Wave {
                     addEnemies(3);
                 }
             }
-        }
     }
     private void addEnemies(int n){
         AudioController.addEnemyEnteringSound();
         for (int i = 0; i < n; i++) {
-            addEnemy();
+            gameManager.addEnemy(waveNumber);
         }
         lastSpawning = System.currentTimeMillis();
     }

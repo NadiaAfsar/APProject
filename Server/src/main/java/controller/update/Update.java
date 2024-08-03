@@ -1,7 +1,7 @@
 package controller.update;
 
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.BulletModel;
 import model.game.EpsilonModel;
 import model.game.enemies.Enemy;

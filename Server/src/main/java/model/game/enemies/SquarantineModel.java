@@ -2,9 +2,10 @@ package model.game.enemies;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
 import model.game.Collectible;
+import model.game.EpsilonModel;
 import model.game.frame.MyFrame;
 import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Direction;
@@ -19,8 +20,8 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
     private boolean hasRandomAcceleration;
     private Direction direction;
     private static int number;
-    public SquarantineModel(Point center, int hp, double velocity, MyFrame myFrame, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public SquarantineModel(Point center, int hp, double velocity, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(SquarantineModel.class.getName()+number);
         width = MyApplication.configs.SQUARANTINE_WIDTH;
@@ -90,7 +91,7 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
         Controller.addCollectibleView(collectible, gameManager);
     }
     public Direction getDirection() {
-        Direction direction1 = new Direction(getCenter(), gameManager.getGameModel().getEpsilon().getCenter());
+        Direction direction1 = new Direction(getCenter(), epsilon.getCenter());
         return direction1;
     }
     public void run() {

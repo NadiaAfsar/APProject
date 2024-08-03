@@ -1,6 +1,6 @@
 package view.game;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.skills.Skill;
 import model.interfaces.movement.Point;
 import view.game.enemies.EnemyView;

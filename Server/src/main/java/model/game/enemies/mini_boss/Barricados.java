@@ -2,7 +2,8 @@ package model.game.enemies.mini_boss;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
+import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
 import model.game.frame.MyFrame;
 import model.interfaces.movement.Direction;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 public class Barricados extends Enemy {
     private MyFrame myFrame;
     private static int number;
-    public Barricados(Point center, double velocity, boolean isRigid, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public Barricados(Point center, double velocity, boolean isRigid, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Barricados.class.getName()+number);
         width = MyApplication.configs.BARRICODES_WIDTH;

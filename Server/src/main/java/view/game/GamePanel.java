@@ -1,6 +1,6 @@
 package view.game;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.listeners.InputListener;
 import view.game.enemies.EnemyView;
 import view.game.enemies.archmire.ArchmireView;

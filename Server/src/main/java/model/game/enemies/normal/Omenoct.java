@@ -2,10 +2,11 @@ package model.game.enemies.normal;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
 import model.game.BulletModel;
 import model.game.Collectible;
+import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
 import model.game.frame.MyFrame;
 import model.interfaces.collision.Impactable;
@@ -23,8 +24,8 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     private int side;
     private long lastShoot;
     private static int number;
-    public Omenoct(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public Omenoct(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Omenoct.class.getName()+number);
         width = MyApplication.configs.OMENOCT_WIDTH;
@@ -47,7 +48,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
         double x = 0;
         double y = 0;
         if (chosenSide.getY() == 0) {
-            y = gameManager.getGameModel().getEpsilon().getCenter().getY();
+            y = epsilon.getCenter().getY();
             if (stuck) {
                 Direction direction = new Direction();
                 direction.setDy(0.5*Math.abs(y-center.getY())/(y-center.getY()));
@@ -55,7 +56,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
             }
             x = chosenSide.getX();
         } else {
-            x = gameManager.getGameModel().getEpsilon().getCenter().getX();
+            x = epsilon.getCenter().getX();
             if (stuck) {
                 Direction direction = new Direction();
                 direction.setDx(0.5*Math.abs(x-center.getX())/(x-center.getX()));
@@ -104,7 +105,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
 
     @Override
     public void specialMove() {
-        myFrame = gameManager.getGameModel().getEpsilon().getFrame();
+        myFrame = epsilon.getFrame();
         Point chosenSide = getChosenSide();
         if ((chosenSide.getY() == 0 && Math.abs(center.getX()-chosenSide.getX()) < 10) ||
                 (chosenSide.getX() == 0 && Math.abs(center.getY()-chosenSide.getY()) < 10) && !stuck) {
@@ -145,7 +146,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     private void shoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime-lastShoot >= 1500) {
-            BulletModel bulletModel = new BulletModel(center, gameManager.getGameModel().getEpsilon().getCenter(),
+            BulletModel bulletModel = new BulletModel(center, epsilon.getCenter(),
                     width/2, 4, true, myFrame, gameManager);
             gameManager.getGameModel().getEnemiesBullets().add(bulletModel);
             lastShoot = currentTime;
@@ -157,7 +158,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
             if (!gameManager.isHypnos() && Controller.gameRunning) {
                 move();
                 checkCollision();
-                myFrame = gameManager.getGameModel().getEpsilon().getFrame();
+                myFrame = epsilon.getFrame();
                 if (stuck) {
                     shoot();
                 }

@@ -1,7 +1,7 @@
 package model.game.skills.attack;
 
 import application.MyApplication;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
 

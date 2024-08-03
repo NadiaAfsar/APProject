@@ -1,8 +1,9 @@
 package model.game.enemies;
 
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.audio.AudioController;
+import model.game.EpsilonModel;
 import model.game.GameModel;
 import model.game.enemies.mini_boss.Barricados;
 import model.game.enemies.mini_boss.black_orb.BlackOrb;
@@ -42,10 +43,12 @@ public abstract class Enemy extends Thread implements Collidable{
     protected Logger logger;
     protected  boolean died;
     protected GameManager gameManager;
-    public Enemy(Point center, double velocity, GameManager gameManager) {
+    protected EpsilonModel epsilon;
+    public Enemy(Point center, double velocity, GameManager gameManager, EpsilonModel epsilon) {
         ID = UUID.randomUUID().toString();
         this.gameManager = gameManager;
         this.center = center;
+        this.epsilon = epsilon;
         this.velocity = new Point(0,0);
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);
@@ -107,7 +110,7 @@ public abstract class Enemy extends Thread implements Collidable{
         HP -= x;
         if (x != 0) {
             GameModel gameModel = gameManager.getGameModel();
-            gameModel.getEpsilon().setHP(gameModel.getEpsilon().getHP() + gameModel.getChiron());
+            epsilon.setHP(epsilon.getHP() + gameModel.getChiron());
         }
         if (HP <= 0 && !(this instanceof Barricados)) {
             die();
@@ -242,5 +245,9 @@ public abstract class Enemy extends Thread implements Collidable{
 
     public GameManager getGameManager() {
         return gameManager;
+    }
+
+    public EpsilonModel getEpsilon() {
+        return epsilon;
     }
 }

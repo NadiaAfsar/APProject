@@ -26,9 +26,10 @@ public class SmileyAoEAttack {
     public boolean update() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastCheck >= 1000) {
-            EpsilonModel epsilon = smiley.getGameManager().getGameModel().getEpsilon();
-            if (Interference.circleIsInCircle(epsilon.getCenter(), epsilon.getRadius(), center, radius)) {
-                epsilon.decreaseHP(2);
+            for (int i = 0; i < smiley.getEpsilons().size(); i++) {
+                if (Interference.circleIsInCircle(smiley.getEpsilons().get(i).getCenter(), smiley.getEpsilons().get(i).getRadius(), center, radius)) {
+                    smiley.getEpsilons().get(i).decreaseHP(2);
+                }
             }
             clarity--;
             if (clarity == 0) {

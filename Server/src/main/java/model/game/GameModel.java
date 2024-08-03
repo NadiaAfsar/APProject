@@ -1,6 +1,7 @@
 package model.game;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
+import model.Client;
 import model.game.enemies.Enemy;
 import model.game.enemies.smiley.Smiley;
 import model.game.frame.MyFrame;
@@ -17,7 +18,7 @@ public abstract class GameModel {
     protected int enemyHP;
     protected int enemyXP;
     private ArrayList<Collectible> collectibles;
-    private EpsilonModel epsilon;
+    private ArrayList<EpsilonModel> epsilons;
     private int ares;
     private boolean athena;
     private long athenaActivationTime;
@@ -26,7 +27,6 @@ public abstract class GameModel {
     private ArrayList<BulletModel> enemiesBullets;
     private ArrayList<MyFrame> myFrames;
     private final Object enemyLock;
-    private MyFrame initialMyFrame;
     private boolean gameStarted;
     private ArrayList<Enemy> diedEnemies;
     private ArrayList<BulletModel> vanishedBullets;
@@ -46,29 +46,38 @@ public abstract class GameModel {
     private double writOfAthena;
     private int HPtoIncrease;
     private int cerberuses;
-    private int totalBullets;
-    private int successfulBullets;
-    private int killedEnemies;
     private GameManager gameManager;
+    private Client client1;
+    private Client client2;
 
-    public GameModel(GameManager gameManager) {
+    public GameModel(GameManager gameManager, Client client1, Client client2) {
         this.gameManager = gameManager;
+        this.client1 = client1;
+        this.client2 = client2;
         enemyLock = new Object();
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
         collectibles = new ArrayList<>();
         enemiesBullets = new ArrayList<>();
         myFrames = new ArrayList<>();
-        initialMyFrame = new MyFrame(700, 700,0,0,false,false, 400,
-                400, gameManager);
-        epsilon = new EpsilonModel(initialMyFrame, gameManager);
-        myFrames.add(epsilon.getFrame());
+        addEpsilons();
         diedEnemies = new ArrayList<>();
         vanishedBullets = new ArrayList<>();
         vanishedEnemiesBullets = new ArrayList<>();
         lastSavedTime = System.currentTimeMillis();
         writOfAthena = 100;
         decreaseSize = true;
+    }
+    private void addEpsilons(){
+        EpsilonModel epsilon1 = new EpsilonModel(new MyFrame(700, 700,0,0,false,false, 400,
+                400, gameManager), gameManager, client1);
+        myFrames.add(epsilon1.getFrame());
+        EpsilonModel epsilon2 = new EpsilonModel(new MyFrame(700, 700,0,0,false,false, 400,
+                400, gameManager), gameManager, client2);
+        myFrames.add(epsilon2.getFrame());
+        epsilons = new ArrayList<>();
+        epsilons.add(epsilon1);
+        epsilons.add(epsilon2);
     }
 
     public ArrayList<Enemy> getEnemies() {
@@ -86,14 +95,6 @@ public abstract class GameModel {
 
     public int getEnemyXP() {
         return enemyXP;
-    }
-
-    public EpsilonModel getEpsilon() {
-        return epsilon;
-    }
-
-    public void setEpsilon(EpsilonModel epsilon) {
-        this.epsilon = epsilon;
     }
 
     public int getEnemyHP() {
@@ -161,9 +162,6 @@ public abstract class GameModel {
         return myFrames;
     }
 
-    public MyFrame getInitialFrame() {
-        return initialMyFrame;
-    }
 
     public boolean isGameStarted() {
         return gameStarted;
@@ -321,27 +319,7 @@ public abstract class GameModel {
         return finished;
     }
 
-    public int getTotalBullets() {
-        return totalBullets;
-    }
-
-    public void addBullet() {
-        totalBullets++;
-    }
-
-    public int getSuccessfulBullets() {
-        return successfulBullets;
-    }
-
-    public void addSuccessfulBullet() {
-        successfulBullets++;
-    }
-
-    public int getKilledEnemies() {
-        return killedEnemies;
-    }
-
-    public void setKilledEnemies(int killedEnemies) {
-        this.killedEnemies = killedEnemies;
+    public ArrayList<EpsilonModel> getEpsilons() {
+        return epsilons;
     }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import application.MyApplication;
 import controller.audio.Audio;
+import controller.game_manager.GameManager;
 import model.game.BulletModel;
 import model.game.Collectible;
 import model.game.enemies.Enemy;
@@ -71,7 +72,7 @@ public class Controller {
             public void actionPerformed(ActionEvent e) {
                 gameManager.startGame();
                 gameManager.setRunning(true);
-                gameManager.getGameMouseMotionListener().setEpsilonModel(gameManager.getGameModel().getEpsilon());
+                //gameManager.getGameMouseMotionListener().setEpsilonModel(gameManager.getGameModel().getEpsilon());
                 gameRunning = true;
             }
         });
@@ -198,11 +199,11 @@ public class Controller {
         synchronized (epsilonLock) {
             EpsilonView epsilonView = gameManager.getGameView().getEpsilonView();
             epsilonView.removeVertexes();
-            ArrayList<RotatablePoint> vertexes = gameManager.getGameModel().getEpsilon().getVertexes();
-            for (int i = 0; i < vertexes.size(); i++) {
-                RotatablePoint vertex = vertexes.get(i);
-                epsilonView.addVertex((int) vertex.getRotatedX(), (int) vertex.getRotatedY());
-            }
+//            ArrayList<RotatablePoint> vertexes = gameManager.getGameModel().getEpsilon().getVertexes();
+//            for (int i = 0; i < vertexes.size(); i++) {
+//                RotatablePoint vertex = vertexes.get(i);
+//                epsilonView.addVertex((int) vertex.getRotatedX(), (int) vertex.getRotatedY());
+//            }
         }
     }
     public static void addBulletView(BulletModel bulletModel, GameManager gameManager) {
@@ -261,7 +262,7 @@ public class Controller {
         gameManager.getGameView().removePortal();
     }
     public static boolean saveGame(GameManager gameManager){
-        int PR = (int)gameManager.getGameModel().getCurrentWave().getProgressRisk();
+        //int PR = (int)gameManager.getGameModel().getCurrentWave().getProgressRisk();
         //return gameManager.getGameFrame().option("Do you pay "+PR+" XPs to save the game?");
         return false;
     }

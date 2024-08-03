@@ -1,6 +1,6 @@
 package view.game;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.listeners.InputListener;
 import controller.save.Configs;
 import model.game.skills.Skill;
