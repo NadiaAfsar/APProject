@@ -14,14 +14,14 @@ public class WritOfChiron extends Skill {
     }
     @Override
     public void activate(GameManager gameManager) {
-        if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-            if (epsilon.getXP() >= 100) {
-                epsilon.setXP(epsilon.getXP() - 100);
-                gameManager.getGameModel().setChiron(gameManager.getGameModel().getChiron()+3);
-                activated = true;
-            }
-        }
+//        if (isTimeToActivate()) {
+//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            if (epsilon.getXP() >= 100) {
+//                epsilon.setXP(epsilon.getXP() - 100);
+//                gameManager.getGameModel().setChiron(gameManager.getGameModel().getChiron()+3);
+//                activated = true;
+//            }
+//        }
     }
 
     public boolean isUnlocked() {

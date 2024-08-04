@@ -16,14 +16,14 @@ public class WritOfProteus extends Skill {
 
     @Override
     public void activate(GameManager gameManager) {
-        if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-            if (epsilon.getXP() >= 100) {
-                epsilon.addVertex();
-                epsilon.setXP(epsilon.getXP()-100);
-                activated = true;
-            }
-        }
+//        if (isTimeToActivate()) {
+//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            if (epsilon.getXP() >= 100) {
+//                epsilon.addVertex();
+//                epsilon.setXP(epsilon.getXP()-100);
+//                activated = true;
+//            }
+//        }
     }
     public boolean isUnlocked() {
         return proteusUnlocked;

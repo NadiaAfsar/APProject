@@ -17,12 +17,12 @@ public class WritOfAres extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-            if (epsilon.getXP() >= 100) {
-                gameManager.getGameModel().setAres(gameManager.getGameModel().getAres() + 2);
-                epsilon.setXP(epsilon.getXP()-100);
-                activated = true;
-            }
+//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            if (epsilon.getXP() >= 100) {
+//                gameManager.getGameModel().setAres(gameManager.getGameModel().getAres() + 2);
+//                epsilon.setXP(epsilon.getXP()-100);
+//                activated = true;
+//            }
         }
     }
     public boolean isUnlocked() {

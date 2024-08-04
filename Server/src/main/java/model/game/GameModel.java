@@ -9,7 +9,7 @@ import model.game.frame.MyFrame;
 import java.util.ArrayList;
 import java.util.Map;
 
-public abstract class GameModel {
+public class GameModel {
     private ArrayList<Enemy> enemies;
     private ArrayList<BulletModel> bullets;
     protected Map<Integer, Integer> enemiesToKill;

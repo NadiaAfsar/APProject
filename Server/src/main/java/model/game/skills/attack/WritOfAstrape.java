@@ -15,14 +15,14 @@ public class WritOfAstrape extends Skill {
     }
     @Override
     public void activate(GameManager gameManager) {
-        if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-            if (epsilon.getXP() >= 100) {
-                gameManager.getGameModel().setAstarpe(gameManager.getGameModel().getAstarpe()+2);
-                epsilon.setXP(epsilon.getXP()-100);
-                activated = true;
-            }
-        }
+//        if (isTimeToActivate()) {
+//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            if (epsilon.getXP() >= 100) {
+//                gameManager.getGameModel().setAstarpe(gameManager.getGameModel().getAstarpe()+2);
+//                epsilon.setXP(epsilon.getXP()-100);
+//                activated = true;
+//            }
+//        }
     }
 
     @Override

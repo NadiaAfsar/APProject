@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class EpsilonModel implements Collidable, Movable, Impactable {
     private Timer upTimer;
@@ -54,11 +55,13 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private int killedEnemies;
     private Client client;
     private MyFrame initialMyFrame;
+    private String ID;
 
     public EpsilonModel(MyFrame myFrame, GameManager gameManager, Client client) {
         this.gameManager = gameManager;
         this.client = client;
         logger = Logger.getLogger(EpsilonModel.class);
+        ID = UUID.randomUUID().toString();
         setCenter((int)(myFrame.getX()+ myFrame.getWidth()/2), (int)(myFrame.getY()+ myFrame.getHeight()/2));
         radius = MyApplication.configs.EPSILON_RADIUS;
         addMoveTimers();
@@ -249,7 +252,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angle*i-Math.PI/2, radius);
             vertexes.add(vertex);
         }
-        Controller.addVertexesToEpsilon(gameManager);
+        Controller.addVertexesToEpsilon(gameManager, this);
     }
 
     public ArrayList<RotatablePoint> getVertexes() {
@@ -582,5 +585,9 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
 
     public MyFrame getInitialMyFrame() {
         return initialMyFrame;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

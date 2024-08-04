@@ -1,38 +1,39 @@
 package view.game;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import controller.Controller;
 import controller.game_manager.GameManager;
 import model.game.skills.Skill;
 import model.interfaces.movement.Point;
-import view.game.enemies.EnemyView;
-import view.game.enemies.archmire.ArchmireView;
+import model.interfaces.movement.RotatablePoint;
 import view.game.enemies.black_orb.BlackOrbLaserView;
-import view.game.enemies.necropick.NecropickAnnouncement;
-import view.game.epsilon.EpsilonView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameView {
-    private Map<String, EnemyView> enemiesMap;
-    private ArrayList<EnemyView> enemies;
-    private Map<String, EnemyView> aoEViewMap;
-    private ArrayList<EnemyView> aoEViews;
-    private ArrayList<ArchmireView> archmires;
+    private Map<String, EntityView> enemiesMap;
+    private ArrayList<String> enemies;
+    private Map<String, EntityView> aoEViewMap;
+    private ArrayList<String> aoEViews;
+    private ArrayList<String> archmires;
     private Map<String, BulletView> bulletsMap;
-    private ArrayList<BulletView> bullets;
-    private Map<String, CollectibleView> collectibleMap;
-    private EpsilonView epsilonView;
-    private ArrayList<GamePanel> gamePanels;
-    private Map<String, GamePanel> gamePanelMap;
-    private ArrayList<BlackOrbLaserView> laserViews;
+    private ArrayList<String> bullets;
+    private Map<String, EntityView> collectibleMap;
+    private Map<String, EntityView> epsilonsMap;
+    private ArrayList<String> epsilons;
+    private ArrayList<String> frameView;
+    private Map<String, FrameView> frameViewMap;
+    private ArrayList<String> laserViews;
     private Map<String, BlackOrbLaserView> laserViewMap;
-    private ArrayList<CollectibleView> collectibleViews;
-    private ArrayList<NecropickAnnouncement> necropickAnnouncements;
-    private Map<String, NecropickAnnouncement> necropickAnnouncementMap;
-    private HUI hui;
-    private CheckPointView portal;
+    private ArrayList<String> collectibleViews;
+    private ArrayList<String> necropickAnnouncements;
+    private Map<String, EntityView> necropickAnnouncementMap;
+    private EntityView portal;
     private GameManager gameManager;
+    private Map<String, ArrayList<EntityView>> epsilonsVertices;
+    private Map<String, ArrayList<EntityView>> epsilonsCerberus;
     public GameView(GameManager gameManager) {
         this.gameManager = gameManager;
         enemiesMap = new HashMap<>();
@@ -44,173 +45,217 @@ public class GameView {
         archmires = new ArrayList<>();
         aoEViewMap = new HashMap<>();
         aoEViews = new ArrayList<>();
-        gamePanels = new ArrayList<>();
-        gamePanelMap = new HashMap<>();
-        epsilonView = new EpsilonView();
+        frameView = new ArrayList<>();
+        frameViewMap = new HashMap<>();
+        epsilons = new ArrayList<>();
+        epsilonsMap = new HashMap<>();
         laserViews = new ArrayList<>();
         laserViewMap = new HashMap<>();
+        epsilonsVertices = new HashMap<>();
         necropickAnnouncements = new ArrayList<>();
         necropickAnnouncementMap = new HashMap<>();
-        hui = new HUI(gameManager);
+        epsilonsCerberus = new HashMap<>();
     }
 
     public void update(int HP, int XP, int wave, long time, Skill skill) {
-        if (hui.isVisible()) {
-            hui.updateHP(HP);
-            hui.updateXP(XP);
-            hui.updateWave(wave);
-            hui.updateTime(time);
-            hui.updateSkill(skill);
-        }
-    }
-
-    public Map<String, EnemyView> getEnemiesMap() {
-        return enemiesMap;
-    }
-
-    public Map<String, BulletView> getBulletsMap() {
-        return bulletsMap;
+//        if (hui.isVisible()) {
+//            hui.updateHP(HP);
+//            hui.updateXP(XP);
+//            hui.updateWave(wave);
+//            hui.updateTime(time);
+//            hui.updateSkill(skill);
+//        }
     }
 
 
-    public Map<String, CollectibleView> getCollectibleMap() {
-        return collectibleMap;
+    public Map<String, FrameView> getFrameViewMap() {
+        return frameViewMap;
     }
-
-
-    public EpsilonView getEpsilonView() {
-        return epsilonView;
-    }
-
-    public HUI getHui() {
-        return hui;
-    }
-
-    public ArrayList<EnemyView> getEnemies() {
-        return enemies;
-    }
-
-    public ArrayList<BulletView> getBullets() {
-        return bullets;
-    }
-
-
-
-    public ArrayList<ArchmireView> getArchmires() {
-        return archmires;
-    }
-
-    public ArrayList<GamePanel> getGamePanels() {
-        return gamePanels;
-    }
-
-    public Map<String, EnemyView> getAoEViewMap() {
-        return aoEViewMap;
-    }
-
-    public ArrayList<EnemyView> getAoEViews() {
-        return aoEViews;
-    }
-
-    public Map<String, GamePanel> getGamePanelMap() {
-        return gamePanelMap;
-    }
-    public void addEnemyView(EnemyView enemyView) {
-        enemies.add(enemyView);
-        enemiesMap.put(enemyView.getID(), enemyView);
+    public void addEnemyView(EntityView entityView) {
+        enemies.add(entityView.getID());
+        enemiesMap.put(entityView.getID(), entityView);
     }
     public void addBulletView(BulletView bulletView) {
-        bullets.add(bulletView);
+        bullets.add(bulletView.getID());
         bulletsMap.put(bulletView.getID(), bulletView);
     }
-    public void addCollectivesView(CollectibleView collectibleView) {
-        collectibleViews.add(collectibleView);
+    public void addCollectivesView(EntityView collectibleView) {
+        collectibleViews.add(collectibleView.getID());
         collectibleMap.put(collectibleView.getID(), collectibleView);
     }
-    public void addArchmireView(ArchmireView archmireView) {
-        archmires.add(archmireView);
+    public void addArchmireView(EntityView archmireView) {
+        archmires.add(archmireView.getID());
         enemiesMap.put(archmireView.getID(), archmireView);
     }
-    public void addAoEView(EnemyView aoEView) {
-        aoEViews.add(aoEView);
+    public void addAoEView(EntityView aoEView) {
+        aoEViews.add(aoEView.getID());
         aoEViewMap.put(aoEView.getID(), aoEView);
     }
     public void removeEnemyView(String ID) {
-        enemies.remove(enemiesMap.get(ID));
+        enemies.remove(ID);
         enemiesMap.put(ID, null);
     }
     public void removeBulletView(String ID) {
-        bullets.remove(bulletsMap.get(ID));
+        bullets.remove(ID);
         bulletsMap.put(ID, null);
     }
     public void removeCollectibleView(String ID) {
-        collectibleViews.remove(collectibleMap.get(ID));
+        collectibleViews.remove(ID);
         collectibleMap.put(ID, null);
     }
     public void removeArchmireView(String ID) {
-        archmires.remove((ArchmireView) enemiesMap.get(ID));
+        archmires.remove(ID);
         enemiesMap.put(ID, null);
     }
     public void removeAoEView(String ID) {
-        aoEViews.remove(aoEViewMap.get(ID));
+        aoEViews.remove(ID);
         aoEViewMap.put(ID, null);
     }
     public void addPanel(int x, int y, int width, int height, String ID) {
-        GamePanel gamePanel = new GamePanel(x, y, width, height, ID, gameManager);
-        gamePanels.add(gamePanel);
-        gamePanelMap.put(ID, gamePanel);
+        FrameView frameView = new FrameView(x, y, width, height, ID);
+        this.frameView.add(ID);
+        frameViewMap.put(ID, frameView);
     }
     public void addLaser(BlackOrbLaserView laser) {
-        laserViews.add(laser);
+        laserViews.add(laser.getID());
         laserViewMap.put(laser.getID(), laser);
     }
     public void removeLaser(String ID) {
-        laserViews.remove(laserViewMap.get(ID));
+        laserViews.remove(ID);
         laserViewMap.put(ID, null);
     }
-
-    public ArrayList<BlackOrbLaserView> getLaserViews() {
-        return laserViews;
-    }
-
     public Map<String, BlackOrbLaserView> getLaserViewMap() {
         return laserViewMap;
     }
     public void updatePanels() {
-        for (int i = 0; i < gamePanels.size(); i++) {
-            gamePanels.get(i).revalidate();
-            gamePanels.get(i).repaint();
-        }
+//        for (int i = 0; i < frameView.size(); i++) {
+//            frameView.get(i).revalidate();
+//            frameView.get(i).repaint();
+//        }
     }
 
-    public ArrayList<CollectibleView> getCollectiveViews() {
-        return collectibleViews;
-    }
-
-    public ArrayList<NecropickAnnouncement> getNecropickAnnouncements() {
-        return necropickAnnouncements;
-    }
-    public void addNecropickAnnouncement(NecropickAnnouncement necropickAnnouncement) {
-        necropickAnnouncements.add(necropickAnnouncement);
+    public void addNecropickAnnouncement(EntityView necropickAnnouncement) {
+        necropickAnnouncements.add(necropickAnnouncement.getID());
         necropickAnnouncementMap.put(necropickAnnouncement.getID(), necropickAnnouncement);
     }
     public void removeNecropickAnnouncement(String ID){
-        necropickAnnouncements.remove(necropickAnnouncementMap.get(ID));
+        necropickAnnouncements.remove(ID);
         necropickAnnouncementMap.put(ID, null);
     }
     public void removeFrames(){
-        for (int i = 0; i < gamePanels.size(); i++){
-            gamePanels.get(i).getFrame().dispose();
-        }
+//        for (int i = 0; i < frameView.size(); i++){
+//            frameView.get(i).getFrame().dispose();
+//        }
     }
-    public void addPortal(Point point){
-        portal = new CheckPointView(point);
-    }
+//    public void addPortal(Point point){
+//        portal = new CheckPointView(point);
+//    }
     public void removePortal(){
         portal = null;
     }
 
-    public CheckPointView getPortal() {
+    public EntityView getPortal() {
         return portal;
+    }
+
+    public Map<String, EntityView> getEnemiesMap() {
+        return enemiesMap;
+    }
+
+    public ArrayList<String> getEnemies() {
+        return enemies;
+    }
+    public Map<String, EntityView> getAoEViewMap() {
+        return aoEViewMap;
+    }
+
+    public ArrayList<String> getAoEViews() {
+        return aoEViews;
+    }
+
+    public ArrayList<String> getArchmires() {
+        return archmires;
+    }
+    public Map<String, BulletView> getBulletsMap() {
+        return bulletsMap;
+    }
+    public ArrayList<String> getBullets() {
+        return bullets;
+    }
+    public Map<String, EntityView> getCollectibleMap() {
+        return collectibleMap;
+    }
+    public Map<String, EntityView> getEpsilonsMap() {
+        return epsilonsMap;
+    }
+
+    public ArrayList<String> getEpsilons() {
+        return epsilons;
+    }
+
+    public ArrayList<String> getFrameView() {
+        return frameView;
+    }
+
+    public ArrayList<String> getLaserViews() {
+        return laserViews;
+    }
+
+    public ArrayList<String> getCollectibleViews() {
+        return collectibleViews;
+    }
+    public ArrayList<String> getNecropickAnnouncements() {
+        return necropickAnnouncements;
+    }
+
+
+    public Map<String, EntityView> getNecropickAnnouncementMap() {
+        return necropickAnnouncementMap;
+    }
+
+
+    public GameManager getGameManager() {
+        return gameManager;
+    }
+
+    public void setGameManager(GameManager gameManager) {
+        this.gameManager = gameManager;
+    }
+
+    public void addEpsilonView(EntityView epsilon){
+        epsilons.add(epsilon.getID());
+        epsilonsMap.put(epsilon.getID(), epsilon);
+        epsilonsVertices.put(epsilon.getID(), new ArrayList<>());
+        epsilonsCerberus.put(epsilon.getID(), new ArrayList<>());
+    }
+    public void addVertex(EntityView vertex, String ID){
+        epsilonsVertices.get(ID).add(vertex);
+    }
+    public void removeVertexes(String ID){
+        epsilonsVertices.put(ID, new ArrayList<>());
+    }
+    public void addCerberus(EntityView cerberus, String ID){
+        epsilonsCerberus.get(ID).add(cerberus);
+    }
+    public void removeCerberus(String ID){
+        epsilonsCerberus.put(ID, new ArrayList<>());
+    }
+    public void updateVertexes(ArrayList<RotatablePoint> vertexes, String ID) {
+        synchronized (Controller.epsilonLock) {
+            for (int i = 0; i < vertexes.size(); i++) {
+                RotatablePoint vertex = vertexes.get(i);
+                EntityView epsilonVertex = epsilonsVertices.get(ID).get(i);
+                epsilonVertex.update(new Point((int) vertex.getRotatedX()-3, (int) vertex.getRotatedY()-3), 0);
+            }
+        }
+    }
+    public void updateCerberuses(ArrayList<RotatablePoint> cerberuces, String ID) {
+        synchronized (Controller.cerberusLock) {
+            for (int i = 0; i < cerberuces.size(); i++) {
+                RotatablePoint vertex = cerberuces.get(i);
+                EntityView cerberus = epsilonsCerberus.get(ID).get(i);
+                cerberus.update(new Point((int) vertex.getRotatedX()-10, (int) vertex.getRotatedY()-10), 0);
+            }
+        }
     }
 }

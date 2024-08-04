@@ -11,6 +11,7 @@ import java.util.UUID;
 public class Collectible implements Collidable {
     private int x;
     private int y;
+    private int radius;
     private Point center;
     private final long time;
     private final String ID;
@@ -20,6 +21,7 @@ public class Collectible implements Collidable {
         ID = UUID.randomUUID().toString();
         this.x = x;
         this.y = y;
+        radius = 5;
         this.center = new Point(x,y);
         time = System.currentTimeMillis();
         this.xp = xp;
@@ -61,4 +63,7 @@ public class Collectible implements Collidable {
         return xp;
     }
 
+    public int getRadius() {
+        return radius;
+    }
 }

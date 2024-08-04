@@ -9,6 +9,7 @@ import controller.save.Configs;
 import controller.save.ReaderWriter;
 import controller.update.ModelLoop;
 import controller.update.ViewLoop;
+import model.Client;
 import model.game.*;
 import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.Barricados;
@@ -51,9 +52,11 @@ public abstract class GameManager {
     protected boolean saved;
     protected GameMouseListener gameMouseListener;
     protected GameMouseMotionListener gameMouseMotionListener;
-    private boolean online;
-    public GameManager(boolean online) {
-        this.online = online;
+    private Client client1;
+    private Client client2;
+    public GameManager(Client client1, Client client2) {
+        this.client1 = client1;
+        this.client2 = client2;
         gameMouseListener = new GameMouseListener(this);
         gameMouseMotionListener = new GameMouseMotionListener(this);
     }
@@ -83,13 +86,7 @@ public abstract class GameManager {
         setGameModel();
     }
     private void setGameModel(){
-            if (difficulty == 1) {
-                gameModel = new EasyGame(this);
-            } else if (difficulty == 2) {
-                gameModel = new MediumGame(this);
-            } else {
-                gameModel = new HardGame(this);
-            }
+            gameModel = new GameModel(this, client1,client2 );
             if (pickedSkill != null) {
                 if (pickedSkill instanceof WritOfDolus) {
                     ((WritOfDolus) pickedSkill).pickSkills(this);
@@ -150,11 +147,10 @@ public abstract class GameManager {
     public void nextWave() {
         gameModel.setWave(gameModel.getWave()+1);
         if (gameModel.getCurrentWave() != null) {
-            new CheckPoint(this);
             gameModel.setTotalPR(gameModel.getTotalPR() + gameModel.getCurrentWave().getProgressRate());
             //gameModel.getEpsilon().setKilledEnemies(gameModel.getEpsilon().getKilledEnemies()+gameModel.getCurrentWave().getDiedEnemies());
         }
-        gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getEnemiesToKill().get(gameModel.getWave()), this));
+        //gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getEnemiesToKill().get(gameModel.getWave()), this));
     }
     private void checkBulletsCollision() {
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
@@ -295,7 +291,7 @@ public abstract class GameManager {
         saved = false;
         Controller.endGame(this);
         AudioController.addWinningSound();
-        Controller.removeEpsilonVertexes(this);
+        //Controller.removeEpsilonVertexes(this);
         for (int i = 0; i < gameModel.getCollectibles().size(); i++) {
             Controller.removeCollectibleView(gameModel.getCollectibles().get(i), this);
         }
@@ -468,11 +464,6 @@ public abstract class GameManager {
             gameModel.getEnemies().get(i).setDied(true);
         }
     }
-
-    public boolean isOnline() {
-        return online;
-    }
-
     public boolean isRunning() {
         return running;
     }

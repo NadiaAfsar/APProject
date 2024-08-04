@@ -20,29 +20,28 @@ public class WritOfCerberus extends Skill {
 
     @Override
     public void activate(GameManager gameManager) {
-        if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-            if (epsilon.getXP() >= 100) {
-                gameManager.getGameModel().setAstarpe(gameManager.getGameModel().getAstarpe() + 2);
-                epsilon.setXP(epsilon.getXP() - 100);
-                addCerberuses(gameManager);
-                activated = true;
-            }
-        }
+//        if (isTimeToActivate()) {
+//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            if (epsilon.getXP() >= 100) {
+//                gameManager.getGameModel().setAstarpe(gameManager.getGameModel().getAstarpe() + 2);
+//                epsilon.setXP(epsilon.getXP() - 100);
+//                addCerberuses(gameManager);
+//                activated = true;
+//            }
+//        }
     }
 
-    private void addCerberuses(GameManager gameManager) {
-        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-        ArrayList<RotatablePoint> cerberusList = new ArrayList<>();
-        int cerberus = gameManager.getGameModel().getCerberuses()+3;
-        gameManager.getGameModel().setCerberuses(cerberus);
-        double angle = 2 * Math.PI / cerberus;
-        for (int i = 0; i < cerberus; i++) {
-            cerberusList.add(new RotatablePoint(epsilon.getCenter().getX(), epsilon.getCenter().getY(), angle * i - Math.PI / 2,
-                    epsilon.getRadius() + 20));
-        }
-        epsilon.setCerberusList(cerberusList);
-        Controller.addCerberusView(cerberusList, gameManager);
+    private void addCerberuses(EpsilonModel epsilon) {
+//        ArrayList<RotatablePoint> cerberusList = new ArrayList<>();
+//        int cerberus = gameManager.getGameModel().getCerberuses()+3;
+//        gameManager.getGameModel().setCerberuses(cerberus);
+//        double angle = 2 * Math.PI / cerberus;
+//        for (int i = 0; i < cerberus; i++) {
+//            cerberusList.add(new RotatablePoint(epsilon.getCenter().getX(), epsilon.getCenter().getY(), angle * i - Math.PI / 2,
+//                    epsilon.getRadius() + 20));
+//        }
+//        epsilon.setCerberusList(cerberusList);
+//        Controller.addCerberusView(epsilon.getGameManager(), epsilon);
     }
 
     public boolean isUnlocked() {

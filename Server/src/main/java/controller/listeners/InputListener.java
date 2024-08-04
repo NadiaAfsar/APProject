@@ -3,7 +3,6 @@ package controller.listeners;
 import controller.Controller;
 import controller.game_manager.GameManager;
 import model.game.skills.Skill;
-import view.game.Shop;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,29 +1,23 @@
-package view.game.enemies;
+package view.game;
 
 import model.interfaces.movement.Point;
 import view.Rotation;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public abstract class EnemyView {
+public class EntityView {
     private int x;
     private int y;
     private double angle;
-    protected BufferedImage image;
     private int width;
     private int height;
     private double initialWidth;
     private double initialHeight;
-    protected BufferedImage rotatedImage;
     private String ID;
-    private double imageWidth;
-    private double imageHeight;
-
-
-    public EnemyView(int x, int y, int width, int height, String path, String ID) {
+    private String path;
+    public EntityView(int x, int y, int width, int height, String path, String ID) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -31,25 +25,12 @@ public abstract class EnemyView {
         initialWidth = width;
         initialHeight = height;
         this.ID = ID;
-        try {
-            image = ImageIO.read(new File(path));
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        imageWidth = image.getWidth();
-        imageHeight = image.getHeight();
-        rotatedImage = image;
+        this.path = path;
     }
     public void update(Point center, double angle) {
         setX((int)center.getX() - width/2);
         setY((int)center.getY() - height/2);
-        if (getAngle() != angle) {
-            setAngle(angle);
-            rotatedImage = Rotation.rotate(image, angle);
-            width = (int)(rotatedImage.getWidth()/imageWidth*initialWidth);
-            height = (int)(rotatedImage.getHeight()/imageHeight*initialHeight);
-        }
+        this.angle = angle;
     }
 
     public int getX() {
@@ -92,16 +73,35 @@ public abstract class EnemyView {
         this.height = height;
     }
 
-    public BufferedImage getRotatedImage() {
-        return rotatedImage;
+    public double getInitialWidth() {
+        return initialWidth;
     }
 
-    public BufferedImage getImage() {
-        return image;
+    public void setInitialWidth(double initialWidth) {
+        this.initialWidth = initialWidth;
+    }
+
+    public double getInitialHeight() {
+        return initialHeight;
+    }
+
+    public void setInitialHeight(double initialHeight) {
+        this.initialHeight = initialHeight;
     }
 
     public String getID() {
         return ID;
     }
 
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 }

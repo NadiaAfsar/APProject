@@ -16,14 +16,14 @@ public class WritOfEmpusa extends Skill {
 
     @Override
     public void activate(GameManager gameManager) {
-        if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-            if (epsilon.getXP() >= 100) {
-                epsilon.setXP(epsilon.getXP()-100);
-                epsilon.setRadius((int)(epsilon.getRadius()*0.9));
-                activated = true;
-            }
-        }
+//        if (isTimeToActivate()) {
+//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            if (epsilon.getXP() >= 100) {
+//                epsilon.setXP(epsilon.getXP()-100);
+//                epsilon.setRadius((int)(epsilon.getRadius()*0.9));
+//                activated = true;
+//            }
+//        }
     }
 
     public boolean isUnlocked() {

@@ -16,15 +16,15 @@ public class WritOfAthena extends Skill {
 
     @Override
     public void activate(GameManager gameManager) {
-        if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-            if (epsilon.getXP() >= 100) {
-                epsilon.setXP(epsilon.getXP() - 100);
-                gameManager.getGameModel().setWritOfAthena(gameManager.getGameModel().
-                        getWritOfAthena()*0.8);
-                activated = true;
-            }
-        }
+//        if (isTimeToActivate()) {
+//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            if (epsilon.getXP() >= 100) {
+//                epsilon.setXP(epsilon.getXP() - 100);
+//                gameManager.getGameModel().setWritOfAthena(gameManager.getGameModel().
+//                        getWritOfAthena()*0.8);
+//                activated = true;
+//            }
+//        }
     }
 
     public boolean isUnlocked() {

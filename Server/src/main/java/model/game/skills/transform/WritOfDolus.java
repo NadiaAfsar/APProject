@@ -27,16 +27,16 @@ public class WritOfDolus extends Skill {
 
     @Override
     public void activate(GameManager gameManager) {
-        if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-            if (epsilon.getXP() >= 100) {
-                epsilon.setXP(epsilon.getXP()-100);
-                for (int i = 0; i < 2; i++){
-                    skills.get(i).activate(gameManager);
-                }
-                activated = true;
-            }
-        }
+//        if (isTimeToActivate()) {
+//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            if (epsilon.getXP() >= 100) {
+//                epsilon.setXP(epsilon.getXP()-100);
+//                for (int i = 0; i < 2; i++){
+//                    skills.get(i).activate(gameManager);
+//                }
+//                activated = true;
+//            }
+//        }
     }
     private Skill chooseSkill(GameManager gameManager) {
         int skill = (int)(Math.random()*gameManager.getUnlockedSkills().size())+1;

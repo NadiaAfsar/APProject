@@ -15,25 +15,25 @@ public class WritOfAceso extends Skill {
     }
     @Override
     public void activate(GameManager gameManager) {
-        if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-            if (epsilon.getXP() >= 100) {
-                activated = true;
-                epsilon.setXP(epsilon.getXP() - 100);
-                gameManager.getGameModel().setHPtoIncrease(gameManager.getGameModel().getHPtoIncrease()+1);
-                activated = true;
-            }
-        }
+//        if (isTimeToActivate()) {
+//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            if (epsilon.getXP() >= 100) {
+//                activated = true;
+//                epsilon.setXP(epsilon.getXP() - 100);
+//                gameManager.getGameModel().setHPtoIncrease(gameManager.getGameModel().getHPtoIncrease()+1);
+//                activated = true;
+//            }
+//        }
     }
     public void increaseHP(GameManager gameManager) {
-        if (activated) {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime-lastTimeAdded >= 1000) {
-                EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-                epsilon.setHP(epsilon.getHP() + gameManager.getGameModel().getHPtoIncrease());
-                lastTimeAdded = currentTime;
-            }
-        }
+//        if (activated) {
+//            long currentTime = System.currentTimeMillis();
+//            if (currentTime-lastTimeAdded >= 1000) {
+//                EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//                epsilon.setHP(epsilon.getHP() + gameManager.getGameModel().getHPtoIncrease());
+//                lastTimeAdded = currentTime;
+//            }
+//        }
     }
     public boolean isUnlocked() {
         return acesoUnlocked;
