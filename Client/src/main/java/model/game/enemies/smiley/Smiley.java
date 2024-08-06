@@ -2,7 +2,7 @@ package model.game.enemies.smiley;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.audio.AudioController;
 import controller.save.Configs;
 import model.Calculations;
@@ -35,8 +35,8 @@ public class Smiley extends Enemy implements Movable {
     private long lasShot;
     private boolean bulletShot;
     private boolean toDisappear;
-    public Smiley(Point center, double velocity, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public Smiley(Point center, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         logger = Logger.getLogger(Smiley.class.getName());
         phase = 1;
         width = 2 * MyApplication.configs.SMILEY_RADIUS;
@@ -64,9 +64,9 @@ public class Smiley extends Enemy implements Movable {
     private void addHands(){
         double x = myFrame.getX()+ myFrame.getWidth()+MyApplication.configs.HAND_WIDTH/2+20;
         double y = myFrame.getY()+ myFrame.getHeight()/2;
-        RightHand rightHand = new RightHand(new Point(x, y),velocityPower, gameManager);
+        RightHand rightHand = new RightHand(new Point(x, y),velocityPower, gameManager, epsilon);
         x = myFrame.getX()-MyApplication.configs.HAND_WIDTH/2-20;
-        LeftHand leftHand = new LeftHand(new Point(x, y), velocityPower, gameManager);
+        LeftHand leftHand = new LeftHand(new Point(x, y), velocityPower, gameManager, epsilon);
         hands = new ArrayList<Hand>(){{add(rightHand);add(leftHand);}};
     }
 
@@ -83,7 +83,7 @@ public class Smiley extends Enemy implements Movable {
             direction.setDy(0);
             return direction;
         }
-        Point epsilonCenter = gameManager.getGameModel().getEpsilon().getCenter();
+        Point epsilonCenter = gameManager.getGameModel().getEpsilons().get(0).getCenter();
         Direction direction = new Direction(center, epsilonCenter);
         if (projectile) {
             Direction direction1 = new Direction();
@@ -130,7 +130,7 @@ public class Smiley extends Enemy implements Movable {
         }
     }
     private void checkProjectile(){
-        Point epsilonCenter = gameManager.getGameModel().getEpsilon().getCenter();
+        Point epsilonCenter = gameManager.getGameModel().getEpsilons().get(0).getCenter();
         double distance = Calculations.getDistance(epsilonCenter.getX(), epsilonCenter.getY(), center.getX(), center.getY());
         if (Math.abs(distance-300) > 50 || hands.size()==0) {
             projectile = false;
@@ -144,7 +144,7 @@ public class Smiley extends Enemy implements Movable {
         }
     }
     private void squeezeSetPosition(){
-        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameManager.getGameModel().getEpsilons().get(0);
         for (int i = 0; i < hands.size(); i++) {
             Hand hand = hands.get(i);
             int j = -1;
@@ -164,7 +164,7 @@ public class Smiley extends Enemy implements Movable {
     }
     public void run() {
         while (!died) {
-            if (!gameManager.isHypnos() && Controller.gameRunning) {
+            if (!gameManager.isHypnos() && gameManager.isRunning()) {
                 if (toDisappear) {
                     shrinkage();
                 } else {
@@ -201,7 +201,7 @@ public class Smiley extends Enemy implements Movable {
                 logger.debug("squeeze");
                 squeeze();
             } else {
-                Point epsilonCenter = gameManager.getGameModel().getEpsilon().getCenter();
+                Point epsilonCenter = gameManager.getGameModel().getEpsilons().get(0).getCenter();
                 double distance = Calculations.getDistance(epsilonCenter.getX(), epsilonCenter.getY(), center.getX(), center.getY());
                 if (Math.abs(distance-300) < 10) {
                     logger.debug("projectile");
@@ -235,7 +235,7 @@ public class Smiley extends Enemy implements Movable {
     private void squeeze() {
         squeezing = true;
         projectile = false;
-        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameManager.getGameModel().getEpsilons().get(0);
         for (int i = 0; i < hands.size(); i++) {
             Hand hand = hands.get(i);
             int j = -1;
@@ -267,7 +267,7 @@ public class Smiley extends Enemy implements Movable {
     public void bulletShot(BulletModel bulletModel){
         if (!squeezing) {
             Direction direction = bulletModel.getDirection();
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilons().get(0);
             if (direction.getDx()*(center.getX()-epsilon.getCenter().getX()) > 0 && direction.getDy()*(center.getY()-epsilon.getCenter().getY()) > 0) {
                 bulletShot = true;
                 velocity = new Point(-direction.getDy() * 10, direction.getDx() * 10);
@@ -283,8 +283,8 @@ public class Smiley extends Enemy implements Movable {
         setHandsSusceptible(true);
     }
     private void startPhase2(){
-        fist = new Fist(new Point(800, 300), velocityPower, this, gameManager);
-        Controller.smileyPhase2(this, gameManager);
+        fist = new Fist(new Point(800, 300), velocityPower, this, gameManager, epsilon);
+        //Controller.smileyPhase2(this, gameManager);
         phase = 2;
     }
     private void vomit() {
@@ -385,10 +385,10 @@ public class Smiley extends Enemy implements Movable {
             Controller.removeEnemyView(hands.get(i), gameManager);
         }
         gameManager.getGameModel().getDiedEnemies().add(fist);
-        gameManager.getGameModel().getEpsilon().setXP(gameManager.getGameModel().
-                getEpsilon().getXP()+250);
+        gameManager.getGameModel().getMyEpsilon().setXP(gameManager.getGameModel().
+                getMyEpsilon().getXP()+250);
         Controller.removeEnemyView(fist, gameManager);
-        Controller.smileyDied(this, gameManager);
+        //Controller.smileyDied(this, gameManager);
         width = MyApplication.configs.DEAD_WIDTH;
         height = MyApplication.configs.DEAD_HEIGHT;
         toDisappear = true;

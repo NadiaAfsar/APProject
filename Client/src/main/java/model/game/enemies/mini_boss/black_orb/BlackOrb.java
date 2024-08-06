@@ -1,8 +1,9 @@
 package model.game.enemies.mini_boss.black_orb;
 
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
+import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Point;
@@ -15,8 +16,8 @@ public class BlackOrb extends Enemy {
     private ArrayList<BlackOrbLaser> lasers;
     private boolean vertexesSet;
     private static int number;
-    public BlackOrb(Point center, double velocity, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public BlackOrb(Point center, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(BlackOrb.class.getName()+number);
         blackOrbVertices = new ArrayList<>();
@@ -59,7 +60,7 @@ public class BlackOrb extends Enemy {
     }
     public void run() {
         while (!died) {
-            if (!gameManager.isHypnos() && Controller.gameRunning) {
+            if (!gameManager.isHypnos() && gameManager.isRunning()) {
                 if (!vertexesSet) {
                     setBlackOrbVertices();
                     setLasers();

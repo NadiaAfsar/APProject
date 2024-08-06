@@ -1,6 +1,7 @@
 package model;
 
-import model.game.skills.Skill;
+import model.game.EpsilonModel;
+import network.TCP.ServerListener;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -15,8 +16,11 @@ public class Client {
     private ArrayList<Request> receivedRequests;
     private boolean monomachia;
     private boolean colosseum;
-    public Client(String username){
+    private EpsilonModel clientEpsilon;
+    private ServerListener listener;
+    public Client(String username, ServerListener listener){
         this.username = username;
+        this.listener = listener;
         ID = UUID.randomUUID().toString();
         status = Status.ONLINE;
         sentRequests = new ArrayList<>();
@@ -83,5 +87,17 @@ public class Client {
 
     public void setColosseum(boolean colosseum) {
         this.colosseum = colosseum;
+    }
+
+    public EpsilonModel getClientEpsilon() {
+        return clientEpsilon;
+    }
+
+    public void setClientEpsilon(EpsilonModel clientEpsilon) {
+        this.clientEpsilon = clientEpsilon;
+    }
+
+    public ServerListener getListener() {
+        return listener;
     }
 }

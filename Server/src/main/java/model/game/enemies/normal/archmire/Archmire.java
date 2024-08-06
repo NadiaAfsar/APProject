@@ -42,7 +42,6 @@ public class Archmire extends Enemy implements Movable {
         height = MyApplication.configs.ARCHMIRE_HEIGHT;
         addVertexes();
         Controller.addArchmireView(this, gameManager);
-        start();
     }
     protected void addVertexes(){
         vertexes = new ArrayList<>();
@@ -56,9 +55,8 @@ public class Archmire extends Enemy implements Movable {
         }
         position = new RotatablePoint(center.getX(), center.getY(), 1.2*Math.PI+angle, 14.2/22*width);
     }
-    public void run() {
-        while (!died) {
-            if (!gameManager.isHypnos() && Controller.gameRunning) {
+    public void nextMove() {
+            if (!gameManager.isHypnos() && gameManager.isRunning()) {
                 move();
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastAoEAdded > 500) {
@@ -85,19 +83,14 @@ public class Archmire extends Enemy implements Movable {
                     lastCheckedTime = currentTime;
                 }
             }
-            try {
-                sleep((long) Configs.MODEL_UPDATE_TIME);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        interrupt();
     }
     protected void die() {
         removeAll();
         addCollective();
-        new MiniArchmire(new Point(center.getX()-width, center.getY()-height), velocityPower, initialHP/2, myFrame, gameManager);
-        new MiniArchmire(new Point(center.getX()+width, center.getY()+height), velocityPower, initialHP/2, myFrame, gameManager);
+        new MiniArchmire(new Point(center.getX()-width, center.getY()-height), velocityPower, initialHP/2, myFrame,
+                gameManager, epsilon);
+        new MiniArchmire(new Point(center.getX()+width, center.getY()+height), velocityPower, initialHP/2,
+                myFrame, gameManager, epsilon);
         gameManager.getGameModel().getDiedEnemies().add(this);
         Controller.removeArchmireView(this, gameManager);
         AudioController.addEnemyDyingSound();

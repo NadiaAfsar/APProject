@@ -75,6 +75,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         this.myFrame = myFrame;
         initialMyFrame = myFrame;
         this.sensitivity = gameManager.getSensitivity();
+        Controller.addEpsilonView(this, gameManager);
     }
 
 

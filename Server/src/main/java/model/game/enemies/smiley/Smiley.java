@@ -57,7 +57,6 @@ public class Smiley extends Enemy implements Movable {
         Controller.addEnemyView(this, gameManager);
         gameManager.getGameModel().getFrames().add(myFrame);
         gameManager.getGameModel().setSmiley(this);
-        start();
     }
 
     @Override
@@ -167,8 +166,7 @@ public class Smiley extends Enemy implements Movable {
             squeezing = false;
         }
     }
-    public void run() {
-        while (!died) {
+    public void nextMove() {
             if (!gameManager.isHypnos() && Controller.gameRunning) {
                 if (toDisappear) {
                     shrinkage();
@@ -182,14 +180,7 @@ public class Smiley extends Enemy implements Movable {
                     checkAoEs();
                 }
             }
-            try {
-                sleep((long) Configs.MODEL_UPDATE_TIME);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
         gameManager.endGame();
-        interrupt();
     }
     private void checkAoEs() {
         for (int i = 0; i < smileyAoEAttacks.size(); i++){

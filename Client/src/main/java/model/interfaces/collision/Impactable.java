@@ -1,6 +1,6 @@
 package model.interfaces.collision;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
 import model.game.enemies.normal.Wyrm;
@@ -54,11 +54,13 @@ public interface Impactable {
                 }
             }
         }
-        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
-        if (Math.abs(epsilon.getX() - collisionPoint.getX()) <= 100 && Math.abs(epsilon.getY() - collisionPoint.getY()) <= 100) {
-            double x = Math.sqrt(Math.pow(epsilon.getX() - collisionPoint.getX(),2) + Math.pow(epsilon.getY() - collisionPoint.getY(),2));
-            Direction direction = new Direction(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()), new Point(collisionPoint.getX(), collisionPoint.getY()));
-            epsilon.setImpactAcceleration(direction, 140-x);
+        for (int i = 0; i < gameManager.getGameModel().getEpsilons().size(); i++) {
+            EpsilonModel epsilon = gameManager.getGameModel().getEpsilons().get(i);
+            if (Math.abs(epsilon.getX() - collisionPoint.getX()) <= 100 && Math.abs(epsilon.getY() - collisionPoint.getY()) <= 100) {
+                double x = Math.sqrt(Math.pow(epsilon.getX() - collisionPoint.getX(), 2) + Math.pow(epsilon.getY() - collisionPoint.getY(), 2));
+                Direction direction = new Direction(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()), new Point(collisionPoint.getX(), collisionPoint.getY()));
+                epsilon.setImpactAcceleration(direction, 140 - x);
+            }
         }
     }
     default void setImpactAcceleration(Direction direction, double distance) {

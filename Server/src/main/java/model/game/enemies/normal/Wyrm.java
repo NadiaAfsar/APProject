@@ -41,7 +41,6 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         myFrame.getEnemies().add(this);
         Controller.addEnemyView(this, gameManager);
         gameManager.getGameModel().getFrames().add(myFrame);
-        start();
     }
     protected void addVertexes() {
         vertexes = new ArrayList<>();
@@ -55,22 +54,14 @@ public class Wyrm extends Enemy implements Movable, Impactable {
         }
         position = new RotatablePoint(center.getX(), center.getY(), 1.22*Math.PI, 19.5*width/30);
     }
-    public void run() {
-        while (!died) {
-            if (!gameManager.isHypnos() && Controller.gameRunning) {
+    public void nextMove() {
+            if (!gameManager.isHypnos() && gameManager.isRunning()) {
                 move();
                 myFrame.setX(center.getX() - width / 2 - 10);
                 myFrame.setY(center.getY() - height / 2 - 10);
                 shoot();
                 //EnemyLogger.getInfo(logger, this);
             }
-            try {
-                sleep((long) Configs.MODEL_UPDATE_TIME);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        interrupt();
     }
     private void shoot() {
         long currentTime = System.currentTimeMillis();

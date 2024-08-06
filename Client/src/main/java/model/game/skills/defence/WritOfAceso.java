@@ -1,7 +1,8 @@
 package model.game.skills.defence;
 
 import application.MyApplication;
-import controller.GameManager;
+import controller.ApplicationManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
 
@@ -16,7 +17,7 @@ public class WritOfAceso extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
             if (epsilon.getXP() >= 100) {
                 activated = true;
                 epsilon.setXP(epsilon.getXP() - 100);
@@ -29,7 +30,7 @@ public class WritOfAceso extends Skill {
         if (activated) {
             long currentTime = System.currentTimeMillis();
             if (currentTime-lastTimeAdded >= 1000) {
-                EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+                EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
                 epsilon.setHP(epsilon.getHP() + gameManager.getGameModel().getHPtoIncrease());
                 lastTimeAdded = currentTime;
             }
@@ -39,10 +40,10 @@ public class WritOfAceso extends Skill {
         return acesoUnlocked;
     }
 
-    public void setUnlocked(boolean u, GameManager gameManager) {
+    public void setUnlocked(boolean u, ApplicationManager applicationManager) {
         acesoUnlocked = u;
         if (u){
-            gameManager.getUnlockedSkills().add(new WritOfAceso());
+            applicationManager.getUnlockedSkills().add(new WritOfAceso());
         }
         MyApplication.configs.WritOfAcesoUnlocked = u;
     }

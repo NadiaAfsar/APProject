@@ -17,7 +17,7 @@ public class WritOfEmpusa extends Skill {
     @Override
     public void activate(GameManager gameManager) {
 //        if (isTimeToActivate()) {
-//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            EpsilonModel epsilon = gameManager.getGameModel().getClientEpsilon();
 //            if (epsilon.getXP() >= 100) {
 //                epsilon.setXP(epsilon.getXP()-100);
 //                epsilon.setRadius((int)(epsilon.getRadius()*0.9));

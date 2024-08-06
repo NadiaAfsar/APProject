@@ -21,15 +21,15 @@ public class GameMouseListener extends MouseAdapter{
             int x = 0;
             int y = 0;
             if (gameManager.getGameModel().isQuake()){
-                MyFrame myFrame = gameManager.getGameModel().getInitialFrame();
-                x = (int) myFrame.getX()+(int)(Math.random()* myFrame.getWidth());
-                y = (int) myFrame.getY()+(int)(Math.random()* myFrame.getHeight());
+//                MyFrame myFrame = gameManager.getGameModel().getInitialFrame();
+//                x = (int) myFrame.getX()+(int)(Math.random()* myFrame.getWidth());
+//                y = (int) myFrame.getY()+(int)(Math.random()* myFrame.getHeight());
             }
             else {
                 x = (int) MouseInfo.getPointerInfo().getLocation().getX();
                 y = (int) MouseInfo.getPointerInfo().getLocation().getY();
             }
-            gameManager.getGameModel().getEpsilon().shootBullet(x,y);
+            //gameManager.getGameModel().getEpsilon().shootBullet(x,y);
         }
 
     }

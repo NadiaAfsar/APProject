@@ -1,7 +1,6 @@
 package controller.audio;
 
 import application.MyApplication;
-import controller.GameManager;
 
 public class AudioController {
     public static void addBulletShotSound() {

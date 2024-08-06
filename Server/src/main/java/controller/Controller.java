@@ -23,6 +23,7 @@ import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
 import view.game.BulletView;
 import view.game.EntityView;
+import view.game.FrameView;
 import view.game.GameView;
 import view.game.enemies.black_orb.BlackOrbLaserView;
 
@@ -35,7 +36,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 
 public class Controller {
@@ -65,7 +65,7 @@ public class Controller {
             public void actionPerformed(ActionEvent e) {
                 gameManager.startGame();
                 gameManager.setRunning(true);
-                //gameManager.getGameMouseMotionListener().setEpsilonModel(gameManager.getGameModel().getEpsilon());
+                //gameManager.getGameMouseMotionListener().setEpsilonModel(gameManager.getGameModel().getClientEpsilon());
                 gameRunning = true;
             }
         });
@@ -83,8 +83,15 @@ public class Controller {
         gameManager.getGameView().removeLaser(laser.getID());
     }
     public static void addFrameView(MyFrame myFrame, GameManager gameManager) {
+        FrameView frameView = new FrameView((int) myFrame.getX(), (int) myFrame.getY(), (int) myFrame.getWidth(),
+                (int) myFrame.getHeight(), myFrame.getID());
         gameManager.getGameView().addPanel((int) myFrame.getX(), (int) myFrame.getY(), (int) myFrame.getWidth(),
                 (int) myFrame.getHeight(), myFrame.getID());
+        for (int i = 0; i < gameManager.getListeners().size(); i++){
+            synchronized (gameManager.getListeners().get(i).getFramesLock()) {
+                gameManager.getListeners().get(i).getFramesToSend().add(frameView);
+            }
+        }
     }
     public static void addEnemyView(Enemy enemy, GameManager gameManager) {
         GameView gameView = gameManager.getGameView();
@@ -160,6 +167,10 @@ public class Controller {
     }
     public static void removeBlackOrbVertexView(BlackOrbVertex blackOrbVertex, GameManager gameManager) {
         gameManager.getGameView().removeEnemyView(blackOrbVertex.getID());
+    }
+    public static void addEpsilonView(EpsilonModel epsilon, GameManager gameManager){
+        gameManager.getGameView().addEpsilonView(new EntityView(epsilon.getX(), epsilon.getY(), epsilon.getRadius()*2,
+                epsilon.getRadius()*2, MyApplication.configs.EPSILON, epsilon.getID()));
     }
     public static void addCollectibleView(Collectible collectible, GameManager gameManager) {
         gameManager.getGameView().addCollectivesView(new EntityView(collectible.getX(), collectible.getY()

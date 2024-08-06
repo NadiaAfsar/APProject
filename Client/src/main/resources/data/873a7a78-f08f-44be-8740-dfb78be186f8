@@ -1,0 +1,71 @@
+{
+  "enemiesMap": {},
+  "enemies": [],
+  "aoEViewMap": {},
+  "aoEViews": [],
+  "archmires": [],
+  "bulletsMap": {},
+  "bullets": [],
+  "collectibleMap": {},
+  "epsilonsMap": {
+    "086f9854-95fd-4d7c-8ec7-00399289ce23": {
+      "x": 666,
+      "y": 66,
+      "angle": 0.0,
+      "width": 24,
+      "height": 24,
+      "initialWidth": 24.0,
+      "initialHeight": 24.0,
+      "ID": "086f9854-95fd-4d7c-8ec7-00399289ce23",
+      "path": "src/main/resources/pictures/epsilon.png"
+    },
+    "49659a3c-2061-46fe-af10-827b8604f75c": {
+      "x": 66,
+      "y": 66,
+      "angle": 0.0,
+      "width": 24,
+      "height": 24,
+      "initialWidth": 24.0,
+      "initialHeight": 24.0,
+      "ID": "49659a3c-2061-46fe-af10-827b8604f75c",
+      "path": "src/main/resources/pictures/epsilon.png"
+    }
+  },
+  "epsilons": [
+    "49659a3c-2061-46fe-af10-827b8604f75c",
+    "086f9854-95fd-4d7c-8ec7-00399289ce23"
+  ],
+  "frameViews": [
+    "064f2a63-c7e6-4594-9570-3973d9b2e0a2",
+    "7fc6be96-6368-4928-9ee7-f5f3237f6f2c"
+  ],
+  "frameViewMap": {
+    "7fc6be96-6368-4928-9ee7-f5f3237f6f2c": {
+      "x": 700,
+      "y": 100,
+      "width": 12,
+      "height": 12,
+      "ID": "7fc6be96-6368-4928-9ee7-f5f3237f6f2c"
+    },
+    "064f2a63-c7e6-4594-9570-3973d9b2e0a2": {
+      "x": 100,
+      "y": 100,
+      "width": 12,
+      "height": 12,
+      "ID": "064f2a63-c7e6-4594-9570-3973d9b2e0a2"
+    }
+  },
+  "laserViews": [],
+  "laserViewMap": {},
+  "collectibleViews": [],
+  "necropickAnnouncements": [],
+  "necropickAnnouncementMap": {},
+  "epsilonsVertices": {
+    "086f9854-95fd-4d7c-8ec7-00399289ce23": [],
+    "49659a3c-2061-46fe-af10-827b8604f75c": []
+  },
+  "epsilonsCerberus": {
+    "086f9854-95fd-4d7c-8ec7-00399289ce23": [],
+    "49659a3c-2061-46fe-af10-827b8604f75c": []
+  }
+}

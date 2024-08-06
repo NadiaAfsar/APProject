@@ -5,6 +5,7 @@ import model.Client;
 import model.game.enemies.Enemy;
 import model.game.enemies.smiley.Smiley;
 import model.game.frame.MyFrame;
+import network.TCP.ServerListener;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -47,13 +48,11 @@ public class GameModel {
     private int HPtoIncrease;
     private int cerberuses;
     private GameManager gameManager;
-    private Client client1;
-    private Client client2;
+    private ArrayList<ServerListener> listeners;
 
-    public GameModel(GameManager gameManager, Client client1, Client client2) {
+    public GameModel(GameManager gameManager, ArrayList<ServerListener> listeners) {
         this.gameManager = gameManager;
-        this.client1 = client1;
-        this.client2 = client2;
+        this.listeners = listeners;
         enemyLock = new Object();
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
@@ -69,15 +68,17 @@ public class GameModel {
         decreaseSize = true;
     }
     private void addEpsilons(){
-        EpsilonModel epsilon1 = new EpsilonModel(new MyFrame(700, 700,0,0,false,false, 400,
-                400, gameManager), gameManager, client1);
+        EpsilonModel epsilon1 = new EpsilonModel(new MyFrame(500, 500,100,100,false,false, 400,
+                400, gameManager), gameManager, listeners.get(0).getClient());
         myFrames.add(epsilon1.getFrame());
-        EpsilonModel epsilon2 = new EpsilonModel(new MyFrame(700, 700,0,0,false,false, 400,
-                400, gameManager), gameManager, client2);
+        EpsilonModel epsilon2 = new EpsilonModel(new MyFrame(500, 500,700,100,false,false, 400,
+                400, gameManager), gameManager, listeners.get(1).getClient());
         myFrames.add(epsilon2.getFrame());
         epsilons = new ArrayList<>();
         epsilons.add(epsilon1);
         epsilons.add(epsilon2);
+        listeners.get(0).getClient().setClientEpsilon(epsilon1);
+        listeners.get(1).getClient().setClientEpsilon(epsilon2);
     }
 
     public ArrayList<Enemy> getEnemies() {

@@ -1,0 +1,20 @@
+{
+  "username": "rgter",
+  "squad": {
+    "name": "grf",
+    "members": [
+      "rgter"
+    ],
+    "ownerName": "rgter",
+    "ID": "31d41aa2-b0d6-451e-911f-f04e2e9b195f",
+    "inBattle": true,
+    "competitorSquad": "gnnh"
+  },
+  "XP": 0,
+  "ID": "5382eb0b-fa02-4192-a54c-6facf8c16060",
+  "status": "BUSY",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

@@ -15,6 +15,16 @@ public enum Requests {
     CLIENT,
     RECEIVED,
     SENT,
-    CLIENT_DATA
+    CLIENT_DATA,
+    UP,
+    DOWN,
+    RIGHT,
+    LEFT,
+    STOP_UP,
+    STOP_DOWN,
+    STOP_RIGHT,
+    STOP_LEFT,
+    UPDATE,
+    MONOMACHIA
 
 }

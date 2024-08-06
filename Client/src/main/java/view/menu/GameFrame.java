@@ -1,7 +1,7 @@
 package view.menu;
 
 import application.MyApplication;
-import controller.GameManager;
+import controller.ApplicationManager;
 import controller.save.Configs;
 
 import javax.swing.*;
@@ -14,12 +14,12 @@ public class GameFrame extends JFrame {
     private Background background;
     private Settings settings;
     private boolean online;
-    private GameManager gameManager;
-    public GameFrame(GameManager gameManager, boolean online) {
+    private ApplicationManager applicationManager;
+    public GameFrame(ApplicationManager applicationManager, boolean online) {
         xSize = Configs.FRAME_SIZE.width;
         ySize = Configs.FRAME_SIZE.height;
         this.online = online;
-        this.gameManager = gameManager;
+        this.applicationManager = applicationManager;
         addFrame();
         addPanel();
         addGamePanel();
@@ -91,8 +91,8 @@ public class GameFrame extends JFrame {
         return online;
     }
 
-    public GameManager getGameManager() {
-        return gameManager;
+    public ApplicationManager getApplicationManager() {
+        return applicationManager;
     }
     public static boolean receiveRequest(String name, String request){
         String[] options = new String[]{"Accept", "Decline"};

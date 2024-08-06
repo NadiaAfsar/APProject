@@ -1,6 +1,6 @@
 package view.game;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.listeners.InputListener;
 import controller.save.Configs;
 import model.game.skills.Skill;
@@ -118,7 +118,7 @@ public class HUI extends JFrame {
         panel.add(time);
     }
     private void setSkill() {
-        Skill pickedSkill = gameManager.getPickedSkill();
+        Skill pickedSkill = gameManager.getApplicationManager().getPickedSkill();
         if (pickedSkill != null) {
             skill = new JLabel(pickedSkill.getName() + ": " + pickedSkill.getStatus());
             skill.setBounds(5, 85, 150, 10);

@@ -1,10 +1,16 @@
 package network.UDP;
 
+import application.MyApplication;
+import model.Requests;
+import network.ServerHandler;
+import network.TCP.ServerListener;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,7 +22,6 @@ public class Receiver extends Thread{
         this.datagramSocket = datagramSocket;
         lock = new Object();
     }
-
     private byte[] receiveData(int size) {
         byte[] data = new byte[size];
         DatagramPacket datagramPacket = new DatagramPacket(data, data.length);

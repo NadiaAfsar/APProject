@@ -2,7 +2,6 @@ package view.game;
 
 
 import application.MyApplication;
-import controller.GameManager;
 import model.interfaces.movement.Point;
 
 import javax.imageio.ImageIO;

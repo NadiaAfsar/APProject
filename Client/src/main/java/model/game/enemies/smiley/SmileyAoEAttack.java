@@ -2,7 +2,6 @@ package model.game.enemies.smiley;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
 import model.game.EpsilonModel;
 import model.game.Interference;
 import model.interfaces.movement.Point;
@@ -27,7 +26,7 @@ public class SmileyAoEAttack {
     public boolean update() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastCheck >= 1000) {
-            EpsilonModel epsilon = smiley.getGameManager().getGameModel().getEpsilon();
+            EpsilonModel epsilon = smiley.getGameManager().getGameModel().getMyEpsilon();
             if (Interference.circleIsInCircle(epsilon.getCenter(), epsilon.getRadius(), center, radius)) {
                 epsilon.decreaseHP(2);
             }

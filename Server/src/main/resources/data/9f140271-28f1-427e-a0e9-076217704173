@@ -1,0 +1,20 @@
+{
+  "username": "fged",
+  "squad": {
+    "name": "fdgdr",
+    "members": [
+      "fged"
+    ],
+    "ownerName": "fged",
+    "ID": "881437de-5906-4cbf-aded-331b3e896ff6",
+    "inBattle": true,
+    "competitorSquad": "dfgdg"
+  },
+  "XP": 0,
+  "ID": "9f140271-28f1-427e-a0e9-076217704173",
+  "status": "BUSY",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

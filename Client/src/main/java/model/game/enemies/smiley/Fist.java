@@ -2,8 +2,9 @@ package model.game.enemies.smiley;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
+import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
 import model.game.frame.MyFrame;
 import model.interfaces.movement.Direction;
@@ -22,8 +23,8 @@ public class Fist extends Enemy implements Movable {
     private long quakeActivated;
     private boolean slap;
     private Smiley smiley;
-    public Fist(Point center, double velocity, Smiley smiley, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public Fist(Point center, double velocity, Smiley smiley, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         logger = Logger.getLogger(Fist.class.getName());
         width = MyApplication.configs.FIST_WIDTH;
         height = MyApplication.configs.FIST_HEIGHT;
@@ -74,7 +75,7 @@ public class Fist extends Enemy implements Movable {
             return new Direction(center, new Point(center.getX(), Configs.FRAME_SIZE.height- myFrame.getHeight()/2-30));
         }
         else if (slap){
-            return new Direction(center,gameManager.getGameModel().getEpsilon().getCenter());
+            return new Direction(center,gameManager.getGameModel().getMyEpsilon().getCenter());
         }
         Direction direction = new Direction();
         direction.setDy(0);

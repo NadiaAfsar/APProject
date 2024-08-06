@@ -1,0 +1,20 @@
+{
+  "username": "dfg",
+  "squad": {
+    "name": "fdf",
+    "members": [
+      "dfg"
+    ],
+    "ownerName": "dfg",
+    "ID": "d7b63d81-4fdb-4982-a4d3-60abc2a6fdd2",
+    "inBattle": true,
+    "competitorSquad": "dfggf"
+  },
+  "XP": 0,
+  "ID": "8e7c4bfb-3adc-4f6e-9c83-96698dcd59dc",
+  "status": "BUSY",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

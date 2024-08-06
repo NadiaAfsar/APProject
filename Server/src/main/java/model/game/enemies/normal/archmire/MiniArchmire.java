@@ -20,7 +20,6 @@ public class MiniArchmire extends Archmire{
         addVertexes();
         gameManager.getGameModel().getEnemies().add(this);
         Controller.addArchmireView(this, gameManager);
-        start();
     }
     public void addCollective() {
         int[] x = new int[]{-10, 10};

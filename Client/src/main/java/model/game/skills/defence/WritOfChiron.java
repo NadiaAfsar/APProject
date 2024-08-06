@@ -1,7 +1,8 @@
 package model.game.skills.defence;
 
 import application.MyApplication;
-import controller.GameManager;
+import controller.ApplicationManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
 
@@ -15,7 +16,7 @@ public class WritOfChiron extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP() - 100);
                 gameManager.getGameModel().setChiron(gameManager.getGameModel().getChiron()+3);
@@ -28,10 +29,10 @@ public class WritOfChiron extends Skill {
         return chironUnlocked;
     }
 
-    public void setUnlocked(boolean chironUnlocked, GameManager gameManager) {
+    public void setUnlocked(boolean chironUnlocked, ApplicationManager applicationManager) {
         WritOfChiron.chironUnlocked = chironUnlocked;
         if (chironUnlocked){
-            gameManager.getUnlockedSkills().add(new WritOfChiron());
+            applicationManager.getUnlockedSkills().add(new WritOfChiron());
         }
         MyApplication.configs.WritOfChironUnlocked = chironUnlocked;
     }

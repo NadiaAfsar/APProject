@@ -13,6 +13,7 @@ public class ReaderWriter {
     private Gson gson;
     public ReaderWriter() {
         GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setExclusionStrategies(new MyExclusionStrategy());
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
     }

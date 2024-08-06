@@ -1,21 +1,14 @@
 package view.game;
 
-import controller.GameManager;
-import controller.listeners.GameMouseListener;
-import controller.listeners.GameMouseMotionListener;
+import controller.game_manager.GameManager;
 import controller.listeners.InputListener;
-import view.game.enemies.EnemyView;
-import view.game.enemies.archmire.ArchmireView;
-import view.game.enemies.black_orb.BlackOrbLaserView;
-import view.game.enemies.necropick.NecropickAnnouncement;
-import view.game.epsilon.EpsilonView;
-import view.game.epsilon.Vertex;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class GamePanel extends JPanel {
     private int width;
@@ -97,83 +90,97 @@ public class GamePanel extends JPanel {
         drawEnemies(g);
         drawCollectibles(g);
         drawPortal(g);
-        drawEpsilon(g);
+        drawEpsilons(g);
         drawVertexes(g);
         drawBullets(g);
     }
-    private void drawEpsilon(Graphics g) {
-        EpsilonView epsilon = gameManager.getGameView().getEpsilonView();
-        g.drawImage(epsilon.getImage(), epsilon.getX()-x, epsilon.getY()-y, epsilon.getRadius()*2,
-                epsilon.getRadius()*2, null);
+    private void drawEpsilons(Graphics g) {
+        ArrayList<String> epsilons = gameManager.getGameView().getEpsilons();
+        Map<String, EntityView> epsilonMap = gameManager.getGameView().getEpsilonsMap();
+        for (int i = 0; i < epsilons.size(); i++) {
+            EntityView epsilon = epsilonMap.get(epsilons.get(i));
+            g.drawImage(epsilon.getImage(), epsilon.getX() - x, epsilon.getY() - y, epsilon.getWidth(),
+                    epsilon.getHeight(), null);
+        }
     }
     private void drawAoEs(Graphics g) {
-        ArrayList<EnemyView> aoEViews = gameManager.getGameView().getAoEViews();
+        ArrayList<String> aoEViews = gameManager.getGameView().getAoEViews();
+        Map<String, EntityView> aoeMap = gameManager.getGameView().getAoEViewMap();
         for (int i = 0; i < aoEViews.size(); i++) {
-            EnemyView aoEView = aoEViews.get(i);
+            EntityView aoEView = aoeMap.get(aoEViews.get(i));
             g.drawImage(aoEView.getImage(), aoEView.getX()-x, aoEView.getY()-y,
                     aoEView.getWidth(), aoEView.getHeight(), null);
         }
     }
     private void drawArchmires(Graphics g) {
-        ArrayList<ArchmireView> archmires = gameManager.getGameView().getArchmires();
+        ArrayList<String> archmires = gameManager.getGameView().getArchmires();
+        Map<String, EntityView> archmireMap = gameManager.getGameView().getEnemiesMap();
         for (int i = 0; i < archmires.size(); i++) {
-            ArchmireView archmireView = archmires.get(i);
-            g.drawImage(archmireView.getRotatedImage(), archmireView.getX()-x, archmireView.getY()-y,
+            EntityView archmireView = archmireMap.get(archmires.get(i));
+            g.drawImage(archmireView.getImage(), archmireView.getX()-x, archmireView.getY()-y,
                     archmireView.getWidth(), archmireView.getHeight(), null);
         }
     }
     private void drawEnemies(Graphics g) {
-        ArrayList<EnemyView> enemyViews = gameManager.getGameView().getEnemies();
+        ArrayList<String> enemyViews = gameManager.getGameView().getEnemies();
+        Map<String, EntityView> enemiesMap = gameManager.getGameView().getEnemiesMap();
         for (int i = 0; i < enemyViews.size(); i++) {
-            EnemyView enemyView = enemyViews.get(i);
-            g.drawImage(enemyView.getRotatedImage(), enemyView.getX()-x, enemyView.getY()-y,
+            EntityView enemyView = enemiesMap.get(enemyViews.get(i));
+            g.drawImage(enemyView.getImage(), enemyView.getX()-x, enemyView.getY()-y,
                     enemyView.getWidth(), enemyView.getHeight(), null);
         }
     }
     private void drawBullets(Graphics g) {
-        ArrayList<BulletView> bulletViews = gameManager.getGameView().getBullets();
+        ArrayList<String> bulletViews = gameManager.getGameView().getBullets();
+        Map<String, BulletView> bulletViewMap = gameManager.getGameView().getBulletsMap();
         for (int i = 0; i < bulletViews.size(); i++) {
-            BulletView bulletView = bulletViews.get(i);
+            BulletView bulletView = bulletViewMap.get(bulletViews.get(i));
             g.drawImage(bulletView.getImage(), bulletView.getX()-x, bulletView.getY()-y,
                     bulletView.getWidth(), bulletView.getHeight(), null);
         }
     }
     private void drawLasers(Graphics g) {
-        ArrayList<BlackOrbLaserView> lasers = gameManager.getGameView().getLaserViews();
+        ArrayList<String> lasers = gameManager.getGameView().getLaserViews();
+        Map<String, BlackOrbLaserView> laserViewMap = gameManager.getGameView().getLaserViewMap();
         for (int i = 0; i < lasers.size(); i++) {
-            BlackOrbLaserView laser = lasers.get(i);
+            BlackOrbLaserView laser = laserViewMap.get(lasers.get(i));
             BlackOrbLaserView.draw(laser.getX1()-x, laser.getY1()-y, laser.getX2()-x, laser.getY2()-y, g);
         }
     }
     private void drawCollectibles(Graphics g) {
-        ArrayList<CollectibleView> collectibleViews = gameManager.getGameView().getCollectiveViews();
+        ArrayList<String> collectibleViews = gameManager.getGameView().getCollectibleViews();
+        Map<String, EntityView> collectibleMap = gameManager.getGameView().getCollectibleMap();
         for (int i = 0; i < collectibleViews.size(); i++) {
-            CollectibleView collective = collectibleViews.get(i);
+            EntityView collective = collectibleMap.get(collectibleViews.get(i));
             g.drawImage(collective.getImage(), collective.getX()-x, collective.getY()-y, collective.getWidth(),
                     collective.getHeight(), null);
         }
     }
     private void drawNecropickAnnouncements(Graphics g){
-        ArrayList<NecropickAnnouncement> neropicks = gameManager.getGameView().getNecropickAnnouncements();
+        ArrayList<String> neropicks = gameManager.getGameView().getNecropickAnnouncements();
+        Map<String, EntityView> necripickMap = gameManager.getGameView().getNecropickAnnouncementMap();
         for (int i = 0; i < neropicks.size(); i++){
-            NecropickAnnouncement necropick = neropicks.get(i);
+            EntityView necropick = necripickMap.get(neropicks.get(i));
             g.drawImage(necropick.getImage(), necropick.getX()-x, necropick.getY()-y, necropick.getWidth(),
                     necropick.getWidth(), null);
         }
     }
     private void drawVertexes(Graphics g){
-        ArrayList<Vertex> vertices = gameManager.getGameView().getEpsilonView().getVertexes();
-        for (int i = 0; i < vertices.size(); i++){
-            Vertex vertex = vertices.get(i);
-            g.drawImage(vertex.getImage(), vertex.getX()-x, vertex.getY()-y, vertex.getWidth(), vertex.getHeight(), null);
+        for (int i = 0; i < gameManager.getGameView().getEpsilons().size(); i++) {
+            ArrayList<EntityView> vertices = gameManager.getGameView().getEpsilonsVertices().get(gameManager.getGameView().getEpsilons().get(i));
+            for (int j = 0; j < vertices.size(); j++) {
+                EntityView vertex = vertices.get(j);
+                g.drawImage(vertex.getImage(), vertex.getX() - x, vertex.getY() - y, vertex.getWidth(), vertex.getHeight(), null);
+            }
         }
     }
     private void drawCerberus(Graphics g){
-        ArrayList<Vertex> cerberuses = gameManager.getGameView().getEpsilonView().getCerberuses();
-        for (int i = 0; i < cerberuses.size(); i++){
-            Vertex cerberus = cerberuses.get(i);
-            g.drawImage(cerberus.getImage(), cerberus.getX()-x, cerberus.getY()-y, cerberus.getWidth(),
-                    cerberus.getHeight(), null);
+        for (int i = 0; i < gameManager.getGameView().getEpsilons().size(); i++) {
+            ArrayList<EntityView> vertices = gameManager.getGameView().getEpsilonsCerberus().get(gameManager.getGameView().getEpsilons().get(i));
+            for (int j = 0; j < vertices.size(); j++) {
+                EntityView vertex = vertices.get(j);
+                g.drawImage(vertex.getImage(), vertex.getX() - x, vertex.getY() - y, vertex.getWidth(), vertex.getHeight(), null);
+            }
         }
     }
     private void drawPortal(Graphics g){
@@ -181,6 +188,10 @@ public class GamePanel extends JPanel {
         if (portal != null){
             g.drawImage(portal.getImage(), portal.getX()-x, portal.getY()-y, portal.getWidth(), portal.getHeight(), null);
         }
+    }
+
+    public String getID() {
+        return ID;
     }
 
     public JFrame getFrame() {

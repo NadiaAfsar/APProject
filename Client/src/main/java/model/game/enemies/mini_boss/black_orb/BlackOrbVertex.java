@@ -2,10 +2,10 @@ package model.game.enemies.mini_boss.black_orb;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.audio.AudioController;
 import model.game.Collectible;
-import model.game.GameModel;
+import model.game_model.GameModel;
 import model.game.frame.MyFrame;
 import model.interfaces.collision.Collidable;
 import model.interfaces.movement.Point;
@@ -61,7 +61,7 @@ public class BlackOrbVertex implements Collidable {
     public void decreaseHP(int x) {
         HP -= x;
         GameModel gameModel = blackOrb.getGameManager().getGameModel();
-        gameModel.getEpsilon().setHP(gameModel.getEpsilon().getHP()+gameModel.getChiron());
+        gameModel.getMyEpsilon().setHP(gameModel.getMyEpsilon().getHP()+gameModel.getChiron());
         if (HP <= 0) {
             die(blackOrb.getLasers());
         }

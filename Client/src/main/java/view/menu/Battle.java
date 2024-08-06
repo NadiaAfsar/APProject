@@ -37,15 +37,17 @@ public class Battle {
         addData();
     }
     private void addData() {
-        ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
+        ClientHandler clientHandler = gameFrame.getApplicationManager().getClientHandler();
         Squad squad = clientHandler.getCompetitor();
         ArrayList<String> members = squad.getMembers();
         for (int i = 0; i < members.size(); i++) {
-            clientHandler.getTcpClient().getListener().sendMessage(Requests.CLIENT_DATA.toString());
-            clientHandler.getTcpClient().getListener().sendMessage(members.get(i));
-            String xp = clientHandler.getUdpClient().getReceiver().getString();
-            String status = clientHandler.getUdpClient().getReceiver().getString();
-            addClientPanel(members.get(i), xp, status);
+            synchronized (clientHandler.getLock()) {
+                clientHandler.getTcpClient().getListener().sendMessage(Requests.CLIENT_DATA.toString());
+                clientHandler.getTcpClient().getListener().sendMessage(members.get(i));
+                String xp = clientHandler.getUdpClient().getReceiver().getString();
+                String status = clientHandler.getUdpClient().getReceiver().getString();
+                addClientPanel(members.get(i), xp, status);
+            }
         }
     }
     private void addClientPanel(String name, String xp, String status) {
@@ -62,7 +64,7 @@ public class Battle {
                     JPanel panel1 = (JPanel) e.getSource();
                     if (status.equals(Status.ONLINE.toString())){
                         int battle = battleRequest();
-                        gameFrame.getGameManager().getClientHandler().sendBattleRequest(panel1.getName(), battle);
+                        gameFrame.getApplicationManager().getClientHandler().sendBattleRequest(panel1.getName(), battle);
                     }
                 }
             });

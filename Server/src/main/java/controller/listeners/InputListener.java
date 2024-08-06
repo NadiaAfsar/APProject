@@ -18,7 +18,7 @@ public class InputListener {
         this.panel = panel;
         this.gameManager = gameManager;
         createKeyBindings();
-        createKeyActions();
+        //createKeyActions();
     }
     private void createKeyBindings() {
 
@@ -40,98 +40,98 @@ public class InputListener {
 
     }
 
-    private void createKeyActions() {
-        actionMap.put("moveUp", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveUp(true);
-                }
-            }
-        });
-        actionMap.put("moveDown", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveDown(true);
-                }
-            }
-        });
-        actionMap.put("moveRight", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveRight(true);
-                }
-            }
-        });
-        actionMap.put("moveLeft", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveLeft(true);
-                }
-            }
-        });
-        actionMap.put("moveUpReleased", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveUp(false);
-                }
-            }
-        });
-        actionMap.put("moveDownReleased", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveDown(false);
-                }
-            }
-        });
-        actionMap.put("moveRightReleased", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveRight(false);
-                }
-            }
-        });
-        actionMap.put("moveLeftReleased", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveLeft(false);
-                }
-            }
-        });
-        actionMap.put("activateSkill", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Skill skill = gameManager.getPickedSkill();
-                if (skill != null) {
-                    skill.activate(gameManager);
-                }
-            }
-        });
-        actionMap.put("showShop", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning && !gameManager.isHypnos()) {
-                    Controller.gameRunning = false;
-                    new Shop(gameManager);
-                }
-            }
-        });
-        actionMap.put("showHUI", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameView().getHui().showHUI();
-                }
-            }
-        });
-    }
+//    private void createKeyActions() {
+//        actionMap.put("moveUp", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning) {
+//                    gameManager.getGameModel().getEpsilon().moveUp(true);
+//                }
+//            }
+//        });
+//        actionMap.put("moveDown", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning) {
+//                    gameManager.getGameModel().getEpsilon().moveDown(true);
+//                }
+//            }
+//        });
+//        actionMap.put("moveRight", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning) {
+//                    gameManager.getGameModel().getEpsilon().moveRight(true);
+//                }
+//            }
+//        });
+//        actionMap.put("moveLeft", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning) {
+//                    gameManager.getGameModel().getEpsilon().moveLeft(true);
+//                }
+//            }
+//        });
+//        actionMap.put("moveUpReleased", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning) {
+//                    gameManager.getGameModel().getEpsilon().moveUp(false);
+//                }
+//            }
+//        });
+//        actionMap.put("moveDownReleased", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning) {
+//                    gameManager.getGameModel().getEpsilon().moveDown(false);
+//                }
+//            }
+//        });
+//        actionMap.put("moveRightReleased", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning) {
+//                    gameManager.getGameModel().getEpsilon().moveRight(false);
+//                }
+//            }
+//        });
+//        actionMap.put("moveLeftReleased", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning) {
+//                    gameManager.getGameModel().getEpsilon().moveLeft(false);
+//                }
+//            }
+//        });
+//        actionMap.put("activateSkill", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Skill skill = gameManager.getPickedSkill();
+//                if (skill != null) {
+//                    skill.activate(gameManager);
+//                }
+//            }
+//        });
+//        actionMap.put("showShop", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning && !gameManager.isHypnos()) {
+//                    Controller.gameRunning = false;
+//                    new Shop(gameManager);
+//                }
+//            }
+//        });
+//        actionMap.put("showHUI", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (Controller.gameRunning) {
+//                    gameManager.getGameView().getHui().showHUI();
+//                }
+//            }
+//        });
+   // }
     public void stop() {
         inputMap = null;
         actionMap = null;

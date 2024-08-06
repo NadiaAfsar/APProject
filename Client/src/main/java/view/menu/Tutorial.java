@@ -1,6 +1,5 @@
 package view.menu;
 
-import controller.GameManager;
 import controller.save.Configs;
 
 import javax.imageio.ImageIO;

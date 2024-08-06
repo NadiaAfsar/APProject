@@ -1,6 +1,6 @@
 package view.game;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
 
 import javax.swing.*;
@@ -126,7 +126,7 @@ public class GameOver extends JFrame {
         mainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameManager.getGameFrame().setVisible(true);
+                gameManager.getApplicationManager().getGameFrame().setVisible(true);
                 dispose();
             }
         });

@@ -74,7 +74,7 @@ public class Wave {
                 }
             }
             else if (getElapsedTime() != 0) {
-                if (System.currentTimeMillis() - lastSpawning > 10000 / Math.pow(getElapsedTime(), 1d/3) && spawn && !gameModel.isWait()) {
+                if (System.currentTimeMillis() - lastSpawning > 100000 / Math.pow(getElapsedTime(), 1d/3) && spawn && !gameModel.isWait()) {
                     addEnemies(3);
                 }
             }

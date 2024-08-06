@@ -1,6 +1,6 @@
 package controller.listeners;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.frame.MyFrame;
 
 import java.awt.*;
@@ -29,7 +29,7 @@ public class GameMouseListener extends MouseAdapter{
                 x = (int) MouseInfo.getPointerInfo().getLocation().getX();
                 y = (int) MouseInfo.getPointerInfo().getLocation().getY();
             }
-            gameManager.getGameModel().getEpsilon().shootBullet(x,y);
+            gameManager.getGameModel().getMyEpsilon().shootBullet(x,y);
         }
 
     }

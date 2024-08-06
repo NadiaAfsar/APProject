@@ -1,7 +1,7 @@
 package model.game;
 
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.Calculations;
 import model.game.frame.MyFrame;
 import model.interfaces.movement.Point;
@@ -12,6 +12,7 @@ public class CheckPoint extends Thread{
     private boolean disappear;
     private GameManager gameManager;
     public CheckPoint(GameManager gameManager){
+        this.gameManager = gameManager;
         MyFrame myFrame = gameManager.getGameModel().getInitialFrame();
         int x = 10+(int)(Math.random()*(myFrame.getWidth()-100))+(int) myFrame.getX();
         int y = 10+(int)(Math.random()*(myFrame.getHeight()-100))+(int) myFrame.getY();
@@ -21,17 +22,17 @@ public class CheckPoint extends Thread{
         start();
     }
     private void checkEpsilon(){
-        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
         if (Calculations.getDistance(epsilon.getCenter().getX(), epsilon.getCenter().getY(), center.getX(), center.getY())
                <= 50-epsilon.getRadius() ){
-            Controller.gameRunning = false;
+            gameManager.setRunning(false);
             if (Controller.saveGame(gameManager)) {
                 gameManager.save();
-                Controller.gameRunning = true;
+                gameManager.setRunning(true);
             }
             else {
                 epsilon.setXP(epsilon.getXP()+(int)(gameManager.getGameModel().getCurrentWave().getProgressRisk()*0.1));
-                Controller.gameRunning = true;
+                gameManager.setRunning(true);
             }
             disappear = true;
         }

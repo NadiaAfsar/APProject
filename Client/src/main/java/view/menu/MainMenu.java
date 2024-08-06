@@ -45,7 +45,7 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameFrame.setVisible(false);
-                Controller.startGame(gameFrame.getGameManager());
+                Controller.startGame(gameFrame.getApplicationManager());
             }
         });
     }
@@ -56,7 +56,7 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gamePanel.removeAll();
-                new Settings(gameFrame, Controller.getSensitivity(gameFrame.getGameManager()), Controller.getDifficulty(gameFrame.getGameManager()),
+                new Settings(gameFrame, gameFrame.getApplicationManager().getSensitivity(), gameFrame.getApplicationManager().getDifficulty(),
                         (int)((Audio.getSoundValue()+80)/0.86));
                 gameFrame.update();
             }

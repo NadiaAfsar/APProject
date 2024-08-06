@@ -1,16 +1,14 @@
 package view;
 
+import controller.ApplicationManager;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import network.ClientHandler;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class ConnectionFrame extends JFrame {
     private int xSize;
@@ -62,7 +60,8 @@ public class ConnectionFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new GameManager(new ClientHandler(), false).initialize();
+                   ApplicationManager applicationManager = new ApplicationManager(new ClientHandler(), false);
+                    Controller.runGame(applicationManager);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

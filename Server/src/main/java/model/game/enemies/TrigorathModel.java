@@ -36,7 +36,6 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
         addVertexes();
         this.myFrame.getEnemies().add(this);
         Controller.addEnemyView(this, gameManager);
-        start();
     }
     protected void addVertexes() {
         vertexes = new ArrayList<>();
@@ -73,20 +72,12 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
             velocity = new Point(2*dx, 2*dy);
         }
     }
-    public void run() {
-        while (!died) {
-            if (!gameManager.isHypnos() && Controller.gameRunning) {
+    public void nextMove() {
+            if (!gameManager.isHypnos() && gameManager.isRunning()) {
                 move();
                 checkCollision();
                 //EnemyLogger.getInfo(logger, this);
             }
-            try {
-                sleep((long) Configs.MODEL_UPDATE_TIME);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        interrupt();
     }
 
     public void setSpecialImpact() {

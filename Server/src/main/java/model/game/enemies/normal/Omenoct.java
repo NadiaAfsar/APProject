@@ -36,7 +36,6 @@ public class Omenoct extends Enemy implements Impactable, Movable {
         this.myFrame = myFrame;
         this.myFrame.getEnemies().add(this);
         Controller.addEnemyView(this, gameManager);
-        start();
     }
 
     @Override
@@ -153,9 +152,8 @@ public class Omenoct extends Enemy implements Impactable, Movable {
             logger.debug("shot");
         }
     }
-    public void run() {
-        while (!died) {
-            if (!gameManager.isHypnos() && Controller.gameRunning) {
+    public void nextMove() {
+            if (!gameManager.isHypnos() && gameManager.isRunning()) {
                 move();
                 checkCollision();
                 myFrame = epsilon.getFrame();
@@ -164,13 +162,6 @@ public class Omenoct extends Enemy implements Impactable, Movable {
                 }
                 //EnemyLogger.getInfo(logger, this);
             }
-            try {
-                sleep((long) Configs.MODEL_UPDATE_TIME);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        interrupt();
     }
 
     public boolean isStuck() {

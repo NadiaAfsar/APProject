@@ -1,8 +1,9 @@
 package model.game.skills.attack;
 
 import application.MyApplication;
+import controller.ApplicationManager;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
 import model.interfaces.movement.RotatablePoint;
@@ -21,7 +22,7 @@ public class WritOfCerberus extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
             if (epsilon.getXP() >= 100) {
                 gameManager.getGameModel().setAstarpe(gameManager.getGameModel().getAstarpe() + 2);
                 epsilon.setXP(epsilon.getXP() - 100);
@@ -32,7 +33,7 @@ public class WritOfCerberus extends Skill {
     }
 
     private void addCerberuses(GameManager gameManager) {
-        EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+        EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
         ArrayList<RotatablePoint> cerberusList = new ArrayList<>();
         int cerberus = gameManager.getGameModel().getCerberuses()+3;
         gameManager.getGameModel().setCerberuses(cerberus);
@@ -42,7 +43,7 @@ public class WritOfCerberus extends Skill {
                     epsilon.getRadius() + 20));
         }
         epsilon.setCerberusList(cerberusList);
-        Controller.addCerberusView(cerberusList, gameManager);
+        Controller.addCerberusView(gameManager, epsilon);
     }
 
     public boolean isUnlocked() {
@@ -53,10 +54,10 @@ public class WritOfCerberus extends Skill {
         return picked;
     }
 
-    public void setUnlocked(boolean cerberusUnlocked, GameManager gameManager) {
+    public void setUnlocked(boolean cerberusUnlocked, ApplicationManager applicationManager) {
         WritOfCerberus.cerberusUnlocked = cerberusUnlocked;
         if (cerberusUnlocked){
-            gameManager.getUnlockedSkills().add(new WritOfCerberus());
+            applicationManager.getUnlockedSkills().add(new WritOfCerberus());
         }
         MyApplication.configs.WritOfCerberusUnlocked = cerberusUnlocked;
     }

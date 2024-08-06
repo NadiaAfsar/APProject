@@ -1,6 +1,5 @@
 package view.game;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import controller.Controller;
 import controller.game_manager.GameManager;
 import model.game.skills.Skill;
@@ -11,6 +10,7 @@ import view.game.enemies.black_orb.BlackOrbLaserView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class GameView {
     private Map<String, EntityView> enemiesMap;
@@ -23,7 +23,7 @@ public class GameView {
     private Map<String, EntityView> collectibleMap;
     private Map<String, EntityView> epsilonsMap;
     private ArrayList<String> epsilons;
-    private ArrayList<String> frameView;
+    private ArrayList<String> frameViews;
     private Map<String, FrameView> frameViewMap;
     private ArrayList<String> laserViews;
     private Map<String, BlackOrbLaserView> laserViewMap;
@@ -31,11 +31,13 @@ public class GameView {
     private ArrayList<String> necropickAnnouncements;
     private Map<String, EntityView> necropickAnnouncementMap;
     private EntityView portal;
-    private GameManager gameManager;
+    private GameManager viewGameManager;
     private Map<String, ArrayList<EntityView>> epsilonsVertices;
     private Map<String, ArrayList<EntityView>> epsilonsCerberus;
+    private String gameID;
     public GameView(GameManager gameManager) {
-        this.gameManager = gameManager;
+        this.viewGameManager = gameManager;
+        gameID = UUID.randomUUID().toString();
         enemiesMap = new HashMap<>();
         bulletsMap = new HashMap<>();
         collectibleMap = new HashMap<>();
@@ -45,7 +47,7 @@ public class GameView {
         archmires = new ArrayList<>();
         aoEViewMap = new HashMap<>();
         aoEViews = new ArrayList<>();
-        frameView = new ArrayList<>();
+        frameViews = new ArrayList<>();
         frameViewMap = new HashMap<>();
         epsilons = new ArrayList<>();
         epsilonsMap = new HashMap<>();
@@ -113,7 +115,7 @@ public class GameView {
     }
     public void addPanel(int x, int y, int width, int height, String ID) {
         FrameView frameView = new FrameView(x, y, width, height, ID);
-        this.frameView.add(ID);
+        this.frameViews.add(ID);
         frameViewMap.put(ID, frameView);
     }
     public void addLaser(BlackOrbLaserView laser) {
@@ -128,9 +130,9 @@ public class GameView {
         return laserViewMap;
     }
     public void updatePanels() {
-//        for (int i = 0; i < frameView.size(); i++) {
-//            frameView.get(i).revalidate();
-//            frameView.get(i).repaint();
+//        for (int i = 0; i < frameViews.size(); i++) {
+//            frameViews.get(i).revalidate();
+//            frameViews.get(i).repaint();
 //        }
     }
 
@@ -143,8 +145,8 @@ public class GameView {
         necropickAnnouncementMap.put(ID, null);
     }
     public void removeFrames(){
-//        for (int i = 0; i < frameView.size(); i++){
-//            frameView.get(i).getFrame().dispose();
+//        for (int i = 0; i < frameViews.size(); i++){
+//            frameViews.get(i).getFrame().dispose();
 //        }
     }
 //    public void addPortal(Point point){
@@ -193,8 +195,8 @@ public class GameView {
         return epsilons;
     }
 
-    public ArrayList<String> getFrameView() {
-        return frameView;
+    public ArrayList<String> getFrameViews() {
+        return frameViews;
     }
 
     public ArrayList<String> getLaserViews() {
@@ -214,12 +216,12 @@ public class GameView {
     }
 
 
-    public GameManager getGameManager() {
-        return gameManager;
+    public GameManager getViewGameManager() {
+        return viewGameManager;
     }
 
-    public void setGameManager(GameManager gameManager) {
-        this.gameManager = gameManager;
+    public void setViewGameManager(GameManager viewGameManager) {
+        this.viewGameManager = viewGameManager;
     }
 
     public void addEpsilonView(EntityView epsilon){
@@ -257,5 +259,9 @@ public class GameView {
                 cerberus.update(new Point((int) vertex.getRotatedX()-10, (int) vertex.getRotatedY()-10), 0);
             }
         }
+    }
+
+    public String getGameID() {
+        return gameID;
     }
 }

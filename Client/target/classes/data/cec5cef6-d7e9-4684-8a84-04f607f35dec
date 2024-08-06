@@ -1,0 +1,20 @@
+{
+  "username": "efrfe",
+  "squad": {
+    "name": "gr",
+    "members": [
+      "efrfe"
+    ],
+    "ownerName": "efrfe",
+    "ID": "3c51697c-10f8-4801-a55e-9c27662ea5a3",
+    "inBattle": true,
+    "competitorSquad": "fgf"
+  },
+  "XP": 0,
+  "ID": "cec5cef6-d7e9-4684-8a84-04f607f35dec",
+  "status": "BUSY",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

@@ -11,11 +11,10 @@ import java.util.ArrayList;
 
 public class Sender extends Thread{
     private DatagramSocket datagramSocket;
-    private Object lock;
+    private final static Object lock = new Object();
 
     public Sender(DatagramSocket datagramSocket) {
         this.datagramSocket = datagramSocket;
-        this.lock = new Object();
     }
     private void sendData(byte[] data, InetSocketAddress inetSocketAddress) {
         DatagramPacket packet = new DatagramPacket(data, data.length, inetSocketAddress);

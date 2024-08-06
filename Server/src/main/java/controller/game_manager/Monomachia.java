@@ -3,10 +3,13 @@ package controller.game_manager;
 import model.game.enemies.Enemy;
 import model.game.frame.MyFrame;
 import model.interfaces.movement.Point;
+import network.TCP.ServerListener;
+
+import java.util.ArrayList;
 
 public class Monomachia extends GameManager{
-    public Monomachia(boolean online) {
-        super(online);
+    public Monomachia(ArrayList<ServerListener> listeners) {
+        super(listeners);
     }
     public void addEnemy(int waveNumber){
         int enemyNumber = 0;

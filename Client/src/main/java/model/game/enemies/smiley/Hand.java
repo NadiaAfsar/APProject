@@ -2,8 +2,9 @@ package model.game.enemies.smiley;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.game.BulletModel;
+import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
 import model.game.frame.MyFrame;
 import model.interfaces.movement.Point;
@@ -11,8 +12,8 @@ import model.interfaces.movement.Point;
 public abstract class Hand extends Enemy {
     private boolean susceptible;
     private long lastShotTime;
-    public Hand(Point center, double velocity, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public Hand(Point center, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         width = MyApplication.configs.HAND_WIDTH;
         height = MyApplication.configs.HAND_HEIGHT;
         myFrame = new MyFrame(width+80, height+80, center.getX()-width/2-40, center.getY()-height/2-40,
@@ -45,7 +46,7 @@ public abstract class Hand extends Enemy {
     public void shoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= 2000) {
-            BulletModel bulletModel = new BulletModel(center, gameManager.getGameModel().getEpsilon().getCenter(),
+            BulletModel bulletModel = new BulletModel(center, gameManager.getGameModel().getEpsilons().get(0).getCenter(),
                     height/2, 3, false, myFrame, gameManager);
             gameManager.getGameModel().getEnemiesBullets().add(bulletModel);
             lastShotTime = currentTime;

@@ -1,7 +1,8 @@
 package model.game.skills.defence;
 
 import application.MyApplication;
-import controller.GameManager;
+import controller.ApplicationManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
 
@@ -15,7 +16,7 @@ public class WritOfMelampus extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP() - 100);
                 gameManager.getGameModel().setMelampus(gameManager.getGameModel().getMelampus()+5);
@@ -36,10 +37,10 @@ public class WritOfMelampus extends Skill {
         return (damage < 100-gameManager.getGameModel().getMelampus());
     }
 
-    public void setUnlocked(boolean melampusUnlocked, GameManager gameManager) {
+    public void setUnlocked(boolean melampusUnlocked, ApplicationManager applicationManager) {
         WritOfMelampus.melampusUnlocked = melampusUnlocked;
         if (melampusUnlocked){
-            gameManager.getUnlockedSkills().add(new WritOfMelampus());
+            applicationManager.getUnlockedSkills().add(new WritOfMelampus());
         }
         MyApplication.configs.WritOfMelampusUnlocked = melampusUnlocked;
     }

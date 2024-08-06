@@ -1,0 +1,121 @@
+{
+  "enemiesMap": {
+    "39a40d85-6891-4550-9e0d-9ba86eae90e5": {
+      "x": 574,
+      "y": 501,
+      "angle": 0.0,
+      "width": 50,
+      "height": 50,
+      "initialWidth": 50.0,
+      "initialHeight": 50.0,
+      "ID": "39a40d85-6891-4550-9e0d-9ba86eae90e5",
+      "path": "src/main/resources/pictures/omenoct.png"
+    },
+    "30dd2564-ae7c-4f06-89f5-10a6753c397d": {
+      "x": 78,
+      "y": 516,
+      "angle": 0.0,
+      "width": 25,
+      "height": 21,
+      "initialWidth": 25.0,
+      "initialHeight": 21.0,
+      "ID": "30dd2564-ae7c-4f06-89f5-10a6753c397d",
+      "path": "src/main/resources/pictures/triangle.png"
+    },
+    "6f75023d-4fac-49ca-b487-62d48d54197d": {
+      "x": 851,
+      "y": 65,
+      "angle": 0.0,
+      "width": 50,
+      "height": 50,
+      "initialWidth": 50.0,
+      "initialHeight": 50.0,
+      "ID": "6f75023d-4fac-49ca-b487-62d48d54197d",
+      "path": "src/main/resources/pictures/omenoct.png"
+    },
+    "8ff3e1d7-d616-490b-8444-e64edfc97c45": {
+      "x": 1114,
+      "y": 80,
+      "angle": 0.0,
+      "width": 25,
+      "height": 21,
+      "initialWidth": 25.0,
+      "initialHeight": 21.0,
+      "ID": "8ff3e1d7-d616-490b-8444-e64edfc97c45",
+      "path": "src/main/resources/pictures/triangle.png"
+    }
+  },
+  "enemies": [
+    "39a40d85-6891-4550-9e0d-9ba86eae90e5",
+    "6f75023d-4fac-49ca-b487-62d48d54197d",
+    "30dd2564-ae7c-4f06-89f5-10a6753c397d",
+    "8ff3e1d7-d616-490b-8444-e64edfc97c45"
+  ],
+  "aoEViewMap": {},
+  "aoEViews": [],
+  "archmires": [],
+  "bulletsMap": {},
+  "bullets": [],
+  "collectibleMap": {},
+  "epsilonsMap": {
+    "54e38865-dae4-48d2-b208-8237ec062081": {
+      "x": 937,
+      "y": 337,
+      "angle": 0.0,
+      "width": 24,
+      "height": 24,
+      "initialWidth": 24.0,
+      "initialHeight": 24.0,
+      "ID": "54e38865-dae4-48d2-b208-8237ec062081",
+      "path": "src/main/resources/pictures/epsilon.png"
+    },
+    "2354d22a-6e0b-45c1-955e-a25c13beeea6": {
+      "x": 305,
+      "y": 271,
+      "angle": 0.0,
+      "width": 24,
+      "height": 24,
+      "initialWidth": 24.0,
+      "initialHeight": 24.0,
+      "ID": "2354d22a-6e0b-45c1-955e-a25c13beeea6",
+      "path": "src/main/resources/pictures/epsilon.png"
+    }
+  },
+  "epsilons": [
+    "2354d22a-6e0b-45c1-955e-a25c13beeea6",
+    "54e38865-dae4-48d2-b208-8237ec062081"
+  ],
+  "frameViews": [
+    "c786f185-3e98-4dfc-bdc5-35d77d3a7009",
+    "0da4d44f-c8ee-4469-9a15-2a9d2ca61fcd"
+  ],
+  "frameViewMap": {
+    "c786f185-3e98-4dfc-bdc5-35d77d3a7009": {
+      "x": 100,
+      "y": 100,
+      "width": 399,
+      "height": 399,
+      "ID": "c786f185-3e98-4dfc-bdc5-35d77d3a7009"
+    },
+    "0da4d44f-c8ee-4469-9a15-2a9d2ca61fcd": {
+      "x": 700,
+      "y": 100,
+      "width": 399,
+      "height": 399,
+      "ID": "0da4d44f-c8ee-4469-9a15-2a9d2ca61fcd"
+    }
+  },
+  "laserViews": [],
+  "laserViewMap": {},
+  "collectibleViews": [],
+  "necropickAnnouncements": [],
+  "necropickAnnouncementMap": {},
+  "epsilonsVertices": {
+    "54e38865-dae4-48d2-b208-8237ec062081": [],
+    "2354d22a-6e0b-45c1-955e-a25c13beeea6": []
+  },
+  "epsilonsCerberus": {
+    "54e38865-dae4-48d2-b208-8237ec062081": [],
+    "2354d22a-6e0b-45c1-955e-a25c13beeea6": []
+  }
+}

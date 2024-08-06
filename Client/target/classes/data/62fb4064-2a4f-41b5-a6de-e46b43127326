@@ -1,0 +1,20 @@
+{
+  "username": "gf",
+  "squad": {
+    "name": "gfvgn",
+    "members": [
+      "gf"
+    ],
+    "ownerName": "gf",
+    "ID": "2557d13e-76e7-4280-99b9-9237e2b0c47e",
+    "inBattle": true,
+    "competitorSquad": "fg"
+  },
+  "XP": 0,
+  "ID": "62fb4064-2a4f-41b5-a6de-e46b43127326",
+  "status": "BUSY",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

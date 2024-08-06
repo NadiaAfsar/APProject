@@ -28,7 +28,6 @@ public class Barricados extends Enemy {
         myFrame.getEnemies().add(this);
         Controller.addEnemyView(this, gameManager);
         gameManager.getGameModel().getFrames().add(myFrame);
-        start();
     }
 
 
@@ -47,12 +46,12 @@ public class Barricados extends Enemy {
     public void addCollective() {
 
     }
-    public void run() {
-        try {
-            sleep(120000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    public void nextMove() {
+//        try {
+//            sleep(120000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
         die();
     }
 

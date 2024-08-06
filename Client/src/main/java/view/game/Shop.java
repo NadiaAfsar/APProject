@@ -1,9 +1,8 @@
 package view.game;
 
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
-import view.game.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -185,7 +184,7 @@ public class Shop extends JFrame {
                 JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
     }
     private void resumeGame() {
-        Controller.gameRunning = true;
+        gameManager.setRunning(true);
         gameManager.getGameModel().setLastSavedTime(System.currentTimeMillis());
         dispose();
     }
@@ -199,11 +198,11 @@ public class Shop extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameManager.stopGame();
-                ArrayList<GamePanel> gamePanels = gameManager.getGameView().getGamePanels();
-                for (int i = 0; i < gamePanels.size(); i++){
-                    gamePanels.get(i).getFrame().dispose();
-                }
-                gameManager.getGameFrame().setVisible(true);
+//                ArrayList<String> gamePanels = gameManager.getGameView().get;
+//                for (int i = 0; i < gamePanels.size(); i++){
+//                    gamePanels.get(i).getFrame().dispose();
+//                }
+                gameManager.getApplicationManager().getGameFrame().setVisible(true);
                 dispose();
             }
         });

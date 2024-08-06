@@ -44,7 +44,7 @@ public class GetName {
         next.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameFrame.getGameManager().getClientHandler().sendName(textField.getText());
+                gameFrame.getApplicationManager().getClientHandler().sendName(textField.getText());
                 panel.remove(getName);
                 panel.remove(textField);
                 panel.remove(next);

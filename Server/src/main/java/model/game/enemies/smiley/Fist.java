@@ -40,6 +40,9 @@ public class Fist extends Enemy implements Movable {
         gameManager.getGameModel().getFrames().add(myFrame);
         gameManager.getGameModel().getEnemies().add(this);
     }
+    public void nextMove(){
+
+    }
 
     @Override
     protected void addVertexes() {

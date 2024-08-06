@@ -1,5 +1,6 @@
 package network.UDP;
 
+import network.ClientHandler;
 import org.apache.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
@@ -12,12 +13,11 @@ import java.util.Scanner;
 
 public class Receiver {
     private DatagramSocket datagramSocket;
-    private Object lock;
+    private final static Object lock= new Object();
     private File file;
     private Logger logger;
     public Receiver(DatagramSocket datagramSocket) {
         this.datagramSocket = datagramSocket;
-        lock = new Object();
         logger = Logger.getLogger(Receiver.class.getName());
     }
 
@@ -33,32 +33,32 @@ public class Receiver {
     }
     public void receiveFile() {
         synchronized (lock) {
-            String name = getString();
-            //logger.debug("receiving "+name);
-            String packetsString = getString();
-            int packets = Integer.parseInt(packetsString);
-            String lastPacketString = getString();
-            int lastPacket = Integer.parseInt(lastPacketString);
-            ArrayList<byte[]> dataArray = new ArrayList<>();
-            for (int i = 0; i < packets; i++) {
-                int finalI = i;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                            byte[] data = null;
-                            if (finalI == packets - 1) {
-                                data = receiveData(lastPacket);
-                            } else {
-                                data = receiveData(65507);
+                    String name = getString();
+                    //logger.debug("receiving "+name);
+                    String packetsString = getString();
+                    int packets = Integer.parseInt(packetsString);
+                    String lastPacketString = getString();
+                    int lastPacket = Integer.parseInt(lastPacketString);
+                    ArrayList<byte[]> dataArray = new ArrayList<>();
+                    for (int i = 0; i < packets; i++) {
+                        int finalI = i;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                byte[] data = null;
+                                if (finalI == packets - 1) {
+                                    data = receiveData(lastPacket);
+                                } else {
+                                    data = receiveData(65507);
+                                }
+                                dataArray.add(data);
+                                if (dataArray.size() == packets) {
+                                    file = FileHandler.getFile(name, "src/main/resources/data", dataArray);
+                                }
                             }
-                            dataArray.add(data);
-                            if (dataArray.size() == packets) {
-                                file = FileHandler.getFile(name, "src/main/resources/data", dataArray);
-                            }
-                            //logger.debug("received");
+                        }).start();
+                        //logger.debug("received");
                     }
-                }).start();
-            }
         }
     }
     public File getFile(){
@@ -67,7 +67,6 @@ public class Receiver {
         while (file == null){
             logger.debug("file null");
         }
-        //logger.debug("file received");
         return file;
     }
     public String getString() {

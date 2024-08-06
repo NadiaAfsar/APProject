@@ -1,6 +1,6 @@
 package model.game;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import model.interfaces.collision.Collidable;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
@@ -15,11 +15,13 @@ public class Collectible implements Collidable {
     private final long time;
     private final String ID;
     private int xp;
+    private int radius;
 
     public Collectible(int x, int y, int xp) {
         ID = UUID.randomUUID().toString();
         this.x = x;
         this.y = y;
+        radius = 5;
         this.center = new Point(x,y);
         time = System.currentTimeMillis();
         this.xp = xp;
@@ -61,4 +63,7 @@ public class Collectible implements Collidable {
         return xp;
     }
 
+    public int getRadius() {
+        return radius;
+    }
 }

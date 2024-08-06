@@ -2,7 +2,7 @@ package model.game;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.audio.AudioController;
 import model.Calculations;
 import model.game.enemies.Enemy;
@@ -12,6 +12,7 @@ import model.game.enemies.normal.Necropick;
 import model.game.enemies.normal.archmire.Archmire;
 import model.game.enemies.smiley.Fist;
 import model.game.frame.MyFrame;
+import model.game_model.GameModel;
 import model.interfaces.collision.Collidable;
 import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Direction;
@@ -22,6 +23,7 @@ import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class EpsilonModel implements Collidable, Movable, Impactable {
     private Timer upTimer;
@@ -48,10 +50,12 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private ArrayList<RotatablePoint> cerberusList;
     private long lastCerberusAttack;
     private GameManager gameManager;
+    private String ID;
 
     public EpsilonModel(MyFrame myFrame, GameManager gameManager) {
         this.gameManager = gameManager;
         logger = Logger.getLogger(EpsilonModel.class);
+        ID = UUID.randomUUID().toString();
         setCenter((int)(myFrame.getX()+ myFrame.getWidth()/2), (int)(myFrame.getY()+ myFrame.getHeight()/2));
         radius = MyApplication.configs.EPSILON_RADIUS;
         addMoveTimers();
@@ -63,7 +67,8 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         vertexes = new ArrayList<>();
         cerberusList = new ArrayList<>();
         this.myFrame = myFrame;
-        this.sensitivity = gameManager.getSensitivity();
+        this.sensitivity = gameManager.getApplicationManager().getSensitivity();
+        Controller.addEpsilonView(gameManager, this);
     }
 
 
@@ -241,7 +246,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
             RotatablePoint vertex = new RotatablePoint(center.getX(), center.getY(), angle*i-Math.PI/2, radius);
             vertexes.add(vertex);
         }
-        Controller.addVertexesToEpsilon(gameManager);
+        Controller.addVertexesToEpsilon(gameManager, this);
     }
 
     public ArrayList<RotatablePoint> getVertexes() {
@@ -546,5 +551,9 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
 
     public GameManager getGameManager() {
         return gameManager;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

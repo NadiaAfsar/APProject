@@ -1,0 +1,20 @@
+{
+  "username": "tjyt",
+  "squad": {
+    "name": "jyuk",
+    "members": [
+      "tjyt"
+    ],
+    "ownerName": "tjyt",
+    "ID": "546fee19-b24d-47bf-bf32-05b9dd89f1af",
+    "inBattle": true,
+    "competitorSquad": "jh,jh"
+  },
+  "XP": 0,
+  "ID": "2885d7dd-055a-4ea2-8364-517e5e61f9df",
+  "status": "BUSY",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

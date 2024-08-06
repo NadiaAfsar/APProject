@@ -1,6 +1,6 @@
 package controller.update;
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
 
 public class ViewLoop extends Thread{

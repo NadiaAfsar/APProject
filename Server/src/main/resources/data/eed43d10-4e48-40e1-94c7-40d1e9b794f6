@@ -1,0 +1,20 @@
+{
+  "username": "ghj",
+  "squad": {
+    "name": "hngj",
+    "members": [
+      "ghj"
+    ],
+    "ownerName": "ghj",
+    "ID": "4c6f5e80-8c8a-47f5-b22a-9c23bdf86880",
+    "inBattle": true,
+    "competitorSquad": "fdgdr"
+  },
+  "XP": 0,
+  "ID": "eed43d10-4e48-40e1-94c7-40d1e9b794f6",
+  "status": "ONLINE",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

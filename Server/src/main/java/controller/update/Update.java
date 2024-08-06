@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class Update {
     public static void updateView(GameManager gameManager) {
-        if (Controller.gameRunning) {
+        if (gameManager.isRunning()) {
             if (gameManager.getGameView() != null) {
                 GameView gameView = gameManager.getGameView();
 //                gameView.update(epsilon.getHP(), epsilon.getXP(), gameManager.getGameModel().getWave(),
@@ -35,6 +35,7 @@ public class Update {
                 updateBullets(gameManager);
                 updateEnemiesBullets(gameManager);
                 updatePanels(gameManager);
+                updateEpsilons(gameManager);
             }
         }
     }
@@ -48,18 +49,14 @@ public class Update {
         }
     }
     public static void updateModel(GameManager gameManager) {
-        if (Controller.gameFinished) {
-            //gameManager.getGameModel().getEpsilon().increaseSize();
-            gameManager.destroyFrame();
-        }
-        else if (Controller.gameRunning) {
+        if (gameManager.isRunning()) {
             if (gameManager.getGameModel() != null) {
                 gameManager.update();
                 updateFrames(gameManager);
             }
         }
         else if (gameManager.getGameModel() != null){
-//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            EpsilonModel epsilon = gameManager.getGameModel().getClientEpsilon();
 //            epsilon.getUpTimer().stop();
 //            epsilon.getDownTimer().stop();
 //            epsilon.getRightTimer().stop();

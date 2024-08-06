@@ -1,0 +1,20 @@
+{
+  "username": "rdgdr",
+  "squad": {
+    "name": "fdbbdf",
+    "members": [
+      "rdgdr"
+    ],
+    "ownerName": "rdgdr",
+    "ID": "080463f2-6460-4a9c-824b-07acfbe4a141",
+    "inBattle": true,
+    "competitorSquad": "bfggf"
+  },
+  "XP": 0,
+  "ID": "409b5b7a-f8e4-4ec8-b3f5-1826f0dc5b7c",
+  "status": "BUSY",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

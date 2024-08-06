@@ -1,10 +1,8 @@
 package view.menu;
 
 import controller.save.Configs;
-import model.Client;
 import model.Requests;
 import network.ClientHandler;
-import network.UDP.Receiver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MySquad {
     private GameFrame gameFrame;
@@ -69,15 +66,17 @@ public class MySquad {
     }
     private void addData() {
         membersPanel.removeAll();
-        ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
+        ClientHandler clientHandler = gameFrame.getApplicationManager().getClientHandler();
         ArrayList<String> members = clientHandler.getClient().getSquad().getMembers();
         boolean owner = clientHandler.getClient().getUsername().equals(clientHandler.getClient().getSquad().getOwner());
         for (int i = 0; i < members.size(); i++) {
-            clientHandler.getTcpClient().getListener().sendMessage(Requests.CLIENT_DATA.toString());
-            clientHandler.getTcpClient().getListener().sendMessage(members.get(i));
-            String xp = clientHandler.getUdpClient().getReceiver().getString();
-            String status = clientHandler.getUdpClient().getReceiver().getString();
-            addClientPanel(members.get(i), xp, owner, status);
+            synchronized (clientHandler.getLock()) {
+                clientHandler.getTcpClient().getListener().sendMessage(Requests.CLIENT_DATA.toString());
+                clientHandler.getTcpClient().getListener().sendMessage(members.get(i));
+                String xp = clientHandler.getUdpClient().getReceiver().getString();
+                String status = clientHandler.getUdpClient().getReceiver().getString();
+                addClientPanel(members.get(i), xp, owner, status);
+            }
         }
     }
     private void addClientPanel(String name, String xp, boolean owner, String status) {
@@ -94,7 +93,7 @@ public class MySquad {
                     super.mouseClicked(e);
                     JPanel p = (JPanel) e.getSource();
                     if (deleteMember(p.getName())){
-                        gameFrame.getGameManager().getClientHandler().deleteMember(p.getName());
+                        gameFrame.getApplicationManager().getClientHandler().deleteMember(p.getName());
                         membersPanel.remove(memberPanel);
                     }
                 }
@@ -138,7 +137,7 @@ public class MySquad {
         battle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (gameFrame.getGameManager().getClientHandler().getClient().getSquad().isInBattle()){
+                if (gameFrame.getApplicationManager().getClientHandler().getClient().getSquad().isInBattle()){
                     panel.removeAll();
                     new Battle(gameFrame);
                 }
@@ -156,7 +155,7 @@ public class MySquad {
         leave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
+                ClientHandler clientHandler = gameFrame.getApplicationManager().getClientHandler();
                 if (deleteMember(clientHandler.getClient().getUsername())){
                     clientHandler.deleteMember(clientHandler.getClient().getUsername());
                 }

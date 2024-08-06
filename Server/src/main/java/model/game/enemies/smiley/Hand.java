@@ -35,6 +35,9 @@ public abstract class Hand extends Enemy {
     public void addCollective() {
 
     }
+    public void nextMove(){
+
+    }
 
     public boolean isSusceptible() {
         return susceptible;

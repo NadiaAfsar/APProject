@@ -4,8 +4,8 @@ import application.MyApplication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import controller.GameManager;
-import model.game.GameModel;
+import controller.game_manager.GameManager;
+import model.game_model.GameModel;
 
 import java.io.*;
 
@@ -13,6 +13,7 @@ public class ReaderWriter {
     private Gson gson;
     public ReaderWriter() {
         GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setExclusionStrategies(new MyExclusionStrategy());
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
     }

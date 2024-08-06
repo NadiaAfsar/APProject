@@ -1,9 +1,7 @@
 package application;
 
-import controller.GameManager;
 import controller.save.Configs;
 import controller.save.ReaderWriter;
-import network.ClientHandler;
 import view.ConnectionFrame;
 
 public class MyApplication implements Runnable{

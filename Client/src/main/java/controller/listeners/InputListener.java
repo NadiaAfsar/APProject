@@ -1,7 +1,8 @@
 package controller.listeners;
 
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
+import model.Requests;
 import model.game.skills.Skill;
 import view.game.Shop;
 
@@ -45,71 +46,111 @@ public class InputListener {
         actionMap.put("moveUp", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveUp(true);
+                if (gameManager.isRunning()) {
+                    if (gameManager.isOnline()){
+                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.UP.toString());
+                    }
+                    else {
+                        gameManager.getGameModel().getMyEpsilon().moveUp(true);
+                    }
                 }
             }
         });
         actionMap.put("moveDown", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveDown(true);
+                if (gameManager.isRunning()) {
+                    if (gameManager.isOnline()){
+                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.DOWN.toString());
+                    }
+                    else {
+                        gameManager.getGameModel().getMyEpsilon().moveDown(true);
+                    }
                 }
             }
         });
         actionMap.put("moveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveRight(true);
+                if (gameManager.isRunning()) {
+                    if (gameManager.isOnline()){
+                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.RIGHT.toString());
+                    }
+                    else {
+                        gameManager.getGameModel().getMyEpsilon().moveRight(true);
+                    }
                 }
             }
         });
         actionMap.put("moveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveLeft(true);
+                if (gameManager.isRunning()) {
+                    if (gameManager.isOnline()){
+                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.LEFT.toString());
+                    }
+                    else {
+                        gameManager.getGameModel().getMyEpsilon().moveLeft(true);
+                    }
                 }
             }
         });
         actionMap.put("moveUpReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveUp(false);
+                if (gameManager.isRunning()) {
+                    if (gameManager.isOnline()){
+                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.STOP_UP.toString());
+                    }
+                    else {
+                        gameManager.getGameModel().getMyEpsilon().moveUp(false);
+                    }
                 }
             }
         });
         actionMap.put("moveDownReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveDown(false);
+                if (gameManager.isRunning()) {
+                    if (gameManager.isOnline()){
+                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.STOP_DOWN.toString());
+                    }
+                    else {
+                        gameManager.getGameModel().getMyEpsilon().moveDown(false);
+                    }
                 }
             }
         });
         actionMap.put("moveRightReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveRight(false);
+                if (gameManager.isRunning()) {
+                    if (gameManager.isOnline()){
+                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.STOP_RIGHT.toString());
+                    }
+                    else {
+                        gameManager.getGameModel().getMyEpsilon().moveRight(false);
+                    }
                 }
             }
         });
         actionMap.put("moveLeftReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameModel().getEpsilon().moveLeft(false);
+                if (gameManager.isRunning()) {
+                    if (gameManager.isOnline()){
+                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.STOP_LEFT.toString());
+                    }
+                    else {
+                        gameManager.getGameModel().getMyEpsilon().moveLeft(false);
+                    }
                 }
             }
         });
         actionMap.put("activateSkill", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Skill skill = gameManager.getPickedSkill();
+                Skill skill = gameManager.getApplicationManager().getPickedSkill();
                 if (skill != null) {
                     skill.activate(gameManager);
                 }
@@ -118,8 +159,8 @@ public class InputListener {
         actionMap.put("showShop", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning && !gameManager.isHypnos()) {
-                    Controller.gameRunning = false;
+                if (gameManager.isRunning() && !gameManager.isHypnos()) {
+                    gameManager.setRunning(false);
                     new Shop(gameManager);
                 }
             }
@@ -127,15 +168,11 @@ public class InputListener {
         actionMap.put("showHUI", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.gameRunning) {
-                    gameManager.getGameView().getHui().showHUI();
+                if (gameManager.isRunning()) {
+                    //gameManager.getGameView().getHui().showHUI();
                 }
             }
         });
-    }
-    public void stop() {
-        inputMap = null;
-        actionMap = null;
     }
 
 

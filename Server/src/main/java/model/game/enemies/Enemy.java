@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public abstract class Enemy extends Thread implements Collidable{
+public abstract class Enemy implements Collidable{
     protected RotatablePoint position;
     protected Point center;
     protected ArrayList<RotatablePoint> vertexes;
@@ -57,6 +57,7 @@ public abstract class Enemy extends Thread implements Collidable{
         angularAccelerationRate = 0;
         velocityPower = velocity;
     }
+    public abstract void nextMove();
 
     public int getX() {
         return (int) position.getRotatedX();

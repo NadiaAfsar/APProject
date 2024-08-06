@@ -1,6 +1,5 @@
 package model.game;
 
-import controller.GameManager;
 import model.Calculations;
 import model.game.enemies.Enemy;
 import model.game.frame.MyFrame;

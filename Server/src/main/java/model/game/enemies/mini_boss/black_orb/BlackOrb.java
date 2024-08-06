@@ -22,7 +22,6 @@ public class BlackOrb extends Enemy {
         logger = Logger.getLogger(BlackOrb.class.getName()+number);
         blackOrbVertices = new ArrayList<>();
         lasers = new ArrayList<>();
-        start();
     }
     private void setBlackOrbVertices() {
         int[] x = new int[]{-100, 100, -120, 0, 120};
@@ -30,11 +29,11 @@ public class BlackOrb extends Enemy {
         for (int i = 0; i < 5; i++) {
             BlackOrbVertex vertex = new BlackOrbVertex(new Point(center.getX()+x[i], center.getY()+y[i]), this);
             blackOrbVertices.add(vertex);
-            try {
-                sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+//            try {
+//                sleep(500);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
         }
     }
     private void setLasers() {
@@ -58,9 +57,8 @@ public class BlackOrb extends Enemy {
     public void addCollective() {
 
     }
-    public void run() {
-        while (!died) {
-            if (!gameManager.isHypnos() && Controller.gameRunning) {
+    public void nextMove() {
+            if (!gameManager.isHypnos() && gameManager.isRunning()) {
                 if (!vertexesSet) {
                     setBlackOrbVertices();
                     setLasers();
@@ -70,14 +68,9 @@ public class BlackOrb extends Enemy {
                     lasers.get(i).attack();
                 }
             }
-            try {
-                sleep((long) Configs.MODEL_UPDATE_TIME);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        if (died) {
+            gameManager.getGameModel().getDiedEnemies().add(this);
         }
-        interrupt();
-        gameManager.getGameModel().getDiedEnemies().add(this);
     }
 
     @Override

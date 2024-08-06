@@ -1,7 +1,6 @@
 package model.game.enemies.normal.archmire;
 
 import controller.Controller;
-import controller.GameManager;
 import model.game.Interference;
 import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.Barricados;
@@ -51,8 +50,8 @@ public class AoEAttack {
                 }
             }
         }
-        if (Interference.epsilonIsInArchmire(vertexes, archmire.getGameManager().getGameModel().getEpsilon())) {
-            archmire.getGameManager().getGameModel().getEpsilon().decreaseHP(2);
+        if (Interference.epsilonIsInArchmire(vertexes, archmire.getGameManager().getGameModel().getMyEpsilon())) {
+            archmire.getGameManager().getGameModel().getMyEpsilon().decreaseHP(2);
         }
         clarity--;
         if (clarity == 0) {

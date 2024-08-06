@@ -1,7 +1,6 @@
 package model.game.enemies.mini_boss.black_orb;
 
 import controller.Controller;
-import controller.GameManager;
 import model.Calculations;
 import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
@@ -48,7 +47,7 @@ public class BlackOrbLaser {
                     }
                 }
             }
-            EpsilonModel epsilon = vertex1.getBlackOrb().getGameManager().getGameModel().getEpsilon();
+            EpsilonModel epsilon = vertex1.getBlackOrb().getGameManager().getGameModel().getMyEpsilon();
             if (Calculations.isUnderLine(epsilon.getCenter().getX(), epsilon.getCenter().getY(), point1.getX(), point1.getY(), point2.getX(), point2.getY())
                     && Calculations.isUnderLine(epsilon.getCenter().getX(), epsilon.getCenter().getY(), point3.getX(), point3.getY(), point4.getX(), point4.getY())) {
                 epsilon.decreaseHP(12);

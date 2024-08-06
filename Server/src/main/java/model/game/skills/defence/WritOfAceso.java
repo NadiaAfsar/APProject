@@ -16,7 +16,7 @@ public class WritOfAceso extends Skill {
     @Override
     public void activate(GameManager gameManager) {
 //        if (isTimeToActivate()) {
-//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            EpsilonModel epsilon = gameManager.getGameModel().getClientEpsilon();
 //            if (epsilon.getXP() >= 100) {
 //                activated = true;
 //                epsilon.setXP(epsilon.getXP() - 100);
@@ -29,7 +29,7 @@ public class WritOfAceso extends Skill {
 //        if (activated) {
 //            long currentTime = System.currentTimeMillis();
 //            if (currentTime-lastTimeAdded >= 1000) {
-//                EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//                EpsilonModel epsilon = gameManager.getGameModel().getClientEpsilon();
 //                epsilon.setHP(epsilon.getHP() + gameManager.getGameModel().getHPtoIncrease());
 //                lastTimeAdded = currentTime;
 //            }

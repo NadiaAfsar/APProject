@@ -1,7 +1,8 @@
 package model.game.skills.defence;
 
 import application.MyApplication;
-import controller.GameManager;
+import controller.ApplicationManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
 
@@ -17,7 +18,7 @@ public class WritOfAthena extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP() - 100);
                 gameManager.getGameModel().setWritOfAthena(gameManager.getGameModel().
@@ -31,10 +32,10 @@ public class WritOfAthena extends Skill {
         return athenaUnlocked;
     }
 
-    public void setUnlocked(boolean athenaUnlocked, GameManager gameManager) {
+    public void setUnlocked(boolean athenaUnlocked, ApplicationManager applicationManager) {
         WritOfAthena.athenaUnlocked = athenaUnlocked;
         if (athenaUnlocked){
-            gameManager.getUnlockedSkills().add(new WritOfAthena());
+            applicationManager.getUnlockedSkills().add(new WritOfAthena());
         }
         MyApplication.configs.WritOfAthenaUnlocked = athenaUnlocked;
     }

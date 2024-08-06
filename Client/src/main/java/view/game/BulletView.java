@@ -1,7 +1,6 @@
 package view.game;
 
 import application.MyApplication;
-import controller.GameManager;
 import model.interfaces.movement.Direction;
 import view.Rotation;
 

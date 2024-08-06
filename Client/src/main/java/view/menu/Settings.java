@@ -67,7 +67,7 @@ public class Settings{
         difficultySlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Controller.setDifficulty(difficultySlider.getValue(), gameFrame.getGameManager());
+                gameFrame.getApplicationManager().setDifficulty(difficultySlider.getValue());
             }
         });
         panel.add(difficultySlider);
@@ -83,7 +83,7 @@ public class Settings{
         sensitivitySlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Controller.setSensitivity(sensitivitySlider.getValue(), gameFrame.getGameManager());
+                gameFrame.getApplicationManager().setSensitivity(sensitivitySlider.getValue());
             }
         });
         panel.add(sensitivitySlider);

@@ -1,7 +1,8 @@
 package model.game.skills.transform;
 
 import application.MyApplication;
-import controller.GameManager;
+import controller.ApplicationManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
 
@@ -17,7 +18,7 @@ public class WritOfEmpusa extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
             if (epsilon.getXP() >= 100) {
                 epsilon.setXP(epsilon.getXP()-100);
                 epsilon.setRadius((int)(epsilon.getRadius()*0.9));
@@ -30,10 +31,10 @@ public class WritOfEmpusa extends Skill {
         return empusaUnlocked;
     }
 
-    public void setUnlocked(boolean empusaUnlocked, GameManager gameManager) {
+    public void setUnlocked(boolean empusaUnlocked, ApplicationManager applicationManager) {
         WritOfEmpusa.empusaUnlocked = empusaUnlocked;
         if (empusaUnlocked){
-            gameManager.getUnlockedSkills().add(new WritOfEmpusa());
+            applicationManager.getUnlockedSkills().add(new WritOfEmpusa());
         }
         MyApplication.configs.WritOfEmpusaUnlocked = empusaUnlocked;
     }

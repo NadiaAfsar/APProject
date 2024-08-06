@@ -1,7 +1,8 @@
 package model.game.skills.attack;
 
 import application.MyApplication;
-import controller.GameManager;
+import controller.ApplicationManager;
+import controller.game_manager.GameManager;
 import model.game.EpsilonModel;
 import model.game.skills.Skill;
 
@@ -17,7 +18,7 @@ public class WritOfAres extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+            EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
             if (epsilon.getXP() >= 100) {
                 gameManager.getGameModel().setAres(gameManager.getGameModel().getAres() + 2);
                 epsilon.setXP(epsilon.getXP()-100);
@@ -29,10 +30,10 @@ public class WritOfAres extends Skill {
         return aresUnlocked;
     }
 
-    public void setUnlocked(boolean u, GameManager gameManager) {
+    public void setUnlocked(boolean u, ApplicationManager applicationManager) {
         aresUnlocked = u;
         if (u){
-            gameManager.getUnlockedSkills().add(new WritOfAres());
+            applicationManager.getUnlockedSkills().add(new WritOfAres());
         }
         MyApplication.configs.WritOfAresUnlocked = u;
     }

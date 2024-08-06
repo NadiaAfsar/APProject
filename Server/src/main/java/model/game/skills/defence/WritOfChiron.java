@@ -15,7 +15,7 @@ public class WritOfChiron extends Skill {
     @Override
     public void activate(GameManager gameManager) {
 //        if (isTimeToActivate()) {
-//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            EpsilonModel epsilon = gameManager.getGameModel().getClientEpsilon();
 //            if (epsilon.getXP() >= 100) {
 //                epsilon.setXP(epsilon.getXP() - 100);
 //                gameManager.getGameModel().setChiron(gameManager.getGameModel().getChiron()+3);

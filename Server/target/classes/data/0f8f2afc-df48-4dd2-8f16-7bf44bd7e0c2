@@ -1,0 +1,20 @@
+{
+  "username": "dftg",
+  "squad": {
+    "name": "fdgh",
+    "members": [
+      "dftg"
+    ],
+    "ownerName": "dftg",
+    "ID": "8801c854-1e5d-489e-9bc3-99de0542a684",
+    "inBattle": true,
+    "competitorSquad": "hngmhm"
+  },
+  "XP": 0,
+  "ID": "0f8f2afc-df48-4dd2-8f16-7bf44bd7e0c2",
+  "status": "BUSY",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

@@ -1,7 +1,6 @@
 package view.menu;
 
-import controller.Controller;
-import controller.GameManager;
+import application.MyApplication;
 import model.game.skills.Skill;
 import model.game.skills.attack.WritOfAres;
 import model.game.skills.attack.WritOfAstrape;
@@ -166,15 +165,14 @@ public class SkillTree {
         skills.get(x).setBackground(Color.GREEN);
         skillsMap.get(skills.get(x)).setPicked(true);
         picked = skills.get(x);
-        gameFrame.getGameManager().setPickedSkill(skillsMap.get(skills.get(x)));
+        gameFrame.getApplicationManager().setPickedSkill(skillsMap.get(skills.get(x)));
     }
     private void showPickOption(int skill, String title) {
         int pick = JOptionPane.showOptionDialog(null, "Do you wanna pick this skill?", title,
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         if (pick == 0) {
             pickSkill(skill);
-            GameManager.readerWriter.saveConfigs();
-            GameManager.readerWriter.saveGameManger(gameFrame.getGameManager());
+            MyApplication.readerWriter.saveConfigs();
         }
     }
     private void showUnlockOption(int price, int skill, String title) {
@@ -182,7 +180,7 @@ public class SkillTree {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         if (pick == 0) {
             boolean toUnlock = true;
-            int xp = Controller.getXP(gameFrame.getGameManager());
+            int xp = gameFrame.getApplicationManager().getTotalXP();
             if (skill != 1 && skill != 4 && skill != 8){
                 if (skill == 7){
                     if (!skillsMap.get(writOfAstrape).isUnlocked() && !skillsMap.get(writOfChiron).isUnlocked()){
@@ -205,12 +203,11 @@ public class SkillTree {
             }
             if (toUnlock) {
                 if (xp >= price) {
-                    Controller.setXP(xp - price, gameFrame.getGameManager());
+                    gameFrame.getApplicationManager().setTotalXP(xp - price);
                     pickSkill(skill);
-                    skillsMap.get(skills.get(skill)).setUnlocked(true, gameFrame.getGameManager() );
-                    totalXP.setText("XPs: " + Controller.getTotalXP(gameFrame.getGameManager()));
-                    GameManager.readerWriter.saveConfigs();
-                    GameManager.readerWriter.saveGameManger(gameFrame.getGameManager());
+                    skillsMap.get(skills.get(skill)).setUnlocked(true, gameFrame.getApplicationManager() );
+                    totalXP.setText("XPs: " + gameFrame.getApplicationManager().getTotalXP());
+                    MyApplication.readerWriter.saveConfigs();
                 } else {
                     String[] options = new String[]{"OK"};
                     JOptionPane.showOptionDialog(null, "Not enough XPs!", null, JOptionPane.DEFAULT_OPTION,
@@ -225,7 +222,7 @@ public class SkillTree {
                 null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
     }
     private void addTotalXP() {
-        totalXP = new JLabel("XPs: "+Controller.getTotalXP(gameFrame.getGameManager()));
+        totalXP = new JLabel("XPs: "+gameFrame.getApplicationManager().getTotalXP());
         addJLabel(totalXP,250 ,550);
     }
 }

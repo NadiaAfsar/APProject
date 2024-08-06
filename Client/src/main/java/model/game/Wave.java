@@ -1,11 +1,12 @@
 package model.game;
 
-import controller.GameManager;
-import controller.GameManagerHelper;
+import controller.game_manager.GameManager;
+import controller.game_manager.GameManagerHelper;
 import controller.audio.AudioController;
 import model.game.enemies.Enemy;
 import model.game.enemies.smiley.Smiley;
 import model.game.frame.MyFrame;
+import model.game_model.GameModel;
 import model.interfaces.movement.Point;
 
 import javax.swing.*;
@@ -55,7 +56,7 @@ public class Wave {
             addEnemies(2);
         }
         else {
-            Smiley smiley = new Smiley(new Point(200, 200), gameModel.getEnemyVelocity(), gameManager);
+            Smiley smiley = new Smiley(new Point(200, 200), gameModel.getEnemyVelocity(), gameManager, gameManager.getGameModel().getMyEpsilon());
             gameModel.getEnemies().add(smiley);
         }
     }
@@ -81,7 +82,7 @@ public class Wave {
         return waveNumber * getElapsedTime();
     }
     public double getProgressRisk() {
-        return 10 * gameModel.getEpsilon().getXP() * (gameModel.getTotalPR()+getProgressRate()) / gameModel.getEpsilon().getHP();
+        return 10 * gameModel.getMyEpsilon().getXP() * (gameModel.getTotalPR()+getProgressRate()) / gameModel.getMyEpsilon().getHP();
     }
     private int getElapsedTime() {
         return (int) (System.currentTimeMillis()/1000-startTime);
@@ -99,7 +100,7 @@ public class Wave {
                 }
             }
             else if (getElapsedTime() != 0) {
-                if (System.currentTimeMillis() - lastSpawning > 10000 / Math.pow(getElapsedTime(), 1d/3) && spawn && !gameModel.isWait()) {
+                if (System.currentTimeMillis() - lastSpawning > 100000 / Math.pow(getElapsedTime(), 1d/4) && spawn && !gameModel.isWait()) {
                     addEnemies(3);
                 }
             }

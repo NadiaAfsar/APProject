@@ -1,7 +1,7 @@
 package model.interfaces.movement;
 
 
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.save.Configs;
 import model.Calculations;
 import model.game.EpsilonModel;
@@ -13,7 +13,7 @@ public interface Movable {
         boolean toMove = true;
         if (getGameManager().isDeimos()){
             if (this instanceof Enemy &&!(this instanceof Archmire)){
-                EpsilonModel epsilon = getGameManager().getGameModel().getEpsilon();
+                EpsilonModel epsilon = getGameManager().getGameModel().getMyEpsilon();
                 if (Calculations.getDistance(epsilon.getCenter().getX(), epsilon.getCenter().getY(), getCenter().getX(),
                         getCenter().getY()) <= 100){
                     toMove = false;

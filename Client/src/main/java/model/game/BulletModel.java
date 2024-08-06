@@ -1,7 +1,7 @@
 package model.game;
 
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.audio.AudioController;
 import model.game.frame.MyFrame;
 import model.interfaces.collision.Collidable;
@@ -33,6 +33,7 @@ public class BulletModel implements Collidable {
         this.stable = stable;
         number++;
         logger = Logger.getLogger(BulletModel.class.getName()+number);
+        this.gameManager = gameManager;
         AudioController.addBulletShotSound();
         ID = UUID.randomUUID().toString();
         this.direction = new Direction(point1, point2);

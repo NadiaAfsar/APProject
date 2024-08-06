@@ -2,10 +2,11 @@ package model.game.enemies.normal.archmire;
 
 import application.MyApplication;
 import controller.Controller;
-import controller.GameManager;
+import controller.game_manager.GameManager;
 import controller.audio.AudioController;
 import controller.save.Configs;
 import model.game.Collectible;
+import model.game.EpsilonModel;
 import model.game.Interference;
 import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.Barricados;
@@ -25,8 +26,8 @@ public class Archmire extends Enemy implements Movable {
     private static int number;
     private long lastAoEAdded;
     private long timeBetweenAoEAttacks;
-    public Archmire(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager) {
-        super(center, velocity, gameManager);
+    public Archmire(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Archmire.class.getName()+number);
         this.HP = 30 + hp;
@@ -57,7 +58,7 @@ public class Archmire extends Enemy implements Movable {
     }
     public void run() {
         while (!died) {
-            if (!gameManager.isHypnos() && Controller.gameRunning) {
+            if (!gameManager.isHypnos() && gameManager.isRunning()) {
                 move();
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastAoEAdded > 500) {
@@ -73,8 +74,8 @@ public class Archmire extends Enemy implements Movable {
                             }
                         }
                     }
-                    if (Interference.epsilonIsInArchmire(vertexes, gameManager.getGameModel().getEpsilon())) {
-                        gameManager.getGameModel().getEpsilon().decreaseHP(10);
+                    if (Interference.epsilonIsInArchmire(vertexes, gameManager.getGameModel().getMyEpsilon())) {
+                        gameManager.getGameModel().getMyEpsilon().decreaseHP(10);
                     }
                     for (int i = 0; i < aoeAttacks.size(); i++) {
                         if (!aoeAttacks.get(i).update()) {
@@ -95,8 +96,10 @@ public class Archmire extends Enemy implements Movable {
     protected void die() {
         removeAll();
         addCollective();
-        new MiniArchmire(new Point(center.getX()-width, center.getY()-height), velocityPower, initialHP/2, myFrame, gameManager);
-        new MiniArchmire(new Point(center.getX()+width, center.getY()+height), velocityPower, initialHP/2, myFrame, gameManager);
+        new MiniArchmire(new Point(center.getX()-width, center.getY()-height), velocityPower, initialHP/2,
+                myFrame, gameManager, epsilon);
+        new MiniArchmire(new Point(center.getX()+width, center.getY()+height), velocityPower, initialHP/2,
+                myFrame, gameManager, epsilon);
         gameManager.getGameModel().getDiedEnemies().add(this);
         Controller.removeArchmireView(this, gameManager);
         AudioController.addEnemyDyingSound();
@@ -116,7 +119,7 @@ public class Archmire extends Enemy implements Movable {
 
     @Override
     public Direction getDirection() {
-        return new Direction(getCenter(), gameManager.getGameModel().getEpsilon().getCenter());
+        return new Direction(getCenter(), epsilon.getCenter());
     }
 
     @Override

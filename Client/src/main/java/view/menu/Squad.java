@@ -28,7 +28,7 @@ public class Squad {
     public Squad(GameFrame gameFrame){
         this.gameFrame = gameFrame;
         panel = gameFrame.getGamePanel();
-        if (gameFrame.getGameManager().getClientHandler().getClient().getSquad() == null){
+        if (gameFrame.getApplicationManager().getClientHandler().getClient().getSquad() == null){
             addActions();
             addSquadsButton();
             addNewSquad();
@@ -91,7 +91,7 @@ public class Squad {
         next.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (gameFrame.getGameManager().getClientHandler().createNewSquad(textField.getText())) {
+                if (gameFrame.getApplicationManager().getClientHandler().createNewSquad(textField.getText())) {
                     panel.removeAll();
                     new MySquad(gameFrame);
                 }
@@ -143,13 +143,15 @@ public class Squad {
         addData();
     }
     private void addData() {
-        ClientHandler clientHandler = gameFrame.getGameManager().getClientHandler();
-        clientHandler.getTcpClient().getListener().sendMessage(Requests.SQUADS.toString());
-        Receiver receiver = clientHandler.getUdpClient().getReceiver();
-        int requests = Integer.parseInt(receiver.getString());
-        for (int i = 0; i < requests; i++) {
-            String name = receiver.getString();
-            addSquadPanel(name);
+        ClientHandler clientHandler = gameFrame.getApplicationManager().getClientHandler();
+        synchronized (clientHandler.getLock()) {
+            clientHandler.getTcpClient().getListener().sendMessage(Requests.SQUADS.toString());
+            Receiver receiver = clientHandler.getUdpClient().getReceiver();
+            int requests = Integer.parseInt(receiver.getString());
+            for (int i = 0; i < requests; i++) {
+                String name = receiver.getString();
+                addSquadPanel(name);
+            }
         }
     }
     private void addSquadPanel(String name) {
@@ -165,7 +167,7 @@ public class Squad {
                 super.mouseClicked(e);
                 JPanel p = (JPanel) e.getSource();
                 if (askToJoin()){
-                    gameFrame.getGameManager().getClientHandler().sendJoinRequest(p.getName());
+                    gameFrame.getApplicationManager().getClientHandler().sendJoinRequest(p.getName());
                 }
             }
         });

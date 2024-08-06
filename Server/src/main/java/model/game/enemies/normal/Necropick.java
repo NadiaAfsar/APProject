@@ -34,7 +34,6 @@ public class Necropick extends Enemy {
         this.myFrame.getEnemies().add(this);
         Controller.addEnemyView(this, gameManager);
         appeared = true;
-        start();
     }
 
     @Override
@@ -61,38 +60,22 @@ public class Necropick extends Enemy {
         }
         position = new RotatablePoint(center.getX(), center.getY(), 1.26*Math.PI+angle, 14.2/21*height);
     }
-    public void run() {
-        while (!died) {
-            if (!gameManager.isHypnos() && Controller.gameRunning) {
+    public void nextMove() {
+            if (!gameManager.isHypnos() && gameManager.isRunning()) {
                 disappear();
-                sleepFor(3000);
+                //sleepFor(3000);
                 announceAppearance();
-                sleepFor(1000);
+                //sleepFor(1000);
                 appear();
-                sleepFor(1000);
+                //sleepFor(1000);
                 shootBullets(4);
-                sleepFor(2000);
+               // sleepFor(2000);
                 shootBullets(4);
-                sleepFor(1000);
+                //sleepFor(1000);
                 //EnemyLogger.getInfo(logger, this);
             }
-            else {
-                try {
-                    sleep((long) Configs.MODEL_UPDATE_TIME);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        interrupt();
     }
-    private void sleepFor(long time){
-        try {
-            sleep(time);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
     private void shootBullets(int n) {
         for (int i = 0; i < n; i++) {
             shoot();

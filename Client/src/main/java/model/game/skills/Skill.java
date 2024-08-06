@@ -1,7 +1,8 @@
 package model.game.skills;
 
 
-import controller.GameManager;
+import controller.ApplicationManager;
+import controller.game_manager.GameManager;
 
 public abstract class Skill {
     private long lastActivatedTime;
@@ -35,6 +36,6 @@ public abstract class Skill {
     public abstract int getPrice();
     public abstract boolean isUnlocked();
     public abstract boolean isPicked();
-    public abstract void setUnlocked(boolean b, GameManager gameManager);
+    public abstract void setUnlocked(boolean b, ApplicationManager applicationManager);
     public abstract void setPicked(boolean b);
 }

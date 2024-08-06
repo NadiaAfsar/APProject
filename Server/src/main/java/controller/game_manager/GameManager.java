@@ -29,6 +29,7 @@ import model.game.skills.transform.WritOfEmpusa;
 import model.game.skills.transform.WritOfProteus;
 import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Point;
+import network.TCP.ServerListener;
 import view.game.GameView;
 
 import java.util.ArrayList;
@@ -52,11 +53,9 @@ public abstract class GameManager {
     protected boolean saved;
     protected GameMouseListener gameMouseListener;
     protected GameMouseMotionListener gameMouseMotionListener;
-    private Client client1;
-    private Client client2;
-    public GameManager(Client client1, Client client2) {
-        this.client1 = client1;
-        this.client2 = client2;
+    private ArrayList<ServerListener> listeners;
+    public GameManager(ArrayList<ServerListener> listeners) {
+        this.listeners = listeners;
         gameMouseListener = new GameMouseListener(this);
         gameMouseMotionListener = new GameMouseMotionListener(this);
     }
@@ -86,7 +85,7 @@ public abstract class GameManager {
         setGameModel();
     }
     private void setGameModel(){
-            gameModel = new GameModel(this, client1,client2 );
+            gameModel = new GameModel(this, listeners );
             if (pickedSkill != null) {
                 if (pickedSkill instanceof WritOfDolus) {
                     ((WritOfDolus) pickedSkill).pickSkills(this);
@@ -96,12 +95,11 @@ public abstract class GameManager {
     private void initialShrinkage() {
         for (int i = 0; i < gameModel.getEpsilons().size(); i++) {
             EpsilonModel epsilon = gameModel.getEpsilons().get(i);
-            epsilon.getFrame().setWidth(epsilon.getFrame().getWidth() - 4);
-            epsilon.getFrame().setHeight(epsilon.getFrame().getHeight() - 4);
-            epsilon.getFrame().setX(Configs.FRAME_SIZE.width / 2 - epsilon.getFrame().getWidth() / 2);
-            epsilon.getFrame().setY(Configs.FRAME_SIZE.height / 2 - epsilon.getFrame().getHeight() / 2);
+            System.out.println(epsilon.getFrame() == null);
+            epsilon.getFrame().setWidth(epsilon.getFrame().getWidth() - 0.1);
+            epsilon.getFrame().setHeight(epsilon.getFrame().getHeight() - 0.1);
             epsilon.setInCenter();
-            if (epsilon.getFrame().getWidth() == 500) {
+            if (epsilon.getFrame().getWidth() <= 500) {
                 gameModel.setGameStarted(true);
                 gameModel.setDecreaseSize(false);
             }
@@ -148,9 +146,9 @@ public abstract class GameManager {
         gameModel.setWave(gameModel.getWave()+1);
         if (gameModel.getCurrentWave() != null) {
             gameModel.setTotalPR(gameModel.getTotalPR() + gameModel.getCurrentWave().getProgressRate());
-            //gameModel.getEpsilon().setKilledEnemies(gameModel.getEpsilon().getKilledEnemies()+gameModel.getCurrentWave().getDiedEnemies());
+            //gameModel.getClientEpsilon().setKilledEnemies(gameModel.getClientEpsilon().getKilledEnemies()+gameModel.getCurrentWave().getDiedEnemies());
         }
-        //gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getEnemiesToKill().get(gameModel.getWave()), this));
+        gameModel.setCurrentWave(new Wave(gameModel.getWave(), this));
     }
     private void checkBulletsCollision() {
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
@@ -191,7 +189,7 @@ public abstract class GameManager {
                 bulletCollided(bullet, point, gameModel.getVanishedBullets());
                 if (!(enemy instanceof Barricados) && !(enemy instanceof Fist)) {
                     enemy.decreaseHP(bullet.getDamage());
-                    //gameModel.getEpsilon().setSuccessfulBullets(gameModel.getEpsilon().getSuccessfulBullets()+1);
+                    //gameModel.getClientEpsilon().setSuccessfulBullets(gameModel.getClientEpsilon().getSuccessfulBullets()+1);
                 }
             }
     }
@@ -202,7 +200,7 @@ public abstract class GameManager {
                 if (point != null) {
                     bulletCollided(bullet, point, gameModel.getVanishedBullets());
                     vertices.get(i).decreaseHP(bullet.getDamage());
-                    //gameModel.getEpsilon().setSuccessfulBullets(gameModel.getEpsilon().getSuccessfulBullets()+1);
+                    //gameModel.getClientEpsilon().setSuccessfulBullets(gameModel.getClientEpsilon().getSuccessfulBullets()+1);
                 }
         }
     }
@@ -249,6 +247,9 @@ public abstract class GameManager {
         checkBulletsCollision();
         if (!hypnos) {
             moveEnemiesBullets();
+        }
+        for (int i = 0; i < gameModel.getEnemies().size(); i++){
+            gameModel.getEnemies().get(i).nextMove();
         }
         checkEnemiesBulletsCollision();
         gameModel.getEnemies().removeAll(gameModel.getDiedEnemies());
@@ -303,7 +304,7 @@ public abstract class GameManager {
         }
         Controller.gameRunning = true;
         Controller.gameFinished = true;
-        //setTotalXP(totalXP+gameModel.getEpsilon().getXP());
+        //setTotalXP(totalXP+gameModel.getClientEpsilon().getXP());
     }
     public void destroyFrame() {
 //        if (gameModel.isFinished()) {
@@ -315,8 +316,8 @@ public abstract class GameManager {
 //            }
 //            if (gameModel.getInitialFrame().getWidth() <= 2 && gameModel.getInitialFrame().getHeight() <= 2) {
 //                gameModel.setFinished(false);
-//                Controller.gameOver(gameModel.getEpsilon().getXP(), gameModel.getTimePlayed(), gameModel.getEpsilon().getTotalBullets(),
-//                        gameModel.getEpsilon().getSuccessfulBullets(), gameModel.getEpsilon().getKilledEnemies(), this);
+//                Controller.gameOver(gameModel.getClientEpsilon().getXP(), gameModel.getTimePlayed(), gameModel.getClientEpsilon().getTotalBullets(),
+//                        gameModel.getClientEpsilon().getSuccessfulBullets(), gameModel.getClientEpsilon().getKilledEnemies(), this);
 //            }
 //        }
     }
@@ -373,7 +374,7 @@ public abstract class GameManager {
         return unlockedSkills;
     }
     public boolean athena() {
-//        EpsilonModel epsilonModel = gameModel.getEpsilon();
+//        EpsilonModel epsilonModel = gameModel.getClientEpsilon();
 //        if (epsilonModel.getXP() >= 75) {
 //            activateAthena();
 //            epsilonModel.setXP(epsilonModel.getXP()-75);
@@ -382,7 +383,7 @@ public abstract class GameManager {
         return false;
     }
     public boolean apollo() {
-//        EpsilonModel epsilonModel = gameModel.getEpsilon();
+//        EpsilonModel epsilonModel = gameModel.getClientEpsilon();
 //        if (epsilonModel.getXP() >= 50) {
 //            epsilonModel.setHP(epsilonModel.getHP()+10);
 //            epsilonModel.setXP(epsilonModel.getXP()-50);
@@ -391,7 +392,7 @@ public abstract class GameManager {
         return false;
     }
     public boolean hephaestus() {
-//        EpsilonModel epsilon = gameModel.getEpsilon();
+//        EpsilonModel epsilon = gameModel.getClientEpsilon();
 //        if (epsilon.getXP() >= 100) {
 //            Impactable.impactOnOthers(new Point(epsilon.getCenter().getX(), epsilon.getCenter().getY()), this);
 //            epsilon.setXP(epsilon.getXP()-100);
@@ -400,7 +401,7 @@ public abstract class GameManager {
         return false;
     }
     public boolean deimos(){
-//        EpsilonModel epsilon = gameModel.getEpsilon();
+//        EpsilonModel epsilon = gameModel.getClientEpsilon();
 //        if (epsilon.getXP() >= 120) {
 //            deimos = true;
 //            deimosActivated = System.currentTimeMillis();
@@ -414,7 +415,7 @@ public abstract class GameManager {
         return deimos;
     }
     public boolean hypnos(){
-//        EpsilonModel epsilon = gameModel.getEpsilon();
+//        EpsilonModel epsilon = gameModel.getClientEpsilon();
 //        if (epsilon.getXP() >= 150) {
 //            hypnos = true;
 //            hypnosActivated = System.currentTimeMillis();
@@ -429,7 +430,7 @@ public abstract class GameManager {
     }
 
     public boolean phonoi(){
-//        EpsilonModel epsilon = gameModel.getEpsilon();
+//        EpsilonModel epsilon = gameModel.getClientEpsilon();
 //        if (epsilon.getXP() >= 200 && System.currentTimeMillis()-phonoiUsed >= 120000) {
 //            phonoi = true;
 //            epsilon.setXP(epsilon.getXP()-200);
@@ -480,4 +481,8 @@ public abstract class GameManager {
         this.running = running;
     }
     public abstract void addEnemy(int waveNumber);
+
+    public ArrayList<ServerListener> getListeners() {
+        return listeners;
+    }
 }

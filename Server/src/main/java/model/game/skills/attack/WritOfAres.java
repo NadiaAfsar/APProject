@@ -17,7 +17,7 @@ public class WritOfAres extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         if (isTimeToActivate()) {
-//            EpsilonModel epsilon = gameManager.getGameModel().getEpsilon();
+//            EpsilonModel epsilon = gameManager.getGameModel().getClientEpsilon();
 //            if (epsilon.getXP() >= 100) {
 //                gameManager.getGameModel().setAres(gameManager.getGameModel().getAres() + 2);
 //                epsilon.setXP(epsilon.getXP()-100);
