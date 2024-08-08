@@ -457,4 +457,9 @@ public class GameManager {
     public void setCompetitorHP(int competitorHP) {
         this.competitorHP = competitorHP;
     }
+    public void finishGame(){
+        AudioController.addGameOverSound();
+        Controller.gameOver(gameModel.getMyEpsilon().getXP(), gameModel.getTimePlayed(), gameModel.getTotalBullets(),
+                gameModel.getSuccessfulBullets(), gameModel.getSuccessfulBullets(), this);
+    }
 }

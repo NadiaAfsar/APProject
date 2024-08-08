@@ -26,5 +26,9 @@ public class Monomachia extends GameManager{
         gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getWave()*2, this));
 
     }
+    public void finishGame(){
+        super.finishGame();
+        getApplicationManager().setTotalXP(getApplicationManager().getTotalXP()+gameModel.getMyEpsilon().getXP());
+    }
 
 }

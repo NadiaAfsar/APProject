@@ -3,7 +3,6 @@ package model.game;
 import application.MyApplication;
 import controller.Controller;
 import controller.game_manager.GameManager;
-import controller.audio.AudioController;
 import model.Calculations;
 import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.black_orb.BlackOrb;
@@ -185,10 +184,7 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
                 gameManager.setSaved(false);
             }
             else {
-                AudioController.addGameOverSound();
-                GameModel gameModel = gameManager.getGameModel();
-                Controller.gameOver(XP, gameModel.getTimePlayed(), gameModel.getTotalBullets(), gameModel.getSuccessfulBullets(),
-                        gameModel.getSuccessfulBullets(), gameManager);
+                gameManager.finishGame();
             }
         }
     }

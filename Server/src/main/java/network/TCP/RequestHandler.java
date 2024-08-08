@@ -66,6 +66,12 @@ public class RequestHandler {
         bulletFile.delete();
     }
     private static void getUpdates(ServerListener listener){
+        if (listener.getClient().getRunningGame().isFinished()){
+            listener.sendMessage(Requests.FINISHED.toString());
+        }
+        else {
+            listener.sendMessage("nothing");
+        }
         File epsilon = listener.getUdpServer().getReceiver().getFile();
         Entity epsilonModel = MyApplication.readerWriter.getObject(Entity.class, epsilon);
         RunningGame game = listener.getClient().getRunningGame();
@@ -227,15 +233,16 @@ public class RequestHandler {
             int battle = Integer.parseInt(listener.getMessage());
             Server server = ServerHandler.getInstance().getServer();
             String requestName = null;
+            boolean declined = false;
             if (battle == 0) {
                 if (server.getClients().get(receiver).isMonomachia()) {
-                    sendMessage(listener, receiver + " has played monomachia battle!");
+                    declined = true;
                 } else {
                     requestName = "Monomachia battle";
                 }
             } else {
                 if (server.getClients().get(receiver).isColosseum()) {
-                    sendMessage(listener, receiver + " has played colosseum battle!");
+                    declined = true;
                 } else {
                     requestName = "Colosseum battle";
                 }
@@ -243,13 +250,14 @@ public class RequestHandler {
             if (requestName != null) {
                 Request request = new Request(requestName, sender, receiver);
                 server.getClients().get(sender).getSentRequests().add(request);
-                server.getClients().get(receiver).getReceivedRequests().add(request);
-                server.getRequests().put(request.getID(), request);
+                if (declined){
+                    request.setDeclined(true);
+                }
+                else {
+                    server.getClients().get(receiver).getReceivedRequests().add(request);
+                    server.getRequests().put(request.getID(), request);
+                }
             }
-    }
-    private static void sendMessage(ServerListener listener, String message){
-            listener.sendMessage(Requests.MESSAGE.toString());
-            listener.sendMessage(message);
     }
     private static void requestAccepted(ServerListener listener){
             String requestID = listener.getMessage();

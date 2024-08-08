@@ -55,7 +55,9 @@ public class ClientHandler extends Thread{
                 } else if (gameManager != null) {
                     if (gameManager.getGameModel() != null) {
                         sendUpdate();
-                        getUpdates();
+                        if (client.getStatus().equals(Status.BUSY)) {
+                            getUpdates();
+                        }
                     }
                 }
             try {
@@ -71,27 +73,34 @@ public class ClientHandler extends Thread{
             }
     }
     private void sendUpdate(){
-        tcpClient.getListener().sendMessage(Requests.SEND_UPDATE.toString());
-        EpsilonModel epsilonModel = gameManager.getGameModel().getEpsilons().get(gameManager.getGameModel().getEpsilonNumber());
-        Entity epsilon = new Entity((int)epsilonModel.getCenter().getX(),(int) epsilonModel.getCenter().getY(), 0);
-        File epsilonFile = MyApplication.readerWriter.convertToFile(epsilon, "epsilon"+epsilon.getID());
-        udpClient.getSender().sendFile(epsilonFile);
-        epsilonFile.delete();
-        tcpClient.getListener().sendMessage(gameManager.getGameModel().getMyEpsilon().getXP()+"");
-        tcpClient.getListener().sendMessage(gameManager.getGameModel().getMyEpsilon().getHP()+"");
-        tcpClient.getListener().sendMessage(newBullets.size()+"");
-        for (int i = 0; i < newBullets.size(); i++){
-            Entity bullet = new Entity((int)newBullets.get(i).getX(), (int)newBullets.get(i).getY(), 0);
-            File bulletFile = MyApplication.readerWriter.convertToFile(bullet, bullet.getID());
-            udpClient.getSender().sendFile(bulletFile);
-            bulletFile.delete();
+        String response = tcpClient.getListener().getMessage();
+        if (response.equals(Requests.FINISHED.toString())){
+            client.setStatus(Status.ONLINE);
+            gameManager.finishGame();
         }
-        newBullets = new ArrayList<>();
-        tcpClient.getListener().sendMessage(newEnemies.size()+"");
-        for (int i = 0; i < newEnemies.size(); i++) {
-            tcpClient.getListener().sendMessage(newEnemies.get(i) + "");
+        else {
+            tcpClient.getListener().sendMessage(Requests.SEND_UPDATE.toString());
+            EpsilonModel epsilonModel = gameManager.getGameModel().getEpsilons().get(gameManager.getGameModel().getEpsilonNumber());
+            Entity epsilon = new Entity((int) epsilonModel.getCenter().getX(), (int) epsilonModel.getCenter().getY(), 0);
+            File epsilonFile = MyApplication.readerWriter.convertToFile(epsilon, "epsilon" + epsilon.getID());
+            udpClient.getSender().sendFile(epsilonFile);
+            epsilonFile.delete();
+            tcpClient.getListener().sendMessage(gameManager.getGameModel().getMyEpsilon().getXP() + "");
+            tcpClient.getListener().sendMessage(gameManager.getGameModel().getMyEpsilon().getHP() + "");
+            tcpClient.getListener().sendMessage(newBullets.size() + "");
+            for (int i = 0; i < newBullets.size(); i++) {
+                Entity bullet = new Entity((int) newBullets.get(i).getX(), (int) newBullets.get(i).getY(), 0);
+                File bulletFile = MyApplication.readerWriter.convertToFile(bullet, bullet.getID());
+                udpClient.getSender().sendFile(bulletFile);
+                bulletFile.delete();
+            }
+            newBullets = new ArrayList<>();
+            tcpClient.getListener().sendMessage(newEnemies.size() + "");
+            for (int i = 0; i < newEnemies.size(); i++) {
+                tcpClient.getListener().sendMessage(newEnemies.get(i) + "");
+            }
+            newEnemies = new ArrayList<>();
         }
-        newEnemies = new ArrayList<>();
     }
     private void getUpdates(){
         tcpClient.getListener().sendMessage(Requests.RECEIVE_UPDATE.toString());

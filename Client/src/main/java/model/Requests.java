@@ -20,7 +20,6 @@ public enum Requests {
     RECEIVE_UPDATE,
     MONOMACHIA,
     RUNNING_GAME,
-    SHOOT,
-    NEW_ENEMY
+    FINISHED
 
 }

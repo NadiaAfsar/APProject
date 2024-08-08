@@ -12,6 +12,7 @@ public class RunningGame {
     private Map<Client, ArrayList<Entity>> bullets;
     private Map<Client, Map<String, Integer>> clientData;
     private int enemiesAdded;
+    private boolean finished;
 
     public RunningGame(ArrayList<Client> clientsInGame, String game) {
         this.clientsInGame = clientsInGame;
@@ -61,8 +62,8 @@ public class RunningGame {
         return clientData;
     }
     public void endGame(){
+        finished = true;
         for (int i = 0; i < clientsInGame.size(); i++){
-            clientsInGame.get(i).setRunningGame(null);
             clientsInGame.get(i).setStatus(Status.ONLINE);
             if (game.equals(Requests.MONOMACHIA.toString())) {
                 clientsInGame.get(i).setMonomachia(true);
@@ -71,5 +72,9 @@ public class RunningGame {
                 clientsInGame.get(i).setColosseum(true);
             }
         }
+    }
+
+    public boolean isFinished() {
+        return finished;
     }
 }
