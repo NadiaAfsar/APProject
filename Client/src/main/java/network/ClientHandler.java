@@ -77,6 +77,8 @@ public class ClientHandler extends Thread{
         File epsilonFile = MyApplication.readerWriter.convertToFile(epsilon, "epsilon"+epsilon.getID());
         udpClient.getSender().sendFile(epsilonFile);
         epsilonFile.delete();
+        tcpClient.getListener().sendMessage(gameManager.getGameModel().getMyEpsilon().getXP()+"");
+        tcpClient.getListener().sendMessage(gameManager.getGameModel().getMyEpsilon().getHP()+"");
         tcpClient.getListener().sendMessage(newBullets.size()+"");
         for (int i = 0; i < newBullets.size(); i++){
             Entity bullet = new Entity((int)newBullets.get(i).getX(), (int)newBullets.get(i).getY(), 0);
@@ -100,6 +102,10 @@ public class ClientHandler extends Thread{
                 Entity entity = MyApplication.readerWriter.getObject(Entity.class, epsilonFile);
                 gameManager.getGameModel().getEpsilons().get(i).setCenter(entity.getX(), entity.getY());
                 epsilonFile.delete();
+                int xp = Integer.parseInt(tcpClient.getListener().getMessage());
+                int hp = Integer.parseInt(tcpClient.getListener().getMessage());
+                gameManager.setCompetitorHP(hp);
+                gameManager.setCompetitorXP(xp);
                 int bullets = Integer.parseInt(tcpClient.getListener().getMessage());
                 for (int j = 0; j < bullets; j++){
                     File bulletFile = udpClient.getReceiver().getFile();

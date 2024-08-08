@@ -198,10 +198,7 @@ public class Shop extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameManager.stopGame();
-//                ArrayList<String> gamePanels = gameManager.getGameView().get;
-//                for (int i = 0; i < gamePanels.size(); i++){
-//                    gamePanels.get(i).getFrame().dispose();
-//                }
+                gameManager.getGameView().removeFrames();
                 gameManager.getApplicationManager().getGameFrame().setVisible(true);
                 dispose();
             }

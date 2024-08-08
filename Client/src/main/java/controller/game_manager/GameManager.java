@@ -40,6 +40,8 @@ public class GameManager {
     private GameMouseMotionListener gameMouseMotionListener;
     private boolean online;
     private ApplicationManager applicationManager;
+    protected int competitorXP;
+    protected int competitorHP;
     public GameManager(ApplicationManager applicationManager, boolean online) {
         this.applicationManager = applicationManager;
         this.online = online;
@@ -410,6 +412,7 @@ public class GameManager {
         for (int i = 0; i < gameModel.getEnemies().size(); i++){
             gameModel.getEnemies().get(i).setDied(true);
         }
+        running = false;
     }
     public boolean isOnline() {
         return online;
@@ -437,5 +440,21 @@ public class GameManager {
 
     public ApplicationManager getApplicationManager() {
         return applicationManager;
+    }
+
+    public int getCompetitorXP() {
+        return competitorXP;
+    }
+
+    public void setCompetitorXP(int competitorXP) {
+        this.competitorXP = competitorXP;
+    }
+
+    public int getCompetitorHP() {
+        return competitorHP;
+    }
+
+    public void setCompetitorHP(int competitorHP) {
+        this.competitorHP = competitorHP;
     }
 }

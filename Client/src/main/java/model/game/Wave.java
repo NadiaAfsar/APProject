@@ -64,7 +64,7 @@ public class Wave {
     private void startWave() {
         addedEnemies = new boolean[4][6];
         gameModel.setEnemies(new ArrayList<>());
-        if (waveNumber != 6) {
+        if (waveNumber != 6 || gameManager instanceof Monomachia) {
             addEnemies(1);
         }
         else {

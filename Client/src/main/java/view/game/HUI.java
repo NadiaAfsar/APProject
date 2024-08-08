@@ -1,6 +1,7 @@
 package view.game;
 
 import controller.game_manager.GameManager;
+import controller.game_manager.Monomachia;
 import controller.listeners.InputListener;
 import controller.save.Configs;
 import model.game.skills.Skill;
@@ -17,6 +18,8 @@ public class HUI extends JFrame {
     private int ability;
     private JLabel wave;
     private JLabel time;
+    private JLabel competitorXP;
+    private JLabel competitorHP;
     private long hour;
     private long minute;
     private long second;
@@ -37,6 +40,10 @@ public class HUI extends JFrame {
         addPanel();
         setHUI();
         setTimer();
+        if (gameManager instanceof Monomachia){
+            setCHP();
+            setCXP();
+        }
         timer.start();
         new InputListener(gameManager, panel);
     }
@@ -99,6 +106,18 @@ public class HUI extends JFrame {
         HP.setForeground(Color.WHITE);
         panel.add(HP);
     }
+    private void setCHP(){
+        competitorHP = new JLabel("Competitor HP: "+100);
+        competitorHP.setBounds(5,85,150,10);
+        competitorHP.setForeground(Color.WHITE);
+        panel.add(competitorHP);
+    }
+    private void setCXP(){
+        competitorHP = new JLabel("Competitor XP: "+0);
+        competitorHP.setBounds(5,105,150,10);
+        competitorHP.setForeground(Color.WHITE);
+        panel.add(competitorHP);
+    }
     private void setXP() {
         xp = new JLabel("xp: "+0);
         xp.setBounds(5,25,80,15);
@@ -121,7 +140,7 @@ public class HUI extends JFrame {
         Skill pickedSkill = gameManager.getApplicationManager().getPickedSkill();
         if (pickedSkill != null) {
             skill = new JLabel(pickedSkill.getName() + ": " + pickedSkill.getStatus());
-            skill.setBounds(5, 85, 150, 10);
+            skill.setBounds(5, 125, 150, 10);
             skill.setForeground(Color.WHITE);
             panel.add(skill);
             ability++;
@@ -129,7 +148,7 @@ public class HUI extends JFrame {
     }
     public void setAbility(String ability) {
         JLabel label = new JLabel(ability+" is activated.");
-        label.setBounds(5,85+20*this.ability,70,10);
+        label.setBounds(5,125+20*this.ability,70,10);
         label.setForeground(Color.WHITE);
         panel.add(label);
     }
@@ -145,6 +164,12 @@ public class HUI extends JFrame {
     }
     public void updateXP(int xp) {
         this.xp.setText("xp: "+xp);
+    }
+    public void updateCHP(int hp){
+        competitorHP.setText("Competitor HP: "+hp);
+    }
+    public void updateCXP(int xp){
+        competitorHP.setText("Competitor XP: "+xp);
     }
     public void updateWave(int wave) {
         this.wave.setText(wave+"/6");

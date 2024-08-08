@@ -69,9 +69,4 @@ public class ReaderWriter {
         return load(Configs.class, "src/main/resources/data/config.json");
     }
 
-
-    public void deleteSavedGames(){
-        new File("src/main/resources/data/game-model.json").delete();
-        new File("src/main/resources/data/progress.json").delete();
-    }
 }

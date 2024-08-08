@@ -126,6 +126,7 @@ public class GameOver extends JFrame {
         mainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                gameManager.getGameView().removeFrames();
                 gameManager.getApplicationManager().getGameFrame().setVisible(true);
                 dispose();
             }

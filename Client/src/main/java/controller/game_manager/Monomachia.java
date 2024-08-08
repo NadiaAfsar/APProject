@@ -11,6 +11,8 @@ public class Monomachia extends GameManager{
         super(applicationManager, true);
     }
     public void startGame(int epsilonNumber) {
+        competitorXP = 0;
+        competitorHP = 100;
         gameView = new GameView(this);
         gameModel = new MonomachiaGame(this, epsilonNumber);
     }

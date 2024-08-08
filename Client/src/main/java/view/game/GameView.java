@@ -2,6 +2,7 @@ package view.game;
 
 import controller.Controller;
 import controller.game_manager.GameManager;
+import controller.game_manager.Monomachia;
 import model.game.skills.Skill;
 import model.interfaces.movement.Point;
 import model.interfaces.movement.RotatablePoint;
@@ -32,6 +33,7 @@ public class GameView {
     private ArrayList<String> gamePanels;
     private Map<String, GamePanel> gamePanelMap;
     private GameManager gameManager;
+    private HUI hui;
     public GameView(GameManager gameManager) {
         this.gameManager = gameManager;
         enemiesMap = new HashMap<>();
@@ -53,16 +55,21 @@ public class GameView {
         epsilonsCerberus = new HashMap<>();
         gamePanels = new ArrayList<>();
         gamePanelMap = new HashMap<>();
+        hui = new HUI(gameManager);
     }
 
-    public void update(int HP, int XP, int wave, long time, Skill skill) {
-//        if (hui.isVisible()) {
-//            hui.updateHP(HP);
-//            hui.updateXP(XP);
-//            hui.updateWave(wave);
-//            hui.updateTime(time);
-//            hui.updateSkill(skill);
-//        }
+    public void update(int HP, int XP, int wave, long time, Skill skill, int cHP, int cXP) {
+        if (hui.isVisible()) {
+            hui.updateHP(HP);
+            hui.updateXP(XP);
+            hui.updateWave(wave);
+            hui.updateTime(time);
+            hui.updateSkill(skill);
+            if (gameManager instanceof Monomachia){
+                hui.updateCHP(cHP);
+                hui.updateCXP(cXP);
+            }
+        }
     }
 
     public void addEnemyView(EntityView entityView) {
@@ -142,9 +149,9 @@ public class GameView {
         necropickAnnouncementMap.put(ID, null);
     }
     public void removeFrames(){
-//        for (int i = 0; i < frameViews.size(); i++){
-//            frameViews.get(i).getFrame().dispose();
-//        }
+        for (int i = 0; i < gamePanels.size(); i++){
+            gamePanelMap.get(gamePanels.get(i)).getFrame().dispose();
+        }
     }
         public void addPortal(Point point){
         portal = new CheckPointView(point);
@@ -253,7 +260,7 @@ public class GameView {
         return epsilonsCerberus;
     }
     public HUI getHui(){
-        return null;
+        return hui;
     }
 
     public Map<String, GamePanel> getGamePanelMap() {

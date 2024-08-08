@@ -68,8 +68,13 @@ public class RequestHandler {
     private static void getUpdates(ServerListener listener){
         File epsilon = listener.getUdpServer().getReceiver().getFile();
         Entity epsilonModel = MyApplication.readerWriter.getObject(Entity.class, epsilon);
-        listener.getClient().getRunningGame().getEpsilons().put(listener.getClient(), epsilonModel);
+        RunningGame game = listener.getClient().getRunningGame();
+        game.getEpsilons().put(listener.getClient(), epsilonModel);
         epsilon.delete();
+        int xp = Integer.parseInt(listener.getMessage());
+        int hp = Integer.parseInt(listener.getMessage());
+        game.getClientData().get(listener.getClient()).put("xp", xp);
+        game.getClientData().get(listener.getClient()).put("hp", hp);
         int bullets = Integer.parseInt(listener.getMessage());
         for (int i = 0; i < bullets; i++){
             shootBullet(listener);
@@ -88,6 +93,8 @@ public class RequestHandler {
                 File epsilon = MyApplication.readerWriter.convertToFile(entity, entity.getID());
                 listener.getUdpServer().getSender().sendFile(epsilon, listener.getSocketAddress());
                 epsilon.delete();
+                listener.sendMessage(game.getClientData().get(game.getClientsInGame().get(i)).get("xp")+"");
+                listener.sendMessage(game.getClientData().get(game.getClientsInGame().get(i)).get("hp")+"");
                 ArrayList<Entity> bullets = game.getBullets().get(game.getClientsInGame().get(i));
                 listener.sendMessage(bullets.size()+"");
                 for (int j = 0; j < bullets.size(); j++){
@@ -191,8 +198,14 @@ public class RequestHandler {
     private static void removeMember(ServerListener listener){
             String squadName = listener.getMessage();
             String name = listener.getMessage();
-            ServerHandler.getInstance().getServer().getSquads().get(squadName).removeMember(name);
-            ServerHandler.getInstance().getServer().getClients().get(name).setSquad(null);
+            Server server = ServerHandler.getInstance().getServer();
+            server.getSquads().get(squadName).removeMember(name);
+            server.getClients().get(name).setSquad(null);
+            if (server.getSquads().get(squadName).getMembers().size() == 0){
+                server.getSquadsName().remove(squadName);
+                server.getSquads().put(squadName, null);
+            }
+
     }
     private static void sendSquads(ServerListener listener){
             ArrayList<String> squads = ServerHandler.getInstance().getServer().getSquadsName();

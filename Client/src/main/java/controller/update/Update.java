@@ -1,5 +1,6 @@
 package controller.update;
 
+import application.MyApplication;
 import controller.Controller;
 import controller.game_manager.GameManager;
 import model.game.BulletModel;
@@ -22,8 +23,10 @@ public class Update {
         if (gameManager.isRunning()) {
             if (gameManager.getGameView() != null) {
                 GameView gameView = gameManager.getGameView();
-//                gameView.update(epsilon.getHP(), epsilon.getXP(), gameManager.getGameModel().getWave(),
-//                        gameManager.getGameModel().getTimePlayed()/1000, gameManager.getPickedSkill());
+                EpsilonModel epsilon = gameManager.getGameModel().getMyEpsilon();
+                gameView.update(epsilon.getHP(), epsilon.getXP(), gameManager.getGameModel().getWave(),
+                        gameManager.getGameModel().getTimePlayed()/1000, gameManager.getApplicationManager().
+                                getPickedSkill(), gameManager.getCompetitorHP(), gameManager.getCompetitorXP());
                 gameView.updatePanels();
                 updateEnemies(gameManager);
                 updateBullets(gameManager);

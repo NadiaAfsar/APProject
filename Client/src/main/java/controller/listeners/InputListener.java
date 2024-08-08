@@ -129,7 +129,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameManager.isRunning()) {
-                    //gameManager.getGameView().getHui().showHUI();
+                        gameManager.getGameView().getHui().showHUI();
                 }
             }
         });
