@@ -1,7 +1,6 @@
 package network.TCP;
 
-import network.ServerHandler;
-import network.TCP.ServerListener;
+import network.ServerListener;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;

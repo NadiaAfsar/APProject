@@ -16,16 +16,11 @@ public enum Requests {
     RECEIVED,
     SENT,
     CLIENT_DATA,
-    UP,
-    DOWN,
-    RIGHT,
-    LEFT,
-    STOP_UP,
-    STOP_DOWN,
-    STOP_RIGHT,
-    STOP_LEFT,
-    UPDATE,
-    NEW_FRAME,
-    MONOMACHIA
+    SEND_UPDATE,
+    RECEIVE_UPDATE,
+    MONOMACHIA,
+    RUNNING_GAME,
+    SHOOT,
+    NEW_ENEMY
 
 }

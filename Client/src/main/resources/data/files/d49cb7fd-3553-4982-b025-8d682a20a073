@@ -1,0 +1,29 @@
+{
+  "username": "gtrh",
+  "squad": {
+    "name": "nhgf",
+    "members": [
+      "gtrh"
+    ],
+    "ownerName": "gtrh",
+    "ID": "ba19751f-e452-47d0-8477-67fe0894d6e0",
+    "inBattle": true,
+    "competitorSquad": "ytj"
+  },
+  "XP": 0,
+  "ID": "d49cb7fd-3553-4982-b025-8d682a20a073",
+  "status": "ONLINE",
+  "sentRequests": [],
+  "receivedRequests": [
+    {
+      "requestName": "Monomachia battle",
+      "accepted": false,
+      "declined": false,
+      "sender": "tyrh",
+      "receiver": "gtrh",
+      "ID": "3974c4c5-7d16-460a-82f6-426a8d415c28"
+    }
+  ],
+  "monomachia": false,
+  "colosseum": false
+}

@@ -19,11 +19,11 @@ public class TCPClient extends Thread{
         this.serverIPAddress=serverIPAddress;
         this.serverPort=serverPort;
         this.clientHandler = clientHandler;
+        number++;
     }
     public void initSocket(){
         try {
             clientSocket = new Socket(serverIPAddress, serverPort);
-            number++;
             listener = new ClientListener(clientSocket);
             connected = true;
         } catch (IOException e) {

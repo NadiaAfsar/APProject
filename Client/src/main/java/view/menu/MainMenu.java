@@ -2,6 +2,7 @@ package view.menu;
 
 import controller.Controller;
 import controller.audio.Audio;
+import controller.game_manager.GameManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +46,7 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameFrame.setVisible(false);
-                Controller.startGame(gameFrame.getApplicationManager());
+                Controller.startGame(new GameManager(gameFrame.getApplicationManager(), false), 0);
             }
         });
     }

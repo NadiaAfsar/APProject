@@ -49,7 +49,7 @@ public class Controller {
         }
         music.setRepeat();
     }
-    public static void startGame(ApplicationManager applicationManager) {
+    public static void startGame(GameManager gameManager, int number) {
         try {
             Robot robot = new Robot();
             robot.keyPress(KeyEvent.VK_WINDOWS);
@@ -63,9 +63,8 @@ public class Controller {
         Timer timer = new Timer(400, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameManager gameManager = new GameManager(applicationManager, applicationManager.isOnline());
                 gameManager.initialize();
-                gameManager.startGame();
+                gameManager.startGame(number);
                 gameManager.setRunning(true);
                 gameManager.getGameMouseMotionListener().setEpsilonModel(gameManager.getGameModel().getMyEpsilon());
             }
@@ -73,9 +72,16 @@ public class Controller {
         timer.setRepeats(false);
         timer.start();
     }
-    public static void addEpsilonView(GameManager gameManager, EpsilonModel epsilon){
+    public static void addEpsilonView(GameManager gameManager, EpsilonModel epsilon, int number){
+        String pic = null;
+        if (number == 0){
+            pic = MyApplication.configs.EPSILON1;
+        }
+        else {
+            pic = MyApplication.configs.EPSILON2;
+        }
         gameManager.getGameView().addEpsilonView(new EntityView(epsilon.getX(), epsilon.getY(),
-                epsilon.getRadius()*2, epsilon.getRadius()*2, MyApplication.configs.EPSILON, epsilon.getID()));
+                epsilon.getRadius()*2, epsilon.getRadius()*2, pic, epsilon.getID()));
     }
     public static void addLaserView(BlackOrbLaser laser, GameManager gameManager) {
         gameManager.getGameView().addLaser(new BlackOrbLaserView(laser.getX1(), laser.getY1(),

@@ -4,8 +4,6 @@ import application.MyApplication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import controller.game_manager.GameManager;
-import model.game.GameModel;
 
 import java.io.*;
 
@@ -43,7 +41,7 @@ public class ReaderWriter {
         return gson.fromJson(reader,tClass);
     }
     public <T> File convertToFile(T object, String name){
-        File file = new File("src/main/resources/data/"+name);
+        File file = new File("src/main/resources/data/files/"+name);
         try {
             FileOutputStream outputStream = new FileOutputStream(file);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
@@ -70,48 +68,8 @@ public class ReaderWriter {
     public Configs getConfigs() {
         return load(Configs.class, "src/main/resources/data/config.json");
     }
-    public void saveConfigs() {
-        save("src/main/resources/data/config.json", MyApplication.configs);
-    }
-    public GameManager getGameManager(){
-        GameManager gameManager = null;
-        try{
-            gameManager = load(GameManager.class, "src/main/resources/data/game.json");
-        }
-        catch (Exception e){
-            return null;
-        }
-        return gameManager;
-    }
-    public void saveGameManger(GameManager gameManager) {
-        save("src/main/resources/data/game.json", gameManager);
-    }
-    public void realTimeProgressSave(GameManager gameManager){
-        save("src/main/resources/data/progress.json", gameManager.getGameModel());
-    }
-    public GameModel getRealTimeProgress(){
-        GameModel gameModel = null;
-        try{
-            gameModel = load(GameModel.class, "src/main/resources/data/progress.json");
-        }
-        catch (Exception e){
-            return null;
-        }
-        return gameModel;
-    }
-    public void gameSave(GameManager gameManager){
-        save("src/main/resources/data/game-model.json", gameManager.getGameModel());
-    }
-    public GameModel getGameModel(){
-        GameModel gameModel = null;
-        try{
-            gameModel = load(GameModel.class, "src/main/resources/data/game-model.json");
-        }
-        catch (Exception e){
-            return null;
-        }
-        return gameModel;
-    }
+
+
     public void deleteSavedGames(){
         new File("src/main/resources/data/game-model.json").delete();
         new File("src/main/resources/data/progress.json").delete();

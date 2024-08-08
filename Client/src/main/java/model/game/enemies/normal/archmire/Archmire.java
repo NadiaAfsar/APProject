@@ -10,6 +10,7 @@ import model.game.EpsilonModel;
 import model.game.Interference;
 import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.Barricados;
+import model.game.enemies.mini_boss.black_orb.BlackOrb;
 import model.game.frame.MyFrame;
 import model.interfaces.movement.Direction;
 import model.interfaces.movement.Movable;
@@ -68,7 +69,7 @@ public class Archmire extends Enemy implements Movable {
                 if (currentTime - lastCheckedTime >= 1000) {
                     for (int i = 0; i < gameManager.getGameModel().getEnemies().size(); i++) {
                         Enemy enemy = gameManager.getGameModel().getEnemies().get(i);
-                        if (!(enemy instanceof Archmire) && !(enemy instanceof Barricados)) {
+                        if (!(enemy instanceof Archmire) && !(enemy instanceof Barricados) && !(enemy instanceof BlackOrb)) {
                             if (Interference.enemyIsInArchmire(vertexes, enemy)) {
                                 enemy.decreaseHP(10);
                             }

@@ -4,41 +4,144 @@ import application.MyApplication;
 import controller.ApplicationManager;
 import controller.Controller;
 import controller.game_manager.GameManager;
+import controller.game_manager.GameManagerHelper;
+import controller.game_manager.Monomachia;
 import controller.save.Configs;
 import model.*;
+import model.game.EpsilonModel;
+import model.game.enemies.Enemy;
+import model.interfaces.movement.Point;
 import network.TCP.TCPClient;
 import network.UDP.UDPClient;
 import org.apache.log4j.Logger;
 import view.menu.GameFrame;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 public class ClientHandler extends Thread{
     private Client client;
     private TCPClient tcpClient;
     private UDPClient udpClient;
     private Logger logger;
+    private ApplicationManager applicationManager;
     private GameManager gameManager;
+    private static int number;
     private final static Object lock = new Object();
+    private ArrayList<Integer> newEnemies;
+    private ArrayList<Point> newBullets;
     public ClientHandler(){
+        number++;
         client = new Client();
-        logger = Logger.getLogger(ClientHandler.class.getName());
+        logger = Logger.getLogger(ClientHandler.class.getName()+number);
     }
     public void run(){
         while (true){
                 if (client.getStatus().equals(Status.ONLINE)) {
                     synchronized (lock) {
                         updateClient();
+                        getRunningGame();
+                        if (client.getStatus().equals(Status.BUSY)){
+                            try {
+                                sleep(1000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
-                } else if (client.getStatus().equals(Status.BUSY)) {
-
-
+                } else if (gameManager != null) {
+                    if (gameManager.getGameModel() != null) {
+                        sendUpdate();
+                        getUpdates();
+                    }
                 }
             try {
                 sleep((long) Configs.FRAME_UPDATE_TIME);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+    public void shootBullet(int x, int y){
+            synchronized (lock){
+                newBullets.add(new Point(x,y));
+            }
+    }
+    private void sendUpdate(){
+        tcpClient.getListener().sendMessage(Requests.SEND_UPDATE.toString());
+        EpsilonModel epsilonModel = gameManager.getGameModel().getEpsilons().get(gameManager.getGameModel().getEpsilonNumber());
+        Entity epsilon = new Entity((int)epsilonModel.getCenter().getX(),(int) epsilonModel.getCenter().getY(), 0);
+        File epsilonFile = MyApplication.readerWriter.convertToFile(epsilon, "epsilon"+epsilon.getID());
+        udpClient.getSender().sendFile(epsilonFile);
+        epsilonFile.delete();
+        tcpClient.getListener().sendMessage(newBullets.size()+"");
+        for (int i = 0; i < newBullets.size(); i++){
+            Entity bullet = new Entity((int)newBullets.get(i).getX(), (int)newBullets.get(i).getY(), 0);
+            File bulletFile = MyApplication.readerWriter.convertToFile(bullet, bullet.getID());
+            udpClient.getSender().sendFile(bulletFile);
+            bulletFile.delete();
+        }
+        newBullets = new ArrayList<>();
+        tcpClient.getListener().sendMessage(newEnemies.size()+"");
+        for (int i = 0; i < newEnemies.size(); i++) {
+            tcpClient.getListener().sendMessage(newEnemies.get(i) + "");
+        }
+        newEnemies = new ArrayList<>();
+    }
+    private void getUpdates(){
+        tcpClient.getListener().sendMessage(Requests.RECEIVE_UPDATE.toString());
+        int epsilons = Integer.parseInt(tcpClient.getListener().getMessage());
+        for (int i = 0; i < epsilons; i++){
+            if (i != gameManager.getGameModel().getEpsilonNumber()){
+                File epsilonFile = udpClient.getReceiver().getFile();
+                Entity entity = MyApplication.readerWriter.getObject(Entity.class, epsilonFile);
+                gameManager.getGameModel().getEpsilons().get(i).setCenter(entity.getX(), entity.getY());
+                epsilonFile.delete();
+                int bullets = Integer.parseInt(tcpClient.getListener().getMessage());
+                for (int j = 0; j < bullets; j++){
+                    File bulletFile = udpClient.getReceiver().getFile();
+                    Entity bullet = MyApplication.readerWriter.getObject(Entity.class, bulletFile);
+                    gameManager.getGameModel().getEpsilons().get(i).shootBullet(bullet.getX(), bullet.getY());
+                    bulletFile.delete();
+                }
+            }
+            String enemies = tcpClient.getListener().getMessage();
+            int newEnemies = Integer.parseInt(enemies);
+            for (int j = 0; j < newEnemies; j++){
+                File enemyFile = udpClient.getReceiver().getFile();
+                Entity enemy = MyApplication.readerWriter.getObject(Entity.class, enemyFile);
+                Enemy enemy1 = GameManagerHelper.getNewEnemy(new Point(enemy.getX(), enemy.getY()), gameManager.getGameModel().getEnemyHP(),
+                        gameManager.getGameModel().getEnemyVelocity(), enemy.getEnemyType(), gameManager.getGameModel().getEpsilons().get(i));
+                enemyFile.delete();
+                gameManager.getGameModel().getEnemies().add(enemy1);
+            }
+        }
+    }
+    public void addEnemy(int enemies){
+        synchronized (lock) {
+            newEnemies.add(enemies);
+        }
+    }
+    private void getRunningGame(){
+        tcpClient.getListener().sendMessage(Requests.RUNNING_GAME.toString());
+        String game = tcpClient.getListener().getMessage();
+        if (game.equals(Requests.MONOMACHIA.toString())){
+            newBullets = new ArrayList<>();
+            newEnemies = new ArrayList<>();
+            gameManager = new Monomachia(applicationManager);
+            int playerNumber = Integer.parseInt(tcpClient.getListener().getMessage());
+            client.setStatus(Status.BUSY);
+            Timer timer = new Timer(5000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Controller.startGame(gameManager, playerNumber);
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
         }
     }
 
@@ -83,12 +186,10 @@ public class ClientHandler extends Thread{
         tcpClient.initSocket();
         logger.debug("TCP set");
         if (tcpClient.isConnected()) {
-            udpClient = new UDPClient(TCPClient.getNumber()+8090, this);
-            System.out.println(udpClient.getPort());
+            udpClient = new UDPClient(TCPClient.getNumber()+8090, this, TCPClient.getNumber());
             udpClient.initialize();
             tcpClient.getListener().sendMessage(udpClient.getPort()+"");
-            logger.debug("connected");
-            ApplicationManager applicationManager = new ApplicationManager(this, true);
+            applicationManager = new ApplicationManager(this, true);
             Controller.runGame(applicationManager);
         }
     }
@@ -130,7 +231,6 @@ public class ClientHandler extends Thread{
             tcpClient.getListener().sendMessage(name);
             String response = tcpClient.getListener().getMessage();
             if (response.equals(Requests.ACCEPTED.toString())) {
-                logger.debug("accepted");
                 tcpClient.getListener().sendMessage(client.getUsername());
                 File squadFile = udpClient.getReceiver().getFile();
                 Squad squad = MyApplication.readerWriter.getObject(Squad.class, squadFile);
@@ -170,14 +270,9 @@ public class ClientHandler extends Thread{
         tcpClient.getListener().sendMessage(Requests.CLIENT.toString());
         tcpClient.getListener().sendMessage(name);
         File clientFile = udpClient.getReceiver().getFile();
-        logger.debug(clientFile.getName());
         Client client1 = MyApplication.readerWriter.getObject(Client.class, clientFile);
         clientFile.delete();
         return client1;
-    }
-
-    public void setGameManager(GameManager gameManager) {
-        this.gameManager = gameManager;
     }
 
     public Object getLock() {

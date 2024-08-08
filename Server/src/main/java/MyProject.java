@@ -1,6 +1,3 @@
-
-import controller.Controller;
-
 public class MyProject implements Runnable{
 
     @Override

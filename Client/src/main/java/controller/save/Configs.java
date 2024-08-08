@@ -10,7 +10,8 @@ public class Configs {
     public static final int UPS = 100;
     public static final double FRAME_UPDATE_TIME=(double) TimeUnit.SECONDS.toMillis(1)/FPS;
     public static final double MODEL_UPDATE_TIME=(double) TimeUnit.SECONDS.toMillis(1)/UPS;
-    public String EPSILON;
+    public String EPSILON1;
+    public String EPSILON2;
     public String SQUARANTINE;
     public String TRIGORATH;
     public String BACKGROUND;

@@ -71,7 +71,7 @@ public interface Collidable {
     }
 
     default Point getBlackOrbCollisionWithEpsilon(EpsilonModel epsilon) {
-        return circleWithCircle(epsilon.getCenter(), getCenter(), epsilon.getRadius(), ((BlackOrb)this).getWidth()/2);
+        return circleWithCircle(epsilon.getCenter(), getCenter(), epsilon.getRadius(), ((BlackOrbVertex)this).getWidth()/2);
     }
     default Point circleWithCircle(Point center1, Point center2, double radius1, double radius2){
         double distance = Calculations.getDistance(center1.getX(), center1.getY(), center2.getX(), center2.getY());

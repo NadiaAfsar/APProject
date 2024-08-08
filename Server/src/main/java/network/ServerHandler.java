@@ -10,17 +10,14 @@ import java.util.ArrayList;
 public class ServerHandler {
     private Server server;
     private TCPServer tcpServer;
-    private UDPServer udpServer;
     private static ServerHandler instance;
     private static ArrayList<String> unmatchedSquads;
     private ServerHandler(){
         server = new Server();
-        tcpServer = new TCPServer(8090);
-        udpServer = new UDPServer();
+        tcpServer = new TCPServer(1000);
     }
     public void initiate(){
         tcpServer.start();
-        udpServer.run();
     }
 
     public static ServerHandler getInstance() {
@@ -36,10 +33,6 @@ public class ServerHandler {
 
     public TCPServer getTcpServer() {
         return tcpServer;
-    }
-
-    public UDPServer getUdpServer() {
-        return udpServer;
     }
     public void initiateSquadBattle(){
         unmatchedSquads = new ArrayList<>();

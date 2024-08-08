@@ -56,6 +56,7 @@ public abstract class GameModel {
     private int successfulBullets;
     private int killedEnemies;
     private GameManager gameManager;
+    private int epsilonNumber;
 
     public GameModel(GameManager gameManager, int epsilonNumber) {
         this.gameManager = gameManager;
@@ -66,6 +67,7 @@ public abstract class GameModel {
         enemiesBullets = new ArrayList<>();
         myFrames = new ArrayList<>();
         epsilons = new ArrayList<>();
+        this.epsilonNumber = epsilonNumber;
         addEpsilons(epsilonNumber);
         diedEnemies = new ArrayList<>();
         vanishedBullets = new ArrayList<>();
@@ -76,11 +78,11 @@ public abstract class GameModel {
     }
     private void addEpsilons(int epsilon){
         if (gameManager.isOnline()) {
-            EpsilonModel epsilon1 = new EpsilonModel(new MyFrame(500, 500, 100, 100, false, false, 400,
-                    400, gameManager), gameManager);
+            EpsilonModel epsilon1 = new EpsilonModel(new MyFrame(500, 500, 100, 0, false, false, 400,
+                    400, gameManager), gameManager, 0);
             myFrames.add(epsilon1.getFrame());
-            EpsilonModel epsilon2 = new EpsilonModel(new MyFrame(500, 500, 700, 100, false, false, 400,
-                    400, gameManager), gameManager);
+            EpsilonModel epsilon2 = new EpsilonModel(new MyFrame(500, 500, 700, 0, false, false, 400,
+                    400, gameManager), gameManager, 1);
             myFrames.add(epsilon2.getFrame());
             epsilons = new ArrayList<>();
             epsilons.add(epsilon1);
@@ -88,7 +90,7 @@ public abstract class GameModel {
         }
         else {
             EpsilonModel epsilon1 = new EpsilonModel(new MyFrame(700, 700, Configs.FRAME_SIZE.width/2-350,
-                    Configs.FRAME_SIZE.height/2-350, false, false, 400, 400, gameManager), gameManager);
+                    Configs.FRAME_SIZE.height/2-350, false, false, 400, 400, gameManager), gameManager, 0);
             myFrames.add(epsilon1.getFrame());
             epsilons.add(epsilon1);
         }
@@ -369,5 +371,9 @@ public abstract class GameModel {
 
     public void setKilledEnemies(int killedEnemies) {
         this.killedEnemies = killedEnemies;
+    }
+
+    public int getEpsilonNumber() {
+        return epsilonNumber;
     }
 }

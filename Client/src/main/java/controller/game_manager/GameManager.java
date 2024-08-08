@@ -1,7 +1,5 @@
 package controller.game_manager;
 
-
-import application.MyApplication;
 import controller.ApplicationManager;
 import controller.Controller;
 import controller.audio.AudioController;
@@ -15,26 +13,15 @@ import model.game.enemies.mini_boss.Barricados;
 import model.game.enemies.mini_boss.black_orb.BlackOrb;
 import model.game.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.game.enemies.smiley.Fist;
-import model.game.skills.Skill;
-import model.game.skills.attack.WritOfAres;
-import model.game.skills.attack.WritOfAstrape;
-import model.game.skills.attack.WritOfCerberus;
 import model.game.skills.defence.WritOfAceso;
-import model.game.skills.defence.WritOfAthena;
-import model.game.skills.defence.WritOfChiron;
-import model.game.skills.defence.WritOfMelampus;
 import model.game.skills.transform.WritOfDolus;
-import model.game.skills.transform.WritOfEmpusa;
-import model.game.skills.transform.WritOfProteus;
 import model.game_model.EasyGame;
 import model.game_model.GameModel;
 import model.game_model.HardGame;
 import model.game_model.MediumGame;
 import model.interfaces.collision.Impactable;
 import model.interfaces.movement.Point;
-import network.ClientHandler;
 import view.game.GameView;
-import view.menu.GameFrame;
 
 import java.util.ArrayList;
 
@@ -63,7 +50,7 @@ public class GameManager {
         new ModelLoop(this).start();
         new ViewLoop(this).start();
     }
-    public void startGame() {
+    public void startGame(int epsilonNumber) {
         gameView = new GameView(this);
         setGameModel();
 
@@ -144,6 +131,7 @@ public class GameManager {
             gameModel.setKilledEnemies(gameModel.getKilledEnemies()+gameModel.getCurrentWave().getDiedEnemies());
         }
         gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getEnemiesToKill().get(gameModel.getWave()), this));
+
     }
     private void checkBulletsCollision() {
         for (int i = 0; i < gameModel.getBullets().size(); i++) {

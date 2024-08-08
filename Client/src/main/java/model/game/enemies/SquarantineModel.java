@@ -51,30 +51,31 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
 
     @Override
     public void specialMove() {
-        if (!hasRandomAcceleration && !impact) {
-            int x = (int) (Math.random() * 200);
-            if (x == 5) {
-                direction = getDirection();
-                acceleration = new Point(30*direction.getDx(), 30*direction.getDy());
-                accelerationRate = new Point(-10*direction.getDx(), -10*direction.getDy());
-                hasRandomAcceleration = true;
+        if (!gameManager.isOnline()) {
+            if (!hasRandomAcceleration && !impact) {
+                int x = (int) (Math.random() * 200);
+                if (x == 5) {
+                    direction = getDirection();
+                    acceleration = new Point(30 * direction.getDx(), 30 * direction.getDy());
+                    accelerationRate = new Point(-10 * direction.getDx(), -10 * direction.getDy());
+                    hasRandomAcceleration = true;
+                }
             }
-        }
-        if (hasRandomAcceleration && !impact) {
-            if (acceleration.getX() <= 0 || acceleration.getY() <= 0) {
-                velocity = new Point(0,0);
-                acceleration = new Point(0, 0);
-                accelerationRate = new Point(0, 0);
-                hasRandomAcceleration = false;
-            }
-            else {
-                Direction newDirection = getDirection();
-                acceleration = new Point(acceleration.getX()/direction.getDx()*newDirection.getDx(),
-                        acceleration.getY()/direction.getDy()*newDirection.getDy());
-                accelerationRate = new Point(accelerationRate.getX()/direction.getDx()*newDirection.getDx(),
-                        accelerationRate.getY()/direction.getDy()*newDirection.getDy());
-                direction = newDirection;
+            if (hasRandomAcceleration && !impact) {
+                if (acceleration.getX() <= 0 || acceleration.getY() <= 0) {
+                    velocity = new Point(0, 0);
+                    acceleration = new Point(0, 0);
+                    accelerationRate = new Point(0, 0);
+                    hasRandomAcceleration = false;
+                } else {
+                    Direction newDirection = getDirection();
+                    acceleration = new Point(acceleration.getX() / direction.getDx() * newDirection.getDx(),
+                            acceleration.getY() / direction.getDy() * newDirection.getDy());
+                    accelerationRate = new Point(accelerationRate.getX() / direction.getDx() * newDirection.getDx(),
+                            accelerationRate.getY() / direction.getDy() * newDirection.getDy());
+                    direction = newDirection;
 
+                }
             }
         }
     }

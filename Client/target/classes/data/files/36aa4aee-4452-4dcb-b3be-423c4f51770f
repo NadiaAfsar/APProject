@@ -1,0 +1,29 @@
+{
+  "username": "dcsd",
+  "squad": {
+    "name": "dvd",
+    "members": [
+      "dcsd"
+    ],
+    "ownerName": "dcsd",
+    "ID": "2d821006-ff49-4bd1-a5af-eb767d8c9358",
+    "inBattle": true,
+    "competitorSquad": "scd"
+  },
+  "XP": 0,
+  "ID": "36aa4aee-4452-4dcb-b3be-423c4f51770f",
+  "status": "ONLINE",
+  "sentRequests": [
+    {
+      "requestName": "Monomachia battle",
+      "accepted": true,
+      "declined": false,
+      "sender": "dcsd",
+      "receiver": "sdsd",
+      "ID": "dfe8e945-9819-4b20-9db5-6bf4237e363d"
+    }
+  ],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

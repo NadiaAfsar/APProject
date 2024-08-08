@@ -30,6 +30,9 @@ public class GameMouseListener extends MouseAdapter{
                 y = (int) MouseInfo.getPointerInfo().getLocation().getY();
             }
             gameManager.getGameModel().getMyEpsilon().shootBullet(x,y);
+            if (gameManager.isOnline()){
+                gameManager.getApplicationManager().getClientHandler().shootBullet(x,y);
+            }
         }
 
     }

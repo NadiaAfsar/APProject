@@ -47,12 +47,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameManager.isRunning()) {
-                    if (gameManager.isOnline()){
-                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.UP.toString());
-                    }
-                    else {
                         gameManager.getGameModel().getMyEpsilon().moveUp(true);
-                    }
                 }
             }
         });
@@ -60,12 +55,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameManager.isRunning()) {
-                    if (gameManager.isOnline()){
-                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.DOWN.toString());
-                    }
-                    else {
                         gameManager.getGameModel().getMyEpsilon().moveDown(true);
-                    }
                 }
             }
         });
@@ -73,12 +63,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameManager.isRunning()) {
-                    if (gameManager.isOnline()){
-                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.RIGHT.toString());
-                    }
-                    else {
                         gameManager.getGameModel().getMyEpsilon().moveRight(true);
-                    }
                 }
             }
         });
@@ -86,12 +71,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameManager.isRunning()) {
-                    if (gameManager.isOnline()){
-                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.LEFT.toString());
-                    }
-                    else {
                         gameManager.getGameModel().getMyEpsilon().moveLeft(true);
-                    }
                 }
             }
         });
@@ -99,12 +79,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameManager.isRunning()) {
-                    if (gameManager.isOnline()){
-                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.STOP_UP.toString());
-                    }
-                    else {
                         gameManager.getGameModel().getMyEpsilon().moveUp(false);
-                    }
                 }
             }
         });
@@ -112,12 +87,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameManager.isRunning()) {
-                    if (gameManager.isOnline()){
-                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.STOP_DOWN.toString());
-                    }
-                    else {
                         gameManager.getGameModel().getMyEpsilon().moveDown(false);
-                    }
                 }
             }
         });
@@ -125,12 +95,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameManager.isRunning()) {
-                    if (gameManager.isOnline()){
-                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.STOP_RIGHT.toString());
-                    }
-                    else {
                         gameManager.getGameModel().getMyEpsilon().moveRight(false);
-                    }
                 }
             }
         });
@@ -138,12 +103,7 @@ public class InputListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameManager.isRunning()) {
-                    if (gameManager.isOnline()){
-                        gameManager.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.STOP_LEFT.toString());
-                    }
-                    else {
                         gameManager.getGameModel().getMyEpsilon().moveLeft(false);
-                    }
                 }
             }
         });

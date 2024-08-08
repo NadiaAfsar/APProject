@@ -3,11 +3,13 @@ package model.game;
 import controller.game_manager.GameManager;
 import controller.game_manager.GameManagerHelper;
 import controller.audio.AudioController;
+import controller.game_manager.Monomachia;
 import model.game.enemies.Enemy;
 import model.game.enemies.smiley.Smiley;
 import model.game.frame.MyFrame;
 import model.game_model.GameModel;
 import model.interfaces.movement.Point;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,8 +26,10 @@ public class Wave {
     private final GameModel gameModel;
     GameManager gameManager;
     private boolean spawn;
+    private Logger logger;
 
     public Wave(int waveNumber, int enemies, GameManager gameManager) {
+        logger = Logger.getLogger(Wave.class);
         this.waveNumber = waveNumber;
         this.enemies = enemies;
         this.gameManager = gameManager;
@@ -35,25 +39,33 @@ public class Wave {
         spawn = true;
     }
     private void addEnemy() {
-        int enemyNumber = 0;
-        if (waveNumber > 2){
-            enemyNumber = (int)(Math.random()*8);
+        if (gameManager instanceof Monomachia){
+            if (gameManager.getGameModel().getEpsilonNumber() == 0) {
+                int enemies = 6;
+                if (waveNumber > 2){
+                    enemies = 8;
+                }
+                gameManager.getApplicationManager().getClientHandler().addEnemy(enemies);
+            }
         }
         else {
-            enemyNumber = (int)(Math.random()*6);
+            int enemyNumber = 0;
+            if (waveNumber > 2) {
+                enemyNumber = (int) (Math.random() * 8);
+            } else {
+                enemyNumber = (int) (Math.random() * 6);
+            }
+            Point position = GameManagerHelper.getRandomPosition(400, 400);
+            Enemy enemy = GameManagerHelper.getNewEnemy(position, gameModel.getEnemyHP(), gameModel.getEnemyVelocity(), enemyNumber,
+                    gameManager.getGameModel().getMyEpsilon());
+            gameModel.getEnemies().add(enemy);
         }
-        MyFrame myFrame = gameModel.getInitialFrame();
-        Point position = GameManagerHelper.getRandomPosition(myFrame.getWidth(), myFrame.getHeight());
-        Enemy enemy = GameManagerHelper.getNewEnemy(new Point(myFrame.getX()+ position.getX(),
-                myFrame.getY()+ position.getY()), gameModel.getEnemyHP(), gameModel.getEnemyVelocity(), enemyNumber,
-                myFrame, gameManager);
-        gameModel.getEnemies().add(enemy);
     }
     private void startWave() {
         addedEnemies = new boolean[4][6];
         gameModel.setEnemies(new ArrayList<>());
         if (waveNumber != 6) {
-            addEnemies(2);
+            addEnemies(1);
         }
         else {
             Smiley smiley = new Smiley(new Point(200, 200), gameModel.getEnemyVelocity(), gameManager, gameManager.getGameModel().getMyEpsilon());
@@ -101,7 +113,7 @@ public class Wave {
             }
             else if (getElapsedTime() != 0) {
                 if (System.currentTimeMillis() - lastSpawning > 100000 / Math.pow(getElapsedTime(), 1d/4) && spawn && !gameModel.isWait()) {
-                    addEnemies(3);
+                    addEnemies(1);
                 }
             }
         }

@@ -10,8 +10,8 @@ public class UDPServer implements Runnable{
     private Integer port;
     private DatagramSocket datagramSocket;
     private Object lock;
-    public UDPServer() {
-        port = 8090;
+    public UDPServer(int number) {
+        port = 1000+number;
         lock = new Object();
     }
 

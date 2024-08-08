@@ -1,7 +1,6 @@
 package model;
 
-import model.game.EpsilonModel;
-import network.TCP.ServerListener;
+import network.ServerListener;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -16,7 +15,8 @@ public class Client {
     private ArrayList<Request> receivedRequests;
     private boolean monomachia;
     private boolean colosseum;
-    private EpsilonModel clientEpsilon;
+    private RunningGame runningGame;
+    private int playerNumber;
     private ServerListener listener;
     public Client(String username, ServerListener listener){
         this.username = username;
@@ -89,15 +89,23 @@ public class Client {
         this.colosseum = colosseum;
     }
 
-    public EpsilonModel getClientEpsilon() {
-        return clientEpsilon;
+    public RunningGame getRunningGame() {
+        return runningGame;
     }
 
-    public void setClientEpsilon(EpsilonModel clientEpsilon) {
-        this.clientEpsilon = clientEpsilon;
+    public void setRunningGame(RunningGame runningGame) {
+        this.runningGame = runningGame;
     }
 
     public ServerListener getListener() {
         return listener;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
     }
 }

@@ -51,8 +51,9 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private long lastCerberusAttack;
     private GameManager gameManager;
     private String ID;
+    private MyFrame initialFrame;
 
-    public EpsilonModel(MyFrame myFrame, GameManager gameManager) {
+    public EpsilonModel(MyFrame myFrame, GameManager gameManager, int number) {
         this.gameManager = gameManager;
         logger = Logger.getLogger(EpsilonModel.class);
         ID = UUID.randomUUID().toString();
@@ -60,17 +61,21 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
         radius = MyApplication.configs.EPSILON_RADIUS;
         addMoveTimers();
         HP = 100;
-        XP = 1000;
+        XP = 0;
         velocity = new Point(0,0);
         acceleration = new Point(0,0);
         accelerationRate = new Point(0,0);
         vertexes = new ArrayList<>();
         cerberusList = new ArrayList<>();
         this.myFrame = myFrame;
+        initialFrame = myFrame;
         this.sensitivity = gameManager.getApplicationManager().getSensitivity();
-        Controller.addEpsilonView(gameManager, this);
+        Controller.addEpsilonView(gameManager, this, number);
     }
 
+    public MyFrame getInitialFrame() {
+        return initialFrame;
+    }
 
     public void setInCenter() {
         setCenter(myFrame.getX()+ myFrame.getWidth()/2, myFrame.getY()+ myFrame.getHeight()/2);
@@ -364,7 +369,6 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     private void checkCollisionWithCollidable(Collidable collidable){
         Point collisionPoint = collidable.getCollisionPoint(this);
         if (collisionPoint != null) {
-            logger.debug("collided");
             if (collidable instanceof Fist){
                 ((Fist)collidable).slapped();
             }

@@ -1,8 +1,11 @@
 package network.TCP;
 
 import application.MyApplication;
+import controller.GameManagerHelper;
 import model.*;
+import model.Point;
 import network.ServerHandler;
+import network.ServerListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,39 +40,90 @@ public class RequestHandler {
             else if (request.equals(Requests.CLIENT_DATA.toString())){
                 clientData(listener);
             }
-            else if (request.equals(Requests.UP.toString())){
-                listener.getClient().getClientEpsilon().moveUp(true);
+            else if (request.equals(Requests.RUNNING_GAME.toString())){
+                sendGame(listener);
             }
-            else if (request.equals(Requests.DOWN.toString())){
-                listener.getClient().getClientEpsilon().moveDown(true);
+            else if (request.equals(Requests.SEND_UPDATE.toString())){
+                getUpdates(listener);
             }
-            else if (request.equals(Requests.RIGHT.toString())){
-                listener.getClient().getClientEpsilon().moveRight(true);
-            }
-            else if (request.equals(Requests.LEFT.toString())){
-                listener.getClient().getClientEpsilon().moveLeft(true);
-            }
-            else if (request.equals(Requests.STOP_UP.toString())){
-                listener.getClient().getClientEpsilon().moveUp(false);
-            }
-            else if (request.equals(Requests.STOP_DOWN.toString())){
-                listener.getClient().getClientEpsilon().moveDown(false);
-            }
-            else if (request.equals(Requests.STOP_RIGHT.toString())){
-                listener.getClient().getClientEpsilon().moveRight(false);
-            }
-            else if (request.equals(Requests.STOP_LEFT.toString())){
-                listener.getClient().getClientEpsilon().moveLeft(false);
-            }
-            else if (request.equals(Requests.UPDATE.toString())){
-                update(listener);
+            else if (request.equals(Requests.RECEIVE_UPDATE.toString())){
+                sendUpdates(listener);
             }
     }
-    private static void update(ServerListener listener) {
-        File gameFile = MyApplication.readerWriter.convertToFile(listener.getGameManager().getGameView(),
-                listener.getGameManager().getGameView().getGameID());
-        ServerHandler.getInstance().getUdpServer().getSender().sendFile(gameFile, listener.getSocketAddress());
+    private static void addEnemy(ServerListener listener){
+        int enemies = Integer.parseInt(listener.getMessage());
+        Point point = GameManagerHelper.getRandomPosition(400, 400);
+        int random = (int)(Math.random()*enemies);
+        Entity enemy = new Entity((int)point.getX(), (int)point.getY(), random);
+        listener.getClient().getRunningGame().getAddedEnemies().get(listener.getClient()).add(enemy);
+        listener.getClient().getRunningGame().getAddedEnemies().get(listener.getClient().getRunningGame().
+                getClientsInGame().get(1)).add(enemy);
     }
+    private static void shootBullet(ServerListener listener){
+        File bulletFile = listener.getUdpServer().getReceiver().getFile();
+        Entity bullet = MyApplication.readerWriter.getObject(Entity.class, bulletFile);
+        listener.getClient().getRunningGame().getBullets().get(listener.getClient()).add(bullet);
+        bulletFile.delete();
+    }
+    private static void getUpdates(ServerListener listener){
+        File epsilon = listener.getUdpServer().getReceiver().getFile();
+        Entity epsilonModel = MyApplication.readerWriter.getObject(Entity.class, epsilon);
+        listener.getClient().getRunningGame().getEpsilons().put(listener.getClient(), epsilonModel);
+        epsilon.delete();
+        int bullets = Integer.parseInt(listener.getMessage());
+        for (int i = 0; i < bullets; i++){
+            shootBullet(listener);
+        }
+        int newEnemies = Integer.parseInt(listener.getMessage());
+        for (int i = 0; i < newEnemies; i++){
+            addEnemy(listener);
+        }
+    }
+    private static void sendUpdates(ServerListener listener){
+        RunningGame game = listener.getClient().getRunningGame();
+        listener.sendMessage(game.getClientsInGame().size()+"");
+        for (int i = 0; i < game.getClientsInGame().size(); i++){
+            if (i != listener.getClient().getPlayerNumber()) {
+                Entity entity = game.getEpsilons().get(game.getClientsInGame().get(i));
+                File epsilon = MyApplication.readerWriter.convertToFile(entity, entity.getID());
+                listener.getUdpServer().getSender().sendFile(epsilon, listener.getSocketAddress());
+                epsilon.delete();
+                ArrayList<Entity> bullets = game.getBullets().get(game.getClientsInGame().get(i));
+                listener.sendMessage(bullets.size()+"");
+                for (int j = 0; j < bullets.size(); j++){
+                    File bullet = MyApplication.readerWriter.convertToFile(bullets.get(j), bullets.get(j).getID());
+                    listener.getUdpServer().getSender().sendFile(bullet, listener.getSocketAddress());
+                    bullet.delete();
+                }
+                game.getBullets().put(game.getClientsInGame().get(i), new ArrayList<>());
+            }
+            ArrayList<Entity> enemies = game.getAddedEnemies().get(game.getClientsInGame().get(i));
+            listener.sendMessage(enemies.size()+"");
+            for (int j = 0; j < enemies.size(); j++){
+                File enemy = MyApplication.readerWriter.convertToFile(enemies.get(j), j+enemies.get(j).getID()+listener.getClient().getUsername());
+                listener.getUdpServer().getSender().sendFile(enemy, listener.getSocketAddress());
+                enemy.delete();
+            }
+        }
+        game.setEnemiesAdded(game.getEnemiesAdded()+1);
+        if (game.getEnemiesAdded() == game.getClientsInGame().size()) {
+            for (int i = 0; i < game.getClientsInGame().size(); i++){
+                game.getAddedEnemies().put(game.getClientsInGame().get(i), new ArrayList<>());
+                game.setEnemiesAdded(0);
+            }
+        }
+    }
+    private static void sendGame(ServerListener listener){
+        if (listener.getClient().getRunningGame() != null){
+            listener.getClient().setStatus(Status.BUSY);
+            listener.sendMessage(listener.getClient().getRunningGame().getGame());
+            listener.sendMessage(listener.getClient().getPlayerNumber()+"");
+        }
+        else {
+            listener.sendMessage("nothing");
+        }
+    }
+
     private static void received(ServerListener listener){
             String ID = listener.getMessage();
             Request request = ServerHandler.getInstance().getServer().getRequests().get(ID);
@@ -86,8 +140,8 @@ public class RequestHandler {
             Client client = ServerHandler.getInstance().getServer().getClients().get(name);
             if (client != null) {
                 File file = MyApplication.readerWriter.convertToFile(client, client.getID());
-                ServerHandler.getInstance().getUdpServer().getSender().sendFile(file, listener.getSocketAddress());
-                //file.delete();
+                listener.getUdpServer().getSender().sendFile(file, listener.getSocketAddress());
+                file.delete();
             }
     }
     private static void sendClient(ServerListener listener){
@@ -99,9 +153,9 @@ public class RequestHandler {
             }
             client.setStatus(Status.ONLINE);
             File file = MyApplication.readerWriter.convertToFile(client, client.getID());
-            ServerHandler.getInstance().getUdpServer().getSender().sendFile(file, listener.getSocketAddress());
+            listener.getUdpServer().getSender().sendFile(file, listener.getSocketAddress());
             listener.setClient(client);
-            //file.delete();
+            file.delete();
     }
     private static void joinRequest(ServerListener listener){
             String squadName = listener.getMessage();
@@ -127,8 +181,8 @@ public class RequestHandler {
                 server.getSquads().put(squad.getName(), squad);
                 server.getSquadsName().add(squadName);
                 File squadFile = MyApplication.readerWriter.convertToFile(squad, squad.getID());
-                ServerHandler.getInstance().getUdpServer().getSender().sendFile(squadFile, listener.getSocketAddress());
-                //squadFile.delete();
+                listener.getUdpServer().getSender().sendFile(squadFile, listener.getSocketAddress());
+                squadFile.delete();
             }
             if (ServerHandler.getInstance().getServer().getSquadsName().size() >= 2) {
                 ServerHandler.getInstance().initiateSquadBattle();
@@ -142,17 +196,17 @@ public class RequestHandler {
     }
     private static void sendSquads(ServerListener listener){
             ArrayList<String> squads = ServerHandler.getInstance().getServer().getSquadsName();
-            ServerHandler.getInstance().getUdpServer().getSender().sendString(squads.size() + "", listener.getSocketAddress());
+            listener.getUdpServer().getSender().sendString(squads.size() + "", listener.getSocketAddress());
             for (int i = 0; i < squads.size(); i++) {
-                ServerHandler.getInstance().getUdpServer().getSender().sendString(squads.get(i), listener.getSocketAddress());
+                listener.getUdpServer().getSender().sendString(squads.get(i), listener.getSocketAddress());
             }
     }
     private static void sendSquad(ServerListener listener){
             String name = listener.getMessage();
             Squad squad = ServerHandler.getInstance().getServer().getSquads().get(name);
             File file = MyApplication.readerWriter.convertToFile(squad, squad.getID());
-            ServerHandler.getInstance().getUdpServer().getSender().sendFile(file, listener.getSocketAddress());
-            //file.delete();
+            listener.getUdpServer().getSender().sendFile(file, listener.getSocketAddress());
+            file.delete();
     }
     private static void battleRequest(ServerListener listener){
             String sender = listener.getMessage();
@@ -194,7 +248,13 @@ public class RequestHandler {
                 client.setSquad(listener.getClient().getSquad());
             } else if (server.getRequests().get(requestID).getRequestName().equals("Monomachia battle")) {
                 Request request = server.getRequests().get(requestID);
-
+                ArrayList<Client> clients = new ArrayList<Client>(){{add(server.getClients().get(request.getSender()));
+                add(server.getClients().get(request.getReceiver()));}};
+                RunningGame game = new RunningGame(clients, Requests.MONOMACHIA.toString());
+                for (int i = 0; i < clients.size(); i++){
+                    clients.get(i).setRunningGame(game);
+                    clients.get(i).setPlayerNumber(i);
+                }
             }
     }
     private static void requestDeclined(ServerListener listener){
@@ -205,9 +265,9 @@ public class RequestHandler {
     private static void clientData(ServerListener listener){
             String name = listener.getMessage();
             Server server = ServerHandler.getInstance().getServer();
-            ServerHandler.getInstance().getUdpServer().getSender().sendString(server.getClients().get(name).getXP() + "",
+            listener.getUdpServer().getSender().sendString(server.getClients().get(name).getXP() + "",
                     listener.getSocketAddress());
-            ServerHandler.getInstance().getUdpServer().getSender().sendString(server.getClients().get(name).getStatus().toString(),
+            listener.getUdpServer().getSender().sendString(server.getClients().get(name).getStatus().toString(),
                     listener.getSocketAddress());
     }
 }

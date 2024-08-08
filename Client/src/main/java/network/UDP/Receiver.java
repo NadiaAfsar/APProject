@@ -11,7 +11,7 @@ import java.net.DatagramSocket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Receiver {
+public class Receiver extends Thread{
     private DatagramSocket datagramSocket;
     private final static Object lock= new Object();
     private File file;
@@ -53,7 +53,7 @@ public class Receiver {
                                 }
                                 dataArray.add(data);
                                 if (dataArray.size() == packets) {
-                                    file = FileHandler.getFile(name, "src/main/resources/data", dataArray);
+                                    file = FileHandler.getFile(name, "src/main/resources/data/files", dataArray);
                                 }
                             }
                         }).start();
@@ -65,7 +65,11 @@ public class Receiver {
         file = null;
         receiveFile();
         while (file == null){
-            logger.debug("file null");
+            try {
+                sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         return file;
     }

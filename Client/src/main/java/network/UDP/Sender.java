@@ -15,11 +15,12 @@ public class Sender extends Thread{
     private DatagramSocket datagramSocket;
     private InetSocketAddress serverAddress;
     private Object lock;
+    private int number;
 
-    public Sender(DatagramSocket datagramSocket) {
+    public Sender(DatagramSocket datagramSocket, int number) {
         this.lock = new Object();
         this.datagramSocket = datagramSocket;
-        serverAddress = new InetSocketAddress("localHost", MyApplication.configs.SERVER_PORT);
+        serverAddress = new InetSocketAddress("localHost", MyApplication.configs.SERVER_PORT+number);
     }
     private void sendData(byte[] data) {
         DatagramPacket packet = new DatagramPacket(data, data.length, serverAddress);

@@ -1,5 +1,6 @@
 {
-  "EPSILON": "src/main/resources/pictures/epsilon.png",
+  "EPSILON1": "src/main/resources/pictures/epsilon1.png",
+  "EPSILON2": "src/main/resources/pictures/epsilon2.png",
   "SQUARANTINE": "src/main/resources/pictures/square.png",
   "TRIGORATH": "src/main/resources/pictures/triangle.png",
   "BACKGROUND": "src/main/resources/pictures/background.jpg",
@@ -85,5 +86,5 @@
   "WritOfProteusPicked": false,
   "PORTAL": "src/main/resources/pictures/portal.png",
   "SERVER_IP_ADDRESS":"127.0.0.1",
-  "SERVER_PORT": 8090
+  "SERVER_PORT": 1000
 }

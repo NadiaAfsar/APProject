@@ -43,7 +43,7 @@ public class ReaderWriter {
         return gson.fromJson(reader,tClass);
     }
     public <T> File convertToFile(T object, String name){
-        File file = new File("src/main/resources/data/"+name);
+        File file = new File("src/main/resources/data/files/"+name);
         try {
             FileOutputStream outputStream = new FileOutputStream(file);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);

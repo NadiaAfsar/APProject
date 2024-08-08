@@ -115,7 +115,6 @@ public abstract class Enemy extends Thread implements Collidable{
         if (HP <= 0 && !(this instanceof Barricados)) {
             die();
         }
-        logger.debug(HP);
     }
     protected void die() {
         addCollective();
@@ -136,7 +135,6 @@ public abstract class Enemy extends Thread implements Collidable{
                                 for (int j = 0; j < vertices.size(); j++) {
                                     Point collisionPoint = this.getCollisionPoint(vertices.get(j));
                                     if (collisionPoint != null) {
-                                        logger.debug("collided");
                                         ((Impactable) this).impact(collisionPoint, vertices.get(j));
                                     }
                                 }
@@ -144,7 +142,6 @@ public abstract class Enemy extends Thread implements Collidable{
                             Collidable collidable = enemies.get(i);
                             Point collisionPoint = this.getCollisionPoint(collidable);
                             if (collisionPoint != null) {
-                                logger.debug("collided");
                                 ((Impactable) this).impact(collisionPoint, collidable);
                             }
                         }

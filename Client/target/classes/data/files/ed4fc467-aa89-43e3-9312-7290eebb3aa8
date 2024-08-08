@@ -1,0 +1,29 @@
+{
+  "username": "fdbf",
+  "squad": {
+    "name": "fbf",
+    "members": [
+      "fdbf"
+    ],
+    "ownerName": "fdbf",
+    "ID": "dff5d176-10ee-4396-a58e-faf4b7291f40",
+    "inBattle": true,
+    "competitorSquad": "fd"
+  },
+  "XP": 0,
+  "ID": "ed4fc467-aa89-43e3-9312-7290eebb3aa8",
+  "status": "ONLINE",
+  "sentRequests": [
+    {
+      "requestName": "Monomachia battle",
+      "accepted": true,
+      "declined": false,
+      "sender": "fdbf",
+      "receiver": "fds",
+      "ID": "bf10d490-50ff-49cc-9254-9a2a4e601d58"
+    }
+  ],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}
