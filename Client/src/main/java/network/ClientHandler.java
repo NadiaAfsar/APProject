@@ -73,13 +73,15 @@ public class ClientHandler extends Thread{
             }
     }
     private void sendUpdate(){
+        tcpClient.getListener().sendMessage(Requests.SEND_UPDATE.toString());
         String response = tcpClient.getListener().getMessage();
-        if (response.equals(Requests.FINISHED.toString())){
+        if (response.equals(Requests.FINISHED.toString()) && gameManager instanceof Monomachia){
             client.setStatus(Status.ONLINE);
             gameManager.finishGame();
+            String winner = tcpClient.getListener().getMessage();
+            ((Monomachia)gameManager).checkWinner(winner);
         }
         else {
-            tcpClient.getListener().sendMessage(Requests.SEND_UPDATE.toString());
             EpsilonModel epsilonModel = gameManager.getGameModel().getEpsilons().get(gameManager.getGameModel().getEpsilonNumber());
             Entity epsilon = new Entity((int) epsilonModel.getCenter().getX(), (int) epsilonModel.getCenter().getY(), 0);
             File epsilonFile = MyApplication.readerWriter.convertToFile(epsilon, "epsilon" + epsilon.getID());
@@ -137,7 +139,7 @@ public class ClientHandler extends Thread{
     }
     public void addEnemy(int enemies){
         synchronized (lock) {
-            newEnemies.add(enemies);
+            newEnemies.add(2);
         }
     }
     private void getRunningGame(){

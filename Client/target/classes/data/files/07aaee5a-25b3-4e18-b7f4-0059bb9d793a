@@ -1,0 +1,29 @@
+{
+  "username": "dsf",
+  "squad": {
+    "name": "dsg",
+    "members": [
+      "dsf"
+    ],
+    "ownerName": "dsf",
+    "ID": "157cf708-30df-4590-adc7-c6a450aedd96",
+    "inBattle": true,
+    "competitorSquad": "dfgr"
+  },
+  "XP": 0,
+  "ID": "07aaee5a-25b3-4e18-b7f4-0059bb9d793a",
+  "status": "ONLINE",
+  "sentRequests": [
+    {
+      "requestName": "Monomachia battle",
+      "accepted": true,
+      "declined": false,
+      "sender": "dsf",
+      "receiver": "thr",
+      "ID": "5eaadc78-e2cb-4ca2-bacd-023df1753628"
+    }
+  ],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

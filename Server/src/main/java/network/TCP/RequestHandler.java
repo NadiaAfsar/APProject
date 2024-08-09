@@ -2,6 +2,7 @@ package network.TCP;
 
 import application.MyApplication;
 import controller.GameManagerHelper;
+import controller.MonomachiaThread;
 import model.*;
 import model.Point;
 import network.ServerHandler;
@@ -50,6 +51,9 @@ public class RequestHandler {
                 sendUpdates(listener);
             }
     }
+    private static void died(ServerListener listener){
+        listener.getClient().getRunningGame().endGame(listener.getClient());
+    }
     private static void addEnemy(ServerListener listener){
         int enemies = Integer.parseInt(listener.getMessage());
         Point point = GameManagerHelper.getRandomPosition(400, 400);
@@ -68,6 +72,8 @@ public class RequestHandler {
     private static void getUpdates(ServerListener listener){
         if (listener.getClient().getRunningGame().isFinished()){
             listener.sendMessage(Requests.FINISHED.toString());
+            listener.sendMessage(listener.getClient().getRunningGame().getWinner());
+            listener.getClient().setRunningGame(null);
         }
         else {
             listener.sendMessage("nothing");
@@ -88,6 +94,9 @@ public class RequestHandler {
         int newEnemies = Integer.parseInt(listener.getMessage());
         for (int i = 0; i < newEnemies; i++){
             addEnemy(listener);
+        }
+        if (hp <= 0){
+            died(listener);
         }
     }
     private static void sendUpdates(ServerListener listener){
@@ -276,6 +285,7 @@ public class RequestHandler {
                     clients.get(i).setRunningGame(game);
                     clients.get(i).setPlayerNumber(i);
                 }
+                new MonomachiaThread(game).start();
             }
     }
     private static void requestDeclined(ServerListener listener){

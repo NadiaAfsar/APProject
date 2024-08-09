@@ -3,7 +3,9 @@ package model.game;
 import application.MyApplication;
 import controller.Controller;
 import controller.game_manager.GameManager;
+import controller.game_manager.Monomachia;
 import model.Calculations;
+import model.Status;
 import model.game.enemies.Enemy;
 import model.game.enemies.mini_boss.black_orb.BlackOrb;
 import model.game.enemies.mini_boss.black_orb.BlackOrbVertex;
@@ -199,12 +201,12 @@ public class EpsilonModel implements Collidable, Movable, Impactable {
     public void setInFrame() {
         if (myFrame != null) {
             if (getX() - myFrame.getX() <= -10 && !myFrame.isInOverLap(getX(), getY())) {
-                setCenter(10 + myFrame.getX(), getY());
+                setCenter(20 + myFrame.getX()+radius, getY());
             } else if (getX() - myFrame.getX() >= myFrame.getWidth() - 2 * radius && !myFrame.isInOverLap(getX() + 2 * radius, getY())) {
                 setCenter((int) myFrame.getWidth() + myFrame.getX() - 10 - 2 * radius, getY());
             }
             if (getY() - myFrame.getY() <= -10 && !myFrame.isInOverLap(getX(), getY())) {
-                setCenter(getX(), 10 + myFrame.getY());
+                setCenter(getX(), 20 + myFrame.getY()+radius);
             } else if (getY() - myFrame.getY() > myFrame.getHeight() - 2 * radius && !myFrame.isInOverLap(getX(), getY() + 2 * radius)) {
                 setCenter(getX(), (int) myFrame.getHeight() + myFrame.getY() - 10 - 2 * radius);
             }

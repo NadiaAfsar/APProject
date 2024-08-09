@@ -13,6 +13,7 @@ public class RunningGame {
     private Map<Client, Map<String, Integer>> clientData;
     private int enemiesAdded;
     private boolean finished;
+    private String winner;
 
     public RunningGame(ArrayList<Client> clientsInGame, String game) {
         this.clientsInGame = clientsInGame;
@@ -61,8 +62,22 @@ public class RunningGame {
     public Map<Client, Map<String, Integer>> getClientData() {
         return clientData;
     }
-    public void endGame(){
+    public void endGame(Client client){
         finished = true;
+        if (client != null){
+            winner = client.getUsername();
+        }
+        else {
+            if (clientData.get(clientsInGame.get(0)).get("xp") > clientData.get(clientsInGame.get(1)).get("xp")){
+                winner = clientsInGame.get(0).getUsername();
+            }
+            else if (clientData.get(clientsInGame.get(0)).get("xp") == clientData.get(clientsInGame.get(1)).get("xp")){
+                winner = "TIE";
+            }
+            else {
+                winner = clientsInGame.get(1).getUsername();
+            }
+        }
         for (int i = 0; i < clientsInGame.size(); i++){
             clientsInGame.get(i).setStatus(Status.ONLINE);
             if (game.equals(Requests.MONOMACHIA.toString())) {
@@ -72,6 +87,10 @@ public class RunningGame {
                 clientsInGame.get(i).setColosseum(true);
             }
         }
+    }
+
+    public String getWinner() {
+        return winner;
     }
 
     public boolean isFinished() {
