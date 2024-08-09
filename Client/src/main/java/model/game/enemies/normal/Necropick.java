@@ -22,14 +22,14 @@ public class Necropick extends Enemy {
     private boolean disappeared;
     private boolean announced;
     private Point appearancePoint;
-    public Necropick(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public Necropick(Point center, int hp, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Necropick.class.getName()+number);
         height = MyApplication.configs.NECROPICK_HEIGHT;
         width = MyApplication.configs.NECROPICK_WIDTH;
         addVertexes();
-        this.myFrame = myFrame;
+        this.myFrame = epsilon.getInitialFrame();
         this.HP = 10 + hp;
         this.myFrame.getEnemies().add(this);
         Controller.addEnemyView(this, gameManager);

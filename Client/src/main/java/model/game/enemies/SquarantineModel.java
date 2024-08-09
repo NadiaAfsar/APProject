@@ -20,13 +20,13 @@ public class SquarantineModel extends Enemy implements Impactable, Movable {
     private boolean hasRandomAcceleration;
     private Direction direction;
     private static int number;
-    public SquarantineModel(Point center, int hp, double velocity, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public SquarantineModel(Point center, int hp, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(SquarantineModel.class.getName()+number);
         width = MyApplication.configs.SQUARANTINE_WIDTH;
         height = MyApplication.configs.SQUARANTINE_WIDTH;
-        this.myFrame = myFrame;
+        this.myFrame = epsilon.getInitialFrame();
         HP = 10+hp;
         damage = 6;
         hasRandomAcceleration = false;

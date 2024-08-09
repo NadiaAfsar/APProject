@@ -24,7 +24,7 @@ public class Fist extends Enemy implements Movable {
     private boolean slap;
     private Smiley smiley;
     public Fist(Point center, double velocity, Smiley smiley, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+        super(center, 0, velocity, gameManager, epsilon);
         logger = Logger.getLogger(Fist.class.getName());
         width = MyApplication.configs.FIST_WIDTH;
         height = MyApplication.configs.FIST_HEIGHT;

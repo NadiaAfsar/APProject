@@ -1,6 +1,7 @@
 package controller.game_manager;
 
 import controller.ApplicationManager;
+import controller.Controller;
 import model.game_model.ColosseumGame;
 import view.game.GameView;
 
@@ -15,12 +16,14 @@ public class Colosseum extends GameManager{
         gameModel = new ColosseumGame(this, epsilonNumber);
     }
     public void finishGame(){
+        super.finishGame();
         getApplicationManager().setTotalXP(getApplicationManager().getTotalXP()+gameModel.getMyEpsilon().getXP());
     }
     public void removeOtherEpsilon(){
         for (int i = 0; i < gameModel.getEpsilons().size(); i++){
             if (!gameModel.getEpsilons().get(i).equals(gameModel.getMyEpsilon())){
                 gameModel.getEpsilons().remove(gameModel.getEpsilons().get(i));
+                Controller.removeEpsilonView(gameModel.getEpsilons().get(i), this);
                 return;
             }
         }

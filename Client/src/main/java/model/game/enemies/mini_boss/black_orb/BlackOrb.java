@@ -16,8 +16,8 @@ public class BlackOrb extends Enemy {
     private ArrayList<BlackOrbLaser> lasers;
     private boolean vertexesSet;
     private static int number;
-    public BlackOrb(Point center, double velocity, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public BlackOrb(Point center, int hp, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(BlackOrb.class.getName()+number);
         blackOrbVertices = new ArrayList<>();

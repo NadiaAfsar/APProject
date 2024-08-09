@@ -24,8 +24,8 @@ public class Omenoct extends Enemy implements Impactable, Movable {
     private int side;
     private long lastShoot;
     private static int number;
-    public Omenoct(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public Omenoct(Point center, int hp, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Omenoct.class.getName()+number);
         width = MyApplication.configs.OMENOCT_WIDTH;
@@ -33,7 +33,7 @@ public class Omenoct extends Enemy implements Impactable, Movable {
         addVertexes();
         this.HP = 20 + hp;
         damage = 8;
-        this.myFrame = myFrame;
+        this.myFrame = epsilon.getInitialFrame();
         this.myFrame.getEnemies().add(this);
         Controller.addEnemyView(this, gameManager);
         start();

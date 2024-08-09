@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="github.bpazy.reflections" type="repository">
+    <properties maven-id="com.github.bpazy:reflections:1.0.3" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/reflections-1.0.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

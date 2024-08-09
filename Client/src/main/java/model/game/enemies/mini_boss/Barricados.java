@@ -16,13 +16,18 @@ import java.util.ArrayList;
 public class Barricados extends Enemy {
     private MyFrame myFrame;
     private static int number;
-    public Barricados(Point center, double velocity, boolean isRigid, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public Barricados(Point center, int hp, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Barricados.class.getName()+number);
         width = MyApplication.configs.BARRICODES_WIDTH;
         height = MyApplication.configs.BARRICODES_HEIGHT;
         addVertexes();
+        boolean isRigid = false;
+        int rigid = (int)(Math.random()*2);
+        if (rigid == 0){
+            isRigid = true;
+        }
         myFrame = new MyFrame(width+50, height+50, center.getX()-width/2-25, center.getY()-height/2-25,
                 true, isRigid, width+50, height+50, gameManager);
         myFrame.getEnemies().add(this);

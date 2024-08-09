@@ -262,7 +262,7 @@ public class RequestHandler {
                 if (server.getClients().get(receiver).isColosseum()) {
                     declined = true;
                 } else {
-                    requestName = "COLOSSEUM battle";
+                    requestName = "Colosseum battle";
                 }
             }
             if (requestName != null) {
@@ -296,7 +296,7 @@ public class RequestHandler {
                 }
                 new MonomachiaThread(game).start();
             }
-            else if (server.getRequests().get(requestID).getRequestName().equals("COLOSSEUM battle")) {
+            else if (server.getRequests().get(requestID).getRequestName().equals("Colosseum battle")) {
                 Request request = server.getRequests().get(requestID);
                 ArrayList<Client> clients = new ArrayList<Client>(){{add(server.getClients().get(request.getSender()));
                     add(server.getClients().get(request.getReceiver()));}};

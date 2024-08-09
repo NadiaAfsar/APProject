@@ -27,8 +27,8 @@ public class Wyrm extends Enemy implements Movable, Impactable {
     private int direction;
     private long lastShotTime;
     private static int number;
-    public Wyrm(Point center, double velocity, int hp, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public Wyrm(Point center, int hp,double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Wyrm.class.getName()+number);
         this.HP = 12 + hp;

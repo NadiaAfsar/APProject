@@ -10,8 +10,8 @@ import model.game.frame.MyFrame;
 import model.interfaces.movement.Point;
 
 public class MiniArchmire extends Archmire{
-    public MiniArchmire(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, hp, myFrame, gameManager, epsilon);
+    public MiniArchmire(Point center, int hp, double velocity,GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity,gameManager, epsilon);
         this.HP = hp;
     }
     protected void setArchmire() {

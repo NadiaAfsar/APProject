@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class RightHand extends Hand {
     public RightHand(Point center, double velocity, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+        super(center, 0, velocity, gameManager, epsilon);
     }
 
     @Override

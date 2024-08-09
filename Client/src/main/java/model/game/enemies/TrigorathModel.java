@@ -22,13 +22,13 @@ public class TrigorathModel extends Enemy implements Impactable, Movable {
     private boolean decreasedVelocity;
     private boolean increasedVelocity;
     private static int number;
-    public TrigorathModel(Point center, int hp, double velocity, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public TrigorathModel(Point center, int hp, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(TrigorathModel.class.getName()+number);
         width = MyApplication.configs.TRIGORATH_WIDTH;
         height = MyApplication.configs.TRIGORATH_HEIGHT;
-        this.myFrame = myFrame;
+        this.myFrame = epsilon.getInitialFrame();
         increasedVelocity = true;
         decreasedVelocity = false;
         HP = 15+hp;

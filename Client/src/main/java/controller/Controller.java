@@ -3,7 +3,6 @@ package controller;
 import application.MyApplication;
 import controller.audio.Audio;
 import controller.game_manager.GameManager;
-import controller.game_manager.GameManagerHelper;
 import model.game.BulletModel;
 import model.game.Collectible;
 import model.game.EpsilonModel;
@@ -25,14 +24,11 @@ import model.interfaces.movement.RotatablePoint;
 import view.ConnectionFrame;
 import view.game.*;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -250,5 +246,8 @@ public class Controller {
     }
     public static boolean connectionError(){
         return ConnectionFrame.showConnectionError();
+    }
+    public static void removeEpsilonView(EpsilonModel epsilon, GameManager gameManager){
+        gameManager.getGameView().removeEpsilon(epsilon.getID());
     }
 }

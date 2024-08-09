@@ -81,13 +81,11 @@ public class ClientHandler extends Thread{
             gameManager.finishGame();
             String winner = tcpClient.getListener().getMessage();
             ((Monomachia)gameManager).checkWinner(winner);
-            gameManager = null;
         }
         else if (response.equals(Requests.FINISHED.toString())){
             client.setStatus(Status.ONLINE);
             if (gameManager.getGameModel().getMyEpsilon().getXP() > 0){
                 ((Colosseum)gameManager).removeOtherEpsilon();
-                gameManager = null;
             }
         }
         else {
@@ -154,18 +152,21 @@ public class ClientHandler extends Thread{
     private void getRunningGame(){
         tcpClient.getListener().sendMessage(Requests.RUNNING_GAME.toString());
         String game = tcpClient.getListener().getMessage();
+        boolean play = false;
         if (game.equals(Requests.MONOMACHIA.toString())){
             gameManager = new Monomachia(applicationManager);
+            play = true;
         }
         else if (game.equals(Requests.COLOSSEUM.toString())){
             gameManager = new Colosseum(applicationManager);
+            play = true;
         }
-        if (gameManager != null){
+        if (play){
             newBullets = new ArrayList<>();
             newEnemies = new ArrayList<>();
             int playerNumber = Integer.parseInt(tcpClient.getListener().getMessage());
             client.setStatus(Status.BUSY);
-            Timer timer = new Timer(15000, new ActionListener() {
+            Timer timer = new Timer(5000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Controller.startGame(gameManager, playerNumber);

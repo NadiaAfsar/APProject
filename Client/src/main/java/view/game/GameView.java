@@ -97,6 +97,10 @@ public class GameView {
         enemies.remove(ID);
         enemiesMap.put(ID, null);
     }
+    public void removeEpsilon(String ID){
+        epsilons.remove(ID);
+        enemiesMap.put(ID, null);
+    }
     public void removeBulletView(String ID) {
         bullets.remove(ID);
         bulletsMap.put(ID, null);

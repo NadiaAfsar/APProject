@@ -12,8 +12,8 @@ import model.interfaces.movement.Point;
 public abstract class Hand extends Enemy {
     private boolean susceptible;
     private long lastShotTime;
-    public Hand(Point center, double velocity, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public Hand(Point center, int hp, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity, gameManager, epsilon);
         width = MyApplication.configs.HAND_WIDTH;
         height = MyApplication.configs.HAND_HEIGHT;
         myFrame = new MyFrame(width+80, height+80, center.getX()-width/2-40, center.getY()-height/2-40,

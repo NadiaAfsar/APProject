@@ -35,8 +35,8 @@ public class Smiley extends Enemy implements Movable {
     private long lasShot;
     private boolean bulletShot;
     private boolean toDisappear;
-    public Smiley(Point center, double velocity, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public Smiley(Point center, int hp,double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp,velocity, gameManager, epsilon);
         logger = Logger.getLogger(Smiley.class.getName());
         phase = 1;
         width = 2 * MyApplication.configs.SMILEY_RADIUS;

@@ -67,7 +67,7 @@ public class Wave {
             addEnemies(1);
         }
         else {
-            Smiley smiley = new Smiley(new Point(200, 200), gameModel.getEnemyVelocity(), gameManager, gameManager.getGameModel().getMyEpsilon());
+            Smiley smiley = new Smiley(new Point(200, 200), 0, gameModel.getEnemyVelocity(), gameManager, gameManager.getGameModel().getMyEpsilon());
             gameModel.getEnemies().add(smiley);
         }
     }

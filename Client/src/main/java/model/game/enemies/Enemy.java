@@ -44,7 +44,7 @@ public abstract class Enemy extends Thread implements Collidable{
     protected  boolean died;
     protected GameManager gameManager;
     protected EpsilonModel epsilon;
-    public Enemy(Point center, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+    public Enemy(Point center, int hp, double velocity, GameManager gameManager, EpsilonModel epsilon) {
         ID = UUID.randomUUID().toString();
         this.epsilon = epsilon;
         this.gameManager = gameManager;

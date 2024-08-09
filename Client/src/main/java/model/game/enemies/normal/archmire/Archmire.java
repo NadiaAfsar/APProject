@@ -27,14 +27,14 @@ public class Archmire extends Enemy implements Movable {
     private static int number;
     private long lastAoEAdded;
     private long timeBetweenAoEAttacks;
-    public Archmire(Point center, double velocity, int hp, MyFrame myFrame, GameManager gameManager, EpsilonModel epsilon) {
-        super(center, velocity, gameManager, epsilon);
+    public Archmire(Point center, int hp, double velocity, GameManager gameManager, EpsilonModel epsilon) {
+        super(center, hp, velocity, gameManager, epsilon);
         number++;
         logger = Logger.getLogger(Archmire.class.getName()+number);
         this.HP = 30 + hp;
         initialHP = HP;
         aoeAttacks = new ArrayList<>();
-        this.myFrame = myFrame;
+        this.myFrame = epsilon.getInitialFrame();
         velocityPower *= 2;
         setArchmire();
     }
@@ -97,10 +97,10 @@ public class Archmire extends Enemy implements Movable {
     protected void die() {
         removeAll();
         addCollective();
-        new MiniArchmire(new Point(center.getX()-width, center.getY()-height), velocityPower, initialHP/2,
-                myFrame, gameManager, epsilon);
-        new MiniArchmire(new Point(center.getX()+width, center.getY()+height), velocityPower, initialHP/2,
-                myFrame, gameManager, epsilon);
+        new MiniArchmire(new Point(center.getX()-width, center.getY()-height), initialHP/2, velocityPower,
+                 gameManager, epsilon);
+        new MiniArchmire(new Point(center.getX()+width, center.getY()+height), initialHP/2, velocityPower,
+                gameManager, epsilon);
         gameManager.getGameModel().getDiedEnemies().add(this);
         Controller.removeArchmireView(this, gameManager);
         AudioController.addEnemyDyingSound();

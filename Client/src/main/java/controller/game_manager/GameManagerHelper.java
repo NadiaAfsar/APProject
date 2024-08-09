@@ -1,12 +1,10 @@
 package controller.game_manager;
 
-import controller.game_manager.GameManager;
+import application.MyApplication;
 import controller.save.Configs;
 import model.game.BulletModel;
 import model.game.EpsilonModel;
 import model.game.enemies.Enemy;
-import model.game.enemies.SquarantineModel;
-import model.game.enemies.TrigorathModel;
 import model.game.enemies.mini_boss.Barricados;
 import model.game.enemies.mini_boss.black_orb.BlackOrb;
 import model.game.enemies.normal.Necropick;
@@ -15,6 +13,9 @@ import model.game.enemies.normal.Wyrm;
 import model.game.enemies.normal.archmire.Archmire;
 import model.game.frame.MyFrame;
 import model.interfaces.movement.Point;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class GameManagerHelper {
     public static Point getRandomPosition(double width, double height) {
@@ -39,39 +40,50 @@ public class GameManagerHelper {
             return new Point(x,y);
     }
     public static Enemy getNewEnemy(Point point, int hp, double velocity, int enemy, EpsilonModel epsilon) {
+        Class clazz = null;
         point = new Point(point.getX()+epsilon.getInitialFrame().getX(), point.getY()+epsilon.getInitialFrame().getY());
         if (enemy == 0){
-            return new TrigorathModel(point, hp, velocity, epsilon.getInitialFrame(), epsilon.getGameManager(), epsilon);
+            clazz = MyApplication.enemiesClass.get(4);
         }
         else if (enemy == 1){
-            return new SquarantineModel(point, hp, velocity, epsilon.getInitialFrame(), epsilon.getGameManager(), epsilon);
+            clazz = MyApplication.enemiesClass.get(9);
         }
         else if (enemy == 2){
-            return new Wyrm(new Point((point.getX()- epsilon.getInitialFrame().getX())/ epsilon.getInitialFrame().getWidth()*
-                    (Configs.FRAME_SIZE.width-200)+100, (point.getY()- epsilon.getInitialFrame().getY())/ epsilon.
-                    getInitialFrame().getHeight()*(Configs.FRAME_SIZE.height-200)+100), velocity, hp, epsilon.getGameManager(), epsilon);
+            clazz = MyApplication.enemiesClass.get(3);
         }
         else if (enemy == 3){
-            return new Omenoct(point, velocity, hp, epsilon.getInitialFrame(), epsilon.getGameManager(), epsilon);
+            if (epsilon.getGameManager().isOnline()){
+                clazz = MyApplication.enemiesClass.get(4);
+            }
+            else {
+                clazz = MyApplication.enemiesClass.get(5);
+            }
         }
         else if (enemy == 4){
-            return new Necropick(point, velocity, hp, epsilon.getInitialFrame(), epsilon.getGameManager(), epsilon);
+            if (epsilon.getGameManager().isOnline()){
+                clazz = MyApplication.enemiesClass.get(9);
+            }
+            else {
+                clazz = MyApplication.enemiesClass.get(8);
+            }
         }
         else if (enemy == 5){
-            return new Archmire(point, velocity, hp, epsilon.getInitialFrame(), epsilon.getGameManager(), epsilon);
+            clazz = MyApplication.enemiesClass.get(0);
         }
         else if (enemy == 6){
-            int x = 100 + (int)(Math.random()*(Configs.FRAME_SIZE.width-500));
-            int y = 100 + (int)(Math.random()*(Configs.FRAME_SIZE.height-300));
-            int isRigid = (int) (Math.random()*2);
-            if (isRigid == 0) {
-                return new Barricados(new Point(x, y), velocity, false, epsilon.getGameManager(), epsilon);
-            }
-            return new Barricados(new Point(x, y), velocity, true, epsilon.getGameManager(), epsilon);
+            clazz = MyApplication.enemiesClass.get(10);
         }
-        int x = 100 + (int)(Math.random()*(Configs.FRAME_SIZE.width-400));
-        int y = 100 + (int)(Math.random()*(Configs.FRAME_SIZE.height-350));
-        return new BlackOrb(new Point(x,y),velocity, epsilon.getGameManager(), epsilon);
+        else {
+            clazz = MyApplication.enemiesClass.get(2);
+        }
+        Enemy enemy1 = null;
+        try {
+            Constructor<? extends Enemy> constructor = clazz.getConstructor(Point.class, int.class, double.class, GameManager.class, EpsilonModel.class);
+            enemy1 = constructor.newInstance(point, hp, velocity, epsilon.getGameManager(), epsilon);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return enemy1;
     }
     public static boolean checkFrameCollisionWithBullet(BulletModel bullet) {
         MyFrame myFrame = bullet.getFrame();

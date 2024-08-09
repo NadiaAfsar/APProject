@@ -1,5 +1,6 @@
 package view.game;
 
+import controller.game_manager.Colosseum;
 import controller.game_manager.GameManager;
 import controller.game_manager.Monomachia;
 import controller.listeners.InputListener;
@@ -40,7 +41,7 @@ public class HUI extends JFrame {
         addPanel();
         setHUI();
         setTimer();
-        if (gameManager instanceof Monomachia){
+        if (gameManager instanceof Monomachia || gameManager instanceof Colosseum){
             setCHP();
             setCXP();
         }

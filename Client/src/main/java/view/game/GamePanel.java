@@ -77,7 +77,7 @@ public class GamePanel extends JPanel {
         this.width = width+10;
         this.height = height+35;
         setBounds(0, 0, this.width, this.height);
-        frame.setBounds(x, y+gameManager.getGameModel().getEpsilonNumber()*400, this.width, this.height);
+        frame.setBounds(x, y, this.width, this.height);
     }
     @Override
     public void paintComponent(Graphics g) {
