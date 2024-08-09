@@ -21,6 +21,10 @@ public enum Requests {
     MONOMACHIA,
     RUNNING_GAME,
     FINISHED,
-    COLOSSEUM
+    COLOSSEUM,
+    PALIOXIS,
+    ADONIS,
+    GEFION,
+    PAY
 
 }

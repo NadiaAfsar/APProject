@@ -19,6 +19,7 @@ public class Client {
     private int playerNumber;
     private ServerListener listener;
     public Client(String username, ServerListener listener){
+        XP = 1000;
         this.username = username;
         this.listener = listener;
         ID = UUID.randomUUID().toString();

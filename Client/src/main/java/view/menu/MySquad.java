@@ -23,6 +23,7 @@ public class MySquad {
     private JButton back;
     private ActionListener action1;
     private ActionListener action2;
+    private JButton vault;
     public MySquad(GameFrame gameFrame){
         this.gameFrame = gameFrame;
         panel = gameFrame.getGamePanel();
@@ -31,6 +32,7 @@ public class MySquad {
         addBattle();
         addLeave();
         addMembers();
+        addVault();
         gameFrame.update();
     }
     private void setActions(){
@@ -166,6 +168,17 @@ public class MySquad {
                 if (leave()){
                     clientHandler.deleteMember(clientHandler.getClient().getUsername());
                 }
+            }
+        });
+    }
+    private void addVault(){
+        vault = new JButton("Vault");
+        addButton(vault, Configs.FRAME_SIZE.width/2-200, 500, 400, 100);
+        vault.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.removeAll();
+                new Vault(gameFrame);
             }
         });
     }

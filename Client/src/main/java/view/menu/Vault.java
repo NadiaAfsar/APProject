@@ -1,6 +1,7 @@
 package view.menu;
 
 import controller.save.Configs;
+import model.Requests;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,10 +19,17 @@ public class Vault {
     private JLabel xp;
     private JButton back;
 
+
     public Vault(GameFrame gameFrame){
         this.gameFrame = gameFrame;
         panel = gameFrame.getGamePanel();
-
+        addPalixios();
+        addAdonis();
+        addGefion();
+        addTextField();
+        addPay();
+        addBack();
+        addXP();
         gameFrame.update();
     }
     private void addButton(JButton button, int x, int y, int width, int height){
@@ -37,7 +45,8 @@ public class Vault {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameFrame.getApplicationManager().getClientHandler().getClient().getSquad().getXP() >= 100){
-
+                    gameFrame.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.PALIOXIS.toString());
+                    updateXP();
                 }
                 else {
                     GameFrame.showMessage("Not enough XP!");
@@ -52,7 +61,8 @@ public class Vault {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameFrame.getApplicationManager().getClientHandler().getClient().getSquad().getXP() >= 400){
-
+                    gameFrame.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.ADONIS.toString());
+                    updateXP();
                 }
                 else {
                     GameFrame.showMessage("Not enough XP!");
@@ -67,7 +77,8 @@ public class Vault {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gameFrame.getApplicationManager().getClientHandler().getClient().getSquad().getXP() >= 300){
-
+                    gameFrame.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.GEFION.toString());
+                    updateXP();
                 }
                 else {
                     GameFrame.showMessage("Not enough XP!");
@@ -89,8 +100,9 @@ public class Vault {
             public void actionPerformed(ActionEvent e) {
                 if (!gameFrame.getApplicationManager().getClientHandler().getClient().getSquad().isInBattle()){
                     int xp = Integer.parseInt(textField.getText());
-                    if (gameFrame.getApplicationManager().getTotalXP() > xp){
-
+                    if (gameFrame.getApplicationManager().getClientHandler().getClient().getXP() > xp){
+                        gameFrame.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(Requests.PAY.toString());
+                        gameFrame.getApplicationManager().getClientHandler().getTcpClient().getListener().sendMessage(xp+"");
                     }
                     else {
                         GameFrame.showMessage("Not enough XP!");
@@ -102,6 +114,16 @@ public class Vault {
             }
         });
     }
+    private void addXP(){
+        xp = new JLabel("XPs: "+gameFrame.getApplicationManager().getClientHandler().getClient().getSquad().getXP());
+        xp.setFont(new Font("Elephant", Font.BOLD, 30));
+        xp.setForeground(Color.WHITE);
+        xp.setBounds(650,400,300,100);
+        panel.add(xp);
+    }
+    private void updateXP(){
+        xp.setText("XPS: "+gameFrame.getApplicationManager().getClientHandler().getClient().getSquad().getXP());
+    }
     private void addBack(){
         back = new JButton("Back");
         addButton(back, 100, Configs.FRAME_SIZE.height-200, 150, 50);
@@ -109,6 +131,7 @@ public class Vault {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.removeAll();
+                new MySquad(gameFrame);
             }
         });
     }

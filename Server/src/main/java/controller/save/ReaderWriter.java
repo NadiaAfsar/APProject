@@ -94,13 +94,15 @@ public class ReaderWriter {
             server.setClientsName(configs.getClients());
             server.setSquadsName(configs.getSquads());
             server.setRequestsName(configs.getRequests());
-            for (int i = 0; i < server.getClientsName().size(); i++) {
-                server.getClients().put(server.getClientsName().get(i), load(Client.class, "src/main/resources/data/clients/" +
-                        server.getClientsName().get(i) + ".json"));
-            }
             for (int i = 0; i < server.getSquadsName().size(); i++) {
                 server.getSquads().put(server.getSquadsName().get(i), load(Squad.class, "src/main/resources/data/squads/"
                         + server.getSquadsName().get(i) + ".json"));
+            }
+            for (int i = 0; i < server.getClientsName().size(); i++) {
+                server.getClients().put(server.getClientsName().get(i), load(Client.class, "src/main/resources/data/clients/" +
+                        server.getClientsName().get(i) + ".json"));
+                server.getClients().get(server.getClientsName().get(i)).setSquad(server.getSquads().get(server.getClients()
+                        .get(server.getClientsName().get(i)).getSquad().getName()));
             }
             for (int i = 0; i < server.getRequestsName().size(); i++) {
                 server.getRequests().put(server.getRequestsName().get(i), load(Request.class, "src/main/resources/data/requests/" +

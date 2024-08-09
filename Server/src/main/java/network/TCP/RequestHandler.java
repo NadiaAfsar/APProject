@@ -50,6 +50,42 @@ public class RequestHandler {
             else if (request.equals(Requests.RECEIVE_UPDATE.toString())){
                 sendUpdates(listener);
             }
+            else if (request.equals(Requests.PALIOXIS.toString())){
+                palioxis(listener);
+            }
+            else if (request.equals(Requests.ADONIS.toString())){
+                adonis(listener);
+            }
+            else if (request.equals(Requests.GEFION.toString())){
+                gefion(listener);
+            }
+            else if (request.equals(Requests.PAY.toString())){
+                pay(listener);
+            }
+    }
+    private static void pay(ServerListener listener){
+        Squad squad = ServerHandler.getInstance().getServer().getSquads().get(listener.getClient().getSquad().getName());
+        int xp = Integer.parseInt(listener.getMessage());
+        squad.setXP(squad.getXP()+xp);
+        listener.getClient().setXP(listener.getClient().getXP()-xp);
+    }
+    private static void palioxis(ServerListener listener){
+        Squad squad = ServerHandler.getInstance().getServer().getSquads().get(listener.getClient().getSquad().getName());
+        squad.setXP(squad.getXP()-100);
+        listener.getClient().getSquad().setXP(listener.getClient().getSquad().getXP()-100);
+        squad.setPalioxis(true);
+    }
+    private static void adonis(ServerListener listener){
+        Squad squad = ServerHandler.getInstance().getServer().getSquads().get(listener.getClient().getSquad().getName());
+        squad.setXP(squad.getXP()-400);
+        listener.getClient().getSquad().setXP(listener.getClient().getSquad().getXP()-400);
+        squad.setAdonis(true);
+    }
+    private static void gefion(ServerListener listener){
+        Squad squad = listener.getClient().getSquad();
+        squad.setXP(squad.getXP()-300);
+        listener.getClient().getSquad().setXP(listener.getClient().getSquad().getXP()-300);
+        squad.setGefion(true);
     }
     private static void died(ServerListener listener){
         listener.getClient().getRunningGame().endGame(listener.getClient());
