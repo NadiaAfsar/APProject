@@ -64,15 +64,17 @@ public class Battle {
                     JPanel panel1 = (JPanel) e.getSource();
                     if (status.equals(Status.ONLINE.toString())){
                         int battle = battleRequest();
-                        gameFrame.getApplicationManager().getClientHandler().sendBattleRequest(panel1.getName(), battle);
+                        if (battle == 0) {
+                            gameFrame.getApplicationManager().getClientHandler().sendBattleRequest(panel1.getName(), battle);
+                        }
                     }
                 }
             });
         scrollerPanel.add(memberPanel);
     }
     private int battleRequest(){
-        String[] options = new String[]{"Monomachia", "Colosseum"};
-        int pick = JOptionPane.showOptionDialog(null, "Which battle do you request for?",
+        String[] options = new String[]{"Monomachia", "Cancel"};
+        int pick = JOptionPane.showOptionDialog(null, "Do you want to request for a battle?",
                 null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         return pick;
     }

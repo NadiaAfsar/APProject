@@ -64,26 +64,26 @@ public class RunningGame {
     }
     public void endGame(Client client){
         finished = true;
-        if (client != null){
-            winner = client.getUsername();
+        if (game.equals(Requests.MONOMACHIA.toString())) {
+            if (client != null) {
+                winner = client.getUsername();
+            } else {
+                if (clientData.get(clientsInGame.get(0)).get("xp") > clientData.get(clientsInGame.get(1)).get("xp")) {
+                    winner = clientsInGame.get(0).getUsername();
+                } else if (clientData.get(clientsInGame.get(0)).get("xp") == clientData.get(clientsInGame.get(1)).get("xp")) {
+                    winner = "TIE";
+                } else {
+                    winner = clientsInGame.get(1).getUsername();
+                }
+            }
+            for (int i = 0; i < clientsInGame.size(); i++) {
+                clientsInGame.get(i).setStatus(Status.ONLINE);
+                    clientsInGame.get(i).setMonomachia(true);
+            }
         }
         else {
-            if (clientData.get(clientsInGame.get(0)).get("xp") > clientData.get(clientsInGame.get(1)).get("xp")){
-                winner = clientsInGame.get(0).getUsername();
-            }
-            else if (clientData.get(clientsInGame.get(0)).get("xp") == clientData.get(clientsInGame.get(1)).get("xp")){
-                winner = "TIE";
-            }
-            else {
-                winner = clientsInGame.get(1).getUsername();
-            }
-        }
-        for (int i = 0; i < clientsInGame.size(); i++){
-            clientsInGame.get(i).setStatus(Status.ONLINE);
-            if (game.equals(Requests.MONOMACHIA.toString())) {
-                clientsInGame.get(i).setMonomachia(true);
-            }
-            else {
+            for (int i = 0; i < clientsInGame.size(); i++) {
+                clientsInGame.get(i).setStatus(Status.ONLINE);
                 clientsInGame.get(i).setColosseum(true);
             }
         }

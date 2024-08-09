@@ -9,7 +9,7 @@ public class ModelLoop extends Thread{
         this.gameManager = gameManager;
     }
     public void run() {
-        while (true) {
+        while (!gameManager.isEnded()) {
             Update.updateModel(gameManager);
             try {
                 sleep((long)Configs.MODEL_UPDATE_TIME);

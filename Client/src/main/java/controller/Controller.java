@@ -180,14 +180,15 @@ public class Controller {
     public static void gameOver(int xp, long time, int bullets, int successfulBullets, int killedEnemies, GameManager gameManager) {
         endGame(gameManager);
         gameManager.getGameView().removeFrames();
+        gameManager.setEnded(true);
         new GameOver(xp, time, bullets, successfulBullets, killedEnemies, gameManager);
     }
-//    public static void smileyDied(Smiley smiley, GameManager gameManager){
-//        ((SmileyView)gameManager.getGameView().getEnemiesMap().get(smiley.getID())).die();
-//    }
-//    public static void smileyPhase2(Smiley smiley, GameManager gameManager) {
-//        ((SmileyView)gameManager.getGameView().getEnemiesMap().get(smiley.getID())).phase2();
-//    }
+    public static void smileyDied(Smiley smiley, GameManager gameManager){
+        gameManager.getGameView().getEnemiesMap().get(smiley.getID()).smileyDied();
+    }
+    public static void smileyPhase2(Smiley smiley, GameManager gameManager) {
+        gameManager.getGameView().getEnemiesMap().get(smiley.getID()).smileyPhase2();
+    }
 
     public static void addVertexesToEpsilon(GameManager gameManager, EpsilonModel epsilon) {
         synchronized (epsilonLock) {

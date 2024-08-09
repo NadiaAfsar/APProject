@@ -284,7 +284,7 @@ public class Smiley extends Enemy implements Movable {
     }
     private void startPhase2(){
         fist = new Fist(new Point(800, 300), velocityPower, this, gameManager, epsilon);
-        //Controller.smileyPhase2(this, gameManager);
+        Controller.smileyPhase2(this, gameManager);
         phase = 2;
     }
     private void vomit() {
@@ -388,7 +388,7 @@ public class Smiley extends Enemy implements Movable {
         gameManager.getGameModel().getMyEpsilon().setXP(gameManager.getGameModel().
                 getMyEpsilon().getXP()+250);
         Controller.removeEnemyView(fist, gameManager);
-        //Controller.smileyDied(this, gameManager);
+        Controller.smileyDied(this, gameManager);
         width = MyApplication.configs.DEAD_WIDTH;
         height = MyApplication.configs.DEAD_HEIGHT;
         toDisappear = true;

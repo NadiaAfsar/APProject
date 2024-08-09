@@ -9,7 +9,7 @@ public class ViewLoop extends Thread{
         this.gameManager = gameManager;
     }
     public void run() {
-        while (true) {
+        while (!gameManager.isEnded()) {
             Update.updateView(gameManager);
             try {
                 sleep((long) Configs.FRAME_UPDATE_TIME);

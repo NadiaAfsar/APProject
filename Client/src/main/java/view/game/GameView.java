@@ -1,6 +1,7 @@
 package view.game;
 
 import controller.Controller;
+import controller.game_manager.Colosseum;
 import controller.game_manager.GameManager;
 import controller.game_manager.Monomachia;
 import model.game.skills.Skill;
@@ -65,7 +66,7 @@ public class GameView {
             hui.updateWave(wave);
             hui.updateTime(time);
             hui.updateSkill(skill);
-            if (gameManager instanceof Monomachia){
+            if (gameManager instanceof Monomachia || gameManager instanceof Colosseum){
                 hui.updateCHP(cHP);
                 hui.updateCXP(cXP);
             }

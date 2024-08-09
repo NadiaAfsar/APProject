@@ -1,0 +1,20 @@
+{
+  "username": "fbfd",
+  "squad": {
+    "name": "gdf",
+    "members": [
+      "gerfg",
+      "fbfd"
+    ],
+    "ownerName": "gerfg",
+    "ID": "f4d60a3a-878f-43a1-b2bf-6e13022fc0d2",
+    "inBattle": false
+  },
+  "XP": 0,
+  "ID": "0190c218-ca0e-4d8b-b8c8-42aaf79ffd05",
+  "status": "BUSY",
+  "sentRequests": [],
+  "receivedRequests": [],
+  "monomachia": false,
+  "colosseum": false
+}

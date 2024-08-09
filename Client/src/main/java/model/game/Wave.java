@@ -1,5 +1,6 @@
 package model.game;
 
+import controller.game_manager.Colosseum;
 import controller.game_manager.GameManager;
 import controller.game_manager.GameManagerHelper;
 import controller.audio.AudioController;
@@ -39,22 +40,20 @@ public class Wave {
         spawn = true;
     }
     private void addEnemy() {
+        int enemies = 7;
+        if (waveNumber > 2){
+            enemies = 9;
+        }
         if (gameManager instanceof Monomachia){
             if (gameManager.getGameModel().getEpsilonNumber() == 0) {
-                int enemies = 6;
-                if (waveNumber > 2){
-                    enemies = 8;
-                }
                 gameManager.getApplicationManager().getClientHandler().addEnemy(enemies);
             }
         }
+        else if (gameManager instanceof Colosseum){
+            gameManager.getApplicationManager().getClientHandler().addEnemy(enemies);
+        }
         else {
-            int enemyNumber = 0;
-            if (waveNumber > 2) {
-                enemyNumber = (int) (Math.random() * 8);
-            } else {
-                enemyNumber = (int) (Math.random() * 6);
-            }
+            int enemyNumber = (int)(Math.random()*enemies);
             Point position = GameManagerHelper.getRandomPosition(400, 400);
             Enemy enemy = GameManagerHelper.getNewEnemy(position, gameModel.getEnemyHP(), gameModel.getEnemyVelocity(), enemyNumber,
                     gameManager.getGameModel().getMyEpsilon());

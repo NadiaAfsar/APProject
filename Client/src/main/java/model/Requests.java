@@ -20,6 +20,7 @@ public enum Requests {
     RECEIVE_UPDATE,
     MONOMACHIA,
     RUNNING_GAME,
-    FINISHED
+    FINISHED,
+    COLOSSEUM
 
 }

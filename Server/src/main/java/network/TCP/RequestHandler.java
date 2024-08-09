@@ -60,8 +60,10 @@ public class RequestHandler {
         int random = (int)(Math.random()*enemies);
         Entity enemy = new Entity((int)point.getX(), (int)point.getY(), random);
         listener.getClient().getRunningGame().getAddedEnemies().get(listener.getClient()).add(enemy);
-        listener.getClient().getRunningGame().getAddedEnemies().get(listener.getClient().getRunningGame().
-                getClientsInGame().get(1)).add(enemy);
+        if (listener.getClient().getRunningGame().getGame().equals(Requests.MONOMACHIA.toString())) {
+            listener.getClient().getRunningGame().getAddedEnemies().get(listener.getClient().getRunningGame().
+                    getClientsInGame().get(1)).add(enemy);
+        }
     }
     private static void shootBullet(ServerListener listener){
         File bulletFile = listener.getUdpServer().getReceiver().getFile();
@@ -70,33 +72,40 @@ public class RequestHandler {
         bulletFile.delete();
     }
     private static void getUpdates(ServerListener listener){
-        if (listener.getClient().getRunningGame().isFinished()){
+        if (listener.getClient().getRunningGame() == null){
             listener.sendMessage(Requests.FINISHED.toString());
-            listener.sendMessage(listener.getClient().getRunningGame().getWinner());
-            listener.getClient().setRunningGame(null);
+            listener.getClient().setStatus(Status.ONLINE);
         }
         else {
-            listener.sendMessage("nothing");
-        }
-        File epsilon = listener.getUdpServer().getReceiver().getFile();
-        Entity epsilonModel = MyApplication.readerWriter.getObject(Entity.class, epsilon);
-        RunningGame game = listener.getClient().getRunningGame();
-        game.getEpsilons().put(listener.getClient(), epsilonModel);
-        epsilon.delete();
-        int xp = Integer.parseInt(listener.getMessage());
-        int hp = Integer.parseInt(listener.getMessage());
-        game.getClientData().get(listener.getClient()).put("xp", xp);
-        game.getClientData().get(listener.getClient()).put("hp", hp);
-        int bullets = Integer.parseInt(listener.getMessage());
-        for (int i = 0; i < bullets; i++){
-            shootBullet(listener);
-        }
-        int newEnemies = Integer.parseInt(listener.getMessage());
-        for (int i = 0; i < newEnemies; i++){
-            addEnemy(listener);
-        }
-        if (hp <= 0){
-            died(listener);
+            if (listener.getClient().getRunningGame().isFinished()) {
+                listener.sendMessage(Requests.FINISHED.toString());
+                listener.sendMessage(listener.getClient().getRunningGame().getWinner());
+                listener.getClient().setRunningGame(null);
+                listener.getClient().setStatus(Status.ONLINE);
+            }
+            else {
+                listener.sendMessage("nothing");
+            }
+            File epsilon = listener.getUdpServer().getReceiver().getFile();
+            Entity epsilonModel = MyApplication.readerWriter.getObject(Entity.class, epsilon);
+            RunningGame game = listener.getClient().getRunningGame();
+            game.getEpsilons().put(listener.getClient(), epsilonModel);
+            epsilon.delete();
+            int xp = Integer.parseInt(listener.getMessage());
+            int hp = Integer.parseInt(listener.getMessage());
+            game.getClientData().get(listener.getClient()).put("xp", xp);
+            game.getClientData().get(listener.getClient()).put("hp", hp);
+            int bullets = Integer.parseInt(listener.getMessage());
+            for (int i = 0; i < bullets; i++) {
+                shootBullet(listener);
+            }
+            int newEnemies = Integer.parseInt(listener.getMessage());
+            for (int i = 0; i < newEnemies; i++) {
+                addEnemy(listener);
+            }
+            if (hp <= 0) {
+                died(listener);
+            }
         }
     }
     private static void sendUpdates(ServerListener listener){
@@ -253,7 +262,7 @@ public class RequestHandler {
                 if (server.getClients().get(receiver).isColosseum()) {
                     declined = true;
                 } else {
-                    requestName = "Colosseum battle";
+                    requestName = "COLOSSEUM battle";
                 }
             }
             if (requestName != null) {
@@ -286,6 +295,16 @@ public class RequestHandler {
                     clients.get(i).setPlayerNumber(i);
                 }
                 new MonomachiaThread(game).start();
+            }
+            else if (server.getRequests().get(requestID).getRequestName().equals("COLOSSEUM battle")) {
+                Request request = server.getRequests().get(requestID);
+                ArrayList<Client> clients = new ArrayList<Client>(){{add(server.getClients().get(request.getSender()));
+                    add(server.getClients().get(request.getReceiver()));}};
+                RunningGame game = new RunningGame(clients, Requests.COLOSSEUM.toString());
+                for (int i = 0; i < clients.size(); i++){
+                    clients.get(i).setRunningGame(game);
+                    clients.get(i).setPlayerNumber(i);
+                }
             }
     }
     private static void requestDeclined(ServerListener listener){

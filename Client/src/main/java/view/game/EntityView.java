@@ -71,6 +71,51 @@ public class EntityView {
             rotatedImage = image;
         }
     }
+    public void updateAoE(int clarity){
+        String path = "";
+        if (clarity == 4){
+            path = MyApplication.configs.AOE_ATTACK_2;
+        }
+        else if (clarity == 3){
+            path = MyApplication.configs.AOE_ATTACK_3;
+        }
+        else if (clarity == 2){
+            path = MyApplication.configs.AOE_ATTACK_4;
+        }
+        else if (clarity == 1){
+            path = MyApplication.configs.AOE_ATTACK_5;
+        }
+        if (!path.equals(this.path) && !path.equals("")){
+            this.path = path;
+            try {
+                image = ImageIO.read(new File(path));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            rotatedImage = image;
+        }
+    }
+    public void updateSmiley(int width, int height, Point center, double angle){
+        update(center, angle);
+        this.width = width;
+        this.height = height;
+    }
+    public void smileyDied(){
+        try {
+            image = ImageIO.read(new File(MyApplication.configs.DEAD));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        rotatedImage = image;
+    }
+    public void smileyPhase2(){
+        try {
+            image = ImageIO.read(new File(MyApplication.configs.SMILEY2));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        rotatedImage = image;
+    }
 
     public int getX() {
         return x;

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 public class GameManager {
     private boolean running;
+    private boolean finished;
     protected GameModel gameModel;
     protected GameView gameView;
     private boolean deimos;
@@ -42,6 +43,7 @@ public class GameManager {
     private ApplicationManager applicationManager;
     protected int competitorXP;
     protected int competitorHP;
+    private boolean ended;
     public GameManager(ApplicationManager applicationManager, boolean online) {
         this.applicationManager = applicationManager;
         this.online = online;
@@ -135,7 +137,7 @@ public class GameManager {
         gameModel.setCurrentWave(new Wave(gameModel.getWave(), gameModel.getEnemiesToKill().get(gameModel.getWave()), this));
 
     }
-    private void checkBulletsCollision() {
+    protected void checkBulletsCollision() {
         for (int i = 0; i < gameModel.getBullets().size(); i++) {
             BulletModel bullet = gameModel.getBullets().get(i);
             if (!checkBulletCollisionWithFrames(bullet, gameModel.getVanishedBullets())) {
@@ -145,7 +147,7 @@ public class GameManager {
         gameModel.getBullets().removeAll(gameModel.getVanishedBullets());
         gameModel.setVanishedBullets(new ArrayList<>());
     }
-    private boolean checkBulletCollisionWithFrames(BulletModel bulletModel, ArrayList<BulletModel> vanishedBullets) {
+    protected boolean checkBulletCollisionWithFrames(BulletModel bulletModel, ArrayList<BulletModel> vanishedBullets) {
         if (bulletModel.getFrame() != null) {
             if (!bulletModel.getFrame().isInOverLap(bulletModel.getX2(), bulletModel.getY2())) {
                 if (GameManagerHelper.checkFrameCollisionWithBullet(bulletModel)) {
@@ -157,7 +159,7 @@ public class GameManager {
         }
         return false;
     }
-    private void checkBulletCollisionWithEnemies(BulletModel bullet) {
+    protected void checkBulletCollisionWithEnemies(BulletModel bullet) {
         for (int i = 0; i < gameModel.getEnemies().size(); i++) {
             Enemy enemy = gameModel.getEnemies().get(i);
             if (enemy instanceof BlackOrb) {
@@ -189,7 +191,7 @@ public class GameManager {
                 }
         }
     }
-    private void bulletCollided(BulletModel bullet, Point point, ArrayList<BulletModel> vanishedBullets) {
+    protected void bulletCollided(BulletModel bullet, Point point, ArrayList<BulletModel> vanishedBullets) {
         Impactable.impactOnOthers(point, this);
         vanishedBullets.add(bullet);
         Controller.removeBulletView(bullet, this);
@@ -288,7 +290,7 @@ public class GameManager {
                 Controller.removeEnemyView(gameModel.getEnemies().get(i), this);
             }
             running = true;
-            gameModel.setFinished(true);
+            setFinished(true);
             applicationManager.setTotalXP(applicationManager.getTotalXP()+ gameModel.getMyEpsilon().getXP());
         }
     }
@@ -301,7 +303,7 @@ public class GameManager {
                 gameModel.getInitialFrame().setHeight(gameModel.getInitialFrame().getHeight()-5);
             }
             if (gameModel.getInitialFrame().getWidth() <= 2 && gameModel.getInitialFrame().getHeight() <= 2) {
-                gameModel.setFinished(false);
+                setFinished(false);
                 Controller.gameOver(gameModel.getMyEpsilon().getXP(), gameModel.getTimePlayed(), gameModel.getTotalBullets(),
                         gameModel.getSuccessfulBullets(), gameModel.getKilledEnemies(), this);
             }
@@ -461,5 +463,21 @@ public class GameManager {
         AudioController.addGameOverSound();
         Controller.gameOver(gameModel.getMyEpsilon().getXP(), gameModel.getTimePlayed(), gameModel.getTotalBullets(),
                 gameModel.getSuccessfulBullets(), gameModel.getSuccessfulBullets(), this);
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public boolean isEnded() {
+        return ended;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
     }
 }

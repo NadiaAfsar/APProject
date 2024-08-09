@@ -11,6 +11,8 @@ import model.game.enemies.mini_boss.black_orb.BlackOrbLaser;
 import model.game.enemies.mini_boss.black_orb.BlackOrbVertex;
 import model.game.enemies.normal.archmire.AoEAttack;
 import model.game.enemies.normal.archmire.Archmire;
+import model.game.enemies.smiley.Smiley;
+import model.game.enemies.smiley.SmileyAoEAttack;
 import model.game.frame.MyFrame;
 import model.interfaces.movement.Point;
 import view.game.*;
@@ -47,8 +49,8 @@ public class Update {
     }
     public static void updateModel(GameManager gameManager) {
         if (gameManager.getGameModel() != null) {
-            if (gameManager.getGameModel().isFinished()) {
-                //gameManager.getGameModel().getClientEpsilon().increaseSize();
+            if (gameManager.isFinished()) {
+                gameManager.getGameModel().getMyEpsilon().increaseSize();
                 gameManager.destroyFrame();
             } else if (gameManager.isRunning()) {
                 if (gameManager.getGameModel() != null) {
@@ -74,14 +76,16 @@ public class Update {
                 updateBlackOrbLasers((BlackOrb) enemy, gameManager);
             }
             else if (enemiesView.get(enemy.getID()) != null) {
-//                if (enemy instanceof Smiley){
-//                    updateSmileyAoEs((Smiley) enemy, gameManager);
-//                    ((SmileyView)enemiesView.get(enemy.getID())).update((int)enemy.getWidth(), (int)enemy.getHeight(),
-//                            enemy.getCenter(), enemy.getAngle());
-//                }
-                enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
-                if (enemy instanceof Archmire){
-                    updateAoEs((Archmire) enemy, gameManager);
+                if (enemy instanceof Smiley){
+                    updateSmileyAoEs((Smiley) enemy, gameManager);
+                    enemiesView.get(enemy.getID()).updateSmiley((int)enemy.getWidth(), (int)enemy.getHeight(),
+                            enemy.getCenter(), enemy.getAngle());
+                }
+                else {
+                    enemiesView.get(enemy.getID()).update(enemy.getCenter(), enemy.getAngle());
+                    if (enemy instanceof Archmire) {
+                        updateAoEs((Archmire) enemy, gameManager);
+                    }
                 }
             }
         }
@@ -146,14 +150,14 @@ public class Update {
             }
         }
     }
-//    private static void updateSmileyAoEs(Smiley smiley, GameManager gameManager){
-//        ArrayList<SmileyAoEAttack> aoes = smiley.getAoEAttacks();
-//        Map<String, EnemyView> aoEViewMap = gameManager.getGameView().getAoEViewMap();
-//        for (int i = 0; i < aoes.size(); i++){
-//            if (aoEViewMap.get(aoes.get(i).getID()) != null) {
-//                ((SmileyAoEView)aoEViewMap.get(aoes.get(i).getID())).update(aoes.get(i).getClarity());
-//            }
-//        }
-//    }
+    private static void updateSmileyAoEs(Smiley smiley, GameManager gameManager){
+        ArrayList<SmileyAoEAttack> aoes = smiley.getAoEAttacks();
+        Map<String, EntityView> aoEViewMap = gameManager.getGameView().getAoEViewMap();
+        for (int i = 0; i < aoes.size(); i++){
+            if (aoEViewMap.get(aoes.get(i).getID()) != null) {
+                aoEViewMap.get(aoes.get(i).getID()).updateAoE(aoes.get(i).getClarity());
+            }
+        }
+    }
 
 }

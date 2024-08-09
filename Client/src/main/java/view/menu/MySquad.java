@@ -86,13 +86,22 @@ public class MySquad {
         label.setFont(new Font("Serif", Font.PLAIN,25));
         label.setForeground(Color.BLACK);
         memberPanel.add(label);
-        if (owner) {
+        if (!name.equals(gameFrame.getApplicationManager().getClientHandler().getClient().getUsername())) {
             memberPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
                     JPanel p = (JPanel) e.getSource();
-                    if (deleteMember(p.getName())){
+                    String[] options = null;
+                    if (owner) {
+                        options = new String[]{"Cancel", "Colosseum", "Remove"};
+                    } else {
+                        options = new String[]{"Cancel", "Colosseum"};
+                    }
+                    int pick = showOption(options);
+                    if (pick == 1) {
+                        gameFrame.getApplicationManager().getClientHandler().sendBattleRequest(p.getName(), pick);
+                    } else if (pick == 2) {
                         gameFrame.getApplicationManager().getClientHandler().deleteMember(p.getName());
                         membersPanel.remove(memberPanel);
                     }
@@ -101,14 +110,10 @@ public class MySquad {
         }
         membersPanel.add(memberPanel);
     }
-    private boolean deleteMember(String name){
-        String[] options = new String[]{"Yes", "No"};
-        int pick = JOptionPane.showOptionDialog(null, "Remove "+name+" from squad?",
+    private int showOption(String[] options){
+        int pick = JOptionPane.showOptionDialog(null, "What do you want to do?",
                 null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-        if (pick == 0){
-            return true;
-        }
-        return false;
+        return pick;
     }
     private void addButton(JButton button, int x, int y, int width, int height){
         button.setBounds(x,y, width, height);
@@ -156,11 +161,20 @@ public class MySquad {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ClientHandler clientHandler = gameFrame.getApplicationManager().getClientHandler();
-                if (deleteMember(clientHandler.getClient().getUsername())){
+                if (leave()){
                     clientHandler.deleteMember(clientHandler.getClient().getUsername());
                 }
             }
         });
+    }
+    private boolean leave(){
+        String[] options = new String[]{"Yes", "No"};
+        int pick = JOptionPane.showOptionDialog(null, "Do you want to leave?",
+                null, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        if (pick == 0){
+            return true;
+        }
+        return false;
     }
     private void addBack(){
         back = new JButton("Back");

@@ -3,6 +3,7 @@ package network;
 import application.MyApplication;
 import controller.ApplicationManager;
 import controller.Controller;
+import controller.game_manager.Colosseum;
 import controller.game_manager.GameManager;
 import controller.game_manager.GameManagerHelper;
 import controller.game_manager.Monomachia;
@@ -80,6 +81,14 @@ public class ClientHandler extends Thread{
             gameManager.finishGame();
             String winner = tcpClient.getListener().getMessage();
             ((Monomachia)gameManager).checkWinner(winner);
+            gameManager = null;
+        }
+        else if (response.equals(Requests.FINISHED.toString())){
+            client.setStatus(Status.ONLINE);
+            if (gameManager.getGameModel().getMyEpsilon().getXP() > 0){
+                ((Colosseum)gameManager).removeOtherEpsilon();
+                gameManager = null;
+            }
         }
         else {
             EpsilonModel epsilonModel = gameManager.getGameModel().getEpsilons().get(gameManager.getGameModel().getEpsilonNumber());
@@ -139,19 +148,24 @@ public class ClientHandler extends Thread{
     }
     public void addEnemy(int enemies){
         synchronized (lock) {
-            newEnemies.add(2);
+            newEnemies.add(enemies);
         }
     }
     private void getRunningGame(){
         tcpClient.getListener().sendMessage(Requests.RUNNING_GAME.toString());
         String game = tcpClient.getListener().getMessage();
         if (game.equals(Requests.MONOMACHIA.toString())){
+            gameManager = new Monomachia(applicationManager);
+        }
+        else if (game.equals(Requests.COLOSSEUM.toString())){
+            gameManager = new Colosseum(applicationManager);
+        }
+        if (gameManager != null){
             newBullets = new ArrayList<>();
             newEnemies = new ArrayList<>();
-            gameManager = new Monomachia(applicationManager);
             int playerNumber = Integer.parseInt(tcpClient.getListener().getMessage());
             client.setStatus(Status.BUSY);
-            Timer timer = new Timer(5000, new ActionListener() {
+            Timer timer = new Timer(15000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Controller.startGame(gameManager, playerNumber);
