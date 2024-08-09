@@ -5,6 +5,8 @@ import controller.ApplicationManager;
 import controller.save.Configs;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GameFrame extends JFrame {
     private int xSize;
@@ -35,11 +37,17 @@ public class GameFrame extends JFrame {
     }
     private void addFrame() {
         setTitle("Window Kill");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(xSize, ySize);
         setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                applicationManager.getClientHandler().interrupt();
+            }
+        });
     }
     private void addPanel() {
         panel = new JPanel();

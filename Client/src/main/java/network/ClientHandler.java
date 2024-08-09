@@ -64,7 +64,7 @@ public class ClientHandler extends Thread{
             try {
                 sleep((long) Configs.FRAME_UPDATE_TIME);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                logger.warn("interrupted");
             }
         }
     }
@@ -84,9 +84,7 @@ public class ClientHandler extends Thread{
         }
         else if (response.equals(Requests.FINISHED.toString())){
             client.setStatus(Status.ONLINE);
-            if (gameManager.getGameModel().getMyEpsilon().getXP() > 0){
-                ((Colosseum)gameManager).removeOtherEpsilon();
-            }
+            gameManager.finishGame();
         }
         else {
             EpsilonModel epsilonModel = gameManager.getGameModel().getEpsilons().get(gameManager.getGameModel().getEpsilonNumber());
@@ -216,7 +214,6 @@ public class ClientHandler extends Thread{
     public void initialize(){
         tcpClient = new TCPClient(MyApplication.configs.SERVER_IP_ADDRESS, MyApplication.configs.SERVER_PORT, this);
         tcpClient.initSocket();
-        logger.debug("TCP set");
         if (tcpClient.isConnected()) {
             udpClient = new UDPClient(TCPClient.getNumber()+8090, this, TCPClient.getNumber());
             udpClient.initialize();

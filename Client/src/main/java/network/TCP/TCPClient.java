@@ -27,6 +27,7 @@ public class TCPClient extends Thread{
             listener = new ClientListener(clientSocket);
             connected = true;
         } catch (IOException e) {
+            connected = false;
             if(Controller.connectionError()){
                 clientHandler.initialize();
             }

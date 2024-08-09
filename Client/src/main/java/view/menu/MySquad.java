@@ -86,27 +86,29 @@ public class MySquad {
         label.setFont(new Font("Serif", Font.PLAIN,25));
         label.setForeground(Color.BLACK);
         memberPanel.add(label);
-        if (!name.equals(gameFrame.getApplicationManager().getClientHandler().getClient().getUsername())) {
-            memberPanel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-                    JPanel p = (JPanel) e.getSource();
-                    String[] options = null;
-                    if (owner) {
-                        options = new String[]{"Cancel", "Colosseum", "Remove"};
-                    } else {
-                        options = new String[]{"Cancel", "Colosseum"};
+        if (gameFrame.getApplicationManager().getClientHandler().getClient().getSquad().isInBattle()) {
+            if (!name.equals(gameFrame.getApplicationManager().getClientHandler().getClient().getUsername())) {
+                memberPanel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        JPanel p = (JPanel) e.getSource();
+                        String[] options = null;
+                        if (owner) {
+                            options = new String[]{"Cancel", "Colosseum", "Remove"};
+                        } else {
+                            options = new String[]{"Cancel", "Colosseum"};
+                        }
+                        int pick = showOption(options);
+                        if (pick == 1) {
+                            gameFrame.getApplicationManager().getClientHandler().sendBattleRequest(p.getName(), pick);
+                        } else if (pick == 2) {
+                            gameFrame.getApplicationManager().getClientHandler().deleteMember(p.getName());
+                            membersPanel.remove(memberPanel);
+                        }
                     }
-                    int pick = showOption(options);
-                    if (pick == 1) {
-                        gameFrame.getApplicationManager().getClientHandler().sendBattleRequest(p.getName(), pick);
-                    } else if (pick == 2) {
-                        gameFrame.getApplicationManager().getClientHandler().deleteMember(p.getName());
-                        membersPanel.remove(memberPanel);
-                    }
-                }
-            });
+                });
+            }
         }
         membersPanel.add(memberPanel);
     }

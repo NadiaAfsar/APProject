@@ -1,100 +1,33 @@
 package controller.save;
 
-import java.awt.*;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 
 public class Configs {
-    public static final Dimension FRAME_SIZE = new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-            (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-    public static final int FPS = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].getDisplayMode().getRefreshRate();
-    public static final int UPS = 100;
-    public static final double FRAME_UPDATE_TIME=(double) TimeUnit.SECONDS.toMillis(1)/FPS;
-    public static final double MODEL_UPDATE_TIME=(double) TimeUnit.SECONDS.toMillis(1)/UPS;
-    public String EPSILON;
-    public String SQUARANTINE;
-    public String TRIGORATH;
-    public String BACKGROUND;
-    public String WYRM;
-    public String OMENOCT;
-    public String NECROPICK;
-    public String ARCHMIRE;
-    public String AOE_ATTACK_1;
-    public String AOE_ATTACK_2;
-    public String AOE_ATTACK_3;
-    public String AOE_ATTACK_4;
-    public String AOE_ATTACK_5;
-    public int EPSILON_RADIUS;
-    public int SQUARANTINE_WIDTH;
-    public int TRIGORATH_WIDTH;
-    public int TRIGORATH_HEIGHT;
-    public int WYRM_WIDTH;
-    public int WYRM_HEIGHT;
-    public int OMENOCT_WIDTH;
-    public int OMENOCT_HEIGHT;
-    public int NECROPICK_WIDTH;
-    public int NECROPICK_HEIGHT;
-    public int ARCHMIRE_WIDTH;
-    public int ARCHMIRE_HEIGHT;
-    public int MINI_ARCHMIRE_WIDTH;
-    public int MINI_ARCHMIRE_HEIGHT;
-    public String BARRICODES;
-    public int BARRICODES_WIDTH;
-    public int BARRICODES_HEIGHT;
-    public String BLACK_ORB_VERTEX;
-    public int BLACKORBVERTEX_RADIUS;
-    public String BULLET;
-    public String THEME_SONG;
-    public String COLLECTING_SOUND;
-    public String COLLISION_SOUND;
-    public String ENEMY_DYING_SOUND;
-    public String ENEMY_ENTERING_SOUND;
-    public String GAME_OVER_SOUND;
-    public String SHOT;
-    public String WAVE_END;
-    public String WINNING_SOUND;
-    public String COLLECTIBLE;
-    public String NECROPICK_ANNOUNCEMENT;
-    public int NECROPICK_ANNOUNCEMENT_WIDTH;
-    public String SMILEY1;
-    public String SMILEY2;
-    public int SMILEY_RADIUS;
-    public String FIST;
-    public String RIGHT_HAND;
-    public String LEFT_HAND;
-    public int FIST_WIDTH;
-    public int FIST_HEIGHT;
-    public int HAND_WIDTH;
-    public int HAND_HEIGHT;
-    public String DEAD;
-    public int DEAD_WIDTH;
-    public int DEAD_HEIGHT;
-    public String AoE1;
-    public String AoE2;
-    public String AoE3;
-    public String AoE4;
-    public String AoE5;
-    public String CIRCLE;
-    public boolean WritOfAresUnlocked;
-    public boolean WritOfAresPicked;
-    public boolean WritOfAstrapeUnlocked;
-    public boolean WritOfAstrapePicked;
-    public boolean WritOfCerberusUnlocked;
-    public boolean WritOfCerberusPicked;
-    public boolean WritOfAcesoUnlocked;
-    public boolean WritOfAcesoPicked;
-    public boolean WritOfAthenaUnlocked;
-    public boolean WritOfAthenaPicked;
-    public boolean WritOfChironUnlocked;
-    public boolean WritOfChironPicked;
-    public boolean WritOfMelampusUnlocked;
-    public boolean WritOfMelampusPicked;
-    public boolean WritOfDolusUnlocked;
-    public boolean WritOfDolusPicked;
-    public boolean WritOfEmpusaUnlocked;
-    public boolean WritOfEmpusaPicked;
-    public boolean WritOfProteusUnlocked;
-    public boolean WritOfProteusPicked;
-    public String PORTAL;
-    public String SERVER_IP_ADDRESS;
-    public Integer SERVER_PORT;
+    private ArrayList<String> squads;
+    private ArrayList<String> clients;
+    private ArrayList<String> requests;
+
+    public ArrayList<String> getSquads() {
+        return squads;
+    }
+
+    public ArrayList<String> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(ArrayList<String> requests) {
+        this.requests = requests;
+    }
+
+    public void setSquads(ArrayList<String> squads) {
+        this.squads = squads;
+    }
+
+    public ArrayList<String> getClients() {
+        return clients;
+    }
+
+    public void setClients(ArrayList<String> clients) {
+        this.clients = clients;
+    }
 }

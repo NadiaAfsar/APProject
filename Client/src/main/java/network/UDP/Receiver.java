@@ -68,7 +68,7 @@ public class Receiver extends Thread{
             try {
                 sleep(10);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                logger.warn("interrupted");
             }
         }
         return file;

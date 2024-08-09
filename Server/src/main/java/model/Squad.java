@@ -14,6 +14,10 @@ public class Squad {
     private String ID;
     private boolean inBattle;
     private String competitorSquad;
+    private int XP;
+    private boolean palioxis;
+    private boolean adonis;
+    private boolean gefion;
     public Squad(Client owner, String name){
         ID = UUID.randomUUID().toString();
         this.name = name;
@@ -73,5 +77,37 @@ public class Squad {
 
     public String getID() {
         return ID;
+    }
+
+    public int getXP() {
+        return XP;
+    }
+
+    public void setXP(int XP) {
+        this.XP = XP;
+    }
+
+    public boolean isPalioxis() {
+        return palioxis;
+    }
+
+    public void setPalioxis(boolean palioxis) {
+        this.palioxis = palioxis;
+    }
+
+    public boolean isAdonis() {
+        return adonis;
+    }
+
+    public void setAdonis(boolean adonis) {
+        this.adonis = adonis;
+    }
+
+    public boolean isGefion() {
+        return gefion;
+    }
+
+    public void setGefion(boolean gefion) {
+        this.gefion = gefion;
     }
 }

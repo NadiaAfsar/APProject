@@ -31,6 +31,7 @@ public class TCPServer extends Thread {
                 logger.debug("connected");
                 ServerListener listener = new ServerListener(socket);
                 Integer port = Integer.valueOf(listener.getMessage());
+                listener.setUdpServer(port-8090);
                 listener.setSocketAddress(new InetSocketAddress("localHost", port));
                 listener.start();
             } catch (IOException e) {

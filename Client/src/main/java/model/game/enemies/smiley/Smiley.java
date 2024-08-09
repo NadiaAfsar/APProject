@@ -386,7 +386,7 @@ public class Smiley extends Enemy implements Movable {
         }
         gameManager.getGameModel().getDiedEnemies().add(fist);
         gameManager.getGameModel().getMyEpsilon().setXP(gameManager.getGameModel().
-                getMyEpsilon().getXP()+250);
+                getMyEpsilon().getXP()+330);
         Controller.removeEnemyView(fist, gameManager);
         Controller.smileyDied(this, gameManager);
         width = MyApplication.configs.DEAD_WIDTH;

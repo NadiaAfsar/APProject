@@ -1,6 +1,7 @@
 package network;
 
 import model.Client;
+import model.Status;
 import network.TCP.RequestHandler;
 import network.UDP.UDPServer;
 import org.apache.log4j.Logger;
@@ -20,24 +21,31 @@ public class ServerListener extends Thread{
     private final Object lock;
     private Logger logger;
     private UDPServer udpServer;
-    private static int number;
+
 
     public ServerListener(Socket socket) throws IOException {
-        number++;
         this.socket = socket;
         lock = new Object();
         logger = Logger.getLogger(ServerListener.class);
         setStreams();
+    }
+    public void setUdpServer(int number){
         udpServer = new UDPServer(number);
     }
 
 
     public void run(){
         while (!socket.isClosed()){
+            try {
+
                 String message = getMessage();
                 synchronized (lock) {
                     RequestHandler.checkRequest(message, this);
                 }
+            }
+            catch (Exception e){
+                client.setStatus(Status.OFFLINE);
+            }
         }
     }
     private void setStreams() throws IOException {

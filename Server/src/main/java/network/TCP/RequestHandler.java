@@ -180,6 +180,7 @@ public class RequestHandler {
             Client client = ServerHandler.getInstance().getServer().getClients().get(name);
             if (client == null) {
                 client = new Client(name, listener);
+                ServerHandler.getInstance().getServer().getClientsName().add(name);
                 ServerHandler.getInstance().getServer().getClients().put(name, client);
             }
             client.setStatus(Status.ONLINE);
@@ -198,6 +199,7 @@ public class RequestHandler {
             server.getClients().get(sender).getSentRequests().add(request);
             server.getClients().get(receiver).getReceivedRequests().add(request);
             server.getRequests().put(request.getID(), request);
+            server.getRequestsName().add(request.getID());
     }
     private static void createSquad(ServerListener listener){
             String squadName = listener.getMessage();
@@ -214,9 +216,6 @@ public class RequestHandler {
                 File squadFile = MyApplication.readerWriter.convertToFile(squad, squad.getID());
                 listener.getUdpServer().getSender().sendFile(squadFile, listener.getSocketAddress());
                 squadFile.delete();
-            }
-            if (ServerHandler.getInstance().getServer().getSquadsName().size() >= 2) {
-                ServerHandler.getInstance().initiateSquadBattle();
             }
     }
     private static void removeMember(ServerListener listener){
@@ -274,6 +273,7 @@ public class RequestHandler {
                 else {
                     server.getClients().get(receiver).getReceivedRequests().add(request);
                     server.getRequests().put(request.getID(), request);
+                    server.getRequestsName().add(request.getID());
                 }
             }
     }
@@ -281,6 +281,7 @@ public class RequestHandler {
             String requestID = listener.getMessage();
             Server server = ServerHandler.getInstance().getServer();
             server.getRequests().get(requestID).setAccepted(true);
+            server.getRequestsName().remove(requestID);
             if (server.getRequests().get(requestID).getRequestName().equals("join")) {
                 Client client = server.getClients().get(server.getRequests().get(requestID).getSender());
                 listener.getClient().getSquad().getMembers().add(client.getUsername());
@@ -310,6 +311,7 @@ public class RequestHandler {
     private static void requestDeclined(ServerListener listener){
             String requestID = listener.getMessage();
             Server server = ServerHandler.getInstance().getServer();
+            server.getRequestsName().remove(requestID);
             server.getRequests().get(requestID).setDeclined(true);
     }
     private static void clientData(ServerListener listener){

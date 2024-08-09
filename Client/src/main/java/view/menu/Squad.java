@@ -91,12 +91,17 @@ public class Squad {
         next.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (gameFrame.getApplicationManager().getClientHandler().createNewSquad(textField.getText())) {
-                    panel.removeAll();
-                    new MySquad(gameFrame);
+                if (gameFrame.getApplicationManager().getTotalXP() >= 100) {
+                    if (gameFrame.getApplicationManager().getClientHandler().createNewSquad(textField.getText())) {
+                        panel.removeAll();
+                        gameFrame.getApplicationManager().setTotalXP(gameFrame.getApplicationManager().getTotalXP()-100);
+                        new MySquad(gameFrame);
+                    } else {
+                        GameFrame.showMessage("This name is not available.");
+                    }
                 }
                 else {
-                    GameFrame.showMessage("This name is not available.");
+                    GameFrame.showMessage("Not enough XP!");
                 }
             }
         });
